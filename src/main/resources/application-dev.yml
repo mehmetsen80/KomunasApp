@@ -72,3 +72,9 @@ springdoc:
 whatsapp:
   verify:
     token: "linqra_whatsapp_webhook_token"
+  app:
+    id: "1296802635215629"
+    secret: "dc0e4310d71a0e24112cca39180e3f4d"
+    name: "Komunas"
+    businessid: "763753579930598"
+    
