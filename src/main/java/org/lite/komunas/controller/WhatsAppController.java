@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @Slf4j
 @RequestMapping("/whatsapp")
@@ -21,16 +22,16 @@ public class WhatsAppController {
     @Value("${whatsapp.verify.token}")
     private String verifyToken;
 
-    @GetMapping(value = "/verify_webhook", produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> webHook(
-            @RequestParam("hub.mode") String mode,
-            @RequestParam("hub.verify_token") String token,
-            @RequestParam("hub.challenge") String challenge) {
+    @GetMapping(value = "/verify_webhook", produces = {MediaType.TEXT_PLAIN_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> webHook(
+            @RequestParam(value = "hub.mode", required = false) String mode,
+            @RequestParam(value = "hub.verify_token", required = false) String token,
+            @RequestParam(value = "hub.challenge", required = false) String challenge) {
         
         log.info("Webhook verification request - Mode: {}, Token: {}, Challenge: {}", mode, token, challenge);
         
         // Check if mode and token were sent
-        if (mode != null && token != null) {
+        if (mode != null && token != null && challenge != null) {
             // Check if mode and token are correct
             if ("subscribe".equals(mode) && verifyToken.equals(token)) {
                 log.info("WEBHOOK VERIFIED");
@@ -43,7 +44,7 @@ public class WhatsAppController {
             }
         }
         
-        log.warn("Webhook verification failed - Missing mode or token");
-        return ResponseEntity.badRequest().body("Missing required parameters");
+        log.warn("Webhook verification failed - Missing required parameters");
+        return ResponseEntity.badRequest().body("Missing required parameters: hub.mode, hub.verify_token, hub.challenge");
     }
 }
