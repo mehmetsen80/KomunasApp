@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: product-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://${KEYCLOAK_GATEWAY_URL:localhost}:${KEYCLOAK_GATEWAY_PORT:8281}/realms/Linqra
+          jwk-set-uri: http://${KEYCLOAK_GATEWAY_URL:localhost}:${KEYCLOAK_GATEWAY_PORT:8281}/realms/Linqra/protocol/openid-connect/certs
+          validation:
+            # Allow both internal and external issuer URLs
+            allowed-issuers:
+              - http://${KEYCLOAK_GATEWAY_URL:localhost}:${KEYCLOAK_GATEWAY_PORT:8281}/realms/Linqra
+              - http://localhost:8281/realms/Linqra
+server:
+  port: 0
+  http2:
+    enabled: true
+  ssl:
+    enabled: true
+    key-store: ${CLIENT_KEY_STORE}
+    key-store-password: ${CLIENT_KEY_STORE_PASSWORD}
+    key-alias: ${CLIENT_ALIAS_NAME:client-app}
+    key-store-type: PKCS12
+    trust-store: ${CLIENT_TRUST_STORE}
+    trust-store-password: ${CLIENT_TRUST_STORE_PASSWORD}
+    trust-store-type: JKS
+    client-auth: want
+  servlet:
+    context-path: /r/product-service
+
+gateway:
+  base-url: https://${GATEWAY_SERVICE_URL:localhost}:7777
+
+logging:
+  file:
+    name: logs/product-service.log
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.web.reactive.function.client: DEBUG
+    org.springframework.security.oauth2.client: DEBUG
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.cloud.loadbalancer: TRACE
+    org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
+    com.fasterxml.jackson: DEBUG
+
+eureka:
+  client:
+    service-url:
+      defaultZone: https://${EUREKA_CLIENT_URL:localhost}:8761/eureka/eureka/
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    appname: product-service
+    hostname: ${EUREKA_INSTANCE_URL:localhost}
+    instance-id: ${spring.application.name}:${instanceId:${random.value}}
+    non-secure-port-enabled: false   # Disable non-secure HTTP port
+    secure-port-enabled: true        # Enable secure HTTPS port
+    secure-port: ${server.port}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+  show-actuator: true
