@@ -68,3 +68,7 @@ springdoc:
     path: /swagger-ui.html
     operationsSorter: method
   show-actuator: true
+
+whatsapp:
+  verify:
+    token: "linqra_whatsapp_webhook_token"

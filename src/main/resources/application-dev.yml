@@ -71,4 +71,4 @@ springdoc:
 
 whatsapp:
   verify:
-    token: "your_facebook_webhook_verify_token_here"
+    token: "linqra_whatsapp_webhook_token"
