@@ -1,8 +1,8 @@
-package org.lite.inventory.config;
+package org.lite.komunas.config;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.lite.inventory.filter.JwtRoleValidationFilter;
+import org.lite.komunas.filter.JwtRoleValidationFilter;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +54,7 @@ public class SecurityConfig {
                         ))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers("/r/inventory-service/**")//no matter what you put here, if we have the gateway token from oauth2ResourceServer, we'll be authenticated
+                                .requestMatchers("/r/komunas-app/**")//no matter what you put here, if we have the gateway token from oauth2ResourceServer, we'll be authenticated
                                 .permitAll()  // Public endpoints (if any)
                                 .anyRequest()
                                 .authenticated()

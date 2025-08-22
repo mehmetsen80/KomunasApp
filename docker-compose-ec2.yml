@@ -3,19 +3,19 @@ networks:
     external: true
 
 services:
-  product-service:
+  komunas-app:
     build:
       context: .
-      dockerfile: ./.kube/product/Dockerfile
+      dockerfile: ./.kube/komunas/Dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: ec2
       CLIENT_TRUST_STORE: /app/client-truststore.jks
       CLIENT_TRUST_STORE_PASSWORD: 123456
       CLIENT_KEY_STORE: /app/client-keystore.jks
       CLIENT_KEY_STORE_PASSWORD: 123456
-      CLIENT_ALIAS_NAME: product-service-container
+      CLIENT_ALIAS_NAME: komunas-app-container
       EUREKA_CLIENT_URL: discovery-service
-      EUREKA_INSTANCE_URL: product-service
+      EUREKA_INSTANCE_URL: komunas-app
       KEYCLOAK_GATEWAY_URL: keycloak-service
       KEYCLOAK_GATEWAY_PORT: 8080/keycloak
       GATEWAY_SERVICE_URL: api-gateway-service
@@ -24,5 +24,5 @@ services:
     networks:
       - linqra-network
     volumes:
-      - ./:/app/product-service
+      - ./:/app/komunas-app
       - ./keys:/app/keys

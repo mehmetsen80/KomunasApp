@@ -1,4 +1,4 @@
-package org.lite.inventory.model;
+package org.lite.komunas.model;
 
 import lombok.Data;
 

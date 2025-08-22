@@ -1,4 +1,4 @@
-package org.lite.inventory.filter;
+package org.lite.komunas.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

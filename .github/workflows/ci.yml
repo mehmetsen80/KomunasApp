@@ -1,0 +1,141 @@
+name: Linqra Komunas App CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: write
+
+jobs:
+  java-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Upload Komunas App source files
+      - name: Upload Komunas App source
+        uses: actions/upload-artifact@v4
+        with:
+          name: komunas-app-source
+          path: |
+            .
+      
+      
+      # Upload docker-compose.yml
+      - name: Upload docker-compose file
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-compose
+          path: docker-compose-ec2.yml
+
+      # Upload root pom.xml
+      - name: Upload root pom file
+        uses: actions/upload-artifact@v4
+        with:
+          name: root-pom
+          path: pom.xml
+
+      # Debug and upload .kube directory with hidden files
+      - name: Debug .kube directory
+        run: |
+          echo "Checking .kube directory contents:"
+          ls -la .kube/
+
+      - name: Copy .kube to temporary directory
+        run: |
+          cp -r .kube kube-config
+
+      - name: Upload kube directory
+        uses: actions/upload-artifact@v4
+        with:
+          name: kube-config
+          path: kube-config/**
+
+      # Add this new step to upload keys directory
+      - name: Upload keys directory
+        uses: actions/upload-artifact@v4
+        with:
+          name: keys-config
+          path: keys/
+          if-no-files-found: error
+
+  deploy:
+    needs: [java-app]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY_PROD }}
+      - name: Deploy to EC2
+        env:
+          EC2_HOST: ${{ secrets.HOST_DNS_PROD }}
+          EC2_USERNAME: ${{ secrets.USERNAME_PROD }}
+          TARGET_DIR: ${{ secrets.TARGET_DIR_PROD }}
+        run: |
+          # Disable strict host key checking
+          mkdir -p ~/.ssh
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+          
+          # Ensure the target directory exists
+          ssh $EC2_USERNAME@$EC2_HOST "sudo mkdir -p /var/www/komunas-app && sudo chown -R $EC2_USERNAME:$EC2_USERNAME /var/www/komunas-app && sudo chmod -R 755 /var/www/komunas-app"
+          
+          # Rsync main directories
+          rsync -avz --delete \
+            --exclude 'komunas.db' \
+            artifacts/komunas-app-source/ $EC2_USERNAME@$EC2_HOST:/var/www/komunas-app
+          
+          # Use rsync for sensitive files
+          rsync -avz artifacts/docker-compose/docker-compose-ec2.yml $EC2_USERNAME@$EC2_HOST:/var/www/komunas-app/docker-compose.yml
+          rsync -avz artifacts/root-pom/pom.xml $EC2_USERNAME@$EC2_HOST:/var/www/komunas-app/pom.xml
+          
+          # .kube and keys (if needed, use scp or rsync as appropriate)
+          if [ -d "artifacts/kube-config" ]; then
+            rsync -avz --delete --rsync-path="sudo rsync" artifacts/kube-config/ $EC2_USERNAME@$EC2_HOST:/var/www/komunas-app/.kube/
+          fi
+          if [ -d "artifacts/keys-config" ]; then
+            rsync -avz --delete --rsync-path="sudo rsync" artifacts/keys-config/ $EC2_USERNAME@$EC2_HOST:/var/www/komunas-app/keys/
+          fi
+          
+          ssh $EC2_USERNAME@$EC2_HOST "
+            # Set permissions
+            sudo chown -R ubuntu:ubuntu /var/www/komunas-app
+            sudo chmod -R 600 /var/www/komunas-app/keys/* || echo 'No keys to set permissions for'
+            sudo find /var/www/komunas-app/keys -type d -exec chmod 755 {} \;
+            sudo find /var/www/komunas-app/keys -type f -exec chmod 600 {} \;
+          
+            # Move to the deployment directory
+            cd /var/www/komunas-app
+          
+          # Prune unused images/containers/volumes/networks
+            echo 'Pruning unused images/containers/volumes/networks'
+            sudo docker system prune -a -f
+          
+            # Check disk usage
+            echo 'Checking disk usage'
+            df -hT
+
+            # Ensure the Docker network exists
+            echo 'Ensuring the Docker network exists'
+            sudo docker network create linqra-network || true
+          
+            # Build and start containers
+            echo 'Building and starting containers'
+            sudo docker compose -f docker-compose.yml -p linqra up -d --build komunas-app
+          
+            # Check if containers are running
+            echo 'Checking if containers are running'
+            docker ps
+          "
+
+
+

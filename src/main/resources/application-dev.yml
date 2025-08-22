@@ -1,6 +1,6 @@
 spring:
   application:
-    name: product-service
+    name: komunas-app
   security:
     oauth2:
       resourceserver:
@@ -27,14 +27,14 @@ server:
     trust-store-type: JKS
     client-auth: want
   servlet:
-    context-path: /r/product-service
+    context-path: /r/komunas-app
 
 gateway:
   base-url: https://${GATEWAY_SERVICE_URL:localhost}:7777
 
 logging:
   file:
-    name: logs/product-service.log
+    name: logs/komunas-app.log
   level:
     root: INFO
     org.springframework.security: DEBUG
@@ -54,7 +54,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
   instance:
-    appname: product-service
+    appname: komunas-app
     hostname: ${EUREKA_INSTANCE_URL:localhost}
     instance-id: ${spring.application.name}:${instanceId:${random.value}}
     non-secure-port-enabled: false   # Disable non-secure HTTP port
@@ -68,3 +68,7 @@ springdoc:
     path: /swagger-ui.html
     operationsSorter: method
   show-actuator: true
+
+whatsapp:
+  verify:
+    token: "your_facebook_webhook_verify_token_here"
