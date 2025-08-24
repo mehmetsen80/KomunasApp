@@ -12,6 +12,10 @@ spring:
             allowed-issuers:
               - http://${KEYCLOAK_GATEWAY_URL:localhost}:${KEYCLOAK_GATEWAY_PORT:8281}/realms/Linqra
               - http://localhost:8281/realms/Linqra
+  data:
+    mongodb:
+      uri: ${MONGO_GATEWAY_URL:mongodb://root:mongopw@localhost:27017,localhost:27018,localhost:27019/?replicaSet=rs0&authSource=admin&readConcernLevel=majority}
+      database: Komunas
 server:
   port: 0
   http2:

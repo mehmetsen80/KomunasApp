@@ -19,6 +19,7 @@ services:
       KEYCLOAK_GATEWAY_URL: keycloak-service
       KEYCLOAK_GATEWAY_PORT: 8080/keycloak
       GATEWAY_SERVICE_URL: api-gateway-service
+      MONGO_GATEWAY_URL: "mongodb://root:mongopw@mongodb1:27017,mongodb2:27018,mongodb3:27019/admin?replicaSet=rs0"
     deploy:
       replicas: 1
     networks:
