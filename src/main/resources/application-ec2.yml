@@ -53,7 +53,7 @@ logging:
 eureka:
   client:
     service-url:
-      defaultZone: https://${EUREKA_CLIENT_URL:localhost}:8761/eureka/eureka/
+      defaultZone: https://polaris.linqra.com/eureka/eureka/
     enabled: true
     register-with-eureka: true
     fetch-registry: true

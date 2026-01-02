@@ -1,10 +1,7 @@
 name: Linqra Komunas App CI
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  workflow_dispatch:
 
 permissions:
   contents: write
