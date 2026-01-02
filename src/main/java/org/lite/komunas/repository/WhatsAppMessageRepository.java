@@ -49,6 +49,18 @@ public interface WhatsAppMessageRepository extends MongoRepository<WhatsAppMessa
     List<WhatsAppMessage> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
 
     /**
+     * Find messages from a specific timestamp onwards
+     */
+    @Query("{'timestamp': {$gte: ?0}}")
+    List<WhatsAppMessage> findByTimestampGreaterThanEqual(String timestamp);
+
+    /**
+     * Find messages between two timestamps
+     */
+    @Query("{'timestamp': {$gte: ?0, $lte: ?1}}")
+    List<WhatsAppMessage> findByTimestampBetween(String fromTimestamp, String toTimestamp);
+
+    /**
      * Find messages containing specific text (case-insensitive)
      */
     @Query("{'messageBody': {$regex: ?0, $options: 'i'}}")
