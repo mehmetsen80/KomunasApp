@@ -14,7 +14,7 @@ spring:
               - http://localhost:8281/realms/Linqra
   data:
     mongodb:
-      uri: ${MONGO_GATEWAY_URL:mongodb://root:mongopw@localhost:27017,localhost:27018,localhost:27019/?replicaSet=rs0&authSource=admin&readConcernLevel=majority}
+      uri: ${MONGO_DB_URI}
       database: Komunas
 server:
   port: 0
@@ -53,7 +53,7 @@ logging:
 eureka:
   client:
     service-url:
-      defaultZone: https://polaris.linqra.com/eureka/eureka/
+      defaultZone: https://${EUREKA_USERNAME}:${EUREKA_PASSWORD}@polaris.linqra.com/eureka/eureka/
     enabled: true
     register-with-eureka: true
     fetch-registry: true
