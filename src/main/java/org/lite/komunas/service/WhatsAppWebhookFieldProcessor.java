@@ -1,6 +1,5 @@
 package org.lite.komunas.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.lite.komunas.entity.WhatsAppContact;
 import org.lite.komunas.model.WhatsAppWebhookPayload;
