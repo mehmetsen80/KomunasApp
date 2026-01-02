@@ -15,6 +15,8 @@ services:
       CLIENT_KEY_STORE: /app/client-keystore.jks
       CLIENT_KEY_STORE_PASSWORD: 123456
       CLIENT_ALIAS_NAME: komunas-app-container
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
       EUREKA_CLIENT_URL: discovery-service
       EUREKA_INSTANCE_URL: komunas-app
       KEYCLOAK_GATEWAY_URL: keycloak-service

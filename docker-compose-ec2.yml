@@ -15,9 +15,11 @@ services:
       CLIENT_KEY_STORE: /app/client-keystore.jks
       CLIENT_KEY_STORE_PASSWORD: 123456
       CLIENT_ALIAS_NAME: komunas-app-container
+      EUREKA_USERNAME: ${EUREKA_USERNAME}
+      EUREKA_PASSWORD: ${EUREKA_PASSWORD}
 
       GATEWAY_SERVICE_URL: api-gateway-service
-      MONGO_GATEWAY_URL: "mongodb://root:mongopw@mongodb1:27017,mongodb2:27018,mongodb3:27019/admin?replicaSet=rs0"
+      MONGO_DB_URI: ${MONGO_DB_URI}
     deploy:
       replicas: 1
     networks:

@@ -127,7 +127,10 @@ jobs:
           
             # Build and start containers
             echo 'Building and starting containers'
-            sudo docker compose -f docker-compose.yml -p linqra up -d --build komunas-app
+            export EUREKA_USERNAME='${{ secrets.EUREKA_USERNAME }}'
+            export EUREKA_PASSWORD='${{ secrets.EUREKA_PASSWORD }}'
+            export MONGO_DB_URI='${{ secrets.MONGO_DB_URI }}'
+            sudo -E docker compose -f docker-compose.yml -p linqra up -d --build komunas-app
           
             # Check if containers are running
             echo 'Checking if containers are running'
