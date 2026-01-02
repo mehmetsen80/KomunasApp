@@ -103,7 +103,7 @@ jobs:
             rsync -avz --delete --rsync-path="sudo rsync" artifacts/keys-config/ $EC2_USERNAME@$EC2_HOST:/var/www/komunas-app/keys/
           fi
           
-          ssh $EC2_USERNAME@$EC2_HOST "
+          ssh $EC2_USERNAME@$EC2_HOST <<'ENDSSH'
             # Set permissions
             sudo chown -R ubuntu:ubuntu /var/www/komunas-app
             sudo chmod -R 600 /var/www/komunas-app/keys/* || echo 'No keys to set permissions for'
@@ -113,7 +113,7 @@ jobs:
             # Move to the deployment directory
             cd /var/www/komunas-app
           
-          # Prune unused images/containers/volumes/networks
+            # Prune unused images/containers/volumes/networks
             echo 'Pruning unused images/containers/volumes/networks'
             sudo docker system prune -a -f
           
@@ -135,7 +135,4 @@ jobs:
             # Check if containers are running
             echo 'Checking if containers are running'
             docker ps
-          "
-
-
-
+          ENDSSH
