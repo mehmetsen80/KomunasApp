@@ -4,6 +4,7 @@ networks:
 
 services:
   komunas-app:
+    container_name: komunas-app
     build:
       context: .
       dockerfile: ./.kube/komunas/Dockerfile.polaris
