@@ -17,7 +17,7 @@ public class WhatsAppSignatureValidator {
     /**
      * Validates the X-Hub-Signature-256 header for WhatsApp webhook requests
      * 
-     * @param payload The raw request payload
+     * @param payload   The raw request payload
      * @param signature The signature from X-Hub-Signature-256 header
      * @param appSecret The WhatsApp app secret
      * @return true if signature is valid, false otherwise
@@ -49,4 +49,4 @@ public class WhatsAppSignatureValidator {
         }
         return result.toString();
     }
-} 
+}
