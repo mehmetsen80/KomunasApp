@@ -47,4 +47,4 @@ public interface UserRepository extends MongoRepository<User, String> {
      * Find users by role
      */
     List<User> findByRolesContaining(String role);
-} 
+}

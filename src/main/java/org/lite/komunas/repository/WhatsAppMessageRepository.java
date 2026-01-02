@@ -76,4 +76,4 @@ public interface WhatsAppMessageRepository extends MongoRepository<WhatsAppMessa
      * Check if message exists by WhatsApp ID
      */
     boolean existsByWhatsappId(String whatsappId);
-} 
+}

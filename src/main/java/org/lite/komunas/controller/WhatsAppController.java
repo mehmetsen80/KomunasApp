@@ -52,9 +52,9 @@ public class WhatsAppController {
             @RequestParam(value = "hub.mode", required = false) String mode,
             @RequestParam(value = "hub.verify_token", required = false) String token,
             @RequestParam(value = "hub.challenge", required = false) String challenge) {
-        
+
         log.info("Webhook verification request - Mode: {}, Token: {}, Challenge: {}", mode, token, challenge);
-        
+
         // Check if mode and token were sent
         if (mode != null && token != null && challenge != null) {
             // Check if mode and token are correct
@@ -68,9 +68,10 @@ public class WhatsAppController {
                 return ResponseEntity.status(403).build();
             }
         }
-        
+
         log.warn("Webhook verification failed - Missing required parameters");
-        return ResponseEntity.badRequest().body("Missing required parameters: hub.mode, hub.verify_token, hub.challenge");
+        return ResponseEntity.badRequest()
+                .body("Missing required parameters: hub.mode, hub.verify_token, hub.challenge");
     }
 
     // Webhook event handler (POST)
@@ -78,24 +79,24 @@ public class WhatsAppController {
     public ResponseEntity<String> handleWebhookEvent(
             @RequestBody String rawPayload,
             @RequestHeader(value = "X-Hub-Signature-256", required = false) String signature) {
-        
+
         log.info("Received webhook payload: {}", rawPayload);
-        
+
         // Validate signature
         if (signature != null && !signatureValidator.validateSignature(rawPayload, signature, appSecret)) {
             log.warn("Invalid signature for payload: {}", rawPayload);
             return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).body("Invalid signature");
         }
-        
+
         try {
             // Parse raw payload into WhatsAppWebhookPayload
             WhatsAppWebhookPayload payload = objectMapper.readValue(rawPayload, WhatsAppWebhookPayload.class);
-            
+
             // Process the webhook payload based on its field type
             webhookService.processWebhookPayload(payload);
-            
+
             return ResponseEntity.ok("Webhook processed successfully - Field: " + payload.getField());
-            
+
         } catch (Exception e) {
             log.error("Error processing webhook payload", e);
             return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST)

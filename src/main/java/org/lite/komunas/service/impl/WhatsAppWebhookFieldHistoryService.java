@@ -18,7 +18,7 @@ public class WhatsAppWebhookFieldHistoryService extends WhatsAppWebhookFieldProc
     private final WhatsAppMessageRepository messageRepository;
 
     public WhatsAppWebhookFieldHistoryService(WhatsAppContactRepository contactRepository,
-                                            WhatsAppMessageRepository messageRepository) {
+            WhatsAppMessageRepository messageRepository) {
         super(contactRepository);
         this.messageRepository = messageRepository;
     }
@@ -26,25 +26,27 @@ public class WhatsAppWebhookFieldHistoryService extends WhatsAppWebhookFieldProc
     @Override
     public void process(WhatsAppWebhookPayload payload) {
         log.info("Processing history webhook");
-        
+
         // Process contacts if available
         processContacts(payload, getFieldType());
-        
+
         AtomicInteger totalHistoryMessages = new AtomicInteger(0);
         AtomicInteger savedHistoryMessages = new AtomicInteger(0);
         AtomicInteger skippedHistoryMessages = new AtomicInteger(0);
         ConcurrentLinkedQueue<String> skippedHistoryIds = new ConcurrentLinkedQueue<>();
-        
+
         if (payload.getValue() != null && payload.getValue().getHistory() != null) {
             for (WhatsAppWebhookPayload.WhatsAppHistory history : payload.getValue().getHistory()) {
                 if (history != null && history.getThreads() != null) {
                     for (WhatsAppWebhookPayload.WhatsAppThread thread : history.getThreads()) {
                         if (thread != null && thread.getMessages() != null) {
-                            log.info("Processing history thread {}: {} messages", thread.getId(), thread.getMessages().length);
+                            log.info("Processing history thread {}: {} messages", thread.getId(),
+                                    thread.getMessages().length);
                             for (WhatsAppWebhookPayload.WhatsAppMessage message : thread.getMessages()) {
                                 if (message != null) {
                                     totalHistoryMessages.incrementAndGet();
-                                    boolean saved = saveHistoryMessageToDatabase(message, payload, getFieldType(), thread.getId());
+                                    boolean saved = saveHistoryMessageToDatabase(message, payload, getFieldType(),
+                                            thread.getId());
                                     if (saved) {
                                         savedHistoryMessages.incrementAndGet();
                                     } else {
@@ -62,7 +64,7 @@ public class WhatsAppWebhookFieldHistoryService extends WhatsAppWebhookFieldProc
                 }
             }
         }
-        
+
         log.info("=== HISTORY WEBHOOK SUMMARY ===");
         log.info("Total history messages found: {}", totalHistoryMessages.get());
         log.info("History messages saved: {}", savedHistoryMessages.get());
@@ -78,8 +80,8 @@ public class WhatsAppWebhookFieldHistoryService extends WhatsAppWebhookFieldProc
         return "history";
     }
 
-    private boolean saveHistoryMessageToDatabase(WhatsAppWebhookPayload.WhatsAppMessage message, 
-                                               WhatsAppWebhookPayload payload, String webhookField, String threadId) {
+    private boolean saveHistoryMessageToDatabase(WhatsAppWebhookPayload.WhatsAppMessage message,
+            WhatsAppWebhookPayload payload, String webhookField, String threadId) {
         try {
             // Check if message already exists
             if (messageRepository.existsByWhatsappId(message.getId())) {
@@ -91,17 +93,17 @@ public class WhatsAppWebhookFieldHistoryService extends WhatsAppWebhookFieldProc
                     .whatsappId(message.getId())
                     .fromNumber(message.getFrom())
                     .messageType(message.getType())
-                    .phoneNumberId(payload.getValue().getMetadata() != null ? 
-                            payload.getValue().getMetadata().getPhoneNumberId() : null)
-                    .displayPhoneNumber(payload.getValue().getMetadata() != null ? 
-                            payload.getValue().getMetadata().getDisplayPhoneNumber() : null)
+                    .phoneNumberId(payload.getValue().getMetadata() != null
+                            ? payload.getValue().getMetadata().getPhoneNumberId()
+                            : null)
+                    .displayPhoneNumber(payload.getValue().getMetadata() != null
+                            ? payload.getValue().getMetadata().getDisplayPhoneNumber()
+                            : null)
                     .webhookField(webhookField)
                     .conversationId(threadId)
                     .timestamp(message.getTimestamp())
-                    .isFromMe(message.getHistoryContext() != null ? 
-                            message.getHistoryContext().isFromMe() : false)
-                    .status(message.getHistoryContext() != null ? 
-                            message.getHistoryContext().getStatus() : null)
+                    .isFromMe(message.getHistoryContext() != null ? message.getHistoryContext().isFromMe() : false)
+                    .status(message.getHistoryContext() != null ? message.getHistoryContext().getStatus() : null)
                     .build();
 
             // Handle different message types
@@ -110,7 +112,8 @@ public class WhatsAppWebhookFieldHistoryService extends WhatsAppWebhookFieldProc
             } else if (message.getType() != null && message.getType().contains("media")) {
                 // For media messages, set appropriate fields
                 dbMessage.setMessageBody(""); // No text body for media
-                // Note: Media URL, ID, and caption would need to be extracted from the actual media payload
+                // Note: Media URL, ID, and caption would need to be extracted from the actual
+                // media payload
                 // This is a placeholder for future enhancement
             } else {
                 // For other message types (like media_placeholder), set empty body
@@ -118,12 +121,13 @@ public class WhatsAppWebhookFieldHistoryService extends WhatsAppWebhookFieldProc
             }
 
             WhatsAppMessage savedMessage = messageRepository.save(dbMessage);
-            log.info("History message saved to database with ID: {} (Type: {})", savedMessage.getId(), message.getType());
+            log.info("History message saved to database with ID: {} (Type: {})", savedMessage.getId(),
+                    message.getType());
             return true; // Indicate saved
-            
+
         } catch (Exception e) {
             log.error("Error saving history message to database: {}", message.getId(), e);
             return false; // Indicate skipped
         }
     }
-} 
+}

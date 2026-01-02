@@ -21,4 +21,4 @@ public interface UserService {
      * @return AuthResponse with authentication result
      */
     AuthResponse loginUser(LoginRequest request);
-} 
+}

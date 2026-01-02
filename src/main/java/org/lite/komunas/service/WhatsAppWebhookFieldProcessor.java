@@ -30,7 +30,8 @@ public abstract class WhatsAppWebhookFieldProcessor {
     /**
      * Get the field type this processor handles
      * 
-     * @return The webhook field type (e.g., "messages", "message_echoes", "history")
+     * @return The webhook field type (e.g., "messages", "message_echoes",
+     *         "history")
      */
     public abstract String getFieldType();
 
@@ -55,7 +56,7 @@ public abstract class WhatsAppWebhookFieldProcessor {
         try {
             // Check if contact already exists
             Optional<WhatsAppContact> existingContact = contactRepository.findByWaId(contact.getWaId());
-            
+
             if (existingContact.isPresent()) {
                 // Update existing contact
                 WhatsAppContact dbContact = existingContact.get();
@@ -64,7 +65,7 @@ public abstract class WhatsAppWebhookFieldProcessor {
                 dbContact.setMessageCount(dbContact.getMessageCount() + 1);
                 dbContact.setLastWebhookField(webhookField);
                 dbContact.setActive(true);
-                
+
                 contactRepository.save(dbContact);
                 log.info("Updated existing contact: {} ({})", contact.getProfile().getName(), contact.getWaId());
             } else {
@@ -78,14 +79,14 @@ public abstract class WhatsAppWebhookFieldProcessor {
                         .isActive(true)
                         .lastWebhookField(webhookField)
                         .build();
-                
+
                 WhatsAppContact savedContact = contactRepository.save(newContact);
-                log.info("Created new contact: {} ({}) with ID: {}", 
+                log.info("Created new contact: {} ({}) with ID: {}",
                         contact.getProfile().getName(), contact.getWaId(), savedContact.getId());
             }
-            
+
         } catch (Exception e) {
             log.error("Error saving contact to database: {}", contact.getWaId(), e);
         }
     }
-} 
+}
