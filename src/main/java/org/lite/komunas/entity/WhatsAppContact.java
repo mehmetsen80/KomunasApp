@@ -55,4 +55,4 @@ public class WhatsAppContact {
     @Field("updated_at")
     @LastModifiedDate
     private LocalDateTime updatedAt;
-} 
+}

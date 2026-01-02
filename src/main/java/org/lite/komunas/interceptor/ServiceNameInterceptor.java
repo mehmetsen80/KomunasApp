@@ -11,9 +11,9 @@ import java.io.IOException;
 public class ServiceNameInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
-    public @NonNull ClientHttpResponse intercept(HttpRequest request, @NonNull byte[] body, ClientHttpRequestExecution execution) throws IOException {
+    public @NonNull ClientHttpResponse intercept(HttpRequest request, @NonNull byte[] body,
+            ClientHttpRequestExecution execution) throws IOException {
         request.getHeaders().add("X-Service-Name", "komunas-app"); // Add the service name
         return execution.execute(request, body);
     }
 }
-

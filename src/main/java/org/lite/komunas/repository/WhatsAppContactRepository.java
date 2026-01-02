@@ -65,4 +65,4 @@ public interface WhatsAppContactRepository extends MongoRepository<WhatsAppConta
      */
     @Query("{'messageCount': {$gte: ?0, $lte: ?1}}")
     List<WhatsAppContact> findByMessageCountBetween(int minCount, int maxCount);
-} 
+}

@@ -64,24 +64,24 @@ ENV CACERTS_PATH=${JAVA_HOME}/lib/security/cacerts
 
 # Verify truststore exists
 RUN if [ ! -f "${CLIENT_TRUST_STORE}" ]; then \
-        echo "client-truststore.jks not found at ${CLIENT_TRUST_STORE}"; \
-        exit 1; \
+    echo "client-truststore.jks not found at ${CLIENT_TRUST_STORE}"; \
+    exit 1; \
     fi
 
 
 # Verify cacerts file exists and is writable
 RUN if [ ! -f "${CACERTS_PATH}" ]; then \
-        echo "cacerts file not found at ${CACERTS_PATH}"; \
-        if [ -d "${CACERTS_PATH}" ]; then \
-            echo "cacerts is a directory, listing contents:"; \
-            ls -ltr "${CACERTS_PATH}"; \
-            exit 1; \
-        fi; \
-        echo "Attempting to restore cacerts from base image"; \
-        cp /opt/java/openjdk/lib/security/cacerts.bak "${CACERTS_PATH}" 2>/dev/null || { \
-            echo "Failed to restore cacerts. Ensure base image contains cacerts."; \
-            exit 1; \
-        }; \
+    echo "cacerts file not found at ${CACERTS_PATH}"; \
+    if [ -d "${CACERTS_PATH}" ]; then \
+    echo "cacerts is a directory, listing contents:"; \
+    ls -ltr "${CACERTS_PATH}"; \
+    exit 1; \
+    fi; \
+    echo "Attempting to restore cacerts from base image"; \
+    cp /opt/java/openjdk/lib/security/cacerts.bak "${CACERTS_PATH}" 2>/dev/null || { \
+    echo "Failed to restore cacerts. Ensure base image contains cacerts."; \
+    exit 1; \
+    }; \
     fi && \
     chown root:root "${CACERTS_PATH}" && \
     chmod 664 "${CACERTS_PATH}"
@@ -91,23 +91,23 @@ RUN chown root:root "${CACERTS_PATH}" && chmod 664 "${CACERTS_PATH}"
 
 # Import all certificates from client-truststore.jks into the default cacerts truststore
 RUN keytool -importkeystore -srckeystore /app/client-truststore.jks \
-            -destkeystore "${CACERTS_PATH}" \
-            -srcstorepass "${CLIENT_TRUST_STORE_PASSWORD}" \
-            -deststorepass "${CLIENT_TRUST_STORE_PASSWORD}" \
-            -noprompt -srcstoretype JKS -deststoretype JKS > keytool_import.log 2>&1 || { \
-                cat keytool_import.log; \
-                echo "keytool import failed"; \
-                exit 1; \
-            }
+    -destkeystore "${CACERTS_PATH}" \
+    -srcstorepass "${CLIENT_TRUST_STORE_PASSWORD}" \
+    -deststorepass "${CLIENT_TRUST_STORE_PASSWORD}" \
+    -noprompt -srcstoretype JKS -deststoretype JKS > keytool_import.log 2>&1 || { \
+    cat keytool_import.log; \
+    echo "keytool import failed"; \
+    exit 1; \
+    }
 
 # Verify the import by listing the cacerts contents (optional, for debugging)
 RUN keytool -list -cacerts -storepass "${CLIENT_TRUST_STORE_PASSWORD}" > cacerts_list.log
 
 # Run the API quotes-service application with SSL configuration
 ENTRYPOINT ["java", \
-            "-Dhttps.protocols=TLSv1.2,TLSv1.3", \
-            "-Djavax.net.ssl.keyStore=${CLIENT_KEY_STORE}", \
-            "-Djavax.net.ssl.keyStorePassword=${CLIENT_KEY_STORE_PASSWORD}", \
-            "-Djavax.net.ssl.trustStore=${CACERTS_PATH}", \
-            "-Djavax.net.ssl.trustStorePassword=${CLIENT_TRUST_STORE_PASSWORD}", \
-            "-jar", "KomunasApp.jar"]
+    "-Dhttps.protocols=TLSv1.2,TLSv1.3", \
+    "-Djavax.net.ssl.keyStore=${CLIENT_KEY_STORE}", \
+    "-Djavax.net.ssl.keyStorePassword=${CLIENT_KEY_STORE_PASSWORD}", \
+    "-Djavax.net.ssl.trustStore=${CACERTS_PATH}", \
+    "-Djavax.net.ssl.trustStorePassword=${CLIENT_TRUST_STORE_PASSWORD}", \
+    "-jar", "KomunasApp.jar"]

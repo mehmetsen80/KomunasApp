@@ -21,8 +21,8 @@ public class JwtRoleValidationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
-                                    @NonNull  HttpServletResponse response,
-                                    @NonNull  FilterChain filterChain) throws ServletException, IOException {
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         // Retrieve the JWT token from the security context
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -53,7 +53,7 @@ public class JwtRoleValidationFilter extends OncePerRequestFilter {
         }
     }
 
-    //We force both realm and resource roles to exist in the token
+    // We force both realm and resource roles to exist in the token
     private boolean hasRequiredRole(Jwt jwt) {
         // Check realm roles
         Map<String, Object> realmAccess = jwt.getClaimAsMap("realm_access");
@@ -69,7 +69,8 @@ public class JwtRoleValidationFilter extends OncePerRequestFilter {
         boolean hasClientRole = false;
         Map<String, Object> resourceAccess = jwt.getClaimAsMap("resource_access");
         if (resourceAccess != null && resourceAccess.containsKey("linqra-gateway-client")) {
-            Map<String, List<String>> clientRoles = (Map<String, List<String>>) resourceAccess.get("linqra-gateway-client");
+            Map<String, List<String>> clientRoles = (Map<String, List<String>>) resourceAccess
+                    .get("linqra-gateway-client");
             if (clientRoles.get("roles").contains("gateway_admin")) {
                 hasClientRole = true;
             }
@@ -79,4 +80,3 @@ public class JwtRoleValidationFilter extends OncePerRequestFilter {
         return hasRealmRole && hasClientRole;
     }
 }
-

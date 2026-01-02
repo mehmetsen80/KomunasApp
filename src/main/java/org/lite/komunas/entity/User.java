@@ -27,38 +27,38 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Document(collection = "users")
 public class User implements UserDetails {
-    
+
     @Id
     private String id;
 
     @Indexed(unique = true)
     @NotBlank(message = "Username is required")
     private String username;
-    
+
     @Indexed(unique = true)
     private String email;
-    
+
     private String password;
-    
+
     @NotBlank(message = "Full name is required")
     @Size(min = 4, message = "Full name must be at least 4 characters")
     @Field("fullname")
     private String fullName;
-    
+
     @Builder.Default
     private Set<String> roles = Set.of("USER");
-    
+
     @Builder.Default
     private boolean isActive = true;
-    
+
     @CreatedDate
     @Field("created_at")
     private LocalDateTime createdAt;
-    
+
     @LastModifiedDate
     @Field("updated_at")
     private LocalDateTime updatedAt;
-    
+
     private String avatarUrl;
 
     // UserDetails implementation
@@ -88,4 +88,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return isActive;
     }
-} 
+}

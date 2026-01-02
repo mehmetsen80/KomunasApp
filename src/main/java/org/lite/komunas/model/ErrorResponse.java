@@ -18,4 +18,4 @@ public class ErrorResponse {
     public static ErrorResponse of(String message, String code, String path) {
         return new ErrorResponse(message, code, LocalDateTime.now(), path);
     }
-} 
+}

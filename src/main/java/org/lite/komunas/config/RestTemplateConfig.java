@@ -41,8 +41,7 @@ public class RestTemplateConfig {
                 .build();
 
         // Create request factory
-        HttpComponentsClientHttpRequestFactory factory = 
-                new HttpComponentsClientHttpRequestFactory(httpClient);
+        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
         factory.setConnectTimeout(10000);
         factory.setReadTimeout(30000);
 
@@ -56,8 +55,7 @@ public class RestTemplateConfig {
         stringConverter.setSupportedMediaTypes(List.of(
                 MediaType.TEXT_PLAIN,
                 MediaType.APPLICATION_JSON,
-                new MediaType("application", "*+json")
-        ));
+                new MediaType("application", "*+json")));
         messageConverters.add(stringConverter);
 
         // Add JSON message converter
@@ -65,15 +63,14 @@ public class RestTemplateConfig {
         jsonConverter.setSupportedMediaTypes(List.of(
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_OCTET_STREAM,
-                new MediaType("application", "*+json")
-        ));
+                new MediaType("application", "*+json")));
         messageConverters.add(jsonConverter);
 
         restTemplate.setMessageConverters(messageConverters);
 
         // Configure interceptors
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-        
+
         // Add ServiceNameInterceptor
         interceptors.add(new ServiceNameInterceptor());
 
@@ -88,10 +85,9 @@ public class RestTemplateConfig {
                 request.getHeaders().set("X-User-Token", token);
                 request.getHeaders().setContentType(MediaType.APPLICATION_JSON);
                 request.getHeaders().setAccept(List.of(
-                    MediaType.APPLICATION_JSON,
-                    MediaType.TEXT_PLAIN,
-                    new MediaType("application", "*+json")
-                ));
+                        MediaType.APPLICATION_JSON,
+                        MediaType.TEXT_PLAIN,
+                        new MediaType("application", "*+json")));
 
                 log.debug("Request headers: {}", request.getHeaders());
                 log.info("Forwarding token to API Gateway. Token type: {}, Issuer: {}",

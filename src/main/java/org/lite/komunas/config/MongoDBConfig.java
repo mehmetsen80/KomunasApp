@@ -33,4 +33,4 @@ public class MongoDBConfig {
     public MongoTemplate mongoTemplate() throws Exception {
         return new MongoTemplate(mongoClient(), databaseName);
     }
-} 
+}

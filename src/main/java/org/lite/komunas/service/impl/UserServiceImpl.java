@@ -70,4 +70,4 @@ public class UserServiceImpl implements UserService {
                 })
                 .orElse(new AuthResponse("User not found", request.getUsername(), false));
     }
-} 
+}

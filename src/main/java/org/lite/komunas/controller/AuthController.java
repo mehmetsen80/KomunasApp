@@ -25,9 +25,9 @@ public class AuthController {
     @Operation(summary = "Register a new user", description = "Creates a new user account")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         log.info("Registration request received for username: {}", request.getUsername());
-        
+
         AuthResponse response = userService.registerUser(request);
-        
+
         if (response.isSuccess()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } else {
@@ -39,13 +39,13 @@ public class AuthController {
     @Operation(summary = "Login user", description = "Authenticates user credentials")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         log.info("Login request received for username: {}", request.getUsername());
-        
+
         AuthResponse response = userService.loginUser(request);
-        
+
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
-} 
+}

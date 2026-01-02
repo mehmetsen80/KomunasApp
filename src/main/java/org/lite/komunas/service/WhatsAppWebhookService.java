@@ -33,11 +33,10 @@ public class WhatsAppWebhookService {
         fieldProcessors.add(new WhatsAppWebhookFieldMessagesService(contactRepository, messageRepository));
         fieldProcessors.add(new WhatsAppWebhookFieldMessageEchoesService(contactRepository, messageRepository));
         fieldProcessors.add(new WhatsAppWebhookFieldHistoryService(contactRepository, messageRepository));
-        
+
         log.info("WhatsAppWebhookService initialized with {} field processors", fieldProcessors.size());
-        
-        fieldProcessors.forEach(processor -> 
-            log.info("Added processor: {} for field type: {}", 
+
+        fieldProcessors.forEach(processor -> log.info("Added processor: {} for field type: {}",
                 processor.getClass().getSimpleName(), processor.getFieldType()));
     }
 
@@ -68,8 +67,8 @@ public class WhatsAppWebhookService {
             log.info("Webhook processed successfully by {}", processor.get().getClass().getSimpleName());
         } else {
             log.warn("No processor found for webhook field type: {}", payload.getField());
-            log.info("Available field types: {}", 
-                fieldProcessors.stream().map(WhatsAppWebhookFieldProcessor::getFieldType).toList());
+            log.info("Available field types: {}",
+                    fieldProcessors.stream().map(WhatsAppWebhookFieldProcessor::getFieldType).toList());
         }
     }
-} 
+}
