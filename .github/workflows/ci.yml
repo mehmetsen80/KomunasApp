@@ -62,7 +62,6 @@ jobs:
   deploy:
     needs: [java-app]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
 
     steps:
       - name: Download all artifacts
