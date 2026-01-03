@@ -17,6 +17,7 @@ services:
       CLIENT_ALIAS_NAME: komunas-app-container
       EUREKA_USERNAME: ${EUREKA_USERNAME}
       EUREKA_PASSWORD: ${EUREKA_PASSWORD}
+      EUREKA_INSTANCE_URL: polaris.linqra.com
 
       GATEWAY_SERVICE_URL: api-gateway-service
       MONGO_DB_URI: ${MONGO_DB_URI}

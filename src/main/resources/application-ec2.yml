@@ -16,6 +16,7 @@ spring:
     mongodb:
       uri: ${MONGO_DB_URI}
       database: Komunas
+      auto-index-creation: true
 server:
   port: 0
   http2:
