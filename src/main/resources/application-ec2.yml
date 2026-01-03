@@ -5,13 +5,13 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://${KEYCLOAK_GATEWAY_URL:localhost}:${KEYCLOAK_GATEWAY_PORT:8281}/realms/Linqra
-          jwk-set-uri: http://${KEYCLOAK_GATEWAY_URL:localhost}:${KEYCLOAK_GATEWAY_PORT:8281}/realms/Linqra/protocol/openid-connect/certs
+          issuer-uri: https://polaris.linqra.com/keycloak/realms/Linqra
+          jwk-set-uri: https://polaris.linqra.com/keycloak/realms/Linqra/protocol/openid-connect/certs
           validation:
             # Allow both internal and external issuer URLs
             allowed-issuers:
-              - http://${KEYCLOAK_GATEWAY_URL:localhost}:${KEYCLOAK_GATEWAY_PORT:8281}/realms/Linqra
-              - http://localhost:8281/realms/Linqra
+              - https://polaris.linqra.com/keycloak/realms/Linqra
+
   data:
     mongodb:
       uri: ${MONGO_DB_URI}
