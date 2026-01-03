@@ -34,18 +34,9 @@ public class HealthController {
 
     private final Instant startTime = Instant.now();
 
-    @Operation(
-        summary = "Get service health status",
-        description = "Retrieves detailed health information including memory usage, CPU load, and uptime"
-    )
+    @Operation(summary = "Get service health status", description = "Retrieves detailed health information including memory usage, CPU load, and uptime")
     @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Service health information retrieved successfully",
-            content = @Content(
-                mediaType = "application/json",
-                schema = @Schema(implementation = HealthStatus.class),
-                examples = @ExampleObject(value = """
+            @ApiResponse(responseCode = "200", description = "Service health information retrieved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = HealthStatus.class), examples = @ExampleObject(value = """
                     {
                         "serviceId": "komunas-app",
                         "status": "UP",
@@ -57,26 +48,14 @@ public class HealthController {
                             "responseTime": 0.0
                         }
                     }
-                    """)
-            )
-        ),
-        @ApiResponse(
-            responseCode = "503",
-            description = "Service is unhealthy",
-            content = @Content(
-                mediaType = "application/json",
-                schema = @Schema(implementation = HealthStatus.class)
-            )
-        )
+                    """))),
+            @ApiResponse(responseCode = "503", description = "Service is unhealthy", content = @Content(mediaType = "application/json", schema = @Schema(implementation = HealthStatus.class)))
     })
-    @GetMapping(
-        path = "/health",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping(path = "/health", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HealthStatus> getHealth() {
         HealthStatus status = new HealthStatus();
         status.setServiceId(serviceId);
-        
+
         try {
             // Get system metrics
             OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
@@ -84,7 +63,7 @@ public class HealthController {
 
             // Calculate uptime
             Duration uptime = Duration.between(startTime, Instant.now());
-            
+
             // Calculate memory usage
             long usedMemory = memoryBean.getHeapMemoryUsage().getUsed();
             long maxMemory = memoryBean.getHeapMemoryUsage().getMax();
@@ -95,7 +74,7 @@ public class HealthController {
             status.setStatus(healthy ? "UP" : "DOWN");
             status.setUptime(formatUptime(uptime));
             status.setTimestamp(Instant.now());
-            
+
             // Add detailed metrics
             Map<String, Double> metrics = new HashMap<>();
             metrics.put("cpu", osBean.getSystemLoadAverage());
@@ -104,22 +83,21 @@ public class HealthController {
             status.setMetrics(metrics);
 
             return ResponseEntity
-                .status(healthy ? HttpStatus.OK : HttpStatus.SERVICE_UNAVAILABLE)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(status);
+                    .status(healthy ? HttpStatus.OK : HttpStatus.SERVICE_UNAVAILABLE)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(status);
 
         } catch (Exception e) {
             log.error("Error getting health status: {}", e.getMessage());
             status.setStatus("DOWN");
             status.setTimestamp(Instant.now());
             status.setMetrics(Map.of(
-                "error", 1.0,
-                "message", 0.0
-            ));
+                    "error", 1.0,
+                    "message", 0.0));
             return ResponseEntity
-                .status(HttpStatus.SERVICE_UNAVAILABLE)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(status);
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(status);
         }
     }
 
@@ -127,15 +105,15 @@ public class HealthController {
         try {
             OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
             MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
-            
+
             // Check memory usage
             long usedMemory = memoryBean.getHeapMemoryUsage().getUsed();
             long maxMemory = memoryBean.getHeapMemoryUsage().getMax();
             double memoryUsage = ((double) usedMemory / maxMemory) * 100;
-            
+
             // Check CPU usage
             double cpuLoad = osBean.getSystemLoadAverage();
-            
+
             // Define thresholds (could be made configurable)
             return memoryUsage < 90.0 && cpuLoad >= 0;
         } catch (Exception e) {
@@ -160,4 +138,4 @@ public class HealthController {
         long end = System.nanoTime();
         return (end - start) / 1_000_000.0; // Convert to milliseconds
     }
-} 
+}
