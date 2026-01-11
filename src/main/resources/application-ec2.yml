@@ -26,7 +26,7 @@ server:
     key-store: ${CLIENT_KEY_STORE}
     key-store-password: ${CLIENT_KEY_STORE_PASSWORD}
     key-alias: ${CLIENT_ALIAS_NAME:client-app}
-    key-store-type: JKS
+    key-store-type: PKCS12
     trust-store: ${CLIENT_TRUST_STORE}
     trust-store-password: ${CLIENT_TRUST_STORE_PASSWORD}
     trust-store-type: JKS
@@ -62,8 +62,8 @@ eureka:
     appname: komunas-app
     hostname: ${EUREKA_INSTANCE_URL:localhost}
     instance-id: ${spring.application.name}:${instanceId:${random.value}}
-    non-secure-port-enabled: false   # Disable non-secure HTTP port
-    secure-port-enabled: true        # Enable secure HTTPS port
+    non-secure-port-enabled: true   # Enable non-secure HTTP port
+    secure-port-enabled: false        # Disable secure HTTPS port
     secure-port: ${server.port}
 
 springdoc:
