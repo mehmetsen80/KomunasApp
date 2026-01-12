@@ -18,7 +18,6 @@ services:
       EUREKA_USERNAME: ${EUREKA_USERNAME}
       EUREKA_PASSWORD: ${EUREKA_PASSWORD}
       EUREKA_INSTANCE_URL: komunas-app
-
       GATEWAY_SERVICE_URL: api-gateway-service
       MONGO_DB_URI: ${MONGO_DB_URI}
     ports:

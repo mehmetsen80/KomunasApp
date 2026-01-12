@@ -1,0 +1,56 @@
+name: Deploy KomunasApp to EKS
+on:
+  workflow_dispatch:
+env:
+  AWS_REGION: us-west-2
+  ECR_REPOSITORY: komunas-app
+  EKS_CLUSTER_NAME: linqra-cluster
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SEC }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Build and push Docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f .kube/eks/Dockerfile .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+      
+      - name: Update Kubeconfig
+        run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
+      
+      - name: Create or update Kubernetes secrets
+        run: |
+          kubectl create secret generic komunas-secrets \
+            --namespace linqra \
+            --from-literal=eureka-username='${{ secrets.EUREKA_USERNAME }}' \
+            --from-literal=eureka-password='${{ secrets.EUREKA_PASSWORD }}' \
+            --from-literal=mongo-uri='${{ secrets.MONGO_DB_URI }}' \
+            --dry-run=client -o yaml | kubectl apply -f -
+      
+      - name: Deploy to EKS
+        run: |
+          kubectl apply -f .kube/eks/komunas-app.yml
+          kubectl rollout restart deployment/komunas-app -n linqra
