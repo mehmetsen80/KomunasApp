@@ -57,9 +57,8 @@ public class SecurityConfig {
                         })))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/r/komunas-app/**")// no matter what you put here, if we have the gateway
-                                                             // token from oauth2ResourceServer, we'll be authenticated
-                        .permitAll() // Public endpoints (if any)
+                        .requestMatchers("/health", "/actuator/health", "/r/komunas-app/**")
+                        .permitAll() // Public endpoints - health checks for K8s probes
                         .anyRequest()
                         .authenticated())
                 .oauth2ResourceServer(oauth2 -> { // Enable OAuth2-based authentication (via JWT tokens)
