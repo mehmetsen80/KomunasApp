@@ -52,8 +52,4 @@ EXPOSE 8082
 
 ENTRYPOINT ["java", \
     "-Dhttps.protocols=TLSv1.2,TLSv1.3", \
-    "-Djavax.net.ssl.keyStore=${CLIENT_KEY_STORE}", \
-    "-Djavax.net.ssl.keyStorePassword=${CLIENT_KEY_STORE_PASSWORD}", \
-    "-Djavax.net.ssl.trustStore=${CACERTS_PATH}", \
-    "-Djavax.net.ssl.trustStorePassword=${CLIENT_TRUST_STORE_PASSWORD}", \
     "-jar", "KomunasApp.jar"]

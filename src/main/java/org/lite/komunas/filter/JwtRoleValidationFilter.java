@@ -20,6 +20,13 @@ import java.util.Map;
 public class JwtRoleValidationFilter extends OncePerRequestFilter {
 
     @Override
+    protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
+        String path = request.getRequestURI();
+        // Skip JWT validation for health check endpoints (K8s probes)
+        return path.endsWith("/health") || path.endsWith("/actuator/health");
+    }
+
+    @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
