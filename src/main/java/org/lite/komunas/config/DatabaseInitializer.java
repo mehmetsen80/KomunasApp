@@ -3,6 +3,8 @@ package org.lite.komunas.config;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.lite.komunas.entity.ResourceSyncState;
+import org.lite.komunas.entity.ResourceVersionHistory;
 import org.lite.komunas.entity.User;
 import org.lite.komunas.entity.WhatsAppContact;
 import org.lite.komunas.entity.WhatsAppMessage;
@@ -22,6 +24,8 @@ public class DatabaseInitializer {
         createCollectionIfNotExists(User.class);
         createCollectionIfNotExists(WhatsAppContact.class);
         createCollectionIfNotExists(WhatsAppMessage.class);
+        createCollectionIfNotExists(ResourceSyncState.class);
+        createCollectionIfNotExists(ResourceVersionHistory.class);
         log.info("MongoDB collections initialization completed.");
     }
 
