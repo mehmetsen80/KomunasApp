@@ -49,6 +49,7 @@ logging:
     org.springframework.cloud.loadbalancer: TRACE
     org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
     com.fasterxml.jackson: DEBUG
+    javax.net.ssl: OFF
 
 eureka:
   client:
@@ -81,7 +82,3 @@ whatsapp:
     secret: "dc0e4310d71a0e24112cca39180e3f4d"
     name: "Komunas"
     businessid: "763753579930598"
-
-logging:
-  level:
-    javax.net.ssl: OFF    

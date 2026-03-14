@@ -1,0 +1,11 @@
+package org.lite.komunas.dto;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class SentinelMetadata {
+    private String version;
+    private String resourceUrl;
+}
