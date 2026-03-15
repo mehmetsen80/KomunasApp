@@ -50,22 +50,30 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
     private ResourceCheckResult processMetadata(String category, String resourceId, SentinelMetadata metadata) {
         String currentHash = downloadAndHash(metadata.getResourceUrl());
+        String instructionsHash = downloadAndHash(metadata.getInstructionsUrl());
 
         return syncStateRepository.findByResourceCategoryAndResourceId(category, resourceId)
                 .map(existingState -> {
                     boolean versionChanged = !metadata.getVersion().equals(existingState.getLastKnownVersion());
                     boolean hashChanged = !currentHash.equals(existingState.getLastKnownHash());
-                    boolean changed = versionChanged || hashChanged;
+                    boolean instrHashChanged = metadata.getInstructionsUrl() != null &&
+                            !instructionsHash.equals(existingState.getLastKnownInstructionsHash());
+
+                    boolean changed = versionChanged || hashChanged || instrHashChanged;
 
                     return ResourceCheckResult.builder()
                             .resourceId(resourceId)
                             .changed(changed)
                             .oldVersion(existingState.getLastKnownVersion())
                             .newVersion(metadata.getVersion())
+                            .effectiveDate(metadata.getEffectiveDate())
                             .oldHash(existingState.getLastKnownHash())
                             .currentHash(currentHash)
+                            .instructionsUrl(metadata.getInstructionsUrl())
+                            .instructionsHash(instructionsHash)
                             .resourceUrl(metadata.getResourceUrl())
                             .oldDocumentId(existingState.getDocumentId())
+                            .oldInstructionsDocumentId(existingState.getInstructionsDocumentId())
                             .shouldSync(changed)
                             .build();
                 })
@@ -74,10 +82,14 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                         .changed(true)
                         .oldVersion("INITIAL")
                         .newVersion(metadata.getVersion())
+                        .effectiveDate(metadata.getEffectiveDate())
                         .oldHash("INITIAL")
                         .currentHash(currentHash)
+                        .instructionsUrl(metadata.getInstructionsUrl())
+                        .instructionsHash(instructionsHash)
                         .resourceUrl(metadata.getResourceUrl())
                         .oldDocumentId(null)
+                        .oldInstructionsDocumentId(null)
                         .shouldSync(true)
                         .build());
     }
@@ -91,32 +103,42 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 .findByResourceCategoryAndResourceId(request.getResourceCategory(), request.getResourceId())
                 .map(existingState -> {
                     existingState.setLastKnownVersion(request.getVersion());
+                    existingState.setEffectiveDate(request.getEffectiveDate());
                     existingState.setLastKnownHash(request.getHash());
+                    existingState.setLastKnownInstructionsHash(request.getInstructionsHash());
                     existingState.setDocumentId(request.getDocumentId());
+                    existingState.setInstructionsDocumentId(request.getInstructionsDocumentId());
                     existingState.setOldDocumentId(request.getOldDocumentId());
+                    existingState.setOldInstructionsDocumentId(request.getOldInstructionsDocumentId());
                     existingState.setAgentTaskId(request.getAgentTaskId());
                     existingState.setChangeType(request.getChangeType());
                     existingState.setChangeDetected(request.isChangeDetected());
                     existingState.setSummary(request.getSummary());
                     existingState.setResourceUrl(request.getResourceUrl());
+                    existingState.setInstructionsUrl(request.getInstructionsUrl());
                     existingState.setLastAnalysis(request.getAnalysis());
                     existingState.setLastCheckedAt(LocalDateTime.now());
                     existingState.setLastUpdatedAt(LocalDateTime.now());
-                    existingState.setEnabled(true); // Re-enable if it was soft-deleted
+                    existingState.setEnabled(true);
                     return existingState;
                 })
                 .orElseGet(() -> ResourceSyncState.builder()
                         .resourceCategory(request.getResourceCategory())
                         .resourceId(request.getResourceId())
                         .documentId(request.getDocumentId())
+                        .instructionsDocumentId(request.getInstructionsDocumentId())
                         .oldDocumentId(request.getOldDocumentId())
+                        .oldInstructionsDocumentId(request.getOldInstructionsDocumentId())
                         .agentTaskId(request.getAgentTaskId())
                         .changeType(request.getChangeType())
                         .changeDetected(request.isChangeDetected())
                         .summary(request.getSummary())
                         .resourceUrl(request.getResourceUrl())
+                        .instructionsUrl(request.getInstructionsUrl())
                         .lastKnownVersion(request.getVersion())
+                        .effectiveDate(request.getEffectiveDate())
                         .lastKnownHash(request.getHash())
+                        .lastKnownInstructionsHash(request.getInstructionsHash())
                         .lastAnalysis(request.getAnalysis())
                         .lastCheckedAt(LocalDateTime.now())
                         .lastUpdatedAt(LocalDateTime.now())
@@ -129,10 +151,15 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 .resourceCategory(request.getResourceCategory())
                 .resourceId(request.getResourceId())
                 .version(request.getVersion())
+                .effectiveDate(request.getEffectiveDate())
                 .hash(request.getHash())
+                .instructionsHash(request.getInstructionsHash())
                 .resourceUrl(request.getResourceUrl())
+                .instructionsUrl(request.getInstructionsUrl())
                 .documentId(request.getDocumentId())
+                .instructionsDocumentId(request.getInstructionsDocumentId())
                 .oldDocumentId(request.getOldDocumentId())
+                .oldInstructionsDocumentId(request.getOldInstructionsDocumentId())
                 .agentTaskId(request.getAgentTaskId())
                 .changeType(request.getChangeType())
                 .changeDetected(request.isChangeDetected())
@@ -185,8 +212,6 @@ public class USCISScraperServiceImpl implements USCISScraperService {
     }
 
     private SentinelMetadata scrapeUSCIS(String formId) {
-        // Ensure formId has a dash if it's alphanumeric and for common forms (e.g. i130
-        // -> i-130)
         String normalizedFormId = formId.toLowerCase().trim();
         if (normalizedFormId.matches("[a-z]\\d+")) {
             normalizedFormId = normalizedFormId.charAt(0) + "-" + normalizedFormId.substring(1);
@@ -198,22 +223,38 @@ public class USCISScraperServiceImpl implements USCISScraperService {
         try {
             Document doc = Jsoup.connect(url).get();
 
-            // Extract version (Edition Date)
-            // The structure is usually an accordion. Let's look for "Edition Date" heading.
+            // Extract version (Edition Date) and Effective Date (Mandatory Date)
             String version = "UNKNOWN";
+            String effectiveDate = "UNKNOWN";
+
             Element editionHeader = doc.selectFirst("h4:contains(Edition Date)");
             if (editionHeader != null) {
                 Element panel = editionHeader.nextElementSibling();
                 if (panel != null) {
-                    Matcher matcher = VERSION_PATTERN.matcher(panel.text());
+                    String text = panel.text();
+                    Matcher matcher = VERSION_PATTERN.matcher(text);
                     if (matcher.find()) {
                         version = matcher.group(1);
+                    }
+
+                    // Try to find a mandatory date (usually follows "filing on or after" or
+                    // "starting")
+                    // Example: "Mandatory for filing on or after 02/10/25"
+                    if (text.toLowerCase().contains("mandatory") || text.toLowerCase().contains("after")) {
+                        // Pattern for date again but search after the word mandatory
+                        Matcher mandatoryMatcher = VERSION_PATTERN.matcher(text);
+                        // If there are two dates, the second one is often the effective date
+                        if (mandatoryMatcher.find()) {
+                            // Find the NEXT one if it exists
+                            if (mandatoryMatcher.find()) {
+                                effectiveDate = mandatoryMatcher.group(1);
+                            }
+                        }
                     }
                 }
             }
 
-            // Fallback to searching the whole page for the pattern if not found in the
-            // specific section
+            // Fallback for version
             if ("UNKNOWN".equals(version)) {
                 Matcher matcher = VERSION_PATTERN.matcher(doc.text());
                 if (matcher.find()) {
@@ -221,18 +262,41 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 }
             }
 
-            // Extract PDF Link
-            Element pdfLink = doc.select("a[href$='.pdf']").first();
-            if (pdfLink == null) {
-                throw new RuntimeException("Could not find PDF link for form " + normalizedFormId);
+            // Extract PDF Links
+            String pdfUrl = null;
+            String instructionsUrl = null;
+
+            // Look for the primary form and instructions
+            for (Element link : doc.select("a[href$='.pdf']")) {
+                String href = link.attr("href");
+                String absoluteUrl = href.startsWith("http") ? href : PDF_URL_PREFIX + href;
+                String filename = absoluteUrl.toLowerCase();
+
+                if (instructionsUrl == null && filename.contains("instr")) {
+                    instructionsUrl = absoluteUrl;
+                } else if (pdfUrl == null && filename.contains(normalizedFormId.replace("-", ""))) {
+                    pdfUrl = absoluteUrl;
+                }
             }
 
-            String pdfPath = pdfLink.attr("href");
-            String pdfUrl = pdfPath.startsWith("http") ? pdfPath : PDF_URL_PREFIX + pdfPath;
+            // Final fallback: the first pdf found is the form
+            if (pdfUrl == null) {
+                Element firstPdf = doc.select("a[href$='.pdf']").first();
+                if (firstPdf != null) {
+                    String href = firstPdf.attr("href");
+                    pdfUrl = href.startsWith("http") ? href : PDF_URL_PREFIX + href;
+                }
+            }
+
+            if (pdfUrl == null) {
+                throw new RuntimeException("Could not find primary PDF link for form " + normalizedFormId);
+            }
 
             return SentinelMetadata.builder()
                     .version(version)
+                    .effectiveDate(effectiveDate)
                     .resourceUrl(pdfUrl)
+                    .instructionsUrl(instructionsUrl)
                     .build();
         } catch (Exception e) {
             log.error("Failed to scrape USCIS form {}: {}", normalizedFormId, e.getMessage());
