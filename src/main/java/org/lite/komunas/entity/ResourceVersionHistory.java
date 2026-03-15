@@ -23,6 +23,7 @@ public class ResourceVersionHistory {
 
     private String resourceCategory;
     private String resourceId;
+    private String syncStateId; // Reference to the parent ResourceSyncState
     private String agentTaskId;
 
     private String version;
@@ -39,6 +40,9 @@ public class ResourceVersionHistory {
     private String summary;
     private boolean changeDetected;
     private Object analysis; // Snapshot of the LLM analysis for this version
+
+    @Builder.Default
+    private boolean enabled = true;
 
     private LocalDateTime detectedAt;
 }

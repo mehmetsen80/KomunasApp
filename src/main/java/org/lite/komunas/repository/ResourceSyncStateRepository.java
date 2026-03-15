@@ -12,6 +12,8 @@ public interface ResourceSyncStateRepository extends MongoRepository<ResourceSyn
 
     Optional<ResourceSyncState> findByDocumentId(String documentId);
 
+    Optional<ResourceSyncState> findByInstructionsDocumentId(String instructionsDocumentId);
+
     java.util.List<ResourceSyncState> findByEnabledTrue();
 
     void deleteByDocumentId(String documentId);

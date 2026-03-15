@@ -15,6 +15,7 @@ import org.lite.komunas.repository.ResourceSyncStateRepository;
 import org.lite.komunas.repository.ResourceVersionHistoryRepository;
 import org.lite.komunas.service.USCISScraperService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClient;
 
 import java.security.MessageDigest;
@@ -59,11 +60,19 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                     boolean instrHashChanged = metadata.getInstructionsUrl() != null &&
                             !instructionsHash.equals(existingState.getLastKnownInstructionsHash());
 
-                    boolean changed = versionChanged || hashChanged || instrHashChanged;
+                    boolean contentChanged = versionChanged || hashChanged || instrHashChanged;
+
+                    boolean missingDocs = (metadata.getResourceUrl() != null
+                            && !StringUtils.hasText(existingState.getDocumentId())) ||
+                            (metadata.getInstructionsUrl() != null
+                                    && !StringUtils.hasText(existingState.getInstructionsDocumentId()));
+                    boolean disabled = !existingState.isEnabled();
+
+                    boolean shouldSync = contentChanged || missingDocs || disabled;
 
                     return ResourceCheckResult.builder()
                             .resourceId(resourceId)
-                            .changed(changed)
+                            .changed(contentChanged) // 'changed' means either form or instructions changed
                             .oldVersion(existingState.getLastKnownVersion())
                             .newVersion(metadata.getVersion())
                             .effectiveDate(metadata.getEffectiveDate())
@@ -74,7 +83,7 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                             .resourceUrl(metadata.getResourceUrl())
                             .oldDocumentId(existingState.getDocumentId())
                             .oldInstructionsDocumentId(existingState.getInstructionsDocumentId())
-                            .shouldSync(changed)
+                            .shouldSync(shouldSync)
                             .build();
                 })
                 .orElseGet(() -> ResourceCheckResult.builder()
@@ -150,6 +159,7 @@ public class USCISScraperServiceImpl implements USCISScraperService {
         ResourceVersionHistory history = ResourceVersionHistory.builder()
                 .resourceCategory(request.getResourceCategory())
                 .resourceId(request.getResourceId())
+                .syncStateId(state.getId())
                 .version(request.getVersion())
                 .effectiveDate(request.getEffectiveDate())
                 .hash(request.getHash())
@@ -165,6 +175,7 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 .changeDetected(request.isChangeDetected())
                 .summary(request.getSummary())
                 .analysis(request.getAnalysis())
+                .enabled(true)
                 .detectedAt(LocalDateTime.now())
                 .build();
         historyRepository.save(history);
@@ -180,10 +191,22 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
     @Override
     public void handleDocumentDeletion(String documentId) {
-        log.info("Soft-deactivating ResourceSyncState for document: {}", documentId);
+        log.info("🔔 Processing deletion signal for document: {}", documentId);
+
+        // Check if it's a primary document
         syncStateRepository.findByDocumentId(documentId)
                 .ifPresent(state -> {
-                    log.info("Found sync state for document {}. Setting enabled=false.", documentId);
+                    log.info("Found sync state for PRIMARY document {}. Nulling ID and disabling.", documentId);
+                    state.setDocumentId(null);
+                    state.setEnabled(false);
+                    syncStateRepository.save(state);
+                });
+
+        // Check if it's an instructions document
+        syncStateRepository.findByInstructionsDocumentId(documentId)
+                .ifPresent(state -> {
+                    log.info("Found sync state for INSTRUCTIONS document {}. Nulling ID and disabling.", documentId);
+                    state.setInstructionsDocumentId(null);
                     state.setEnabled(false);
                     syncStateRepository.save(state);
                 });
@@ -254,12 +277,19 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 }
             }
 
-            // Fallback for version
+            // Fallback for version (whole page search)
             if ("UNKNOWN".equals(version)) {
                 Matcher matcher = VERSION_PATTERN.matcher(doc.text());
                 if (matcher.find()) {
                     version = matcher.group(1);
                 }
+            }
+
+            // Final Fallback: If no explicit mandatory date was found, the edition date
+            // (version)
+            // is the effective date. This MUST happen after all version fallbacks.
+            if ("UNKNOWN".equals(effectiveDate) && !"UNKNOWN".equals(version)) {
+                effectiveDate = version;
             }
 
             // Extract PDF Links
