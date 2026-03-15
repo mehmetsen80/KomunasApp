@@ -11,5 +11,7 @@ public interface ResourceVersionHistoryRepository extends MongoRepository<Resour
     List<ResourceVersionHistory> findByResourceCategoryAndResourceIdOrderByDetectedAtDesc(String resourceCategory,
             String resourceId);
 
+    List<ResourceVersionHistory> findBySyncStateId(String syncStateId);
+
     void deleteByResourceCategoryAndResourceId(String resourceCategory, String resourceId);
 }

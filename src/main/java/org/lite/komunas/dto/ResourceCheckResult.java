@@ -10,9 +10,13 @@ public class ResourceCheckResult {
     private boolean changed;
     private String oldVersion;
     private String newVersion;
+    private String effectiveDate;
     private String oldHash;
     private String currentHash;
     private String resourceUrl;
+    private String instructionsUrl;
+    private String instructionsHash;
     private String oldDocumentId;
+    private String oldInstructionsDocumentId;
     private boolean shouldSync;
 }

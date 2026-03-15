@@ -7,5 +7,7 @@ import lombok.Data;
 @Builder
 public class SentinelMetadata {
     private String version;
+    private String effectiveDate;
     private String resourceUrl;
+    private String instructionsUrl;
 }

@@ -23,17 +23,26 @@ public class ResourceVersionHistory {
 
     private String resourceCategory;
     private String resourceId;
+    private String syncStateId; // Reference to the parent ResourceSyncState
     private String agentTaskId;
 
     private String version;
+    private String effectiveDate;
     private String hash;
     private String resourceUrl;
+    private String instructionsUrl;
+    private String instructionsHash;
     private String documentId;
+    private String instructionsDocumentId;
     private String oldDocumentId;
+    private String oldInstructionsDocumentId;
     private String changeType;
     private String summary;
     private boolean changeDetected;
     private Object analysis; // Snapshot of the LLM analysis for this version
+
+    @Builder.Default
+    private boolean enabled = true;
 
     private LocalDateTime detectedAt;
 }

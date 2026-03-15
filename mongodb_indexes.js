@@ -29,6 +29,15 @@ db.resource_sync_state.createIndex(
     }
 );
 
+// 2a. Instructions Document ID Index
+db.resource_sync_state.createIndex(
+    { "instructionsDocumentId": 1 },
+    {
+        "name": "instructions_document_id_idx",
+        "background": true
+    }
+);
+
 // 3. Enabled Status Index (for finding active/inactive states)
 db.resource_sync_state.createIndex(
     { "enabled": 1 },
@@ -47,6 +56,15 @@ db.resource_version_history.createIndex(
     { "resourceCategory": 1, "resourceId": 1, "detectedAt": -1 },
     {
         "name": "history_category_id_time_idx",
+        "background": true
+    }
+);
+
+// 2. Sync State ID Index (for linking to parent state)
+db.resource_version_history.createIndex(
+    { "syncStateId": 1 },
+    {
+        "name": "sync_state_id_idx",
         "background": true
     }
 );

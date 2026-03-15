@@ -3,11 +3,15 @@ package org.lite.komunas.scheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.lite.komunas.entity.ResourceSyncState;
+import org.lite.komunas.entity.ResourceVersionHistory;
 import org.lite.komunas.repository.ResourceSyncStateRepository;
+import org.lite.komunas.repository.ResourceVersionHistoryRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -20,13 +24,17 @@ public class ResourceSyncStateScheduler {
 
         private final RestTemplate restTemplate;
         private final ResourceSyncStateRepository syncStateRepository;
+        private final ResourceVersionHistoryRepository historyRepository;
+
+        @Value("${gateway.base-url}")
+        private String gatewayBaseUrl;
 
         /**
          * Daily reconciliation of orphaned ResourceSyncState records.
          * Checks for sync states whose documentId no longer exists in KnowledgeHub.
          * Uses defensive guards and soft-deletes (enabled = false).
          */
-        @Scheduled(cron = "0 0 3 * * ?") // Run at 3 AM every day
+        @Scheduled(cron = "0 0 */6 * * ?") // Run every 6 hours to check for orphaned records
         public void reconcileOrphanedSyncStates() {
                 log.info("Starting Defensive Reconciliation of ResourceSyncState records...");
 
@@ -41,29 +49,37 @@ public class ResourceSyncStateScheduler {
 
                 for (ResourceSyncState syncState : activeStates) {
                         String docId = syncState.getDocumentId();
-                        if (docId == null)
+                        String instrDocId = syncState.getInstructionsDocumentId();
+
+                        if (!StringUtils.hasText(docId) && !StringUtils.hasText(instrDocId))
                                 continue;
 
                         try {
-                                // 2. Strict Verification: Only deactivate if the Hub explicitly returns 200 OK
-                                // with exists=false
-                                String url = "http://api-gateway/api/v1/kh/sync/documents/" + docId + "/exists";
-                                ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
+                                // 2. Strict Verification: Check if either document is gone from the Hub
+                                boolean primaryGone = StringUtils.hasText(docId) && isDocumentGone(docId);
+                                boolean instructionsGone = StringUtils.hasText(instrDocId)
+                                                && isDocumentGone(instrDocId);
 
-                                if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                                        if (Boolean.FALSE.equals(response.getBody())) {
-                                                log.warn("🚨 Hub confirmed document {} is GONE. Soft-deactivating local sync state (Category: {}, ID: {})",
-                                                                docId, syncState.getResourceCategory(),
-                                                                syncState.getResourceId());
+                                if (primaryGone || instructionsGone) {
+                                        log.warn("🚨 Hub confirmed document(s) GONE - Primary: {}, Instructions: {}. Soft-deactivating.",
+                                                        primaryGone ? docId : "OK",
+                                                        instructionsGone ? instrDocId : "OK");
 
-                                                // Soft delete instead of hard delete
-                                                syncState.setEnabled(false);
-                                                syncStateRepository.save(syncState);
-                                                deactivatedCount++;
-                                        }
-                                } else {
-                                        log.warn("⚠️ Unexpected response from Hub for document {}: {}. Skipping.",
-                                                        docId, response.getStatusCode());
+                                        // Update state by nulling IDs that are gone
+                                        if (primaryGone)
+                                                syncState.setDocumentId(null);
+                                        if (instructionsGone)
+                                                syncState.setInstructionsDocumentId(null);
+
+                                        // 3. Deactivate associated version history records
+                                        List<ResourceVersionHistory> histories = historyRepository
+                                                        .findBySyncStateId(syncState.getId());
+                                        histories.forEach(h -> h.setEnabled(false));
+                                        historyRepository.saveAll(histories);
+
+                                        syncState.setEnabled(false);
+                                        syncStateRepository.save(syncState);
+                                        deactivatedCount++;
                                 }
                         } catch (Exception e) {
                                 // Transient error (network, timeout, 5xx) -> Skip the record to be safe
@@ -75,10 +91,21 @@ public class ResourceSyncStateScheduler {
                 log.info("✅ Defensive Reconciliation completed. Deactivated {} orphaned records.", deactivatedCount);
         }
 
+        private boolean isDocumentGone(String docId) {
+                try {
+                        String url = gatewayBaseUrl + "/api/kh/sync/documents/" + docId + "/exists";
+                        ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
+                        return response.getStatusCode() == HttpStatus.OK && Boolean.FALSE.equals(response.getBody());
+                } catch (Exception e) {
+                        log.error("❌ Error checking existence for document {}: {}", docId, e.getMessage());
+                        return false; // Assume it exists if we can't check
+                }
+        }
+
         private boolean isHubHealthy() {
                 try {
-                        ResponseEntity<Map> response = restTemplate.getForEntity("http://api-gateway/health",
-                                        Map.class);
+                        String url = gatewayBaseUrl + "/health";
+                        ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
                         Map<?, ?> body = response.getBody();
                         if (response.getStatusCode() == HttpStatus.OK && body != null) {
                                 String status = (String) body.get("status");
