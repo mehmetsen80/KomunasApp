@@ -4,6 +4,7 @@ import org.lite.komunas.entity.ResourceSyncState;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,7 +15,7 @@ public interface ResourceSyncStateRepository extends MongoRepository<ResourceSyn
 
     Optional<ResourceSyncState> findByInstructionsDocumentId(String instructionsDocumentId);
 
-    java.util.List<ResourceSyncState> findByEnabledTrue();
+    List<ResourceSyncState> findByEnabledTrue();
 
     void deleteByDocumentId(String documentId);
 }
