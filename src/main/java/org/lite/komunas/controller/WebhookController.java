@@ -37,6 +37,9 @@ public class WebhookController {
             String documentId = (String) notification.getDelta().get("documentId");
             log.info("🔔 Processing HARD_DELETE signal for document: {}", documentId);
             uscisScraperService.handleDocumentDeletion(documentId);
+        } else if ("EDITION_UPDATE".equals(notification.getType()) || "FEE_CHANGE".equals(notification.getType())) {
+            log.info("🔔 Processing UPDATE signal for {}: {}", notification.getResourceId(), notification.getType());
+            uscisScraperService.handleResourceUpdate(notification);
         }
     }
 }

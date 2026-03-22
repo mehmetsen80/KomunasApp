@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.lite.komunas.dto.ResourceCheckResult;
-import org.lite.komunas.dto.ResourceCommitRequest;
-import org.lite.komunas.dto.ResourceCommitResponse;
-import org.lite.komunas.dto.SentinelMetadata;
+import org.lite.komunas.dto.*;
 import org.lite.komunas.entity.ResourceSyncState;
 import org.lite.komunas.entity.ResourceVersionHistory;
 import org.lite.komunas.repository.ResourceSyncStateRepository;
@@ -210,6 +207,12 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                     state.setEnabled(false);
                     syncStateRepository.save(state);
                 });
+    }
+
+    @Override
+    public void handleResourceUpdate(ResourceUpdateNotification notification) {
+        log.info("🔔 Processing update signal for {}: {}", notification.getResourceId(), notification.getType());
+        // TODO: Custom Logic
     }
 
     private String downloadAndHash(String url) {
