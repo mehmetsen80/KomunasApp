@@ -238,6 +238,12 @@ public class USCISScraperServiceImpl implements USCISScraperService {
         }
     }
 
+    private String getAbsoluteUrl(String href) {
+        if (href == null)
+            return null;
+        return href.startsWith("http") ? href : PDF_URL_PREFIX + href;
+    }
+
     private SentinelMetadata scrapeUSCIS(String formId) {
         String normalizedFormId = formId.toLowerCase().trim();
         if (normalizedFormId.matches("[a-z]\\d+")) {
@@ -300,40 +306,44 @@ public class USCISScraperServiceImpl implements USCISScraperService {
             String pdfUrl = null;
             String instructionsUrl = null;
 
-            // SCOPING: Try to find the section where the official forms usually live
-            Element formsSection = doc
-                    .selectFirst("section.content-section--form-details, #block-uscis-form-details, div.form-details");
-            Elements searchScope = (formsSection != null) ? formsSection.select("a[href$='.pdf']")
-                    : doc.select("a[href$='.pdf']");
-
-            log.info("Scraping for PDFs. Container found: {}. Links to check: {}", formsSection != null,
-                    searchScope.size());
-
+            // Pattern-based detection (Standard USCIS weights)
             String shortFormId = normalizedFormId.replace("-", "");
+            String exactFormSuffix = "/" + normalizedFormId + ".pdf";
+            String exactInstrSuffix = "/" + normalizedFormId + "instr.pdf";
+            String shortFormSuffix = "/" + shortFormId + ".pdf";
+            String shortInstrSuffix = "/" + shortFormId + "instr.pdf";
 
-            // Look for the primary form and instructions
-            for (Element link : searchScope) {
-                String href = link.attr("href");
-                String absoluteUrl = href.startsWith("http") ? href : PDF_URL_PREFIX + href;
+            log.info("Scraping for PDFs using patterns: {}, {}", exactFormSuffix, exactInstrSuffix);
+
+            Elements allPdfLinks = doc.select("a[href$='.pdf']");
+
+            // Phase 1: Look for EXACT pattern matches (the most reliable source)
+            for (Element link : allPdfLinks) {
+                String absoluteUrl = getAbsoluteUrl(link.attr("href"));
                 String filename = absoluteUrl.toLowerCase();
 
-                if (instructionsUrl == null && filename.contains("instr")) {
-                    instructionsUrl = absoluteUrl;
-                } else if (pdfUrl == null && (filename.contains(normalizedFormId) || filename.contains(shortFormId))) {
+                if (filename.endsWith(exactFormSuffix) || filename.endsWith(shortFormSuffix)) {
                     pdfUrl = absoluteUrl;
+                } else if (filename.endsWith(exactInstrSuffix) || filename.endsWith(shortInstrSuffix)) {
+                    instructionsUrl = absoluteUrl;
                 }
             }
 
-            // Final fallback: if scoping failed or specific match failed, take the first
-            // PDF that at least mentions form
-            if (pdfUrl == null) {
-                for (Element link : doc.select("a[href$='.pdf']")) {
-                    String href = link.attr("href");
-                    String absoluteUrl = href.startsWith("http") ? href : PDF_URL_PREFIX + href;
+            // Phase 2: Fuzzy fallback only if primary links aren't found via exact patterns
+            if (pdfUrl == null || instructionsUrl == null) {
+                for (Element link : allPdfLinks) {
+                    String absoluteUrl = getAbsoluteUrl(link.attr("href"));
                     String filename = absoluteUrl.toLowerCase();
-                    if (filename.contains(normalizedFormId) || filename.contains(shortFormId)) {
+
+                    // Look for anything containing the ID but NOT instructions
+                    if (pdfUrl == null && !filename.contains("instr") &&
+                            (filename.contains(normalizedFormId) || filename.contains(shortFormId))) {
                         pdfUrl = absoluteUrl;
-                        break;
+                    }
+                    // Look for instructions
+                    if (instructionsUrl == null && filename.contains("instr") &&
+                            (filename.contains(normalizedFormId) || filename.contains(shortFormId))) {
+                        instructionsUrl = absoluteUrl;
                     }
                 }
             }
