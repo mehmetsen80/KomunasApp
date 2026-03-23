@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.lite.komunas.dto.*;
 import org.lite.komunas.entity.ResourceSyncState;
 import org.lite.komunas.entity.ResourceVersionHistory;
@@ -299,25 +300,41 @@ public class USCISScraperServiceImpl implements USCISScraperService {
             String pdfUrl = null;
             String instructionsUrl = null;
 
+            // SCOPING: Try to find the section where the official forms usually live
+            Element formsSection = doc
+                    .selectFirst("section.content-section--form-details, #block-uscis-form-details, div.form-details");
+            Elements searchScope = (formsSection != null) ? formsSection.select("a[href$='.pdf']")
+                    : doc.select("a[href$='.pdf']");
+
+            log.info("Scraping for PDFs. Container found: {}. Links to check: {}", formsSection != null,
+                    searchScope.size());
+
+            String shortFormId = normalizedFormId.replace("-", "");
+
             // Look for the primary form and instructions
-            for (Element link : doc.select("a[href$='.pdf']")) {
+            for (Element link : searchScope) {
                 String href = link.attr("href");
                 String absoluteUrl = href.startsWith("http") ? href : PDF_URL_PREFIX + href;
                 String filename = absoluteUrl.toLowerCase();
 
                 if (instructionsUrl == null && filename.contains("instr")) {
                     instructionsUrl = absoluteUrl;
-                } else if (pdfUrl == null && filename.contains(normalizedFormId.replace("-", ""))) {
+                } else if (pdfUrl == null && (filename.contains(normalizedFormId) || filename.contains(shortFormId))) {
                     pdfUrl = absoluteUrl;
                 }
             }
 
-            // Final fallback: the first pdf found is the form
+            // Final fallback: if scoping failed or specific match failed, take the first
+            // PDF that at least mentions form
             if (pdfUrl == null) {
-                Element firstPdf = doc.select("a[href$='.pdf']").first();
-                if (firstPdf != null) {
-                    String href = firstPdf.attr("href");
-                    pdfUrl = href.startsWith("http") ? href : PDF_URL_PREFIX + href;
+                for (Element link : doc.select("a[href$='.pdf']")) {
+                    String href = link.attr("href");
+                    String absoluteUrl = href.startsWith("http") ? href : PDF_URL_PREFIX + href;
+                    String filename = absoluteUrl.toLowerCase();
+                    if (filename.contains(normalizedFormId) || filename.contains(shortFormId)) {
+                        pdfUrl = absoluteUrl;
+                        break;
+                    }
                 }
             }
 
