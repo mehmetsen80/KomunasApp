@@ -50,27 +50,42 @@ public class USCISScraperServiceImpl implements USCISScraperService {
     private ResourceCheckResult processMetadata(String category, String resourceId, SentinelMetadata metadata) {
         String currentHash = downloadAndHash(metadata.getResourceUrl());
         String instructionsHash = downloadAndHash(metadata.getInstructionsUrl());
+        String g1151Hash = downloadAndHash(metadata.getG1151Url());
 
         return syncStateRepository.findByResourceCategoryAndResourceId(category, resourceId)
                 .map(existingState -> {
+                    String lastKnownG1151Hash = existingState.getMetadata() != null
+                            ? (String) existingState.getMetadata().get("lastKnownG1151Hash")
+                            : null;
+                    String g1151DocumentId = existingState.getMetadata() != null
+                            ? (String) existingState.getMetadata().get("g1151DocumentId")
+                            : null;
+
                     boolean versionChanged = !metadata.getVersion().equals(existingState.getLastKnownVersion());
                     boolean hashChanged = !currentHash.equals(existingState.getLastKnownHash());
                     boolean instrHashChanged = metadata.getInstructionsUrl() != null &&
                             !instructionsHash.equals(existingState.getLastKnownInstructionsHash());
+                    boolean g1151HashChanged = metadata.getG1151Url() != null &&
+                            !currentHash.equals("ERROR_DOWNLOADING") && // Don't trigger on error
+                            !g1151Hash.equals(lastKnownG1151Hash);
 
-                    boolean contentChanged = versionChanged || hashChanged || instrHashChanged;
+                    boolean contentChanged = versionChanged || hashChanged || instrHashChanged || g1151HashChanged;
 
                     boolean missingDocs = (metadata.getResourceUrl() != null
                             && !StringUtils.hasText(existingState.getDocumentId())) ||
                             (metadata.getInstructionsUrl() != null
-                                    && !StringUtils.hasText(existingState.getInstructionsDocumentId()));
+                                    && !StringUtils.hasText(existingState.getInstructionsDocumentId()))
+                            ||
+                            (metadata.getG1151Url() != null
+                                    && !StringUtils.hasText(g1151DocumentId));
+
                     boolean disabled = !existingState.isEnabled();
 
                     boolean shouldSync = contentChanged || missingDocs || disabled;
 
                     return ResourceCheckResult.builder()
                             .resourceId(resourceId)
-                            .changed(contentChanged) // 'changed' means either form or instructions changed
+                            .changed(contentChanged)
                             .oldVersion(existingState.getLastKnownVersion())
                             .newVersion(metadata.getVersion())
                             .effectiveDate(metadata.getEffectiveDate())
@@ -78,9 +93,12 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                             .currentHash(currentHash)
                             .instructionsUrl(metadata.getInstructionsUrl())
                             .instructionsHash(instructionsHash)
+                            .g1151Url(metadata.getG1151Url())
+                            .g1151Hash(g1151Hash)
                             .resourceUrl(metadata.getResourceUrl())
                             .oldDocumentId(existingState.getDocumentId())
                             .oldInstructionsDocumentId(existingState.getInstructionsDocumentId())
+                            .oldG1151DocumentId(g1151DocumentId)
                             .shouldSync(shouldSync)
                             .build();
                 })
@@ -94,9 +112,12 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                         .currentHash(currentHash)
                         .instructionsUrl(metadata.getInstructionsUrl())
                         .instructionsHash(instructionsHash)
+                        .g1151Url(metadata.getG1151Url())
+                        .g1151Hash(g1151Hash)
                         .resourceUrl(metadata.getResourceUrl())
                         .oldDocumentId(null)
                         .oldInstructionsDocumentId(null)
+                        .oldG1151DocumentId(null)
                         .shouldSync(true)
                         .build());
     }
@@ -127,30 +148,56 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                     existingState.setLastCheckedAt(LocalDateTime.now());
                     existingState.setLastUpdatedAt(LocalDateTime.now());
                     existingState.setEnabled(true);
+
+                    // Handle G-1151 Metadata
+                    if (request.getG1151Url() != null) {
+                        java.util.Map<String, Object> metadata = existingState.getMetadata();
+                        if (metadata == null) {
+                            metadata = new java.util.HashMap<>();
+                        }
+                        metadata.put("lastKnownG1151Hash", request.getG1151Hash());
+                        metadata.put("g1151DocumentId", request.getG1151DocumentId());
+                        metadata.put("g1151Url", request.getG1151Url());
+                        existingState.setMetadata(metadata);
+                    }
+
                     return existingState;
                 })
-                .orElseGet(() -> ResourceSyncState.builder()
-                        .resourceCategory(request.getResourceCategory())
-                        .resourceId(request.getResourceId())
-                        .documentId(request.getDocumentId())
-                        .instructionsDocumentId(request.getInstructionsDocumentId())
-                        .oldDocumentId(request.getOldDocumentId())
-                        .oldInstructionsDocumentId(request.getOldInstructionsDocumentId())
-                        .agentTaskId(request.getAgentTaskId())
-                        .changeType(request.getChangeType())
-                        .changeDetected(request.isChangeDetected())
-                        .summary(request.getSummary())
-                        .resourceUrl(request.getResourceUrl())
-                        .instructionsUrl(request.getInstructionsUrl())
-                        .lastKnownVersion(request.getVersion())
-                        .effectiveDate(request.getEffectiveDate())
-                        .lastKnownHash(request.getHash())
-                        .lastKnownInstructionsHash(request.getInstructionsHash())
-                        .lastAnalysis(request.getAnalysis())
-                        .lastCheckedAt(LocalDateTime.now())
-                        .lastUpdatedAt(LocalDateTime.now())
-                        .enabled(true)
-                        .build());
+                .orElseGet(() -> {
+                    ResourceSyncState newState = ResourceSyncState.builder()
+                            .resourceCategory(request.getResourceCategory())
+                            .resourceId(request.getResourceId())
+                            .documentId(request.getDocumentId())
+                            .instructionsDocumentId(request.getInstructionsDocumentId())
+                            .oldDocumentId(request.getOldDocumentId())
+                            .oldInstructionsDocumentId(request.getOldInstructionsDocumentId())
+                            .agentTaskId(request.getAgentTaskId())
+                            .changeType(request.getChangeType())
+                            .changeDetected(request.isChangeDetected())
+                            .summary(request.getSummary())
+                            .resourceUrl(request.getResourceUrl())
+                            .instructionsUrl(request.getInstructionsUrl())
+                            .lastKnownVersion(request.getVersion())
+                            .effectiveDate(request.getEffectiveDate())
+                            .lastKnownHash(request.getHash())
+                            .lastKnownInstructionsHash(request.getInstructionsHash())
+                            .lastAnalysis(request.getAnalysis())
+                            .lastCheckedAt(LocalDateTime.now())
+                            .lastUpdatedAt(LocalDateTime.now())
+                            .enabled(true)
+                            .build();
+
+                    // Handle G-1151 Metadata
+                    if (request.getG1151Url() != null) {
+                        java.util.Map<String, Object> metadata = new java.util.HashMap<>();
+                        metadata.put("lastKnownG1151Hash", request.getG1151Hash());
+                        metadata.put("g1151DocumentId", request.getG1151DocumentId());
+                        metadata.put("g1151Url", request.getG1151Url());
+                        newState.setMetadata(metadata);
+                    }
+
+                    return newState;
+                });
 
         syncStateRepository.save(state);
 
@@ -305,6 +352,7 @@ public class USCISScraperServiceImpl implements USCISScraperService {
             // Extract PDF Links
             String pdfUrl = null;
             String instructionsUrl = null;
+            String g1151Url = null;
 
             // Pattern-based detection (Standard USCIS weights)
             String shortFormId = normalizedFormId.replace("-", "");
@@ -326,6 +374,11 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                     pdfUrl = absoluteUrl;
                 } else if (filename.endsWith(exactInstrSuffix) || filename.endsWith(shortInstrSuffix)) {
                     instructionsUrl = absoluteUrl;
+                }
+
+                // Special Case: N-400 G-1151
+                if ("n-400".equals(normalizedFormId) && filename.contains("g-1151.pdf")) {
+                    g1151Url = absoluteUrl;
                 }
             }
 
@@ -357,6 +410,7 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                     .effectiveDate(effectiveDate)
                     .resourceUrl(pdfUrl)
                     .instructionsUrl(instructionsUrl)
+                    .g1151Url(g1151Url)
                     .build();
         } catch (Exception e) {
             log.error("Failed to scrape USCIS form {}: {}", normalizedFormId, e.getMessage());
