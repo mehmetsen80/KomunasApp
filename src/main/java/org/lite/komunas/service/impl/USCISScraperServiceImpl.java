@@ -371,6 +371,8 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                     supplementalUrl = absoluteUrl;
                 } else if ("i-130".equals(normalizedFormId) && filename.contains("i-130a.pdf")) {
                     supplementalUrl = absoluteUrl;
+                } else if ("i-360".equals(normalizedFormId) && filename.contains("m-737.pdf")) {
+                    supplementalUrl = absoluteUrl;
                 }
             }
 
