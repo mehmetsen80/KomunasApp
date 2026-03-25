@@ -28,14 +28,18 @@ public class ResourceVersionHistory {
 
     private String version;
     private String effectiveDate;
-    private String hash;
     private String resourceUrl;
     private String instructionsUrl;
+    private String supplementalUrl;
+    private String hash;
     private String instructionsHash;
+    private String supplementalHash;
     private String documentId;
     private String instructionsDocumentId;
+    private String supplementalDocumentId;
     private String oldDocumentId;
     private String oldInstructionsDocumentId;
+    private String oldSupplementalDocumentId;
     private String changeType;
     private String summary;
     private boolean changeDetected;

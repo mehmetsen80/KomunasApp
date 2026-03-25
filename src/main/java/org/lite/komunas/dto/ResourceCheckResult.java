@@ -16,10 +16,10 @@ public class ResourceCheckResult {
     private String resourceUrl;
     private String instructionsUrl;
     private String instructionsHash;
-    private String g1151Url;
-    private String g1151Hash;
+    private String supplementalUrl;
+    private String supplementalHash;
     private String oldDocumentId;
     private String oldInstructionsDocumentId;
-    private String oldG1151DocumentId;
+    private String oldSupplementalDocumentId;
     private boolean shouldSync;
 }

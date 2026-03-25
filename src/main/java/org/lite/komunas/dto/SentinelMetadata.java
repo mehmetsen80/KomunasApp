@@ -10,5 +10,5 @@ public class SentinelMetadata {
     private String effectiveDate;
     private String resourceUrl;
     private String instructionsUrl;
-    private String g1151Url;
+    private String supplementalUrl;
 }
