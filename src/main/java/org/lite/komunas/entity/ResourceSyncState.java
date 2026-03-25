@@ -32,20 +32,25 @@ public class ResourceSyncState {
     private String resourceCategory; // e.g., "uscis-sentinel"
     private String resourceId; // e.g., "I-485"
     private String agentTaskId; // Link to Linq Agent Task
-    private String documentId; // Link to KnowledgeHubDocument
-    private String instructionsDocumentId;
-    private String oldDocumentId;
-    private String oldInstructionsDocumentId;
-    private String changeType;
-    private String summary;
-    private boolean changeDetected;
     private String resourceUrl;
     private String instructionsUrl;
+    private String supplementalUrl;
 
     private String lastKnownVersion; // e.g., "04/01/24"
     private String effectiveDate;
     private String lastKnownHash; // e.g., SHA-256 of the PDF
     private String lastKnownInstructionsHash;
+    private String lastKnownSupplementalHash;
+
+    private String documentId; // Link to KnowledgeHubDocument
+    private String instructionsDocumentId;
+    private String supplementalDocumentId;
+    private String oldDocumentId;
+    private String oldInstructionsDocumentId;
+    private String oldSupplementalDocumentId;
+    private String changeType;
+    private String summary;
+    private boolean changeDetected;
     private Object lastAnalysis; // Latest LLM analysis summary
 
     private LocalDateTime lastCheckedAt;
