@@ -18,10 +18,14 @@ public class ResourceCommitRequest {
     private String resourceUrl;
     private String instructionsUrl;
     private String instructionsHash;
+    private String g1151Url;
+    private String g1151Hash;
     private String documentId;
     private String instructionsDocumentId;
+    private String g1151DocumentId;
     private String oldDocumentId;
     private String oldInstructionsDocumentId;
+    private String oldG1151DocumentId;
     private String changeType;
     private boolean changeDetected;
     private String summary;
