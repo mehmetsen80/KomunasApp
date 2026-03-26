@@ -427,6 +427,29 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 } else if ("i-765".equals(normalizedFormId) && filename.contains("i-765ws.pdf")) {
                     supplementalResources.put("i765ws",
                             SupplementalResource.builder().name("I-765 Worksheet").url(absoluteUrl).build());
+                } else if ("i-129".equals(normalizedFormId)) {
+                    if (filename.contains("i-129h2a.pdf")) {
+                        supplementalResources.put("i129h2a",
+                                SupplementalResource.builder().name("Form I-129H2A").url(absoluteUrl).build());
+                    } else if (filename.contains("i-129h2ainstr.pdf")) {
+                        supplementalResources.put("i129h2ainstr",
+                                SupplementalResource.builder().name("Instructions I-129H2A").url(absoluteUrl).build());
+                    } else if (filename.contains("m-735.pdf")) {
+                        supplementalResources.put("m735",
+                                SupplementalResource.builder().name("H-1B Checklist").url(absoluteUrl).build());
+                    } else if (filename.contains("m-1097.pdf")) {
+                        supplementalResources.put("m1097",
+                                SupplementalResource.builder().name("H-2A Checklist").url(absoluteUrl).build());
+                    } else if (filename.contains("m-1087.pdf")) {
+                        supplementalResources.put("m1087",
+                                SupplementalResource.builder().name("H-2B Checklist").url(absoluteUrl).build());
+                    } else if (filename.contains("m-736.pdf")) {
+                        supplementalResources.put("m736",
+                                SupplementalResource.builder().name("R-1 Checklist").url(absoluteUrl).build());
+                    } else if (filename.contains("m-746.pdf")) {
+                        supplementalResources.put("m746",
+                                SupplementalResource.builder().name("DOT Codes Dictionary").url(absoluteUrl).build());
+                    }
                 }
             }
 
