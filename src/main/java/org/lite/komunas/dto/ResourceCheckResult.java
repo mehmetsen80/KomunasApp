@@ -1,10 +1,17 @@
 package org.lite.komunas.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResourceCheckResult {
     private String resourceId;
     private boolean changed;
@@ -16,10 +23,11 @@ public class ResourceCheckResult {
     private String resourceUrl;
     private String instructionsUrl;
     private String instructionsHash;
-    private String supplementalUrl;
-    private String supplementalHash;
+    
+    @Builder.Default
+    private Map<String, SupplementalResource> supplementalResources = new HashMap<>();
+    
     private String oldDocumentId;
     private String oldInstructionsDocumentId;
-    private String oldSupplementalDocumentId;
     private boolean shouldSync;
 }

@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.lite.komunas.dto.SupplementalResource;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Audit trail of every detected version change for a monitored resource.
@@ -30,16 +33,16 @@ public class ResourceVersionHistory {
     private String effectiveDate;
     private String resourceUrl;
     private String instructionsUrl;
-    private String supplementalUrl;
+
+    @Builder.Default
+    private Map<String, SupplementalResource> supplementalResources = new HashMap<>();
+
     private String hash;
     private String instructionsHash;
-    private String supplementalHash;
     private String documentId;
     private String instructionsDocumentId;
-    private String supplementalDocumentId;
     private String oldDocumentId;
     private String oldInstructionsDocumentId;
-    private String oldSupplementalDocumentId;
     private String changeType;
     private String summary;
     private boolean changeDetected;
