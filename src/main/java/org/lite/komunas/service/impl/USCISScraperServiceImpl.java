@@ -450,6 +450,14 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                         supplementalResources.put("m746",
                                 SupplementalResource.builder().name("DOT Codes Dictionary").url(absoluteUrl).build());
                     }
+                } else if ("i-539".equals(normalizedFormId)) {
+                    if (filename.contains("i-539a.pdf")) {
+                        supplementalResources.put("i539a",
+                                SupplementalResource.builder().name("Form I-539A Supplemental").url(absoluteUrl).build());
+                    } else if (filename.contains("m-752.pdf")) {
+                        supplementalResources.put("m752",
+                                SupplementalResource.builder().name("Filing Tips (M-752)").url(absoluteUrl).build());
+                    }
                 }
             }
 
