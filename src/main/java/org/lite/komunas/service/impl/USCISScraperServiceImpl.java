@@ -18,7 +18,9 @@ import org.springframework.web.client.RestClient;
 
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.HexFormat;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,34 +52,66 @@ public class USCISScraperServiceImpl implements USCISScraperService {
     private ResourceCheckResult processMetadata(String category, String resourceId, SentinelMetadata metadata) {
         String currentHash = downloadAndHash(metadata.getResourceUrl());
         String instructionsHash = downloadAndHash(metadata.getInstructionsUrl());
-        String supplementalHash = downloadAndHash(metadata.getSupplementalUrl());
 
         return syncStateRepository.findByResourceCategoryAndResourceId(category, resourceId)
                 .map(existingState -> {
-                    String lastKnownSupplementalHash = existingState.getLastKnownSupplementalHash();
-                    String supplementalDocumentId = existingState.getSupplementalDocumentId();
-
                     boolean versionChanged = !metadata.getVersion().equals(existingState.getLastKnownVersion());
                     boolean hashChanged = !currentHash.equals(existingState.getLastKnownHash());
                     boolean instrHashChanged = metadata.getInstructionsUrl() != null &&
                             !instructionsHash.equals(existingState.getLastKnownInstructionsHash());
-                    boolean supplementalHashChanged = metadata.getSupplementalUrl() != null &&
-                            !currentHash.equals("ERROR_DOWNLOADING") && // Don't trigger on error
-                            !supplementalHash.equals(lastKnownSupplementalHash);
 
-                    boolean contentChanged = versionChanged || hashChanged || instrHashChanged || supplementalHashChanged;
+                    // Process Supplemental Resources
+                    Map<String, SupplementalResource> existingSupplements = existingState.getSupplementalResources();
+                    if (existingSupplements == null)
+                        existingSupplements = new HashMap<>();
 
+                    Map<String, SupplementalResource> processedSupplements = new HashMap<>();
+                    boolean supplementalChanged = false;
+
+                    for (Map.Entry<String, SupplementalResource> entry : metadata.getSupplementalResources()
+                            .entrySet()) {
+                        String key = entry.getKey();
+                        SupplementalResource metaSupp = entry.getValue();
+
+                        String hash = downloadAndHash(metaSupp.getUrl());
+                        SupplementalResource existingSupp = existingSupplements.get(key);
+
+                        String oldDocId = (existingSupp != null) ? existingSupp.getDocumentId() : null;
+
+                        SupplementalResource processedSupp = SupplementalResource.builder()
+                                .name(metaSupp.getName())
+                                .url(metaSupp.getUrl())
+                                .hash(hash)
+                                .oldDocumentId(oldDocId)
+                                .build();
+
+                        processedSupplements.put(key, processedSupp);
+
+                        if (!hash.equals("ERROR_DOWNLOADING") && !hash.equals("NO_URL")) {
+                            if (existingSupp == null || !hash.equals(existingSupp.getHash())) {
+                                supplementalChanged = true;
+                            }
+                        }
+                    }
+
+                    boolean contentChanged = versionChanged || hashChanged || instrHashChanged || supplementalChanged;
+
+                    // Missing Docs Check
                     boolean missingDocs = (metadata.getResourceUrl() != null
                             && !StringUtils.hasText(existingState.getDocumentId())) ||
                             (metadata.getInstructionsUrl() != null
-                                    && !StringUtils.hasText(existingState.getInstructionsDocumentId()))
-                            ||
-                            (metadata.getSupplementalUrl() != null
-                                    && !StringUtils.hasText(supplementalDocumentId));
+                                    && !StringUtils.hasText(existingState.getInstructionsDocumentId()));
 
-                    boolean disabled = !existingState.isEnabled();
+                    if (!missingDocs) {
+                        for (SupplementalResource supp : processedSupplements.values()) {
+                            if (supp.getUrl() != null && !StringUtils.hasText(supp.getOldDocumentId())) {
+                                missingDocs = true;
+                                break;
+                            }
+                        }
+                    }
 
-                    boolean shouldSync = contentChanged || missingDocs || disabled;
+                    boolean shouldSync = contentChanged || missingDocs || !existingState.isEnabled();
 
                     return ResourceCheckResult.builder()
                             .resourceId(resourceId)
@@ -89,33 +123,42 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                             .currentHash(currentHash)
                             .instructionsUrl(metadata.getInstructionsUrl())
                             .instructionsHash(instructionsHash)
-                            .supplementalUrl(metadata.getSupplementalUrl())
-                            .supplementalHash(supplementalHash)
+                            .supplementalResources(processedSupplements)
                             .resourceUrl(metadata.getResourceUrl())
                             .oldDocumentId(existingState.getDocumentId())
                             .oldInstructionsDocumentId(existingState.getInstructionsDocumentId())
-                            .oldSupplementalDocumentId(supplementalDocumentId)
                             .shouldSync(shouldSync)
                             .build();
                 })
-                .orElseGet(() -> ResourceCheckResult.builder()
-                        .resourceId(resourceId)
-                        .changed(true)
-                        .oldVersion("INITIAL")
-                        .newVersion(metadata.getVersion())
-                        .effectiveDate(metadata.getEffectiveDate())
-                        .oldHash("INITIAL")
-                        .currentHash(currentHash)
-                        .instructionsUrl(metadata.getInstructionsUrl())
-                        .instructionsHash(instructionsHash)
-                        .supplementalUrl(metadata.getSupplementalUrl())
-                        .supplementalHash(supplementalHash)
-                        .resourceUrl(metadata.getResourceUrl())
-                        .oldDocumentId(null)
-                        .oldInstructionsDocumentId(null)
-                        .oldSupplementalDocumentId(null)
-                        .shouldSync(true)
-                        .build());
+                .orElseGet(() -> {
+                    Map<String, SupplementalResource> initialSupplements = new HashMap<>();
+                    for (Map.Entry<String, SupplementalResource> entry : metadata.getSupplementalResources()
+                            .entrySet()) {
+                        String key = entry.getKey();
+                        SupplementalResource metaSupp = entry.getValue();
+                        String hash = downloadAndHash(metaSupp.getUrl());
+                        initialSupplements.put(key, SupplementalResource.builder()
+                                .name(metaSupp.getName())
+                                .url(metaSupp.getUrl())
+                                .hash(hash)
+                                .build());
+                    }
+
+                    return ResourceCheckResult.builder()
+                            .resourceId(resourceId)
+                            .changed(true)
+                            .oldVersion("INITIAL")
+                            .newVersion(metadata.getVersion())
+                            .effectiveDate(metadata.getEffectiveDate())
+                            .oldHash("INITIAL")
+                            .currentHash(currentHash)
+                            .instructionsUrl(metadata.getInstructionsUrl())
+                            .instructionsHash(instructionsHash)
+                            .supplementalResources(initialSupplements)
+                            .resourceUrl(metadata.getResourceUrl())
+                            .shouldSync(true)
+                            .build();
+                });
     }
 
     @Override
@@ -145,44 +188,34 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                     existingState.setLastUpdatedAt(LocalDateTime.now());
                     existingState.setEnabled(true);
 
-                    // Populate Top-level Supplemental Fields
-                    existingState.setSupplementalUrl(request.getSupplementalUrl());
-                    existingState.setLastKnownSupplementalHash(request.getSupplementalHash());
-                    existingState.setSupplementalDocumentId(request.getSupplementalDocumentId());
-                    existingState.setOldSupplementalDocumentId(request.getOldSupplementalDocumentId());
+                    // Update Supplemental Resources
+                    existingState.setSupplementalResources(request.getSupplementalResources());
 
                     return existingState;
                 })
-                .orElseGet(() -> {
-                    ResourceSyncState newState = ResourceSyncState.builder()
-                            .resourceCategory(request.getResourceCategory())
-                            .resourceId(request.getResourceId())
-                            .documentId(request.getDocumentId())
-                            .instructionsDocumentId(request.getInstructionsDocumentId())
-                            .supplementalDocumentId(request.getSupplementalDocumentId())
-                            .oldDocumentId(request.getOldDocumentId())
-                            .oldInstructionsDocumentId(request.getOldInstructionsDocumentId())
-                            .oldSupplementalDocumentId(request.getOldSupplementalDocumentId())
-                            .agentTaskId(request.getAgentTaskId())
-                            .changeType(request.getChangeType())
-                            .changeDetected(request.isChangeDetected())
-                            .summary(request.getSummary())
-                            .resourceUrl(request.getResourceUrl())
-                            .instructionsUrl(request.getInstructionsUrl())
-                            .supplementalUrl(request.getSupplementalUrl())
-                            .lastKnownVersion(request.getVersion())
-                            .effectiveDate(request.getEffectiveDate())
-                            .lastKnownHash(request.getHash())
-                            .lastKnownInstructionsHash(request.getInstructionsHash())
-                            .lastKnownSupplementalHash(request.getSupplementalHash())
-                            .lastAnalysis(request.getAnalysis())
-                            .lastCheckedAt(LocalDateTime.now())
-                            .lastUpdatedAt(LocalDateTime.now())
-                            .enabled(true)
-                            .build();
-
-                    return newState;
-                });
+                .orElseGet(() -> ResourceSyncState.builder()
+                        .resourceCategory(request.getResourceCategory())
+                        .resourceId(request.getResourceId())
+                        .documentId(request.getDocumentId())
+                        .instructionsDocumentId(request.getInstructionsDocumentId())
+                        .oldDocumentId(request.getOldDocumentId())
+                        .oldInstructionsDocumentId(request.getOldInstructionsDocumentId())
+                        .agentTaskId(request.getAgentTaskId())
+                        .changeType(request.getChangeType())
+                        .changeDetected(request.isChangeDetected())
+                        .summary(request.getSummary())
+                        .resourceUrl(request.getResourceUrl())
+                        .instructionsUrl(request.getInstructionsUrl())
+                        .supplementalResources(request.getSupplementalResources())
+                        .lastKnownVersion(request.getVersion())
+                        .effectiveDate(request.getEffectiveDate())
+                        .lastKnownHash(request.getHash())
+                        .lastKnownInstructionsHash(request.getInstructionsHash())
+                        .lastAnalysis(request.getAnalysis())
+                        .lastCheckedAt(LocalDateTime.now())
+                        .lastUpdatedAt(LocalDateTime.now())
+                        .enabled(true)
+                        .build());
 
         ResourceSyncState savedState = syncStateRepository.save(state);
 
@@ -196,16 +229,13 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 .effectiveDate(request.getEffectiveDate())
                 .resourceUrl(request.getResourceUrl())
                 .instructionsUrl(request.getInstructionsUrl())
-                .supplementalUrl(request.getSupplementalUrl())
+                .supplementalResources(request.getSupplementalResources())
                 .hash(request.getHash())
                 .instructionsHash(request.getInstructionsHash())
-                .supplementalHash(request.getSupplementalHash())
                 .documentId(request.getDocumentId())
                 .instructionsDocumentId(request.getInstructionsDocumentId())
-                .supplementalDocumentId(request.getSupplementalDocumentId())
                 .oldDocumentId(request.getOldDocumentId())
                 .oldInstructionsDocumentId(request.getOldInstructionsDocumentId())
-                .oldSupplementalDocumentId(request.getOldSupplementalDocumentId())
                 .changeType(request.getChangeType())
                 .summary(request.getSummary())
                 .changeDetected(request.isChangeDetected())
@@ -342,7 +372,7 @@ public class USCISScraperServiceImpl implements USCISScraperService {
             // Extract PDF Links
             String pdfUrl = null;
             String instructionsUrl = null;
-            String supplementalUrl = null;
+            Map<String, SupplementalResource> supplementalResources = new HashMap<>();
 
             // Pattern-based detection (Standard USCIS weights)
             String shortFormId = normalizedFormId.replace("-", "");
@@ -350,15 +380,22 @@ public class USCISScraperServiceImpl implements USCISScraperService {
             String exactInstrSuffix = "/" + normalizedFormId + "instr.pdf";
             String shortFormSuffix = "/" + shortFormId + ".pdf";
             String shortInstrSuffix = "/" + shortFormId + "instr.pdf";
+            log.info("Scraping for PDFs on page: {}", url);
 
-            log.info("Scraping for PDFs using patterns: {}, {}", exactFormSuffix, exactInstrSuffix);
+            Elements allLinks = doc.select("a[href]");
+            log.info("Found {} total links on page", allLinks.size());
 
-            Elements allPdfLinks = doc.select("a[href$='.pdf']");
-
-            // Phase 1: Look for EXACT pattern matches (the most reliable source)
-            for (Element link : allPdfLinks) {
+            // Phase 1: Look for EXACT pattern matches
+            for (Element link : allLinks) {
                 String absoluteUrl = getAbsoluteUrl(link.attr("href"));
+                if (absoluteUrl == null)
+                    continue;
+
                 String filename = absoluteUrl.toLowerCase();
+                if (!filename.contains(".pdf"))
+                    continue;
+
+                log.info("Processing PDF link: {}", absoluteUrl);
 
                 if (filename.endsWith(exactFormSuffix) || filename.endsWith(shortFormSuffix)) {
                     pdfUrl = absoluteUrl;
@@ -368,26 +405,45 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
                 // Hardcoded Special Cases for Supplemental Documents
                 if ("n-400".equals(normalizedFormId) && filename.contains("g-1151.pdf")) {
-                    supplementalUrl = absoluteUrl;
+                    supplementalResources.put("g1151",
+                            SupplementalResource.builder().name("G-1151 Notification").url(absoluteUrl).build());
                 } else if ("i-130".equals(normalizedFormId) && filename.contains("i-130a.pdf")) {
-                    supplementalUrl = absoluteUrl;
+                    supplementalResources.put("i130a",
+                            SupplementalResource.builder().name("I-130A Supplemental").url(absoluteUrl).build());
                 } else if ("i-360".equals(normalizedFormId) && filename.contains("m-737.pdf")) {
-                    supplementalUrl = absoluteUrl;
+                    supplementalResources.put("m737",
+                            SupplementalResource.builder().name("M-737 Checklist").url(absoluteUrl).build());
+                } else if ("i-600".equals(normalizedFormId)) {
+                    if (filename.contains("sup1") || filename.contains("sm1")) {
+                        supplementalResources.put("supp1",
+                                SupplementalResource.builder().name("Supplement 1").url(absoluteUrl).build());
+                    } else if (filename.contains("sup2") || filename.contains("sm2")) {
+                        supplementalResources.put("supp2",
+                                SupplementalResource.builder().name("Supplement 2").url(absoluteUrl).build());
+                    } else if (filename.contains("sup3") || filename.contains("sm3")) {
+                        supplementalResources.put("supp3",
+                                SupplementalResource.builder().name("Supplement 3").url(absoluteUrl).build());
+                    }
+                } else if ("i-765".equals(normalizedFormId) && filename.contains("i-765ws.pdf")) {
+                    supplementalResources.put("i765ws",
+                            SupplementalResource.builder().name("I-765 Worksheet").url(absoluteUrl).build());
                 }
             }
 
-            // Phase 2: Fuzzy fallback only if primary links aren't found via exact patterns
+            // Phase 2: Fuzzy fallback
             if (pdfUrl == null || instructionsUrl == null) {
-                for (Element link : allPdfLinks) {
+                for (Element link : allLinks) {
                     String absoluteUrl = getAbsoluteUrl(link.attr("href"));
+                    if (absoluteUrl == null)
+                        continue;
                     String filename = absoluteUrl.toLowerCase();
+                    if (!filename.contains(".pdf"))
+                        continue;
 
-                    // Look for anything containing the ID but NOT instructions
                     if (pdfUrl == null && !filename.contains("instr") &&
                             (filename.contains(normalizedFormId) || filename.contains(shortFormId))) {
                         pdfUrl = absoluteUrl;
                     }
-                    // Look for instructions
                     if (instructionsUrl == null && filename.contains("instr") &&
                             (filename.contains(normalizedFormId) || filename.contains(shortFormId))) {
                         instructionsUrl = absoluteUrl;
@@ -404,7 +460,7 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                     .effectiveDate(effectiveDate)
                     .resourceUrl(pdfUrl)
                     .instructionsUrl(instructionsUrl)
-                    .supplementalUrl(supplementalUrl)
+                    .supplementalResources(supplementalResources)
                     .build();
         } catch (Exception e) {
             log.error("Failed to scrape USCIS form {}: {}", normalizedFormId, e.getMessage());
