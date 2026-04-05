@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface ResourceSyncStateRepository extends MongoRepository<ResourceSyncState, String> {
     Optional<ResourceSyncState> findByResourceCategoryAndResourceId(String resourceCategory, String resourceId);
 
+    List<ResourceSyncState> findByResourceCategory(String resourceCategory);
+
     Optional<ResourceSyncState> findByDocumentId(String documentId);
 
     Optional<ResourceSyncState> findByInstructionsDocumentId(String instructionsDocumentId);

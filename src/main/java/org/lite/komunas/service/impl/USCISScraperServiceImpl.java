@@ -20,6 +20,7 @@ import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HexFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -453,7 +454,8 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 } else if ("i-539".equals(normalizedFormId)) {
                     if (filename.contains("i-539a.pdf")) {
                         supplementalResources.put("i539a",
-                                SupplementalResource.builder().name("Form I-539A Supplemental").url(absoluteUrl).build());
+                                SupplementalResource.builder().name("Form I-539A Supplemental").url(absoluteUrl)
+                                        .build());
                     } else if (filename.contains("m-752.pdf")) {
                         supplementalResources.put("m752",
                                 SupplementalResource.builder().name("Filing Tips (M-752)").url(absoluteUrl).build());
@@ -497,5 +499,26 @@ public class USCISScraperServiceImpl implements USCISScraperService {
             log.error("Failed to scrape USCIS form {}: {}", normalizedFormId, e.getMessage());
             throw new RuntimeException("Scraping failed for form " + normalizedFormId + ": " + e.getMessage(), e);
         }
+    }
+
+    @Override
+    public List<ResourceCheckResult> checkAllUpdates(String category) {
+        log.info("Worker checking ALL updates for category: {}", category);
+        return syncStateRepository.findByResourceCategory(category).stream()
+                .map(state -> {
+                    try {
+                        return checkForUpdates(category, state.getResourceId());
+                    } catch (Exception e) {
+                        log.error("Failed to check updates for resource {}: {}", state.getResourceId(), e.getMessage());
+                        return ResourceCheckResult.builder()
+                                .resourceId(state.getResourceId())
+                                .changed(false)
+                                .shouldSync(false)
+                                .oldVersion(state.getLastKnownVersion())
+                                .newVersion("ERROR: " + e.getMessage())
+                                .build();
+                    }
+                })
+                .collect(java.util.stream.Collectors.toList());
     }
 }

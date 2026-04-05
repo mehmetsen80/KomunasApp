@@ -35,10 +35,22 @@ public class USCISSyncController {
             @ApiResponse(responseCode = "200", description = "Successfully performed update check", content = @Content(schema = @Schema(implementation = ResourceCheckResult.class))),
             @ApiResponse(responseCode = "404", description = "Form not found on USCIS website")
     })
-    public ResourceCheckResult check(
-            @Parameter(description = "The USCIS Form ID (e.g., I-485, I-130)", example = "I-485") @PathVariable String formId) {
+    public Object check(
+            @Parameter(
+                description = "The USCIS Form ID to track updates for. Use 'all' to sync all tracked forms.", 
+                schema = @Schema(
+                    type = "string",
+                    allowableValues = {"I-485", "I-131", "I-765", "I-130", "I-129", "I-539", "I-140", "I-600", "I-751", "I-821", "I-90", "all"},
+                    defaultValue = "I-485"
+                ),
+                example = "all"
+            ) @PathVariable String formId) {
         log.info("USCIS Sovereign API: Checking for updates - Form: {}", formId);
-        // "uscis-sentinel" is the implicitly known category for this domain
+        
+        if ("all".equalsIgnoreCase(formId)) {
+            return scraperService.checkAllUpdates("uscis-sentinel");
+        }
+        
         return scraperService.checkForUpdates("uscis-sentinel", formId);
     }
 
