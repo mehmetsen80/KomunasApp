@@ -1,0 +1,50 @@
+@use "../../assets/styles/variables" as *;
+
+.appFooter {
+  margin-top: auto;
+  padding: 3rem 2rem;
+  border-top: 1px solid $color-border;
+  background-color: $color-theme;
+  
+  .footerContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  .footerBrand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    opacity: 0.8;
+    transition: $transition-smooth;
+    
+    &:hover {
+      opacity: 1;
+    }
+
+    .footerLogo {
+      height: 24px;
+      width: auto;
+    }
+
+    .footerName {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $color-secondary;
+      letter-spacing: -0.01em;
+    }
+  }
+
+  .footerCopy {
+    color: rgba($color-secondary, 0.4);
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.6;
+  }
+}

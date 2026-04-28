@@ -1,0 +1,107 @@
+@use "../../assets/styles/variables" as *;
+
+.header {
+  height: $header-height;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid $color-border;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+
+  .searchBar {
+    display: flex;
+    align-items: center;
+    background: $color-theme;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    width: 350px;
+    border: 1px solid transparent;
+    transition: $transition-smooth;
+
+    &:focus-within {
+      background: $color-white;
+      border-color: $color-border;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .searchIcon {
+      color: $color-text-secondary;
+      margin-right: 0.75rem;
+    }
+
+    .searchInput {
+      background: none;
+      border: none;
+      color: $color-text-main;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+
+      &::placeholder {
+        color: rgba(34, 32, 40, 0.3);
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .userProfile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.4rem 0.5rem 0.4rem 1rem;
+    background: $color-theme;
+    border-radius: 30px;
+    border: 1px solid $color-border;
+
+    .userInfo {
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+
+      .userName {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $color-text-main;
+      }
+
+      .userRole {
+        font-size: 0.7rem;
+        color: $color-text-secondary;
+      }
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      background: rgba(34, 32, 40, 0.05);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $color-secondary;
+    }
+  }
+
+  .logoutBtn {
+    color: $color-text-secondary;
+    transition: $transition-smooth;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      color: #ff4d4d;
+      transform: translateX(2px);
+    }
+  }
+}

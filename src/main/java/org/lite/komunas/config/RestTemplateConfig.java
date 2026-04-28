@@ -76,6 +76,13 @@ public class RestTemplateConfig {
 
         // Add JWT token interceptor
         interceptors.add((request, body, execution) -> {
+            // Set global headers for all requests to ensure consistent JSON communication
+            request.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            request.getHeaders().setAccept(List.of(
+                    MediaType.APPLICATION_JSON,
+                    MediaType.TEXT_PLAIN,
+                    new MediaType("application", "*+json")));
+
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && authentication.getCredentials() instanceof Jwt) {
                 Jwt jwt = (Jwt) authentication.getCredentials();
@@ -83,11 +90,6 @@ public class RestTemplateConfig {
 
                 request.getHeaders().setBearerAuth(token);
                 request.getHeaders().set("X-User-Token", token);
-                request.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-                request.getHeaders().setAccept(List.of(
-                        MediaType.APPLICATION_JSON,
-                        MediaType.TEXT_PLAIN,
-                        new MediaType("application", "*+json")));
 
                 log.debug("Request headers: {}", request.getHeaders());
                 log.info("Forwarding token to API Gateway. Token type: {}, Issuer: {}",

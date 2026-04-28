@@ -1,0 +1,22 @@
+@use "../../assets/styles/variables" as *;
+
+.layoutWrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: $color-bg;
+
+  .mainContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: $sidebar-width;
+    transition: $transition-smooth;
+  }
+
+  .pageBody {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    background: radial-gradient(circle at top right, rgba(230, 229, 229, 0.3), transparent);
+  }
+}

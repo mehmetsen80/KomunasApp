@@ -1,0 +1,71 @@
+:root {
+  --color-bg: #FFFFFF;
+  --color-secondary: #222028;
+  --color-theme: #e6e5e5;
+  --text-main: #222028;
+  --text-secondary: rgba(34, 32, 40, 0.7);
+  --border-light: rgba(34, 32, 40, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(34, 32, 40, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 32, 40, 0.2);
+}
+
+/* Base Utility Classes */
+.glass {
+  background: rgba(34, 32, 40, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(34, 32, 40, 0.08);
+}
+
+.card-theme {
+  background: var(--color-theme);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
