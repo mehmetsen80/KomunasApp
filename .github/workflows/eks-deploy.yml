@@ -48,7 +48,7 @@ jobs:
         run: |
           cp .kube/react/nginx.conf web/nginx.conf
           docker build -t $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG \
-            --build-arg VITE_API_GATEWAY_URL=https://komunas.linqra.com/r/komunas-app \
+            --build-arg VITE_API_GATEWAY_URL=/r/komunas-app \
             -f .kube/react/Dockerfile web/
           docker tag $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG
