@@ -3,13 +3,15 @@ import {
   GraduationCap, Search, FileCheck, History, Globe, Building2, UserCheck,
   LayoutTemplate
 } from 'lucide-react';
+import gridSvg from '../../assets/svgs/hero-grid.svg';
+import waveSvg from '../../assets/svgs/hero-wave.svg';
 import './styles.scss';
 
 const HeroBackground = () => (
   <div className="heroBackgroundWrapper">
     <div className="heroBgLayers">
-      <img src="/src/assets/svgs/hero-grid.svg" className="heroBg grid" alt="" />
-      <img src="/src/assets/svgs/hero-wave.svg" className="heroBg wave" alt="" />
+      <img src={gridSvg} className="heroBg grid" alt="" />
+      <img src={waveSvg} className="heroBg wave" alt="" />
     </div>
 
     {/* Floating Icons Set 1 */}
