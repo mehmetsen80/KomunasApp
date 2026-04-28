@@ -1,0 +1,189 @@
+@use "../../assets/styles/variables" as *;
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
+  .pageHeader {
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: $color-secondary;
+    }
+    p {
+      color: $color-text-secondary;
+      font-size: 1.1rem;
+    }
+  }
+
+  .statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .statCard {
+    padding: 1.5rem;
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: $transition-smooth;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .statInfo {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .statLabel {
+        font-size: 0.85rem;
+        color: $color-text-secondary;
+        font-weight: 500;
+      }
+
+      .statValue {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: $color-secondary;
+        font-family: 'Outfit', sans-serif;
+      }
+    }
+
+    .statIcon {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .mainGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h3 {
+      font-size: 1.25rem;
+      color: $color-secondary;
+    }
+
+    .viewAll {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: $color-text-secondary;
+      &:hover {
+        color: $color-secondary;
+      }
+    }
+  }
+
+  .activitySection {
+    padding: 1.5rem;
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: 20px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    th {
+      text-align: left;
+      padding: 1rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(34, 32, 40, 0.3);
+      border-bottom: 1px solid $color-border;
+    }
+
+    td {
+      padding: 1.2rem 1rem;
+      font-size: 0.9rem;
+      border-bottom: 1px solid rgba(34, 32, 40, 0.03);
+    }
+
+    .formCell {
+      font-weight: 600;
+      color: $color-secondary;
+    }
+
+    .dateCell {
+      color: $color-text-secondary;
+      font-size: 0.85rem;
+    }
+  }
+
+  .badge {
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    
+    &.synced { background: rgba(67, 233, 123, 0.1); color: #1e7e34; }
+    &.verified { background: rgba(79, 172, 254, 0.1); color: #0056b3; }
+    &.selfhealed { background: rgba(250, 112, 154, 0.1); color: #b21f2d; }
+  }
+
+  .statusSection {
+    padding: 1.5rem;
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: 20px;
+  }
+
+  .healthItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+
+    .healthLabel {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: $color-text-secondary;
+      font-size: 0.9rem;
+    }
+
+    .healthStatus {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $color-secondary;
+    }
+  }
+
+  .pulseLine {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, $color-secondary, transparent);
+    width: 100%;
+    margin-top: 2rem;
+    animation: pulse 2s infinite ease-in-out;
+  }
+}
+
+@keyframes pulse {
+  0% { transform: translateX(-100%); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: translateX(100%); opacity: 0; }
+}

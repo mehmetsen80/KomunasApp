@@ -1,10 +1,13 @@
 name: Deploy KomunasApp to EKS
 on:
   workflow_dispatch:
+
 env:
   AWS_REGION: us-west-2
-  ECR_REPOSITORY: komunas-app
   EKS_CLUSTER_NAME: linqra-cluster
+  BACKEND_ECR_REPOSITORY: komunas-backend
+  FRONTEND_ECR_REPOSITORY: komunas-frontend
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -28,16 +31,29 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
       
-      - name: Build and push Docker image
+      - name: Build and push Backend Docker image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f .kube/eks/Dockerfile .
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker build -t $ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:$IMAGE_TAG -f .kube/eks/Dockerfile .
+          docker tag $ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$BACKEND_ECR_REPOSITORY:latest
       
+      - name: Build and push Frontend Docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cp .kube/react/nginx.conf web/nginx.conf
+          docker build -t $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG \
+            --build-arg VITE_API_GATEWAY_URL=https://komunas.linqra.com/r/komunas-app \
+            -f .kube/react/Dockerfile web/
+          docker tag $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$FRONTEND_ECR_REPOSITORY:latest
+
       - name: Update Kubeconfig
         run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
       
@@ -53,4 +69,6 @@ jobs:
       - name: Deploy to EKS
         run: |
           kubectl apply -f .kube/eks/komunas-app.yml
-          kubectl rollout restart deployment/komunas-app -n linqra
+          # Rolling restart to pick up latest images
+          kubectl rollout restart deployment/komunas-backend -n linqra
+          kubectl rollout restart deployment/komunas-frontend -n linqra

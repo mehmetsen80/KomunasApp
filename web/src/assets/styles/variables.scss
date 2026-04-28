@@ -1,0 +1,26 @@
+// Brand Colors
+$color-white: #FFFFFF;
+$color-dark: #222028;
+$color-gray-theme: #e6e5e5;
+
+// Core Roles (Light Theme as requested)
+$color-bg: $color-white;
+$color-secondary: $color-dark;
+$color-theme: $color-gray-theme;
+
+// Derived Colors
+$color-text-main: $color-dark;
+$color-text-secondary: rgba(34, 32, 40, 0.7);
+$color-border: rgba(34, 32, 40, 0.1);
+
+// Glassmorphism (Adjusted for Light Theme)
+$glass-bg: rgba(34, 32, 40, 0.03);
+$glass-border: rgba(34, 32, 40, 0.08);
+$glass-blur: 10px;
+
+// Layout
+$sidebar-width: 260px;
+$header-height: 100px;
+
+// Animations
+$transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
