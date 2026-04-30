@@ -31,20 +31,21 @@ const Home = () => {
     fetchForms();
   }, []);
 
-  const filteredForms = forms.filter(form => 
+  const filteredForms = forms.filter(form =>
     form.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     form.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="homePage" style={{ position: 'relative' }}>
-      {/* ── Top-right Login ── */}
+      {/* ── Top-right Login (Hidden for now) ──
       <div className="topBar">
         <Link to="/login" className="loginBtn">
           <LogIn size={18} />
           Login
         </Link>
       </div>
+      */}
 
       {/* ── Hero Section ── */}
       <section className="hero">
@@ -62,9 +63,9 @@ const Home = () => {
         <p>Direct access to the latest form versions and instructions.</p>
         <div className="searchWrapper">
           <Search size={20} />
-          <input 
-            type="text" 
-            placeholder="Search USCIS forms by ID or name…" 
+          <input
+            type="text"
+            placeholder="Search USCIS forms by ID or name…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
