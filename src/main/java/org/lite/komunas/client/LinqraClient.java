@@ -26,7 +26,7 @@ public class LinqraClient {
     private final String baseUrl;
 
     public LinqraClient(RestTemplate restTemplate,
-            @Value("${gateway.base-url:https://api-gateway-service:7777}") String baseUrl) {
+            @Value("${gateway.base-url:http://api-gateway-service:7777}") String baseUrl) {
         this.restTemplate = restTemplate;
         this.baseUrl = baseUrl;
     }
@@ -69,7 +69,6 @@ public class LinqraClient {
         }
     }
 
-
     /**
      * Fetch all notifications for a specific user from the Linqra Gateway
      */
@@ -80,7 +79,8 @@ public class LinqraClient {
                     baseUrl + "/api/notifications/all/" + userId,
                     HttpMethod.GET,
                     null,
-                    new ParameterizedTypeReference<List<NotificationResponseDTO>>() {});
+                    new ParameterizedTypeReference<List<NotificationResponseDTO>>() {
+                    });
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 return response.getBody();
