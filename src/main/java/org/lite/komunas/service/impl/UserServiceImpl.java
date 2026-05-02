@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 
             EmailRequestDTO emailRequest = EmailRequestDTO.builder()
                     .to(user.getEmail())
-                    .from(registrationConfig.getWelcomeFrom())
+                    .from("Komunas <" + registrationConfig.getWelcomeFrom() + ">")
                     .bcc(registrationConfig.getWelcomeBcc())
                     .subject("Welcome to Komunas")
                     .body(body)
@@ -193,7 +193,7 @@ public class UserServiceImpl implements UserService {
 
             EmailRequestDTO emailRequest = EmailRequestDTO.builder()
                     .to(user.getEmail())
-                    .from(registrationConfig.getWelcomeFrom())
+                    .from("Komunas <" + registrationConfig.getWelcomeFrom() + ">")
                     .bcc(registrationConfig.getWelcomeBcc())
                     .subject("Password Reset Request")
                     .body(body)
