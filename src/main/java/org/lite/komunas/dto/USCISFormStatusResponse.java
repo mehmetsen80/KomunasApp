@@ -24,6 +24,10 @@ public class USCISFormStatusResponse {
     private String resourceId;         // e.g., "I-485"
     private String resourceCategory;   // e.g., "uscis-sentinel"
 
+    // Subscription status
+    private boolean subscribed;
+    private String subscriptionId;
+
     // Current state
     private String currentVersion;     // latest known version string
     private String effectiveDate;

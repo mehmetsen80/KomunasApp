@@ -1,0 +1,220 @@
+.profilePage {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background-color: #0c0c0e;
+  position: relative;
+  overflow: hidden;
+
+  .profileContainer {
+    width: 100%;
+    max-width: 500px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    animation: profileAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+
+    .backBtn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: fit-content;
+
+      &:hover {
+        color: #d6f281;
+        transform: translateX(-4px);
+      }
+    }
+
+    .profileCard {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+      .profileHeader {
+        padding: 40px;
+        background: linear-gradient(135deg, rgba(214, 242, 129, 0.1) 0%, rgba(214, 242, 129, 0) 100%);
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+        .avatarLarge {
+          width: 80px;
+          height: 80px;
+          border-radius: 24px;
+          background: #d6f281;
+          color: #222028;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 32px;
+          font-weight: 800;
+          box-shadow: 0 10px 20px rgba(214, 242, 129, 0.2);
+        }
+
+        .headerInfo {
+          h1 {
+            color: white;
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.02em;
+          }
+
+          .usernameTag {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            margin: 4px 0 0 0;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .profileContent {
+        padding: 40px;
+
+        .infoSection {
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+
+          .infoItem {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+
+            .iconBox {
+              width: 44px;
+              height: 44px;
+              border-radius: 12px;
+              background: rgba(255, 255, 255, 0.05);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #d6f281;
+              flex-shrink: 0;
+            }
+
+            .details {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+
+              label {
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 11px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+              }
+
+              span {
+                color: rgba(255, 255, 255, 0.9);
+                font-size: 16px;
+                font-weight: 500;
+              }
+
+              .roleTags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 4px;
+
+                .roleTag {
+                  padding: 4px 12px;
+                  background: rgba(214, 242, 129, 0.1);
+                  color: #d6f281;
+                  font-size: 12px;
+                  font-weight: 700;
+                  border-radius: 8px;
+                  border: 1px solid rgba(214, 242, 129, 0.2);
+                }
+              }
+            }
+          }
+        }
+
+        .actionSection {
+          margin-top: 48px;
+          padding-top: 32px;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+          .logoutAction {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            background: rgba(255, 0, 0, 0.05);
+            color: #ff4d4d;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background: #ff4d4d;
+              color: white;
+              transform: translateY(-2px);
+              box-shadow: 0 10px 20px rgba(255, 77, 77, 0.2);
+            }
+          }
+        }
+      }
+    }
+
+    .footer {
+      text-align: center;
+      p {
+        color: rgba(255, 255, 255, 0.2);
+        font-size: 12px;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+@keyframes profileAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .profilePage {
+    padding: 20px;
+    
+    .profileCard {
+      .profileHeader {
+        padding: 30px 20px;
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+      
+      .profileContent {
+        padding: 30px 20px;
+      }
+    }
+  }
+}

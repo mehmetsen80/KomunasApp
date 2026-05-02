@@ -16,6 +16,9 @@ spring:
     mongodb:
       uri: ${MONGO_GATEWAY_URL:mongodb://root:mongopw@localhost:27017,localhost:27018,localhost:27019/?replicaSet=rs0&authSource=admin&readConcernLevel=majority}
       database: Komunas
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
 server:
   port: 0
   http2:
@@ -82,3 +85,11 @@ whatsapp:
     secret: "dc0e4310d71a0e24112cca39180e3f4d"
     name: "Komunas"
     businessid: "763753579930598"
+registration:
+  default-roles:
+    - "USER"
+    - "gateway_admin_realm"
+    - "gateway_admin"
+  welcome-from: "noreply@linqra.com"
+  welcome-bcc:
+    - "msen@linqra.com"

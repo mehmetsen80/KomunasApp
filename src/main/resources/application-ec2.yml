@@ -17,6 +17,9 @@ spring:
       uri: ${MONGO_DB_URI}
       database: Komunas
       auto-index-creation: true
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
 server:
   port: 8082
   http2:
@@ -87,3 +90,11 @@ whatsapp:
     secret: "dc0e4310d71a0e24112cca39180e3f4d"
     name: "Komunas"
     businessid: "763753579930598"
+registration:
+  default-roles:
+    - "USER"
+    - "gateway_admin_realm"
+    - "gateway_admin"
+  welcome-from: "noreply@linqra.com"
+  welcome-bcc:
+    - "msen@linqra.com"

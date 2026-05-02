@@ -3,7 +3,6 @@ package org.lite.komunas.repository;
 import org.lite.komunas.entity.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,14 +12,21 @@ import java.util.Optional;
 public interface UserRepository extends MongoRepository<User, String> {
 
     /**
-     * Find user by username (for Spring Security)
+     * Find user by username
      */
-    Optional<UserDetails> findByUsername(String username);
+    Optional<User> findByUsername(String username);
+
+    /**
+     * Find user by username or email (case-insensitive)
+     */
+    Optional<User> findByUsernameIgnoreCaseOrEmailIgnoreCase(String username, String email);
 
     /**
      * Find user by email
      */
     Optional<User> findByEmail(String email);
+
+    Optional<User> findByResetPasswordToken(String token);
 
     /**
      * Find all active users

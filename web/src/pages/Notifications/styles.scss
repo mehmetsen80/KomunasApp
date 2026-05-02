@@ -1,0 +1,308 @@
+@use "../../assets/styles/variables" as *;
+
+.notificationsPage {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 2rem 5%;
+
+  .pageHeader {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .backBtn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $color-secondary;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: $transition-smooth;
+
+      &:hover {
+        transform: translateX(-4px);
+      }
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: $color-secondary;
+    }
+  }
+
+  .notificationsContent {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .notificationsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .notificationItem {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &.unread {
+      border-left: 4px solid #3b82f6;
+      background: linear-gradient(to right, rgba(59, 130, 246, 0.02), white);
+      
+      .summary {
+        font-weight: 700;
+      }
+    }
+
+    &.expanded {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .itemMain {
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.01);
+      }
+    }
+
+    .severityIcon {
+      &.high { color: #ef4444; }
+      &.medium { color: #f59e0b; }
+      &.low { color: #3b82f6; }
+    }
+
+    .itemContent {
+      flex: 1;
+
+      .itemHeader {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.25rem;
+
+        .resourceId {
+          font-size: 0.8rem;
+          font-weight: 800;
+          color: $color-secondary;
+          opacity: 0.6;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+          color: #6b7280;
+        }
+      }
+
+      .summary {
+        font-size: 1rem;
+        color: $color-text-main;
+        margin: 0;
+      }
+    }
+
+    .itemDetails {
+      padding: 1.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      background-color: #fafafa;
+      animation: slideDown 0.3s ease-out;
+
+      .detailsText {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #4b5563;
+        margin-bottom: 1.5rem;
+        white-space: pre-wrap;
+      }
+
+      .deltaBox {
+        background: white;
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        margin-bottom: 1.5rem;
+
+        h4 {
+          font-size: 0.85rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          color: #9ca3af;
+          margin-bottom: 0.75rem;
+        }
+
+        pre {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.85rem;
+          color: #1f2937;
+          overflow-x: auto;
+        }
+      }
+
+      .actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.03);
+
+        .readBtn, .viewFormBtn {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.6rem 1.2rem;
+          border-radius: 10px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: $transition-smooth;
+          text-decoration: none;
+        }
+
+        .readBtn {
+          background-color: transparent;
+          border: 1px solid #d1d5db;
+          color: #4b5563;
+
+          &:hover {
+            background-color: #f3f4f6;
+            border-color: #9ca3af;
+          }
+        }
+
+        .viewFormBtn {
+          background-color: $color-secondary;
+          color: white;
+          border: none;
+
+          &:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+          }
+        }
+      }
+    }
+  }
+
+  .pro-markdown {
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: $color-secondary;
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid rgba($color-secondary, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      &::before {
+        content: '';
+        width: 4px;
+        height: 1.25rem;
+        background: $color-secondary;
+        border-radius: 4px;
+      }
+
+      &:first-child { margin-top: 0; }
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: #4b5563;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    ul, ol {
+      margin: 1.25rem 0;
+      padding: 1.25rem 1.5rem;
+      background: rgba($color-secondary, 0.02);
+      border-radius: 12px;
+      border: 1px solid rgba($color-secondary, 0.05);
+      list-style-type: none;
+      
+      li {
+        margin-bottom: 0.75rem;
+        color: #374151;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+
+        &::before {
+          content: '•';
+          color: $color-secondary;
+          font-weight: 900;
+          font-size: 1.2rem;
+          line-height: 1;
+          margin-top: 0.1rem;
+        }
+
+        &:last-child { margin-bottom: 0; }
+        
+        strong {
+          color: $color-secondary;
+          font-weight: 700;
+          font-size: 0.95rem;
+          min-width: 100px;
+          display: inline-block;
+        }
+      }
+    }
+
+    strong {
+      color: $color-secondary;
+      font-weight: 700;
+    }
+
+    em {
+      font-style: italic;
+      color: #6b7280;
+    }
+  }
+
+  .loadingState, .emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6rem 2rem;
+    text-align: center;
+    color: #6b7280;
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(0, 0, 0, 0.05);
+      border-top-color: $color-secondary;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      color: $color-secondary;
+      margin: 1.5rem 0 0.5rem;
+    }
+  }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

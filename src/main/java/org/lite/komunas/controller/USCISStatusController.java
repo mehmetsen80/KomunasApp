@@ -52,15 +52,16 @@ public class USCISStatusController {
     })
     public ResponseEntity<?> checkStatus(
             @Parameter(description = "The USCIS Form ID (e.g., I-485, I-130) or 'all' to fetch everything", example = "I-485")
-            @PathVariable String formId) {
+            @PathVariable String formId,
+            @RequestParam(required = false) String userId) {
 
-        log.info("USCIS Status API: Fetching status for form: {}", formId);
+        log.info("USCIS Status API: Fetching status for form: {} for user: {}", formId, userId);
 
         if ("all".equalsIgnoreCase(formId)) {
-            return ResponseEntity.ok(statusService.getAllFormStatuses());
+            return ResponseEntity.ok(statusService.getAllFormStatuses(userId));
         }
 
-        return statusService.getFormStatus(formId)
+        return statusService.getFormStatus(formId, userId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> {
                     log.warn("USCIS Status API: Form not found: {}", formId);

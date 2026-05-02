@@ -9,35 +9,70 @@ import {
   ShieldCheck, 
   AlertCircle,
   Clock,
-  Calendar
+  Calendar,
+  AlertTriangle,
+  Info,
+  Bell,
+  CheckCircle
 } from 'lucide-react';
 import resourceSyncService from '../../services/resourceSyncService';
+import notificationService from '../../services/notificationService';
+import { useAuth } from '../../contexts/AuthContext';
 import { formatDateTime } from '../../utils/dateUtils';
 import Footer from '../../components/Footer';
+import SubscribeConfirmModal from '../../components/Modals/SubscribeConfirmModal';
 import './styles.scss';
 
 const FormDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth();
+  
   const [form, setForm] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [modalConfig, setModalConfig] = useState({ isOpen: false, isUnsubscribing: false });
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const data = await resourceSyncService.getFormStatus(id, user?.email);
+      setForm(data);
+
+      if (isAuthenticated && user?.email) {
+        const allNotifs = await notificationService.getMyNotifications(user.email);
+        // Filter by resourceId and last 30 days
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        
+        const filtered = allNotifs.filter(n => {
+          const nDate = new Date(n.createdAt);
+          return n.resourceId === id && nDate > thirtyDaysAgo;
+        });
+        setNotifications(filtered);
+      }
+    } catch (err) {
+      setError('Unable to load form details. The resource might not exist.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchDetail = async () => {
-      try {
-        setLoading(true);
-        const data = await resourceSyncService.getFormStatus(id);
-        setForm(data);
-      } catch (err) {
-        setError('Unable to load form details. The resource might not exist.');
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetchData();
+  }, [id, isAuthenticated, user?.email]);
 
-    fetchDetail();
-  }, [id]);
+  const openSubscribeModal = () => {
+    if (!isAuthenticated) return;
+    setModalConfig({ isOpen: true, isUnsubscribing: false });
+  };
+
+  const openUnsubscribeModal = () => {
+    if (!form.subscriptionId) return;
+    setModalConfig({ isOpen: true, isUnsubscribing: true });
+  };
 
   if (loading) {
     return (
@@ -100,11 +135,56 @@ const FormDetail = () => {
               <FileText size={20} />
               View Instructions
             </a>
+
+            {isAuthenticated && (
+              <div className="subscriptionAction">
+                {form.subscribed ? (
+                  <button 
+                    className="subscribedBtn" 
+                    onClick={openUnsubscribeModal}
+                    disabled={submitting}
+                  >
+                    {submitting ? <div className="mini-spinner"></div> : <CheckCircle size={20} />}
+                    Subscribed
+                  </button>
+                ) : (
+                  <button 
+                    className="subscribeBtn" 
+                    onClick={openSubscribeModal}
+                    disabled={submitting}
+                  >
+                    {submitting ? <div className="mini-spinner"></div> : <Bell size={20} />}
+                    Subscribe to Updates
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </header>
 
       <main className="detailContent">
+        {notifications.length > 0 && (
+          <section className="alertsSection">
+            <div className="sectionHeader">
+              <AlertTriangle size={24} className="alertIcon" />
+              <h2>Recent Important Updates</h2>
+            </div>
+            <div className="alertsList">
+              {notifications.map((n, i) => (
+                <div key={i} className={`alertItem ${n.severity === 'HIGH' ? 'high' : ''}`}>
+                  <div className="alertHeader">
+                    <span className="alertType">{n.type}</span>
+                    <span className="alertDate">{formatDateTime(n.createdAt)}</span>
+                  </div>
+                  <h3 className="alertSummary">{n.summary}</h3>
+                  <p className="alertDetails">{n.details.split('\n')[0]}...</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         {form.supplementalResources && Object.keys(form.supplementalResources).length > 0 && (
           <section className="supplementalSection">
             <div className="sectionHeader">
@@ -136,11 +216,19 @@ const FormDetail = () => {
           <div className="timeline">
             {form.versionHistory && form.versionHistory.length > 0 ? (
               form.versionHistory.map((entry, index) => (
-                <div key={index} className="timelineItem">
+                <div key={index} className={`timelineItem ${entry.changeDetected ? 'critical' : ''}`}>
                   <div className="timelineDot"></div>
                   <div className="timelineCard">
                     <div className="cardHeader">
-                      <span className="versionTag">v{entry.version}</span>
+                      <div className="tagWrapper">
+                        <span className="versionTag">v{entry.version}</span>
+                        {entry.changeDetected && (
+                          <span className="criticalBadge">
+                            <AlertTriangle size={12} />
+                            CRITICAL CHANGE
+                          </span>
+                        )}
+                      </div>
                       <span className="dateTag">{formatDateTime(entry.detectedAt)}</span>
                     </div>
                     <p className="cardSummary">{entry.summary}</p>
@@ -163,6 +251,16 @@ const FormDetail = () => {
       </main>
 
       <Footer />
+
+      <SubscribeConfirmModal 
+        isOpen={modalConfig.isOpen}
+        formId={id}
+        userEmail={user?.email}
+        subscriptionId={form?.subscriptionId}
+        isUnsubscribing={modalConfig.isUnsubscribing}
+        onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
+        onSuccess={fetchData}
+      />
     </div>
   );
 };

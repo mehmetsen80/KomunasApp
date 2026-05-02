@@ -7,9 +7,10 @@ const resourceSyncService = {
   /**
    * Fetches all monitored USCIS form statuses and maps them to UI-friendly objects.
    */
-  getAllFormStatuses: async () => {
+  getAllFormStatuses: async (userId = null) => {
     try {
-      const response = await axiosInstance.get('/api/uscis/status/check/all');
+      const url = userId ? `/api/uscis/status/check/all?userId=${userId}` : '/api/uscis/status/check/all';
+      const response = await axiosInstance.get(url);
       
       // Map backend DTO to UI-friendly structure
       return response.data.map(item => ({
@@ -20,7 +21,9 @@ const resourceSyncService = {
         pdfUrl: item.resourceUrl,
         instrUrl: item.instructionsUrl,
         lastCheckedAt: item.lastCheckedAt,
-        changeDetected: item.changeDetected
+        changeDetected: item.changeDetected,
+        subscribed: item.subscribed,
+        subscriptionId: item.subscriptionId
       }));
     } catch (error) {
       console.error('Error in resourceSyncService.getAllFormStatuses:', error);
@@ -31,9 +34,10 @@ const resourceSyncService = {
   /**
    * Fetches the status and full history for a specific form.
    */
-  getFormStatus: async (formId) => {
+  getFormStatus: async (formId, userId = null) => {
     try {
-      const response = await axiosInstance.get(`/api/uscis/status/check/${formId}`);
+      const url = userId ? `/api/uscis/status/check/${formId}?userId=${userId}` : `/api/uscis/status/check/${formId}`;
+      const response = await axiosInstance.get(url);
       return response.data;
     } catch (error) {
       console.error(`Error in resourceSyncService.getFormStatus for ${formId}:`, error);

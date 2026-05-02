@@ -3,11 +3,7 @@ package org.lite.komunas.config;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.lite.komunas.entity.ResourceSyncState;
-import org.lite.komunas.entity.ResourceVersionHistory;
-import org.lite.komunas.entity.User;
-import org.lite.komunas.entity.WhatsAppContact;
-import org.lite.komunas.entity.WhatsAppMessage;
+import org.lite.komunas.entity.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
