@@ -3,8 +3,14 @@ import { Routes, Route } from 'react-router-dom';
 
 // Pages
 import Home from '../pages/Home';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import ForgotPassword from '../pages/ForgotPassword';
+import ResetPassword from '../pages/ResetPassword';
 import FormDetail from '../pages/FormDetail';
 import Dashboard from '../pages/Dashboard';
+import Profile from '../pages/Profile';
+import Notifications from '../pages/Notifications';
 
 // Components
 import Layout from '../components/Layout';
@@ -17,8 +23,12 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/form/:id" element={<FormDetail />} />
       
-      {/* Placeholder for future auth pages */}
-      <Route path="/login" element={<div>Login Page (Coming Soon)</div>} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
 
       {/* Protected Dashboard Routes */}
       <Route

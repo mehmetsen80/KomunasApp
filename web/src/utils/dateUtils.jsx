@@ -7,8 +7,17 @@
  */
 export const getRelativeTime = (dateInput) => {
   if (!dateInput) return '';
-  const actualDate = typeof dateInput === 'object' && dateInput.$date ? dateInput.$date : dateInput;
-  const date = new Date(actualDate);
+  
+  let date;
+  if (typeof dateInput === 'object' && dateInput.$date) {
+    date = new Date(dateInput.$date);
+  } else if (Array.isArray(dateInput)) {
+    // Jackson format: [year, month, day, hour, minute, second]
+    date = new Date(dateInput[0], dateInput[1] - 1, dateInput[2], dateInput[3] || 0, dateInput[4] || 0, dateInput[5] || 0);
+  } else {
+    date = new Date(dateInput);
+  }
+
   const now = new Date();
   const diffInSeconds = Math.floor((now - date) / 1000);
   const diffInDays = Math.floor(diffInSeconds / 86400);
@@ -38,8 +47,14 @@ export const getRelativeTime = (dateInput) => {
 export const formatDateTime = (dateInput) => {
   if (!dateInput) return 'Never';
   
-  const actualDate = typeof dateInput === 'object' && dateInput.$date ? dateInput.$date : dateInput;
-  const date = new Date(actualDate);
+  let date;
+  if (typeof dateInput === 'object' && dateInput.$date) {
+    date = new Date(dateInput.$date);
+  } else if (Array.isArray(dateInput)) {
+    date = new Date(dateInput[0], dateInput[1] - 1, dateInput[2], dateInput[3] || 0, dateInput[4] || 0, dateInput[5] || 0);
+  } else {
+    date = new Date(dateInput);
+  }
   
   if (isNaN(date.getTime())) return 'Invalid Date';
 
@@ -60,8 +75,15 @@ export const formatDateTime = (dateInput) => {
  */
 export const formatDate = (dateInput) => {
   if (!dateInput) return 'N/A';
-  const actualDate = typeof dateInput === 'object' && dateInput.$date ? dateInput.$date : dateInput;
-  const date = new Date(actualDate);
+  
+  let date;
+  if (typeof dateInput === 'object' && dateInput.$date) {
+    date = new Date(dateInput.$date);
+  } else if (Array.isArray(dateInput)) {
+    date = new Date(dateInput[0], dateInput[1] - 1, dateInput[2], dateInput[3] || 0, dateInput[4] || 0, dateInput[5] || 0);
+  } else {
+    date = new Date(dateInput);
+  }
   if (isNaN(date.getTime())) return 'Invalid Date';
   return date.toISOString().split('T')[0];
 };

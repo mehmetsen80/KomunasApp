@@ -1,0 +1,83 @@
+@use "../../assets/styles/variables" as *;
+
+.deltaContainer {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+
+  .deltaHeader {
+    background: rgba($color-secondary, 0.03);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $color-secondary;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .deltaGrid {
+    padding: 0.5rem 0;
+  }
+
+  .deltaRow {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    align-items: center;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .deltaKey {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #6b7280;
+    }
+
+    .deltaValue {
+      font-size: 0.9rem;
+      color: #1f2937;
+    }
+  }
+
+  .comparisonValue {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .oldVal {
+      color: #ef4444;
+      text-decoration: line-through;
+      opacity: 0.7;
+      background: rgba(#ef4444, 0.05);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    .newVal {
+      color: #10b981;
+      font-weight: 700;
+      background: rgba(#10b981, 0.05);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    .arrow {
+      color: #9ca3af;
+    }
+  }
+
+  .simpleVal {
+    font-weight: 600;
+    color: $color-secondary;
+  }
+}

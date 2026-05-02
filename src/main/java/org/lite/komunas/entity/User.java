@@ -61,6 +61,12 @@ public class User implements UserDetails {
 
     private String avatarUrl;
 
+    @Field("reset_token")
+    private String resetPasswordToken;
+
+    @Field("reset_token_expiry")
+    private LocalDateTime resetPasswordTokenExpiry;
+
     // UserDetails implementation
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

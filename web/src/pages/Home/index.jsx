@@ -1,25 +1,32 @@
-import React from 'react';
-import { FileText, Download, ExternalLink, Search, LogIn } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { 
+  FileText, Download, ExternalLink, Search, LogIn, UserPlus, LogOut, 
+  User as UserIcon, Bell, BellOff, CheckCircle, AlertTriangle 
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import './styles.scss';
 import HeroBackground from '../../components/HeroBackground';
 import resourceSyncService from '../../services/resourceSyncService';
 import { formatDateTime } from '../../utils/dateUtils';
-
 import Footer from '../../components/Footer';
+import { useAuth } from '../../contexts/AuthContext';
+import SubscribeConfirmModal from '../../components/Modals/SubscribeConfirmModal';
 
 const Home = () => {
+  const { isAuthenticated, user, logout } = useAuth();
   const [forms, setForms] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [submittingId, setSubmittingId] = useState(null);
+  const [modalConfig, setModalConfig] = useState({ isOpen: false, formId: null, isUnsubscribing: false, subscriptionId: null });
 
   useEffect(() => {
     const fetchForms = async () => {
       try {
         setLoading(true);
-        const data = await resourceSyncService.getAllFormStatuses();
+        // Use user email as userId for subscription check
+        const data = await resourceSyncService.getAllFormStatuses(user?.email);
         setForms(data);
       } catch (err) {
         setError('Unable to load forms library. Please try again later.');
@@ -29,27 +36,73 @@ const Home = () => {
     };
 
     fetchForms();
-  }, []);
+  }, [user?.email]);
 
-  const filteredForms = forms.filter(form =>
-    form.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    form.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const refreshData = async () => {
+    try {
+      const data = await resourceSyncService.getAllFormStatuses(user?.email);
+      setForms(data);
+    } catch (err) {
+      console.error('Refresh failed:', err);
+    }
+  };
+
+  const openSubscribeModal = (formId) => {
+    if (!isAuthenticated) return;
+    setModalConfig({ isOpen: true, formId, isUnsubscribing: false, subscriptionId: null });
+  };
+
+  const openUnsubscribeModal = (formId, subscriptionId) => {
+    setModalConfig({ isOpen: true, formId, isUnsubscribing: true, subscriptionId });
+  };
+
+  const filteredForms = forms
+    .filter(form =>
+      form.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      form.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      // Prioritize changeDetected: true
+      if (a.changeDetected && !b.changeDetected) return -1;
+      if (!a.changeDetected && b.changeDetected) return 1;
+      // Secondary sort by ID
+      return a.id.localeCompare(b.id);
+    });
 
   return (
     <div className="homePage" style={{ position: 'relative' }}>
-      {/* ── Top-right Login (Hidden for now) ──
+      {/* ── Top-right Navigation ── */}
       <div className="topBar">
-        <Link to="/login" className="loginBtn">
-          <LogIn size={18} />
-          Login
-        </Link>
+        {isAuthenticated ? (
+          <>
+            <Link to="/notifications" className="navIconLink" title="Notifications">
+              <Bell size={18} />
+            </Link>
+            <Link to="/profile" className="userProfile">
+              <UserIcon size={18} />
+              <span>{user?.fullName || user?.username}</span>
+            </Link>
+            <button onClick={logout} className="logoutBtn">
+              <LogOut size={18} />
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/register" className="registerBtn">
+              <UserPlus size={18} />
+              Register
+            </Link>
+            <Link to="/login" className="loginBtn">
+              <LogIn size={18} />
+              Login
+            </Link>
+          </>
+        )}
       </div>
-      */}
 
       {/* ── Hero Section ── */}
       <section className="hero">
-        {/* Hero background SVG */}
         <HeroBackground />
         <div className="logoContainer">
           <img src="/logo.jpg" alt="Komunas Logo" />
@@ -105,7 +158,15 @@ const Home = () => {
                 </div>
                 <div className="formDetails">
                   <div className="formHeader">
-                    <Link to={`/form/${form.id}`} className="formId">{form.id}</Link>
+                    <div className="idWrapper">
+                      <Link to={`/form/${form.id}`} className="formId">{form.id}</Link>
+                      {form.changeDetected && (
+                        <span className="criticalBadge">
+                          <AlertTriangle size={12} />
+                          CRITICAL CHANGE
+                        </span>
+                      )}
+                    </div>
                     <span className="formVersion">v{form.version}</span>
                   </div>
                   <h3 className="formName">
@@ -117,13 +178,40 @@ const Home = () => {
                     </span>
                   </div>
                   <div className="formActions">
-                    <a href={form.pdfUrl} target="_blank" rel="noopener noreferrer" className="downloadBtn">
+                    <a href={form.pdfUrl} target="_blank" rel="noopener noreferrer" className="downloadBtn" title="Download Form">
                       <Download size={16} /> PDF
                     </a>
-                    <a href={form.instrUrl} target="_blank" rel="noopener noreferrer" className="downloadBtn">
+                    <a href={form.instrUrl} target="_blank" rel="noopener noreferrer" className="downloadBtn" title="Download Instructions">
                       <Download size={16} /> Instr
                     </a>
-                    <Link to={`/form/${form.id}`} className="viewLink">
+                    
+                    {isAuthenticated && (
+                      <div className="subscriptionAction">
+                        {form.subscribed ? (
+                          <button 
+                            className="subscribedBtn" 
+                            onClick={() => openUnsubscribeModal(form.id, form.subscriptionId)}
+                            disabled={submittingId === form.id}
+                            title="Unsubscribe from updates"
+                          >
+                            {submittingId === form.id ? <div className="mini-spinner"></div> : <CheckCircle size={16} />}
+                            Subscribed
+                          </button>
+                        ) : (
+                          <button 
+                            className="subscribeBtn" 
+                            onClick={() => openSubscribeModal(form.id)}
+                            disabled={submittingId === form.id}
+                            title="Subscribe to updates"
+                          >
+                            {submittingId === form.id ? <div className="mini-spinner"></div> : <Bell size={16} />}
+                            Subscribe
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    <Link to={`/form/${form.id}`} className="viewLink" title="View Details">
                       <ExternalLink size={16} />
                     </Link>
                   </div>
@@ -135,6 +223,16 @@ const Home = () => {
       </main>
 
       <Footer />
+
+      <SubscribeConfirmModal 
+        isOpen={modalConfig.isOpen}
+        formId={modalConfig.formId}
+        userEmail={user?.email}
+        subscriptionId={modalConfig.subscriptionId}
+        isUnsubscribing={modalConfig.isUnsubscribing}
+        onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
+        onSuccess={refreshData}
+      />
     </div>
   );
 };

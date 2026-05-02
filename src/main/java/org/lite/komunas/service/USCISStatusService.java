@@ -7,5 +7,7 @@ import java.util.Optional;
 
 public interface USCISStatusService {
     Optional<USCISFormStatusResponse> getFormStatus(String formId);
+    Optional<USCISFormStatusResponse> getFormStatus(String formId, String userId);
     List<USCISFormStatusResponse> getAllFormStatuses();
+    List<USCISFormStatusResponse> getAllFormStatuses(String userId);
 }
