@@ -60,6 +60,19 @@ const FormDetail = () => {
     }
   };
 
+  const handleSubscriptionSuccess = () => {
+    const isUnsub = modalConfig.isUnsubscribing;
+    
+    // Optimistic update to prevent the "flip-back" effect
+    setForm(prev => ({
+      ...prev,
+      subscribed: !isUnsub
+    }));
+    
+    // Refresh the real data after a short delay to allow propagation
+    setTimeout(fetchData, 1500);
+  };
+
   useEffect(() => {
     fetchData();
   }, [id, isAuthenticated, user?.email]);
@@ -259,7 +272,7 @@ const FormDetail = () => {
         subscriptionId={form?.subscriptionId}
         isUnsubscribing={modalConfig.isUnsubscribing}
         onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
-        onSuccess={fetchData}
+        onSuccess={handleSubscriptionSuccess}
       />
     </div>
   );
