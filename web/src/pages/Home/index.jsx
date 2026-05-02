@@ -47,6 +47,21 @@ const Home = () => {
     }
   };
 
+  const handleSubscriptionSuccess = () => {
+    const { formId, isUnsubscribing } = modalConfig;
+    
+    // Optimistic update to prevent the "flip-back" effect
+    setForms(prev => prev.map(f => {
+      if (f.id === formId) {
+        return { ...f, subscribed: !isUnsubscribing };
+      }
+      return f;
+    }));
+    
+    // Refresh the real data after a short delay to allow propagation
+    setTimeout(refreshData, 1500);
+  };
+
   const openSubscribeModal = (formId) => {
     if (!isAuthenticated) return;
     setModalConfig({ isOpen: true, formId, isUnsubscribing: false, subscriptionId: null });
@@ -231,7 +246,7 @@ const Home = () => {
         subscriptionId={modalConfig.subscriptionId}
         isUnsubscribing={modalConfig.isUnsubscribing}
         onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
-        onSuccess={refreshData}
+        onSuccess={handleSubscriptionSuccess}
       />
     </div>
   );
