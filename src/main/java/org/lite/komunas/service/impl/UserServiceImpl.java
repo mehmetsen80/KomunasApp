@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
                     .to(user.getEmail())
                     .from("Komunas <" + registrationConfig.getWelcomeFrom() + ">")
                     .bcc(registrationConfig.getWelcomeBcc())
-                    .subject("Account Verified: Komunas Intelligence")
+                    .subject("Welcome to Komunas")
                     .body(body)
                     .html(true)
                     .build();
