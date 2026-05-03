@@ -20,6 +20,7 @@ import notificationService from '../../services/notificationService';
 import { useAuth } from '../../contexts/AuthContext';
 import { formatDateTime } from '../../utils/dateUtils';
 import Footer from '../../components/Footer';
+import Header from '../../components/Header';
 import SubscribeConfirmModal from '../../components/Modals/SubscribeConfirmModal';
 import './styles.scss';
 
@@ -38,11 +39,12 @@ const FormDetail = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const data = await resourceSyncService.getFormStatus(id, user?.email);
+      const normalizedEmail = user?.email?.toLowerCase();
+      const data = await resourceSyncService.getFormStatus(id, normalizedEmail);
       setForm(data);
 
-      if (isAuthenticated && user?.email) {
-        const allNotifs = await notificationService.getMyNotifications(user.email);
+      if (isAuthenticated && normalizedEmail) {
+        const allNotifs = await notificationService.getMyNotifications(normalizedEmail);
         // Filter by resourceId and last 30 days
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -111,13 +113,14 @@ const FormDetail = () => {
 
   return (
     <div className="formDetailPage">
-      <nav className="detailNav">
+      <Header transparent />
+      
+      <div className="detailNav">
         <button onClick={() => navigate('/')} className="backBtn">
           <ArrowLeft size={20} />
           Back to Library
         </button>
-      </nav>
-
+      </div>
       <header className="detailHero">
         <div className="heroContent">
           <div className="formTypeBadge">USCIS {form.resourceCategory}</div>

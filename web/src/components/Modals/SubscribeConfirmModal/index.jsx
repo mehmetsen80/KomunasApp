@@ -14,7 +14,8 @@ const SubscribeConfirmModal = ({ isOpen, onClose, onSuccess, formId, userEmail, 
       if (isUnsubscribing) {
         await subscriptionService.unsubscribe(subscriptionId);
       } else {
-        await subscriptionService.subscribe(formId, userEmail, userEmail);
+        const normalizedEmail = userEmail?.toLowerCase();
+        await subscriptionService.subscribe(formId, normalizedEmail, normalizedEmail);
       }
       onSuccess?.();
       onClose();

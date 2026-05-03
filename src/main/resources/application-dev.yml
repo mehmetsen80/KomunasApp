@@ -37,7 +37,7 @@ server:
     context-path: /r/komunas-app
 
 gateway:
-  base-url: http://${GATEWAY_SERVICE_URL:localhost}:7777
+  base-url: https://${GATEWAY_SERVICE_URL:localhost}:7777
 
 logging:
   file:
