@@ -18,6 +18,19 @@ const notificationService = {
   },
 
   /**
+   * Fetches only the unread count for the authenticated user.
+   */
+  getUnreadCount: async (userId) => {
+    try {
+      const response = await axiosInstance.get(`/api/notifications/count/unread?userId=${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error in notificationService.getUnreadCount:', error);
+      throw error;
+    }
+  },
+
+  /**
    * Marks a notification as read.
    */
   markAsRead: async (notificationId) => {

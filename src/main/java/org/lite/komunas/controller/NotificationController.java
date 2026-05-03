@@ -27,6 +27,13 @@ public class NotificationController {
         return ResponseEntity.ok(linqraClient.getNotifications(userId));
     }
 
+    @GetMapping("/count/unread")
+    @Operation(summary = "Get unread notification count for the authenticated user")
+    public ResponseEntity<Long> getUnreadCount(@RequestParam String userId) {
+        log.info("Fetching unread count for user: {}", userId);
+        return ResponseEntity.ok(linqraClient.getUnreadNotificationCount(userId));
+    }
+
     @PostMapping("/{notificationId}/read")
     @Operation(summary = "Mark a notification as read")
     public ResponseEntity<Void> markAsRead(@PathVariable String notificationId) {

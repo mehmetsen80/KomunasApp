@@ -55,9 +55,8 @@ public class LinqraClient {
     public List<Map<String, Object>> getSubscriptions(String userId) {
         log.info("Fetching subscriptions from Linqra Gateway for user: {}", userId);
         try {
-            ResponseEntity<List> response = restTemplate.getForEntity(
-                    baseUrl + "/api/subscriptions/all/" + userId,
-                    List.class);
+            String url = baseUrl + "/api/subscriptions/all/{userId}";
+            ResponseEntity<List> response = restTemplate.getForEntity(url, List.class, userId);
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 return (List<Map<String, Object>>) response.getBody();
@@ -69,18 +68,17 @@ public class LinqraClient {
         }
     }
 
-    /**
-     * Fetch all notifications for a specific user from the Linqra Gateway
-     */
     public List<NotificationResponseDTO> getNotifications(String userId) {
         log.info("Fetching notifications from Linqra Gateway for user: {}", userId);
         try {
+            String url = baseUrl + "/api/notifications/all/{userId}";
             ResponseEntity<List<NotificationResponseDTO>> response = restTemplate.exchange(
-                    baseUrl + "/api/notifications/all/" + userId,
+                    url,
                     HttpMethod.GET,
                     null,
                     new ParameterizedTypeReference<List<NotificationResponseDTO>>() {
-                    });
+                    },
+                    userId);
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 return response.getBody();
@@ -89,6 +87,25 @@ public class LinqraClient {
         } catch (Exception e) {
             log.error("Failed to fetch notifications from Linqra Gateway: {}", e.getMessage());
             return Collections.emptyList();
+        }
+    }
+
+    /**
+     * Get unread notification count for a specific user from the Linqra Gateway
+     */
+    public long getUnreadNotificationCount(String userId) {
+        log.info("Fetching unread count from Linqra Gateway for user: {}", userId);
+        try {
+            String url = baseUrl + "/api/notifications/count/unread/{userId}";
+            ResponseEntity<Long> response = restTemplate.getForEntity(url, Long.class, userId);
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                return response.getBody();
+            }
+            return 0;
+        } catch (Exception e) {
+            log.error("Failed to fetch unread count from Linqra Gateway: {}", e.getMessage());
+            return 0;
         }
     }
 

@@ -67,7 +67,7 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/auth/**", "/api/uscis/status/**", "/health", "/actuator/health", "/error",
+                .securityMatcher("/auth/**", "/health", "/actuator/health", "/error",
                         "/v3/api-docs/**",
                         "/swagger-ui/**", "/swagger-ui.html")
                 .csrf(AbstractHttpConfigurer::disable)
@@ -95,6 +95,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/api/uscis/status/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))

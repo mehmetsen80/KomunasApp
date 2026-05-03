@@ -46,8 +46,10 @@ public class USCISStatusServiceImpl implements USCISStatusService {
                 // Check subscription if userId is present
                 if (userId != null) {
                     List<Map<String, Object>> subscriptions = linqraClient.getSubscriptions(userId);
+                    log.info("Linqra Gateway returned {} subscriptions for single form check (userId: {})", subscriptions.size(), userId);
                     for (Map<String, Object> sub : subscriptions) {
                         if (formId.equals(sub.get("resourceId"))) {
+                            log.info("Subscription MATCH found for form: {} with subscriptionId: {}", formId, sub.get("id"));
                             response.setSubscribed(true);
                             response.setSubscriptionId((String) sub.get("id"));
                             break;
@@ -73,9 +75,12 @@ public class USCISStatusServiceImpl implements USCISStatusService {
                 Map<String, Map<String, Object>> subscriptionsMap = new HashMap<>();
                 if (userId != null) {
                     List<Map<String, Object>> subscriptions = linqraClient.getSubscriptions(userId);
+                    log.info("Linqra Gateway returned {} subscriptions for user: {}", subscriptions.size(), userId);
                     for (Map<String, Object> sub : subscriptions) {
-                        String resourceId = (String) sub.get("resourceId");
-                        subscriptionsMap.put(resourceId, sub);
+                        String resId = (String) sub.get("resourceId");
+                        String resCat = (String) sub.get("resourceCategory");
+                        log.debug("Subscription found: resourceId={}, category={}", resId, resCat);
+                        subscriptionsMap.put(resId, sub);
                     }
                 }
 

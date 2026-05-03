@@ -9,6 +9,7 @@ import HeroBackground from '../../components/HeroBackground';
 import resourceSyncService from '../../services/resourceSyncService';
 import { formatDateTime } from '../../utils/dateUtils';
 import Footer from '../../components/Footer';
+import Header from '../../components/Header';
 import { useAuth } from '../../contexts/AuthContext';
 import SubscribeConfirmModal from '../../components/Modals/SubscribeConfirmModal';
 
@@ -25,8 +26,9 @@ const Home = () => {
     const fetchForms = async () => {
       try {
         setLoading(true);
-        // Use user email as userId for subscription check
-        const data = await resourceSyncService.getAllFormStatuses(user?.email);
+        // Use user email as userId for subscription check, normalized to lowercase
+        const normalizedEmail = user?.email?.toLowerCase();
+        const data = await resourceSyncService.getAllFormStatuses(normalizedEmail);
         setForms(data);
       } catch (err) {
         setError('Unable to load forms library. Please try again later.');
@@ -86,35 +88,7 @@ const Home = () => {
 
   return (
     <div className="homePage" style={{ position: 'relative' }}>
-      {/* ── Top-right Navigation ── */}
-      <div className="topBar">
-        {isAuthenticated ? (
-          <>
-            <Link to="/notifications" className="navIconLink" title="Notifications">
-              <Bell size={18} />
-            </Link>
-            <Link to="/profile" className="userProfile">
-              <UserIcon size={18} />
-              <span>{user?.fullName || user?.username}</span>
-            </Link>
-            <button onClick={logout} className="logoutBtn">
-              <LogOut size={18} />
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/register" className="registerBtn">
-              <UserPlus size={18} />
-              Register
-            </Link>
-            <Link to="/login" className="loginBtn">
-              <LogIn size={18} />
-              Login
-            </Link>
-          </>
-        )}
-      </div>
+      <Header transparent />
 
       {/* ── Hero Section ── */}
       <section className="hero">
