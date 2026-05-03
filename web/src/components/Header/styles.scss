@@ -83,10 +83,31 @@
       border-radius: 12px;
       color: $color-secondary;
       transition: $transition-smooth;
+      position: relative; // For badge positioning
 
       &:hover {
         background: rgba($color-secondary, 0.1);
         transform: translateY(-2px);
+      }
+
+      .unreadBadge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background-color: $color-accent;
+        color: $color-secondary;
+        font-size: 0.7rem;
+        font-weight: 800;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 4px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid $color-white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        animation: badgePulse 2s infinite;
       }
     }
 
@@ -110,5 +131,22 @@
         border-color: $color-secondary;
       }
     }
+  }
+}
+
+@keyframes badgePulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba($color-accent, 0.4);
+  }
+
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba($color-accent, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba($color-accent, 0);
   }
 }
