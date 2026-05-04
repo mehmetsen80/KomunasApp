@@ -54,7 +54,11 @@ public class USCISScraperServiceImpl implements USCISScraperService {
         String currentHash = downloadAndHash(metadata.getResourceUrl());
         String instructionsHash = downloadAndHash(metadata.getInstructionsUrl());
 
-        return syncStateRepository.findByResourceCategoryAndResourceId(category, resourceId)
+        // USCIS Scraper currently only handles "forms" category
+        String domain = category; // legacy 'category' param is now the domain (e.g. uscis-sentinel)
+        String formsCategory = "forms";
+
+        return syncStateRepository.findByDomainAndCategoryAndResourceId(domain, formsCategory, resourceId)
                 .map(existingState -> {
                     boolean versionChanged = !metadata.getVersion().equals(existingState.getLastKnownVersion());
                     boolean hashChanged = !currentHash.equals(existingState.getLastKnownHash());
@@ -164,11 +168,11 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
     @Override
     public ResourceCommitResponse commitUpdate(ResourceCommitRequest request) {
-        log.info("Worker committing update for {} ({}): version={}, hash={}",
-                request.getResourceCategory(), request.getResourceId(), request.getVersion(), request.getHash());
+        log.info("Worker committing update for {}/{} ({}): version={}, hash={}",
+                request.getDomain(), request.getCategory(), request.getResourceId(), request.getVersion(), request.getHash());
 
         ResourceSyncState state = syncStateRepository
-                .findByResourceCategoryAndResourceId(request.getResourceCategory(), request.getResourceId())
+                .findByDomainAndCategoryAndResourceId(request.getDomain(), request.getCategory(), request.getResourceId())
                 .map(existingState -> {
                     existingState.setLastKnownVersion(request.getVersion());
                     existingState.setEffectiveDate(request.getEffectiveDate());
@@ -195,7 +199,8 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                     return existingState;
                 })
                 .orElseGet(() -> ResourceSyncState.builder()
-                        .resourceCategory(request.getResourceCategory())
+                        .domain(request.getDomain())
+                        .category(request.getCategory())
                         .resourceId(request.getResourceId())
                         .documentId(request.getDocumentId())
                         .instructionsDocumentId(request.getInstructionsDocumentId())
@@ -222,7 +227,8 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
         // Create Version History
         ResourceVersionHistory history = ResourceVersionHistory.builder()
-                .resourceCategory(request.getResourceCategory())
+                .domain(request.getDomain())
+                .category(request.getCategory())
                 .resourceId(request.getResourceId())
                 .syncStateId(savedState.getId())
                 .agentTaskId(request.getAgentTaskId())
@@ -248,7 +254,8 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
         return ResourceCommitResponse.builder()
                 .resourceId(savedState.getResourceId())
-                .resourceCategory(savedState.getResourceCategory())
+                .domain(savedState.getDomain())
+                .category(savedState.getCategory())
                 .version(savedState.getLastKnownVersion())
                 .summary(savedState.getSummary())
                 .status("COMMITTED")
@@ -503,8 +510,12 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
     @Override
     public List<ResourceCheckResult> checkAllUpdates(String category) {
-        log.info("Worker checking ALL updates for category: {}", category);
-        return syncStateRepository.findByResourceCategory(category).stream()
+        log.info("Worker checking ALL updates for domain: {}", category);
+        
+        String domain = category; // legacy 'category' param is now the domain (e.g. uscis-sentinel)
+        String formsCategory = "forms";
+
+        return syncStateRepository.findByDomainAndCategory(domain, formsCategory).stream()
                 .map(state -> {
                     try {
                         return checkForUpdates(category, state.getResourceId());

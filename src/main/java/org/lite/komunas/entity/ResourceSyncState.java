@@ -25,13 +25,14 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 @CompoundIndexes({
-        @CompoundIndex(name = "resource_sync_idx", def = "{'resourceCategory': 1, 'resourceId': 1}", unique = true)
+        @CompoundIndex(name = "resource_sync_idx", def = "{'domain': 1, 'category': 1, 'resourceId': 1}", unique = true)
 })
 public class ResourceSyncState {
     @Id
     private String id;
 
-    private String resourceCategory; // e.g., "uscis-sentinel"
+    private String domain; // e.g., "uscis-sentinel"
+    private String category; // e.g., "forms", "news", "alerts"
     private String resourceId; // e.g., "I-485"
     private String agentTaskId; // Link to Linq Agent Task
     private String resourceUrl;

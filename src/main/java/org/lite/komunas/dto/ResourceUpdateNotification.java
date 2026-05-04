@@ -15,7 +15,8 @@ import java.util.Map;
 public class ResourceUpdateNotification {
     private String id;
     private String subscriptionId;
-    private String resourceCategory;
+    private String domain;
+    private String category;
     private String resourceId;
     private String type;
     private String severity;

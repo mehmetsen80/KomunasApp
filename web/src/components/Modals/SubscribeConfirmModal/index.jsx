@@ -3,7 +3,7 @@ import { X, Bell, Mail, Shield, CheckCircle, AlertTriangle } from 'lucide-react'
 import subscriptionService from '../../../services/subscriptionService';
 import './styles.scss';
 
-const SubscribeConfirmModal = ({ isOpen, onClose, onSuccess, formId, userEmail, subscriptionId, isUnsubscribing = false }) => {
+const SubscribeConfirmModal = ({ isOpen, onClose, onSuccess, formId, domain, category, userEmail, subscriptionId, isUnsubscribing = false }) => {
   const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
@@ -14,8 +14,8 @@ const SubscribeConfirmModal = ({ isOpen, onClose, onSuccess, formId, userEmail, 
       if (isUnsubscribing) {
         await subscriptionService.unsubscribe(subscriptionId);
       } else {
-        const normalizedEmail = userEmail?.toLowerCase();
-        await subscriptionService.subscribe(formId, normalizedEmail, normalizedEmail);
+        // High-fidelity signature: (resourceId, domain, category, userId, userEmail)
+        await subscriptionService.subscribe(formId, domain, category, userEmail, userEmail);
       }
       onSuccess?.();
       onClose();
@@ -83,7 +83,7 @@ const SubscribeConfirmModal = ({ isOpen, onClose, onSuccess, formId, userEmail, 
 
         <div className="modalFooter">
           <button className="cancelBtn" onClick={onClose} disabled={loading}>Cancel</button>
-          <button 
+          <button
             className={`confirmBtn ${isUnsubscribing ? 'unsub' : 'sub'}`}
             onClick={handleConfirm}
             disabled={loading}

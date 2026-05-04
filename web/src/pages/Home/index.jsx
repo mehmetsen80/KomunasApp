@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  FileText, Download, ExternalLink, Search, LogIn, UserPlus, LogOut, 
-  User as UserIcon, Bell, BellOff, CheckCircle, AlertTriangle 
+import {
+  FileText, Download, ExternalLink, Search, LogIn, UserPlus, LogOut,
+  User as UserIcon, Bell, BellOff, CheckCircle, AlertTriangle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './styles.scss';
@@ -20,15 +20,21 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [submittingId, setSubmittingId] = useState(null);
-  const [modalConfig, setModalConfig] = useState({ isOpen: false, formId: null, isUnsubscribing: false, subscriptionId: null });
+  const [modalConfig, setModalConfig] = useState({ 
+    isOpen: false, 
+    formId: null, 
+    domain: null,
+    category: null,
+    isUnsubscribing: false, 
+    subscriptionId: null 
+  });
 
   useEffect(() => {
     const fetchForms = async () => {
       try {
         setLoading(true);
-        // Use user email as userId for subscription check, normalized to lowercase
-        const normalizedEmail = user?.email?.toLowerCase();
-        const data = await resourceSyncService.getAllFormStatuses(normalizedEmail);
+        // Use user email as userId for subscription check
+        const data = await resourceSyncService.getAllFormStatuses(user?.email);
         setForms(data);
       } catch (err) {
         setError('Unable to load forms library. Please try again later.');
@@ -51,7 +57,7 @@ const Home = () => {
 
   const handleSubscriptionSuccess = () => {
     const { formId, isUnsubscribing } = modalConfig;
-    
+
     // Optimistic update to prevent the "flip-back" effect
     setForms(prev => prev.map(f => {
       if (f.id === formId) {
@@ -59,18 +65,18 @@ const Home = () => {
       }
       return f;
     }));
-    
+
     // Refresh the real data after a short delay to allow propagation
     setTimeout(refreshData, 1500);
   };
 
-  const openSubscribeModal = (formId) => {
+  const openSubscribeModal = (formId, domain, category) => {
     if (!isAuthenticated) return;
-    setModalConfig({ isOpen: true, formId, isUnsubscribing: false, subscriptionId: null });
+    setModalConfig({ isOpen: true, formId, domain, category, isUnsubscribing: false, subscriptionId: null });
   };
 
-  const openUnsubscribeModal = (formId, subscriptionId) => {
-    setModalConfig({ isOpen: true, formId, isUnsubscribing: true, subscriptionId });
+  const openUnsubscribeModal = (formId, domain, category, subscriptionId) => {
+    setModalConfig({ isOpen: true, formId, domain, category, isUnsubscribing: true, subscriptionId });
   };
 
   const filteredForms = forms
@@ -173,13 +179,13 @@ const Home = () => {
                     <a href={form.instrUrl} target="_blank" rel="noopener noreferrer" className="downloadBtn" title="Download Instructions">
                       <Download size={16} /> Instr
                     </a>
-                    
+
                     {isAuthenticated && (
                       <div className="subscriptionAction">
                         {form.subscribed ? (
-                          <button 
-                            className="subscribedBtn" 
-                            onClick={() => openUnsubscribeModal(form.id, form.subscriptionId)}
+                          <button
+                            className="subscribedBtn"
+                            onClick={() => openUnsubscribeModal(form.id, form.domain, form.category, form.subscriptionId)}
                             disabled={submittingId === form.id}
                             title="Unsubscribe from updates"
                           >
@@ -187,9 +193,9 @@ const Home = () => {
                             Subscribed
                           </button>
                         ) : (
-                          <button 
-                            className="subscribeBtn" 
-                            onClick={() => openSubscribeModal(form.id)}
+                          <button
+                            className="subscribeBtn"
+                            onClick={() => openSubscribeModal(form.id, form.domain, form.category)}
                             disabled={submittingId === form.id}
                             title="Subscribe to updates"
                           >
@@ -213,9 +219,11 @@ const Home = () => {
 
       <Footer />
 
-      <SubscribeConfirmModal 
+      <SubscribeConfirmModal
         isOpen={modalConfig.isOpen}
         formId={modalConfig.formId}
+        domain={modalConfig.domain}
+        category={modalConfig.category}
         userEmail={user?.email}
         subscriptionId={modalConfig.subscriptionId}
         isUnsubscribing={modalConfig.isUnsubscribing}
