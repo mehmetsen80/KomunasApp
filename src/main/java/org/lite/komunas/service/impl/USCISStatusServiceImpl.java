@@ -107,9 +107,13 @@ public class USCISStatusServiceImpl implements USCISStatusService {
     }
 
     private USCISFormStatusResponse mapToResponse(ResourceSyncState state) {
+        // High-fidelity fallback for domain/category to ensure technical robustness
+        String domain = state.getDomain() != null ? state.getDomain() : USCIS_DOMAIN;
+        String category = state.getCategory() != null ? state.getCategory() : USCIS_CATEGORY_FORMS;
+
         List<ResourceVersionHistory> history = versionHistoryRepository
                 .findByDomainAndCategoryAndResourceIdOrderByDetectedAtDesc(
-                        state.getDomain(), state.getCategory(), state.getResourceId());
+                        domain, category, state.getResourceId());
 
         List<USCISFormStatusResponse.VersionEntry> versionEntries = history.stream()
                 .map(USCISFormStatusResponse::from)
@@ -117,8 +121,8 @@ public class USCISStatusServiceImpl implements USCISStatusService {
 
         return USCISFormStatusResponse.builder()
                 .resourceId(state.getResourceId())
-                .domain(state.getDomain())
-                .category(state.getCategory())
+                .domain(domain)
+                .category(category)
                 .currentVersion(state.getLastKnownVersion())
                 .effectiveDate(state.getEffectiveDate())
                 .resourceUrl(state.getResourceUrl())

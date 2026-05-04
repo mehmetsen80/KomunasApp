@@ -20,7 +20,14 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [submittingId, setSubmittingId] = useState(null);
-  const [modalConfig, setModalConfig] = useState({ isOpen: false, formId: null, isUnsubscribing: false, subscriptionId: null });
+  const [modalConfig, setModalConfig] = useState({ 
+    isOpen: false, 
+    formId: null, 
+    domain: null,
+    category: null,
+    isUnsubscribing: false, 
+    subscriptionId: null 
+  });
 
   useEffect(() => {
     const fetchForms = async () => {
@@ -63,13 +70,13 @@ const Home = () => {
     setTimeout(refreshData, 1500);
   };
 
-  const openSubscribeModal = (formId) => {
+  const openSubscribeModal = (formId, domain, category) => {
     if (!isAuthenticated) return;
-    setModalConfig({ isOpen: true, formId, isUnsubscribing: false, subscriptionId: null });
+    setModalConfig({ isOpen: true, formId, domain, category, isUnsubscribing: false, subscriptionId: null });
   };
 
-  const openUnsubscribeModal = (formId, subscriptionId) => {
-    setModalConfig({ isOpen: true, formId, isUnsubscribing: true, subscriptionId });
+  const openUnsubscribeModal = (formId, domain, category, subscriptionId) => {
+    setModalConfig({ isOpen: true, formId, domain, category, isUnsubscribing: true, subscriptionId });
   };
 
   const filteredForms = forms
@@ -178,7 +185,7 @@ const Home = () => {
                         {form.subscribed ? (
                           <button
                             className="subscribedBtn"
-                            onClick={() => openUnsubscribeModal(form.id, form.subscriptionId)}
+                            onClick={() => openUnsubscribeModal(form.id, form.domain, form.category, form.subscriptionId)}
                             disabled={submittingId === form.id}
                             title="Unsubscribe from updates"
                           >
@@ -188,7 +195,7 @@ const Home = () => {
                         ) : (
                           <button
                             className="subscribeBtn"
-                            onClick={() => openSubscribeModal(form.id)}
+                            onClick={() => openSubscribeModal(form.id, form.domain, form.category)}
                             disabled={submittingId === form.id}
                             title="Subscribe to updates"
                           >
