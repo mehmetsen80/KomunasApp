@@ -18,8 +18,11 @@ public class ResourceCommitRequest {
     @Schema(description = "The USCIS Form ID to commit", example = "I-485")
     private String resourceId;
     
-    @Schema(description = "The category of the resource", example = "uscis-sentinel")
-    private String resourceCategory;
+    @Schema(description = "The category classification", example = "forms")
+    private String category;
+    
+    @Schema(description = "The domain of the resource", example = "uscis-sentinel")
+    private String domain;
     
     @Schema(description = "The new version string", example = "Edition 01/30/24")
     private String version;

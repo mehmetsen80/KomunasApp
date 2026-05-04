@@ -14,8 +14,7 @@ const SubscribeConfirmModal = ({ isOpen, onClose, onSuccess, formId, userEmail, 
       if (isUnsubscribing) {
         await subscriptionService.unsubscribe(subscriptionId);
       } else {
-        const normalizedEmail = userEmail?.toLowerCase();
-        await subscriptionService.subscribe(formId, normalizedEmail, normalizedEmail);
+        await subscriptionService.subscribe(formId, userEmail, userEmail);
       }
       onSuccess?.();
       onClose();
@@ -83,7 +82,7 @@ const SubscribeConfirmModal = ({ isOpen, onClose, onSuccess, formId, userEmail, 
 
         <div className="modalFooter">
           <button className="cancelBtn" onClick={onClose} disabled={loading}>Cancel</button>
-          <button 
+          <button
             className={`confirmBtn ${isUnsubscribing ? 'unsub' : 'sub'}`}
             onClick={handleConfirm}
             disabled={loading}

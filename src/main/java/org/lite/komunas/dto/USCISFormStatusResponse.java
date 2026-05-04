@@ -22,7 +22,8 @@ public class USCISFormStatusResponse {
 
     // Core identity
     private String resourceId;         // e.g., "I-485"
-    private String resourceCategory;   // e.g., "uscis-sentinel"
+    private String domain;             // e.g., "uscis-sentinel"
+    private String category;           // e.g., "forms", "news", "alerts"
 
     // Subscription status
     private boolean subscribed;

@@ -15,6 +15,8 @@ const resourceSyncService = {
       // Map backend DTO to UI-friendly structure
       return response.data.map(item => ({
         id: item.resourceId,
+        domain: item.domain,
+        category: item.category,
         name: item.summary || 'USCIS Form',
         version: item.currentVersion || 'N/A',
         status: item.enabled ? 'Active' : 'Inactive',

@@ -7,10 +7,11 @@ const subscriptionService = {
   /**
    * Subscribes a user to a specific USCIS resource for monitoring.
    */
-  subscribe: async (resourceId, userId, userEmail) => {
+  subscribe: async (resourceId, domain, category, userId, userEmail) => {
     try {
       const response = await axiosInstance.post('/api/subscriptions/subscribe', {
-        resourceCategory: 'uscis-sentinel',
+        domain: domain,
+        category: category,
         resourceId: resourceId,
         userId: userId,
         appName: 'komunas-app',

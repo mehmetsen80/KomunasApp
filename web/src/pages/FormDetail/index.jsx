@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  FileText, 
-  Download, 
-  ExternalLink, 
-  History, 
-  ShieldCheck, 
+import {
+  ArrowLeft,
+  FileText,
+  Download,
+  ExternalLink,
+  History,
+  ShieldCheck,
   AlertCircle,
   Clock,
   Calendar,
@@ -28,7 +28,7 @@ const FormDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
-  
+
   const [form, setForm] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,16 +39,15 @@ const FormDetail = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const normalizedEmail = user?.email?.toLowerCase();
-      const data = await resourceSyncService.getFormStatus(id, normalizedEmail);
+      const data = await resourceSyncService.getFormStatus(id, user?.email);
       setForm(data);
 
-      if (isAuthenticated && normalizedEmail) {
-        const allNotifs = await notificationService.getMyNotifications(normalizedEmail);
+      if (isAuthenticated && user?.email) {
+        const allNotifs = await notificationService.getMyNotifications(user.email);
         // Filter by resourceId and last 30 days
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        
+
         const filtered = allNotifs.filter(n => {
           const nDate = new Date(n.createdAt);
           return n.resourceId === id && nDate > thirtyDaysAgo;
@@ -64,13 +63,13 @@ const FormDetail = () => {
 
   const handleSubscriptionSuccess = () => {
     const isUnsub = modalConfig.isUnsubscribing;
-    
+
     // Optimistic update to prevent the "flip-back" effect
     setForm(prev => ({
       ...prev,
       subscribed: !isUnsub
     }));
-    
+
     // Refresh the real data after a short delay to allow propagation
     setTimeout(fetchData, 1500);
   };
@@ -114,7 +113,7 @@ const FormDetail = () => {
   return (
     <div className="formDetailPage">
       <Header transparent />
-      
+
       <div className="detailNav">
         <button onClick={() => navigate('/')} className="backBtn">
           <ArrowLeft size={20} />
@@ -123,10 +122,10 @@ const FormDetail = () => {
       </div>
       <header className="detailHero">
         <div className="heroContent">
-          <div className="formTypeBadge">USCIS {form.resourceCategory}</div>
+          <div className="formTypeBadge">USCIS {form.domain}</div>
           <h1>{form.resourceId}</h1>
           <p className="formSummary">{form.summary}</p>
-          
+
           <div className="quickMeta">
             <div className="metaItem">
               <ShieldCheck size={18} />
@@ -155,8 +154,8 @@ const FormDetail = () => {
             {isAuthenticated && (
               <div className="subscriptionAction">
                 {form.subscribed ? (
-                  <button 
-                    className="subscribedBtn" 
+                  <button
+                    className="subscribedBtn"
                     onClick={openUnsubscribeModal}
                     disabled={submitting}
                   >
@@ -164,8 +163,8 @@ const FormDetail = () => {
                     Subscribed
                   </button>
                 ) : (
-                  <button 
-                    className="subscribeBtn" 
+                  <button
+                    className="subscribeBtn"
                     onClick={openSubscribeModal}
                     disabled={submitting}
                   >
@@ -268,9 +267,11 @@ const FormDetail = () => {
 
       <Footer />
 
-      <SubscribeConfirmModal 
+      <SubscribeConfirmModal
         isOpen={modalConfig.isOpen}
         formId={id}
+        domain={form?.domain}
+        category={form?.category}
         userEmail={user?.email}
         subscriptionId={form?.subscriptionId}
         isUnsubscribing={modalConfig.isUnsubscribing}

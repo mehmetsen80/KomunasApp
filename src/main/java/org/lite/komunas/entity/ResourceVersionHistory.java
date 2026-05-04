@@ -24,8 +24,9 @@ public class ResourceVersionHistory {
     @Id
     private String id;
 
-    private String resourceCategory;
-    private String resourceId;
+    private String domain; // e.g., "uscis-sentinel"
+    private String category; // e.g., "forms", "news", "alerts"
+    private String resourceId; // e.g., "I-485"
     private String syncStateId; // Reference to the parent ResourceSyncState
     private String agentTaskId;
 
