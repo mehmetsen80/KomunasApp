@@ -45,6 +45,20 @@ const resourceSyncService = {
       console.error(`Error in resourceSyncService.getFormStatus for ${formId}:`, error);
       throw error;
     }
+  },
+
+  /**
+   * Fetches the status and full history for a specific newsroom resource.
+   */
+  getNewsroomStatus: async (resourceId, userId = null) => {
+    try {
+      const url = userId ? `/api/uscis/status/newsroom/${resourceId}?userId=${userId}` : `/api/uscis/status/newsroom/${resourceId}`;
+      const response = await axiosInstance.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error in resourceSyncService.getNewsroomStatus for ${resourceId}:`, error);
+      throw error;
+    }
   }
 };
 

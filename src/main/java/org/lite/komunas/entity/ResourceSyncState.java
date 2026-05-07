@@ -60,6 +60,7 @@ public class ResourceSyncState {
 
     // Flexible storage for agent-specific state
     private Map<String, Object> metadata;
+    private Map<String, Object> payload;
 
     @Builder.Default
     private boolean enabled = true;

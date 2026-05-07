@@ -1,11 +1,13 @@
 @use "../../assets/styles/variables" as *;
 
 .header {
-  height: $header-height;
+  height: auto;
+  min-height: $header-height;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
+  padding: 0.75rem 2rem;
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid $color-border;
@@ -13,13 +15,8 @@
   top: 0;
   z-index: 90;
   transition: $transition-smooth;
-
-  display: flex;
-  justify-content: flex-end;
-  padding: 0.75rem 2rem;
-  z-index: 90;
-  transition: $transition-smooth;
-  pointer-events: none; // Allow clicks to pass through the header container
+  pointer-events: none;
+  gap: 0.5rem;
 
   &.transparent {
     background-color: transparent;
@@ -27,6 +24,50 @@
     border-bottom: none;
     position: absolute;
     width: 100%;
+  }
+
+  .headerNav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    pointer-events: auto;
+
+    .headerLogo {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: $color-secondary;
+      text-decoration: none;
+      letter-spacing: -0.03em;
+      transition: $transition-smooth;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+
+    .navLink {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: $color-secondary;
+      text-decoration: none;
+      padding: 0.4rem 0.85rem;
+      border-radius: 10px;
+      transition: $transition-smooth;
+      opacity: 0.65;
+
+      &:hover {
+        background: rgba($color-secondary, 0.06);
+        opacity: 1;
+      }
+
+      &.active {
+        background: $color-theme;
+        opacity: 1;
+      }
+    }
   }
 
   .headerActions {
@@ -130,6 +171,20 @@
         background-color: rgba($color-secondary, 0.05);
         border-color: $color-secondary;
       }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    row-gap: 0.75rem;
+
+    .headerNav,
+    .headerActions {
+      width: 100%;
+      justify-content: center;
     }
   }
 }

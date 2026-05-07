@@ -7,14 +7,12 @@ import org.lite.komunas.dto.ResourceUpdateNotification;
 
 import java.util.List;
 
-public interface USCISScraperService {
-    ResourceCheckResult checkForUpdates(String category, String resourceId);
+public interface USCISNewsroomScraperService {
+    ResourceCheckResult checkForUpdates(String domain, String resourceId);
 
-    List<ResourceCheckResult> checkAllUpdates(String category);
+    List<ResourceCheckResult> checkAllUpdates(String domain);
 
     ResourceCommitResponse commitUpdate(ResourceCommitRequest request);
-
-    void handleDocumentDeletion(String documentId);
 
     void handleResourceUpdate(ResourceUpdateNotification notification);
 }

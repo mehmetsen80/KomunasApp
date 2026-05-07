@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FileText, Download, ExternalLink, Search, LogIn, UserPlus, LogOut,
-  User as UserIcon, Bell, BellOff, CheckCircle, AlertTriangle
+  FileText, Download, ExternalLink, Search,
+  Bell, CheckCircle, AlertTriangle, Rss
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './styles.scss';
@@ -11,7 +11,7 @@ import { formatDateTime } from '../../utils/dateUtils';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import { useAuth } from '../../contexts/AuthContext';
-import SubscribeConfirmModal from '../../components/Modals/SubscribeConfirmModal';
+import SubscribeFormModal from '../../components/Modals/SubscribeFormModal';
 
 const Home = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -20,13 +20,18 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [submittingId, setSubmittingId] = useState(null);
-  const [modalConfig, setModalConfig] = useState({ 
-    isOpen: false, 
-    formId: null, 
+  const [newsroomAlerts, setNewsroomAlerts] = useState([]);
+  const [newsroomData, setNewsroomData] = useState(null);
+  const [newsReleases, setNewsReleases] = useState([]);
+  const [newsReleasesData, setNewsReleasesData] = useState(null);
+  const [newsroomLoading, setNewsroomLoading] = useState(true);
+  const [modalConfig, setModalConfig] = useState({
+    isOpen: false,
+    formId: null,
     domain: null,
     category: null,
-    isUnsubscribing: false, 
-    subscriptionId: null 
+    isUnsubscribing: false,
+    subscriptionId: null
   });
 
   useEffect(() => {
@@ -43,7 +48,29 @@ const Home = () => {
       }
     };
 
+    const fetchNewsroom = async () => {
+      try {
+        setNewsroomLoading(true);
+
+        // Fetch Announcements
+        const alertsData = await resourceSyncService.getNewsroomStatus('newsroom-alerts', user?.email);
+        setNewsroomData(alertsData);
+        setNewsroomAlerts(alertsData?.payload?.alerts?.slice(0, 3) || []);
+
+        // Fetch News Releases
+        const releasesData = await resourceSyncService.getNewsroomStatus('news-releases', user?.email);
+        setNewsReleasesData(releasesData);
+        setNewsReleases(releasesData?.payload?.alerts?.slice(0, 3) || []);
+
+      } catch (err) {
+        console.error('Failed to load newsroom data:', err);
+      } finally {
+        setNewsroomLoading(false);
+      }
+    };
+
     fetchForms();
+    fetchNewsroom();
   }, [user?.email]);
 
   const refreshData = async () => {
@@ -118,6 +145,80 @@ const Home = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
+
+        {/* ── Newsroom Snippet Strip: Announcements ── */}
+        {!searchTerm && !newsroomLoading && newsroomAlerts.length > 0 && (
+          <div className="newsroomStrip">
+            <div className="stripHeader">
+              <div className="stripTitle">
+                <Rss size={22} />
+                <span>Latest USCIS Announcements</span>
+                {newsroomData?.subscribed && (
+                  <div className="statusBadge subscribed">
+                    <CheckCircle size={14} />
+                    <span>Subscribed</span>
+                  </div>
+                )}
+              </div>
+              <Link to="/newsroom/newsroom-alerts" className="stripViewAll">
+                View All <ExternalLink size={13} />
+              </Link>
+            </div>
+            <div className="stripCards">
+              {newsroomAlerts.map((alert, i) => (
+                <a
+                  key={i}
+                  href={alert.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="stripCard"
+                >
+                  <span className="stripDate">{alert.date}</span>
+                  <h3 className="stripCardTitle">{alert.title}</h3>
+                  <p className="stripCardSummary">{alert.summary}</p>
+                  <span className="stripReadMore">Read announcement <ExternalLink size={11} /></span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── Newsroom Snippet Strip: News Releases ── */}
+        {!searchTerm && !newsroomLoading && newsReleases.length > 0 && (
+          <div className="newsroomStrip" style={{ marginTop: '2rem' }}>
+            <div className="stripHeader">
+              <div className="stripTitle">
+                <Rss size={22} />
+                <span>Latest News Releases</span>
+                {newsReleasesData?.subscribed && (
+                  <div className="statusBadge subscribed">
+                    <CheckCircle size={14} />
+                    <span>Subscribed</span>
+                  </div>
+                )}
+              </div>
+              <Link to="/newsroom/news-releases" className="stripViewAll">
+                View All <ExternalLink size={13} />
+              </Link>
+            </div>
+            <div className="stripCards">
+              {newsReleases.map((release, i) => (
+                <a
+                  key={i}
+                  href={release.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="stripCard"
+                >
+                  <span className="stripDate">{release.date}</span>
+                  <h3 className="stripCardTitle">{release.title}</h3>
+                  <p className="stripCardSummary">{release.summary}</p>
+                  <span className="stripReadMore">Read release <ExternalLink size={11} /></span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ── Forms Grid ── */}
@@ -219,7 +320,7 @@ const Home = () => {
 
       <Footer />
 
-      <SubscribeConfirmModal
+      <SubscribeFormModal
         isOpen={modalConfig.isOpen}
         formId={modalConfig.formId}
         domain={modalConfig.domain}

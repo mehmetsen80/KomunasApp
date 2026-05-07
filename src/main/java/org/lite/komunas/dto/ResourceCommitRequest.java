@@ -75,4 +75,7 @@ public class ResourceCommitRequest {
     
     @Schema(description = "Additional analysis payload from the extraction process")
     private Object analysis;
+ 
+    @Schema(description = "Structured payload data to be persisted")
+    private Map<String, Object> payload;
 }

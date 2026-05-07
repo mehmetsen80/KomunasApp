@@ -18,7 +18,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class USCISFormStatusResponse {
+public class USCISStatusResponse {
 
     // Core identity
     private String resourceId;         // e.g., "I-485"
@@ -45,6 +45,7 @@ public class USCISFormStatusResponse {
     private LocalDateTime lastCheckedAt;
     private LocalDateTime lastUpdatedAt;
     private boolean enabled;
+    private Map<String, Object> payload;
 
     // Full version history, newest first
     private List<VersionEntry> versionHistory;

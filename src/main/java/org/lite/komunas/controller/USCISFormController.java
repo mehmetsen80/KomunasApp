@@ -12,22 +12,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.lite.komunas.dto.ResourceCheckResult;
 import org.lite.komunas.dto.ResourceCommitRequest;
 import org.lite.komunas.dto.ResourceCommitResponse;
-import org.lite.komunas.service.USCISScraperService;
+import org.lite.komunas.service.USCISFormScraperService;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * SOVEREIGN SYNC CONTROLLER - This is the primary interface for USCIS
- * synchronization.
- * It handles both the version check and the final commit.
+ * USCIS FORM CONTROLLER - Dedicated sovereign interface for USCIS Forms.
+ * Handles state verification and commitment for PDF-based form resources.
  */
 @RestController
 @RequestMapping("/api/uscis/sync")
 @Slf4j
 @RequiredArgsConstructor
-@Tag(name = "USCIS Sync", description = "Sovereign synchronization APIs for USCIS forms and documents")
-public class USCISSyncController {
+@Tag(name = "USCIS Forms", description = "Sovereign synchronization APIs for USCIS forms and documents")
+public class USCISFormController {
 
-    private final USCISScraperService scraperService;
+    private final USCISFormScraperService uscisFormScraper;
 
     @GetMapping("/check/{formId}")
     @Operation(summary = "Check for USCIS updates", description = "Analyzes the USCIS website for a specific form ID to detect new versions or hash changes.")
@@ -48,19 +47,19 @@ public class USCISSyncController {
         log.info("USCIS Sovereign API: Checking for updates - Form: {}", formId);
         
         if ("all".equalsIgnoreCase(formId)) {
-            return scraperService.checkAllUpdates("uscis-sentinel");
+            return uscisFormScraper.checkAllUpdates("uscis-sentinel");
         }
         
-        return scraperService.checkForUpdates("uscis-sentinel", formId);
+        return uscisFormScraper.checkForUpdates("uscis-sentinel", formId);
     }
 
     @PostMapping("/commit")
-    @Operation(summary = "Commit resource update", description = "Finalizes the synchronization process by creating a new version history record and updating the sync state.")
+    @Operation(summary = "Commit resource update", description = "Finalizes the synchronization process by updating the sovereign sync state.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Update successfully committed", content = @Content(schema = @Schema(implementation = ResourceCommitResponse.class)))
     })
     public ResourceCommitResponse commit(@RequestBody ResourceCommitRequest request) {
         log.info("USCIS Sovereign API: Committing update for form: {}", request.getResourceId());
-        return scraperService.commitUpdate(request);
+        return uscisFormScraper.commitUpdate(request);
     }
 }

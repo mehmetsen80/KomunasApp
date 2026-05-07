@@ -1,0 +1,236 @@
+package org.lite.komunas.service.impl;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.lite.komunas.dto.ResourceCheckResult;
+import org.lite.komunas.dto.ResourceCommitRequest;
+import org.lite.komunas.dto.ResourceCommitResponse;
+import org.lite.komunas.dto.ResourceUpdateNotification;
+import org.lite.komunas.entity.ResourceSyncState;
+import org.lite.komunas.entity.ResourceVersionHistory;
+import org.lite.komunas.repository.ResourceSyncStateRepository;
+import org.lite.komunas.repository.ResourceVersionHistoryRepository;
+import org.lite.komunas.service.USCISNewsroomScraperService;
+import org.springframework.stereotype.Service;
+
+import java.security.MessageDigest;
+import java.time.LocalDateTime;
+import java.util.*;
+
+/**
+ * NEWSROOM SCRAPER SERVICE - Specialized in USCIS Alerts and News Releases.
+ * Utilizes a technically robust SLUG-BASED primary key strategy for alert
+ * tracking.
+ */
+@Service("uscisNewsroomScraper")
+@Slf4j
+@RequiredArgsConstructor
+public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperService {
+
+    private final ResourceSyncStateRepository syncStateRepository;
+    private final ResourceVersionHistoryRepository historyRepository;
+
+    private static final String USCIS_ALERTS_URL = "https://www.uscis.gov/newsroom/alerts";
+    private static final String USCIS_NEWS_URL = "https://www.uscis.gov/newsroom/news-releases";
+
+    @Override
+    public ResourceCheckResult checkForUpdates(String domain, String resourceId) {
+        log.info("Newsroom Specialist checking for updates - Domain: {}, ID: {}", domain, resourceId);
+
+        String url = resourceId.equals("newsroom-alerts") ? USCIS_ALERTS_URL : USCIS_NEWS_URL;
+        List<Map<String, String>> alerts = scrapeAlerts(url);
+
+        // Generate state hash from the structured alert list
+        String currentHash = generateStateHash(alerts);
+        String category = "announcements";
+        ResourceCheckResult result = null;
+
+        Optional<ResourceSyncState> stateOpt = syncStateRepository.findByDomainAndCategoryAndResourceId(domain,
+                category, resourceId);
+
+        if (stateOpt.isPresent()) {
+            ResourceSyncState existingState = stateOpt.get();
+            boolean hashChanged = !currentHash.equals(existingState.getLastKnownHash());
+
+            // We treat the latest alert's slug + date as the "version" for tracking
+            String newVersion = alerts.isEmpty() ? "EMPTY" : alerts.get(0).get("date");
+
+            Map<String, Object> payloadMap = new HashMap<>();
+            payloadMap.put("alerts", alerts);
+
+            result = ResourceCheckResult.builder()
+                    .resourceId(resourceId)
+                    .domain(domain)
+                    .category(category)
+                    .changed(hashChanged)
+                    .oldVersion(existingState.getLastKnownVersion())
+                    .newVersion(newVersion)
+                    .oldHash(existingState.getLastKnownHash())
+                    .currentHash(currentHash)
+                    .resourceUrl(url)
+                    .shouldSync(hashChanged || !existingState.isEnabled())
+                    .payload(payloadMap) // Return structured data for Linqra Gateway diffing
+                    .build();
+        } else {
+            Map<String, Object> payloadMap = new HashMap<>();
+            payloadMap.put("alerts", alerts);
+
+            result = ResourceCheckResult.builder()
+                    .resourceId(resourceId)
+                    .domain(domain)
+                    .category(category)
+                    .changed(true)
+                    .oldVersion("INITIAL")
+                    .newVersion(alerts.isEmpty() ? "INITIAL" : alerts.get(0).get("date"))
+                    .oldHash("INITIAL")
+                    .currentHash(currentHash)
+                    .resourceUrl(url)
+                    .shouldSync(true)
+                    .payload(payloadMap)
+                    .build();
+        }
+
+        return result;
+    }
+
+    @Override
+    public ResourceCommitResponse commitUpdate(ResourceCommitRequest request) {
+        log.info("Newsroom Specialist committing update for {}/{} ({}): hash={}",
+                request.getDomain(), request.getCategory(), request.getResourceId(), request.getHash());
+
+        ResourceSyncState state = syncStateRepository
+                .findByDomainAndCategoryAndResourceId(request.getDomain(), request.getCategory(),
+                        request.getResourceId())
+                .map(existingState -> {
+                    existingState.setLastKnownHash(request.getHash());
+                    existingState.setLastKnownVersion(request.getVersion());
+
+                    existingState.setAgentTaskId(request.getAgentTaskId());
+                    existingState.setChangeType("ANNOUNCEMENT_UPDATE");
+                    existingState.setChangeDetected(request.isChangeDetected());
+                    existingState.setSummary(request.getSummary());
+                    existingState.setLastAnalysis(request.getAnalysis());
+                    existingState.setPayload(request.getPayload());
+                    existingState.setLastCheckedAt(LocalDateTime.now());
+                    existingState.setLastUpdatedAt(LocalDateTime.now());
+                    existingState.setEnabled(true);
+                    return existingState;
+                })
+                .orElseGet(() -> ResourceSyncState.builder()
+                        .domain(request.getDomain())
+                        .category(request.getCategory())
+                        .resourceId(request.getResourceId())
+                        .agentTaskId(request.getAgentTaskId())
+                        .changeType("ANNOUNCEMENT_UPDATE")
+                        .changeDetected(request.isChangeDetected())
+                        .summary(request.getSummary())
+                        .resourceUrl(request.getResourceUrl())
+                        .lastKnownHash(request.getHash())
+                        .lastKnownVersion(request.getVersion())
+                        .lastAnalysis(request.getAnalysis())
+                        .payload(request.getPayload())
+                        .lastCheckedAt(LocalDateTime.now())
+                        .lastUpdatedAt(LocalDateTime.now())
+                        .enabled(true)
+                        .build());
+
+        ResourceSyncState savedState = syncStateRepository.save(state);
+
+        // Create Version History for Newsroom delta
+        ResourceVersionHistory history = ResourceVersionHistory.builder()
+                .domain(request.getDomain())
+                .category(request.getCategory())
+                .resourceId(request.getResourceId())
+                .syncStateId(savedState.getId())
+                .agentTaskId(request.getAgentTaskId())
+                .version(request.getVersion())
+                .hash(request.getHash())
+                .changeType("ANNOUNCEMENT_UPDATE")
+                .summary(request.getSummary())
+                .changeDetected(request.isChangeDetected())
+                .analysis(request.getAnalysis())
+                .detectedAt(LocalDateTime.now())
+                .build();
+
+        historyRepository.save(history);
+
+        return ResourceCommitResponse.builder()
+                .resourceId(savedState.getResourceId())
+                .domain(savedState.getDomain())
+                .category(savedState.getCategory())
+                .version(savedState.getLastKnownVersion())
+                .summary(savedState.getSummary())
+                .status("COMMITTED")
+                .build();
+    }
+
+    private List<Map<String, String>> scrapeAlerts(String url) {
+        log.info("Sovereign extraction: Scraping Alerts from {}", url);
+        List<Map<String, String>> alerts = new ArrayList<>();
+
+        try {
+            Document doc = Jsoup.connect(url).get();
+            Elements rows = doc.select(".views-row");
+
+            for (Element row : rows) {
+                Element link = row.selectFirst(".views-field-title a");
+                Element dateEl = row.selectFirst(".views-field-field-display-date .datetime");
+                Element summaryEl = row.selectFirst(".views-field-body");
+
+                if (link != null) {
+                    Map<String, String> alert = new HashMap<>();
+                    String href = link.attr("href");
+
+                    // Extract Slug as Primary Key
+                    String slug = href.contains("/") ? href.substring(href.lastIndexOf("/") + 1) : href;
+
+                    alert.put("id", slug); // Primary Key
+                    alert.put("title", link.text().trim());
+                    alert.put("url", href.startsWith("http") ? href : "https://www.uscis.gov" + href);
+                    alert.put("date", dateEl != null ? dateEl.text().trim() : "UNKNOWN");
+                    alert.put("summary", summaryEl != null ? summaryEl.text().trim() : "");
+
+                    alerts.add(alert);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Failed to extract sovereign alerts from {}: {}", url, e.getMessage());
+        }
+
+        return alerts;
+    }
+
+    private String generateStateHash(List<Map<String, String>> alerts) {
+        try {
+            // High-fidelity state hashing based on slugs and dates
+            StringBuilder sb = new StringBuilder();
+            for (Map<String, String> alert : alerts) {
+                sb.append(alert.get("id")).append("|").append(alert.get("date")).append("|");
+            }
+
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(sb.toString().getBytes());
+            return HexFormat.of().formatHex(hash);
+        } catch (Exception e) {
+            return "ERROR_HASHING";
+        }
+    }
+
+    @Override
+    public List<ResourceCheckResult> checkAllUpdates(String domain) {
+        // Newsroom Specialist handles newsroom-alerts and news-releases
+        return List.of(
+                checkForUpdates(domain, "newsroom-alerts"),
+                checkForUpdates(domain, "news-releases"));
+    }
+
+    @Override
+    public void handleResourceUpdate(ResourceUpdateNotification notification) {
+        log.info("Newsroom processing update signal: {}", notification.getResourceId());
+    }
+
+}

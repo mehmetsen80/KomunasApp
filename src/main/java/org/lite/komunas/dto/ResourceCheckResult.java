@@ -18,6 +18,18 @@ public class ResourceCheckResult {
     @Schema(description = "The USCIS Form ID (e.g., I-485, I-130)", example = "I-485")
     private String resourceId;
     
+    @Schema(description = "The resource domain", example = "uscis-sentinel")
+    private String domain;
+    
+    @Schema(description = "The resource category", example = "announcements")
+    private String category;
+    
+    @Schema(description = "Indicates if the user is subscribed to this resource", example = "true")
+    private boolean subscribed;
+    
+    @Schema(description = "The Linqra subscription ID, if applicable", example = "sub_12345")
+    private String subscriptionId;
+    
     @Schema(description = "Indicates if a change was detected since the last check", example = "true")
     private boolean changed;
     
@@ -57,4 +69,8 @@ public class ResourceCheckResult {
     
     @Schema(description = "Suggests whether a full synchronization is needed", example = "true")
     private boolean shouldSync;
+
+    @Builder.Default
+    @Schema(description = "Generic payload for structured resource data (e.g., newsroom alert lists)")
+    private Map<String, Object> payload = new HashMap<>();
 }
