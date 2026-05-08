@@ -1,7 +1,7 @@
 @use "sass:color";
 @use "../../assets/styles/variables" as *;
 
-.formDetailPage {
+.newsroomIntelPage {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -118,12 +118,8 @@
         a {
           display: flex;
           align-items: center;
-          justify-content: center;
-          min-width: 320px;
-          flex: 1;
-          max-width: 400px;
           gap: 0.75rem;
-          padding: 1rem 1.5rem;
+          padding: 1rem 2rem;
           border-radius: 12px;
           font-weight: 700;
           transition: $transition-smooth;
@@ -437,43 +433,21 @@
 
           .cardHeader {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
             align-items: center;
             margin-bottom: 1rem;
 
-            .tagWrapper {
-              display: flex;
-              align-items: center;
-              gap: 1rem;
-            }
-
-            .criticalBadge {
-              display: flex;
-              align-items: center;
-              gap: 0.4rem;
-              font-size: 0.65rem;
-              font-weight: 900;
-              color: #ef4444;
-              background: rgba(#ef4444, 0.08);
-              padding: 0.25rem 0.6rem;
-              border-radius: 20px;
-              letter-spacing: 0.05em;
-              animation: criticalPulse 2s infinite;
-              border: 1px solid rgba(#ef4444, 0.2);
-            }
-
-            .versionTag {
-              padding: 0.3rem 0.75rem;
-              background: $color-theme;
-              color: $color-secondary;
-              font-weight: 700;
-              font-size: 0.85rem;
-              border-radius: 8px;
-            }
-
             .dateTag {
-              font-size: 0.85rem;
-              color: $color-text-secondary;
+              display: inline-block;
+              font-size: 0.7rem;
+              font-weight: 900;
+              color: #111827;
+              background: $color-accent;
+              text-transform: uppercase;
+              letter-spacing: 0.07em;
+              padding: 0.2rem 0.65rem;
+              border-radius: 20px;
             }
           }
 
@@ -609,4 +583,10 @@
   border-left-color: currentColor;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+}
+
+@media (max-width: 600px) {
+  .newsroomIntelPage .detailHero {
+    padding-top: 11rem;
+  }
 }

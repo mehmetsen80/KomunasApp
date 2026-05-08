@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, LogOut, LogIn, UserPlus, Bell } from 'lucide-react';
+import { User, LogOut, LogIn, UserPlus, Bell, Rss } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import notificationService from '../../services/notificationService';
@@ -29,6 +29,17 @@ const Header = ({ transparent = false }) => {
 
   return (
     <header className={`header ${transparent ? 'transparent' : ''}`}>
+      <div className="headerNav">
+        <Link to="/" className="headerLogo">Komunas</Link>
+        <Link to="/newsroom/newsroom-alerts" className="navLink">
+          <Rss size={15} />
+          Announcements
+        </Link>
+        <Link to="/newsroom/news-releases" className="navLink">
+          <Rss size={15} />
+          Releases
+        </Link>
+      </div>
       <div className="headerActions">
         {isAuthenticated ? (
           <>

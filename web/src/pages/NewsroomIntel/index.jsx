@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
-  FileText,
-  Download,
   ExternalLink,
   History,
   ShieldCheck,
@@ -11,9 +9,9 @@ import {
   Clock,
   Calendar,
   AlertTriangle,
-  Info,
   Bell,
-  CheckCircle
+  CheckCircle,
+  Rss
 } from 'lucide-react';
 import resourceSyncService from '../../services/resourceSyncService';
 import notificationService from '../../services/notificationService';
@@ -21,43 +19,51 @@ import { useAuth } from '../../contexts/AuthContext';
 import { formatDateTime } from '../../utils/dateUtils';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import SubscribeFormModal from '../../components/Modals/SubscribeFormModal';
+import SubscribeNewsroomModal from '../../components/Modals/SubscribeNewsroomModal';
 import './styles.scss';
 
-const FormDetail = () => {
+const NewsroomIntel = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
 
-  const [form, setForm] = useState(null);
+  const [newsroom, setNewsroom] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [modalConfig, setModalConfig] = useState({ isOpen: false, isUnsubscribing: false });
 
-  const fetchData = async () => {
+  const fetchData = async (silent = false) => {
     try {
-      setLoading(true);
-      const data = await resourceSyncService.getFormStatus(id, user?.email);
-      setForm(data);
+      if (!silent) setLoading(true);
+      else setRefreshing(true);
+
+      const data = await resourceSyncService.getNewsroomStatus(id, user?.email);
+      setNewsroom(data);
     } catch (err) {
-      setError('Unable to load form details. The resource might not exist.');
+      if (!silent) setError('Unable to load newsroom details. The resource might not exist.');
     } finally {
       setLoading(false);
+      setRefreshing(false);
+      setSubmitting(false);
     }
   };
 
   const handleSubscriptionSuccess = () => {
     const isUnsub = modalConfig.isUnsubscribing;
 
-    // Optimistic update to prevent the "flip-back" effect
-    setForm(prev => ({
+    // 1. Enter submitting state for the button
+    setSubmitting(true);
+
+    // 2. Optimistic update to UI state
+    setNewsroom(prev => ({
       ...prev,
       subscribed: !isUnsub
     }));
 
-    // Refresh the real data after a short delay to allow propagation
-    setTimeout(fetchData, 1500);
+    // 3. Refresh real data in background after short delay
+    setTimeout(() => fetchData(true), 1500);
   };
 
   useEffect(() => {
@@ -70,22 +76,22 @@ const FormDetail = () => {
   };
 
   const openUnsubscribeModal = () => {
-    if (!form.subscriptionId) return;
+    if (!newsroom.subscriptionId) return;
     setModalConfig({ isOpen: true, isUnsubscribing: true });
   };
 
   if (loading) {
     return (
-      <div className="formDetailPage loading">
+      <div className="newsroomIntelPage loading">
         <div className="spinner"></div>
-        <p>Loading form records...</p>
+        <p>Loading newsroom records...</p>
       </div>
     );
   }
 
-  if (error || !form) {
+  if (error || !newsroom) {
     return (
-      <div className="formDetailPage error">
+      <div className="newsroomIntelPage error">
         <div className="errorCard">
           <AlertCircle size={48} />
           <h2>Oops!</h2>
@@ -96,8 +102,10 @@ const FormDetail = () => {
     );
   }
 
+  const alerts = newsroom.payload?.alerts || [];
+
   return (
-    <div className="formDetailPage">
+    <div className="newsroomIntelPage">
       <Header transparent />
 
       <header className="detailHero">
@@ -106,38 +114,36 @@ const FormDetail = () => {
             <ArrowLeft size={20} />
             Back to Library
           </button>
-          <div className="formTypeBadge">USCIS {form.domain}</div>
-          <h1>{form.resourceId}</h1>
-          <p className="formSummary">{form.summary}</p>
+          <div className="formTypeBadge">USCIS {newsroom.domain}</div>
+          <h1>{newsroom.summary || (id === 'news-releases' ? 'News Releases' : 'Newsroom Alerts')}</h1>
+          <p className="formSummary">Monitoring USCIS for policy updates, procedural changes, and breaking news releases.</p>
 
           <div className="quickMeta">
             <div className="metaItem">
               <ShieldCheck size={18} />
-              <span>Current Version: <strong>{form.currentVersion}</strong></span>
+              <span>Active Alerts: <strong>{alerts.length}</strong></span>
             </div>
-            <div className="metaItem">
-              <Calendar size={18} />
-              <span>Effective: <strong>{form.effectiveDate}</strong></span>
-            </div>
+            {newsroom.effectiveDate && (
+              <div className="metaItem">
+                <Calendar size={18} />
+                <span>Effective: <strong>{newsroom.effectiveDate}</strong></span>
+              </div>
+            )}
             <div className="metaItem">
               <Clock size={18} />
-              <span>Last Checked: {formatDateTime(form.lastCheckedAt)}</span>
+              <span>Last Checked: {formatDateTime(newsroom.lastCheckedAt)}</span>
             </div>
           </div>
 
           <div className="heroActions">
-            <a href={form.resourceUrl} target="_blank" rel="noopener noreferrer" className="primaryAction">
-              <Download size={20} />
-              Download Latest Form (PDF)
-            </a>
-            <a href={form.instructionsUrl} target="_blank" rel="noopener noreferrer" className="secondaryAction">
-              <FileText size={20} />
-              View Instructions
+            <a href={newsroom.resourceUrl || 'https://www.uscis.gov/newsroom/alerts'} target="_blank" rel="noopener noreferrer" className="primaryAction">
+              <Rss size={20} />
+              Visit Official Newsroom
             </a>
 
             {isAuthenticated && (
               <div className="subscriptionAction">
-                {form.subscribed ? (
+                {newsroom.subscribed ? (
                   <button
                     className="subscribedBtn"
                     onClick={openUnsubscribeModal}
@@ -164,14 +170,14 @@ const FormDetail = () => {
 
       <main className="detailContent">
 
-        {form.supplementalResources && Object.keys(form.supplementalResources).length > 0 && (
+        {newsroom.supplementalResources && Object.keys(newsroom.supplementalResources).length > 0 && (
           <section className="supplementalSection">
             <div className="sectionHeader">
               <ShieldCheck size={24} />
               <h2>Supplemental Information</h2>
             </div>
             <div className="supplementalGrid">
-              {Object.entries(form.supplementalResources).map(([key, res]) => (
+              {Object.entries(newsroom.supplementalResources).map(([key, res]) => (
                 <div key={key} className="supplementalCard">
                   <h3>{key}</h3>
                   <p>{res.summary || 'Additional resource'}</p>
@@ -189,41 +195,30 @@ const FormDetail = () => {
         <section className="historySection">
           <div className="sectionHeader">
             <History size={24} />
-            <h2>Version History</h2>
+            <h2>Latest Alerts Pipeline</h2>
           </div>
 
           <div className="timeline">
-            {form.versionHistory && form.versionHistory.length > 0 ? (
-              form.versionHistory.map((entry, index) => (
-                <div key={index} className={`timelineItem ${entry.changeDetected ? 'critical' : ''}`}>
+            {alerts && alerts.length > 0 ? (
+              alerts.map((alert, index) => (
+                <div key={index} className="timelineItem">
                   <div className="timelineDot"></div>
                   <div className="timelineCard">
                     <div className="cardHeader">
-                      <div className="tagWrapper">
-                        <span className="versionTag">v{entry.version}</span>
-                        {entry.changeDetected && (
-                          <span className="criticalBadge">
-                            <AlertTriangle size={12} />
-                            CRITICAL CHANGE
-                          </span>
-                        )}
-                      </div>
-                      <span className="dateTag">{formatDateTime(entry.detectedAt)}</span>
+                      <span className="dateTag">{alert.date}</span>
                     </div>
-                    <p className="cardSummary">{entry.summary}</p>
+                    <p className="cardSummary">{alert.title}</p>
+                    <p className="alertDetails" style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '1rem' }}>{alert.summary}</p>
                     <div className="cardActions">
-                      <a href={entry.resourceUrl} target="_blank" rel="noopener noreferrer">
-                        <Download size={14} /> PDF
-                      </a>
-                      <a href={entry.instructionsUrl} target="_blank" rel="noopener noreferrer">
-                        <FileText size={14} /> Instructions
+                      <a href={alert.url} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink size={14} /> Read Full Alert
                       </a>
                     </div>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="noHistory">No version history available for this form.</p>
+              <p className="noHistory">No alerts found in the current state.</p>
             )}
           </div>
         </section>
@@ -231,13 +226,13 @@ const FormDetail = () => {
 
       <Footer />
 
-      <SubscribeFormModal
+      <SubscribeNewsroomModal
         isOpen={modalConfig.isOpen}
-        formId={id}
-        domain={form?.domain}
-        category={form?.category}
+        resourceId={id}
+        domain={newsroom?.domain}
+        category={newsroom?.category}
         userEmail={user?.email}
-        subscriptionId={form?.subscriptionId}
+        subscriptionId={newsroom?.subscriptionId}
         isUnsubscribing={modalConfig.isUnsubscribing}
         onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
         onSuccess={handleSubscriptionSuccess}
@@ -246,4 +241,4 @@ const FormDetail = () => {
   );
 };
 
-export default FormDetail;
+export default NewsroomIntel;

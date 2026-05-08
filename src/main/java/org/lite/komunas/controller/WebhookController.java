@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.lite.komunas.dto.ResourceUpdateNotification;
-import org.lite.komunas.service.USCISScraperService;
+import org.lite.komunas.service.USCISFormScraperService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Webhooks", description = "System-level webhooks for external signal processing")
 public class WebhookController {
 
-    private final USCISScraperService uscisScraperService;
+    private final USCISFormScraperService uscisFormScraperService;
 
     @PostMapping
     @Operation(summary = "Handle system signals", description = "Processes incoming webhook signals from external systems (e.g., Knowledge Hub document deletions).")
@@ -36,10 +36,10 @@ public class WebhookController {
         if ("DOCUMENT_HARD_DELETED".equals(notification.getType())) {
             String documentId = (String) notification.getDelta().get("documentId");
             log.info("🔔 Processing HARD_DELETE signal for document: {}", documentId);
-            uscisScraperService.handleDocumentDeletion(documentId);
+            uscisFormScraperService.handleDocumentDeletion(documentId);
         } else if ("EDITION_UPDATE".equals(notification.getType()) || "FEE_CHANGE".equals(notification.getType())) {
             log.info("🔔 Processing UPDATE signal for {}: {}", notification.getResourceId(), notification.getType());
-            uscisScraperService.handleResourceUpdate(notification);
+            uscisFormScraperService.handleResourceUpdate(notification);
         }
     }
 }

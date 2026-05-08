@@ -11,7 +11,7 @@ import org.lite.komunas.entity.ResourceSyncState;
 import org.lite.komunas.entity.ResourceVersionHistory;
 import org.lite.komunas.repository.ResourceSyncStateRepository;
 import org.lite.komunas.repository.ResourceVersionHistoryRepository;
-import org.lite.komunas.service.USCISScraperService;
+import org.lite.komunas.service.USCISFormScraperService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClient;
@@ -26,13 +26,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * UNIFIED SCRAPER SERVICE - Domain sovereign logic.
- * This class owns the scraping, hashing, and sync state for USCIS resources.
+ * FORM SCRAPER SERVICE - Specialized in USCIS PDF-based form tracking.
+ * This class owns the scraping, hashing, and sync state for USCIS Forms.
  */
-@Service
+@Service("uscisFormScraper")
 @Slf4j
 @RequiredArgsConstructor
-public class USCISScraperServiceImpl implements USCISScraperService {
+public class USCISFormScraperServiceImpl implements USCISFormScraperService {
 
     private final ResourceSyncStateRepository syncStateRepository;
     private final ResourceVersionHistoryRepository historyRepository;
@@ -54,7 +54,7 @@ public class USCISScraperServiceImpl implements USCISScraperService {
         String currentHash = downloadAndHash(metadata.getResourceUrl());
         String instructionsHash = downloadAndHash(metadata.getInstructionsUrl());
 
-        // USCIS Scraper currently only handles "forms" category
+        // USCIS Form Scraper specifically handles the "forms" category
         String domain = category; // legacy 'category' param is now the domain (e.g. uscis-sentinel)
         String formsCategory = "forms";
 
@@ -120,6 +120,8 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
                     return ResourceCheckResult.builder()
                             .resourceId(resourceId)
+                            .domain(domain)
+                            .category(formsCategory)
                             .changed(contentChanged)
                             .oldVersion(existingState.getLastKnownVersion())
                             .newVersion(metadata.getVersion())
@@ -151,6 +153,8 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
                     return ResourceCheckResult.builder()
                             .resourceId(resourceId)
+                            .domain(domain)
+                            .category(formsCategory)
                             .changed(true)
                             .oldVersion("INITIAL")
                             .newVersion(metadata.getVersion())
@@ -169,10 +173,12 @@ public class USCISScraperServiceImpl implements USCISScraperService {
     @Override
     public ResourceCommitResponse commitUpdate(ResourceCommitRequest request) {
         log.info("Worker committing update for {}/{} ({}): version={}, hash={}",
-                request.getDomain(), request.getCategory(), request.getResourceId(), request.getVersion(), request.getHash());
+                request.getDomain(), request.getCategory(), request.getResourceId(), request.getVersion(),
+                request.getHash());
 
         ResourceSyncState state = syncStateRepository
-                .findByDomainAndCategoryAndResourceId(request.getDomain(), request.getCategory(), request.getResourceId())
+                .findByDomainAndCategoryAndResourceId(request.getDomain(), request.getCategory(),
+                        request.getResourceId())
                 .map(existingState -> {
                     existingState.setLastKnownVersion(request.getVersion());
                     existingState.setEffectiveDate(request.getEffectiveDate());
@@ -264,7 +270,7 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
     @Override
     public void handleDocumentDeletion(String documentId) {
-        log.info("🔔 Processing deletion signal for document: {}", documentId);
+        log.info("\uD83D\uDD14 Processing deletion signal for document: {}", documentId);
 
         // Check if it's a primary document
         syncStateRepository.findByDocumentId(documentId)
@@ -287,8 +293,8 @@ public class USCISScraperServiceImpl implements USCISScraperService {
 
     @Override
     public void handleResourceUpdate(ResourceUpdateNotification notification) {
-        log.info("🔔 Processing update signal for {}: {}", notification.getResourceId(), notification.getType());
-        // TODO: Custom Logic
+        log.info("\uD83D\uDD14 Processing update signal for {}: {}", notification.getResourceId(),
+                notification.getType());
     }
 
     private String downloadAndHash(String url) {
@@ -345,15 +351,9 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                         version = matcher.group(1);
                     }
 
-                    // Try to find a mandatory date (usually follows "filing on or after" or
-                    // "starting")
-                    // Example: "Mandatory for filing on or after 02/10/25"
                     if (text.toLowerCase().contains("mandatory") || text.toLowerCase().contains("after")) {
-                        // Pattern for date again but search after the word mandatory
                         Matcher mandatoryMatcher = VERSION_PATTERN.matcher(text);
-                        // If there are two dates, the second one is often the effective date
                         if (mandatoryMatcher.find()) {
-                            // Find the NEXT one if it exists
                             if (mandatoryMatcher.find()) {
                                 effectiveDate = mandatoryMatcher.group(1);
                             }
@@ -362,7 +362,6 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 }
             }
 
-            // Fallback for version (whole page search)
             if ("UNKNOWN".equals(version)) {
                 Matcher matcher = VERSION_PATTERN.matcher(doc.text());
                 if (matcher.find()) {
@@ -370,9 +369,6 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 }
             }
 
-            // Final Fallback: If no explicit mandatory date was found, the edition date
-            // (version)
-            // is the effective date. This MUST happen after all version fallbacks.
             if ("UNKNOWN".equals(effectiveDate) && !"UNKNOWN".equals(version)) {
                 effectiveDate = version;
             }
@@ -382,18 +378,14 @@ public class USCISScraperServiceImpl implements USCISScraperService {
             String instructionsUrl = null;
             Map<String, SupplementalResource> supplementalResources = new HashMap<>();
 
-            // Pattern-based detection (Standard USCIS weights)
             String shortFormId = normalizedFormId.replace("-", "");
             String exactFormSuffix = "/" + normalizedFormId + ".pdf";
             String exactInstrSuffix = "/" + normalizedFormId + "instr.pdf";
             String shortFormSuffix = "/" + shortFormId + ".pdf";
             String shortInstrSuffix = "/" + shortFormId + "instr.pdf";
-            log.info("Scraping for PDFs on page: {}", url);
 
             Elements allLinks = doc.select("a[href]");
-            log.info("Found {} total links on page", allLinks.size());
 
-            // Phase 1: Look for EXACT pattern matches
             for (Element link : allLinks) {
                 String absoluteUrl = getAbsoluteUrl(link.attr("href"));
                 if (absoluteUrl == null)
@@ -403,15 +395,13 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 if (!filename.contains(".pdf"))
                     continue;
 
-                log.info("Processing PDF link: {}", absoluteUrl);
-
                 if (filename.endsWith(exactFormSuffix) || filename.endsWith(shortFormSuffix)) {
                     pdfUrl = absoluteUrl;
                 } else if (filename.endsWith(exactInstrSuffix) || filename.endsWith(shortInstrSuffix)) {
                     instructionsUrl = absoluteUrl;
                 }
 
-                // Hardcoded Special Cases for Supplemental Documents
+                // Supplemental Documents
                 if ("n-400".equals(normalizedFormId) && filename.contains("g-1151.pdf")) {
                     supplementalResources.put("g1151",
                             SupplementalResource.builder().name("G-1151 Notification").url(absoluteUrl).build());
@@ -470,7 +460,6 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                 }
             }
 
-            // Phase 2: Fuzzy fallback
             if (pdfUrl == null || instructionsUrl == null) {
                 for (Element link : allLinks) {
                     String absoluteUrl = getAbsoluteUrl(link.attr("href"));
@@ -511,8 +500,8 @@ public class USCISScraperServiceImpl implements USCISScraperService {
     @Override
     public List<ResourceCheckResult> checkAllUpdates(String category) {
         log.info("Worker checking ALL updates for domain: {}", category);
-        
-        String domain = category; // legacy 'category' param is now the domain (e.g. uscis-sentinel)
+
+        String domain = category;
         String formsCategory = "forms";
 
         return syncStateRepository.findByDomainAndCategory(domain, formsCategory).stream()
@@ -523,6 +512,8 @@ public class USCISScraperServiceImpl implements USCISScraperService {
                         log.error("Failed to check updates for resource {}: {}", state.getResourceId(), e.getMessage());
                         return ResourceCheckResult.builder()
                                 .resourceId(state.getResourceId())
+                                .domain(domain)
+                                .category(formsCategory)
                                 .changed(false)
                                 .shouldSync(false)
                                 .oldVersion(state.getLastKnownVersion())

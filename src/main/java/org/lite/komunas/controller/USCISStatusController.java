@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.lite.komunas.dto.USCISFormStatusResponse;
+import org.lite.komunas.dto.USCISStatusResponse;
 import org.lite.komunas.service.USCISStatusService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +43,7 @@ public class USCISStatusController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Form status successfully retrieved. Returns a single object for specific formId, or a list of objects if formId is 'all'.",
-                    content = @Content(schema = @Schema(implementation = USCISFormStatusResponse.class))
+                    content = @Content(schema = @Schema(implementation = USCISStatusResponse.class))
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -65,6 +65,37 @@ public class USCISStatusController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> {
                     log.warn("USCIS Status API: Form not found: {}", formId);
+                    return ResponseEntity.notFound().build();
+                });
+    }
+
+    @GetMapping("/newsroom/{resourceId}")
+    @Operation(
+            summary = "Get USCIS newsroom status",
+            description = "Returns the current sync state and structured alerts for a monitored USCIS Newsroom/Alerts resource."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Newsroom status successfully retrieved.",
+                    content = @Content(schema = @Schema(implementation = USCISStatusResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No monitoring record found for the given newsroom ID"
+            )
+    })
+    public ResponseEntity<?> checkNewsroomStatus(
+            @Parameter(description = "The Newsroom Resource ID (e.g., newsroom-alerts, news-releases)", example = "newsroom-alerts")
+            @PathVariable String resourceId,
+            @RequestParam(required = false) String userId) {
+
+        log.info("USCIS Status API: Fetching status for newsroom: {} for user: {}", resourceId, userId);
+
+        return statusService.getNewsroomStatus(resourceId, userId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> {
+                    log.warn("USCIS Status API: Newsroom resource not found: {}", resourceId);
                     return ResponseEntity.notFound().build();
                 });
     }

@@ -3,7 +3,7 @@ import { X, Bell, Mail, Shield, CheckCircle, AlertTriangle } from 'lucide-react'
 import subscriptionService from '../../../services/subscriptionService';
 import './styles.scss';
 
-const SubscribeConfirmModal = ({ isOpen, onClose, onSuccess, formId, domain, category, userEmail, subscriptionId, isUnsubscribing = false }) => {
+const SubscribeFormModal = ({ isOpen, onClose, onSuccess, formId, domain, category, userEmail, subscriptionId, isUnsubscribing = false }) => {
   const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
@@ -96,4 +96,4 @@ const SubscribeConfirmModal = ({ isOpen, onClose, onSuccess, formId, domain, cat
   );
 };
 
-export default SubscribeConfirmModal;
+export default SubscribeFormModal;
