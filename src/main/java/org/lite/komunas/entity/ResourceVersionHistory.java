@@ -49,6 +49,8 @@ public class ResourceVersionHistory {
     private boolean changeDetected;
     private Object analysis; // Snapshot of the LLM analysis for this version
 
+    private Map<String, Object> payload;
+
     @Builder.Default
     private boolean enabled = true;
 

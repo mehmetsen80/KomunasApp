@@ -1,0 +1,234 @@
+@use "sass:color";
+@use "../../../assets/styles/variables" as *;
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent.policyModal {
+  background: white;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 24px;
+  padding: 2.5rem;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  .closeBtn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+  }
+
+  .modalHeader {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .iconWrapper {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+
+      &.sub {
+        background: rgba($color-secondary, 0.05);
+        color: $color-secondary;
+      }
+
+      &.unsub {
+        background: rgba(#ef4444, 0.08);
+        color: #ef4444;
+      }
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: $color-secondary;
+      margin-bottom: 0.5rem;
+    }
+
+    .formTarget {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #6b7280;
+      background: #f9fafb;
+      display: inline-block;
+      padding: 0.3rem 0.9rem;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .modalBody {
+    margin-bottom: 2.5rem;
+
+    p {
+      color: #4b5563;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .benefitGrid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+
+      .benefitItem {
+        display: flex;
+        gap: 1.25rem;
+        align-items: flex-start;
+        padding: 1rem;
+        background: rgba($color-secondary, 0.02);
+        border-radius: 12px;
+        border: 1px solid rgba($color-secondary, 0.05);
+
+        svg {
+          color: $color-secondary;
+          margin-top: 0.2rem;
+          flex-shrink: 0;
+        }
+
+        strong {
+          display: block;
+          font-size: 0.95rem;
+          color: $color-secondary;
+          margin-bottom: 0.2rem;
+        }
+
+        span {
+          font-size: 0.85rem;
+          color: #6b7280;
+          line-height: 1.4;
+          display: block;
+        }
+      }
+    }
+
+    .unsubWarning {
+      ul {
+        list-style: none;
+        padding: 0;
+        
+        li {
+          padding-left: 1.5rem;
+          position: relative;
+          color: #4b5563;
+          margin-bottom: 0.75rem;
+          font-size: 0.95rem;
+
+          &::before {
+            content: '•';
+            position: absolute;
+            left: 0.5rem;
+            color: #ef4444;
+            font-weight: 900;
+          }
+        }
+      }
+    }
+  }
+
+  .modalFooter {
+    display: flex;
+    gap: 1rem;
+
+    button {
+      flex: 1;
+      padding: 1rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cancelBtn {
+      background: white;
+      border: 1px solid #e5e7eb;
+      color: #4b5563;
+
+      &:hover {
+        background: #f9fafb;
+        border-color: #d1d5db;
+      }
+    }
+
+    .confirmBtn {
+      border: none;
+      color: white;
+
+      &.sub {
+        background: $color-secondary;
+        box-shadow: 0 4px 12px rgba($color-secondary, 0.2);
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 15px rgba($color-secondary, 0.3);
+          opacity: 0.95;
+        }
+      }
+
+      &.unsub {
+        background: #ef4444;
+        box-shadow: 0 4px 12px rgba(#ef4444, 0.2);
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 15px rgba(#ef4444, 0.3);
+        }
+      }
+    }
+  }
+
+  .mini-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}

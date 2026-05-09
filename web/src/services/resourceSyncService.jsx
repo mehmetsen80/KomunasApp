@@ -59,6 +59,20 @@ const resourceSyncService = {
       console.error(`Error in resourceSyncService.getNewsroomStatus for ${resourceId}:`, error);
       throw error;
     }
+  },
+
+  /**
+   * Fetches the status and full history for a specific policy manual resource.
+   */
+  getPolicyManualStatus: async (resourceId, userId = null) => {
+    try {
+      const url = userId ? `/api/uscis/status/policy-manual/${resourceId}?userId=${userId}` : `/api/uscis/status/policy-manual/${resourceId}`;
+      const response = await axiosInstance.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error in resourceSyncService.getPolicyManualStatus for ${resourceId}:`, error);
+      throw error;
+    }
   }
 };
 

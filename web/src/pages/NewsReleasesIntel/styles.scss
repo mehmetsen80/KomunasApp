@@ -1,7 +1,7 @@
 @use "sass:color";
 @use "../../assets/styles/variables" as *;
 
-.newsroomIntelPage {
+.newsReleasesIntel {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -135,18 +135,6 @@
               box-shadow: 0 15px 30px rgba($color-secondary, 0.25);
             }
           }
-
-          &.secondaryAction {
-            background-color: $color-white;
-            color: $color-secondary;
-            border: 1px solid rgba($color-secondary, 0.1);
-
-            &:hover {
-              background-color: rgba($color-secondary, 0.02);
-              border-color: rgba($color-secondary, 0.2);
-              transform: translateY(-2px);
-            }
-          }
         }
 
         .subscriptionAction {
@@ -220,7 +208,6 @@
       }
     }
 
-    // --- Core Reusable Components ---
     .versionUpdates {
       .timelineItem {
         margin-bottom: 2.5rem;
@@ -238,9 +225,13 @@
           transition: $transition-smooth;
           position: relative;
           z-index: 10;
+          border-left: 4px solid #e5e7eb; // Default grey
 
           &:hover {
-            border-color: rgba($color-secondary, 0.2);
+            border-left-color: #111827; // Hover black
+            border-right-color: rgba($color-secondary, 0.2);
+            border-top-color: rgba($color-secondary, 0.2);
+            border-bottom-color: rgba($color-secondary, 0.2);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
           }
 
@@ -298,23 +289,6 @@
             }
           }
 
-          .policyChapters {
-            margin-bottom: 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-
-            .miniBadge {
-              font-size: 0.7rem;
-              font-weight: 800;
-              background: rgba($color-secondary, 0.05);
-              padding: 0.2rem 0.6rem;
-              border-radius: 4px;
-              border: 1px solid rgba($color-secondary, 0.1);
-              color: $color-secondary;
-            }
-          }
-
           .cardActions {
             display: flex;
             gap: 1.5rem;
@@ -343,17 +317,6 @@
       }
     }
 
-    // --- Current Intelligence Section ---
-    .currentIntelligence {
-      margin-bottom: 6rem;
-      
-      .versionUpdates {
-        padding-left: 0;
-        border-left: none;
-      }
-    }
-
-    // --- Version Timeline / Archive Section ---
     .versionTimeline {
       .versionGroup {
         margin-bottom: 5rem;
@@ -376,21 +339,6 @@
             border-radius: 50%;
             background: #9ca3af;
             flex-shrink: 0;
-            position: relative;
-            
-            &.latest {
-              background: #ed7534;
-              box-shadow: 0 0 15px rgba(237, 117, 52, 0.5);
-              
-              &::after {
-                content: '';
-                position: absolute;
-                inset: -4px;
-                border: 2px solid rgba(237, 117, 52, 0.2);
-                border-radius: 50%;
-                animation: pulse 2s infinite;
-              }
-            }
           }
 
           .versionInfo {
@@ -424,13 +372,14 @@
   }
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(1.8); opacity: 0; }
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.noHistory {
+  padding: 3rem;
+  background: rgba($color-secondary, 0.02);
+  border-radius: 16px;
+  border: 1px dashed rgba($color-secondary, 0.1);
+  text-align: center;
+  color: #6b7280;
+  font-weight: 500;
 }
 
 .spinner {
@@ -440,4 +389,8 @@
   border-top-color: $color-secondary;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

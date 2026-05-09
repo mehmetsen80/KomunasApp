@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, LogOut, LogIn, UserPlus, Bell, Rss } from 'lucide-react';
+import { User, LogOut, LogIn, UserPlus, Bell, Rss, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import notificationService from '../../services/notificationService';
@@ -38,6 +38,10 @@ const Header = ({ transparent = false }) => {
         <Link to="/newsroom/news-releases" className="navLink">
           <Rss size={15} />
           Releases
+        </Link>
+        <Link to="/newsroom/policy-updates" className="navLink">
+          <BookOpen size={15} />
+          Policy Updates
         </Link>
       </div>
       <div className="headerActions">

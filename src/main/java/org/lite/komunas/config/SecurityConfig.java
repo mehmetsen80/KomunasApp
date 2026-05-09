@@ -69,7 +69,7 @@ public class SecurityConfig {
         http
                 .securityMatcher("/auth/**", "/health", "/actuator/health", "/error",
                         "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
-                        "/api/uscis/status/**", "/api/uscis/newsroom/**", "/api/uscis/sync/**")
+                        "/api/uscis/status/**", "/api/uscis/newsroom/**", "/api/uscis/policy-manual/**", "/api/uscis/sync/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
