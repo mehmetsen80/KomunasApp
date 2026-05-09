@@ -65,6 +65,7 @@ public class USCISStatusResponse {
         private Map<String, SupplementalResource> supplementalResources;
         private String documentId;
         private LocalDateTime detectedAt;
+        private Map<String, Object> payload;
     }
 
     /** Convenience factory — builds a VersionEntry from a ResourceVersionHistory entity. */
@@ -80,6 +81,7 @@ public class USCISStatusResponse {
                 .supplementalResources(h.getSupplementalResources())
                 .documentId(h.getDocumentId())
                 .detectedAt(h.getDetectedAt())
+                .payload(h.getPayload())
                 .build();
     }
 }

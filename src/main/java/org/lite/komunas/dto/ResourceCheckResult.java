@@ -38,6 +38,9 @@ public class ResourceCheckResult {
     
     @Schema(description = "The current version string discovered on the website", example = "Edition 01/30/24")
     private String newVersion;
+
+    @Schema(description = "A human-readable summary of the detected change", example = "New policy guidance: Technical Update...")
+    private String summary;
     
     @Schema(description = "The effective date of the current version", example = "2024-01-30")
     private String effectiveDate;

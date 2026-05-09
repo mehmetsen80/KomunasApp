@@ -118,6 +118,8 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
 
                     boolean shouldSync = contentChanged || missingDocs || !existingState.isEnabled();
 
+                    String resultSummary = contentChanged ? "Detected update for Form " + resourceId + " (" + metadata.getVersion() + ")" : "No changes detected for Form " + resourceId;
+
                     return ResourceCheckResult.builder()
                             .resourceId(resourceId)
                             .domain(domain)
@@ -125,6 +127,7 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                             .changed(contentChanged)
                             .oldVersion(existingState.getLastKnownVersion())
                             .newVersion(metadata.getVersion())
+                            .summary(resultSummary)
                             .effectiveDate(metadata.getEffectiveDate())
                             .oldHash(existingState.getLastKnownHash())
                             .currentHash(currentHash)
@@ -151,6 +154,8 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                                 .build());
                     }
 
+                    String resultSummary = "Initial discovery of Form " + resourceId + " (" + metadata.getVersion() + ")";
+
                     return ResourceCheckResult.builder()
                             .resourceId(resourceId)
                             .domain(domain)
@@ -158,6 +163,7 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                             .changed(true)
                             .oldVersion("INITIAL")
                             .newVersion(metadata.getVersion())
+                            .summary(resultSummary)
                             .effectiveDate(metadata.getEffectiveDate())
                             .oldHash("INITIAL")
                             .currentHash(currentHash)

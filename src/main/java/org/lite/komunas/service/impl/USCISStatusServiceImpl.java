@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -25,6 +27,7 @@ public class USCISStatusServiceImpl implements USCISStatusService {
     private static final String USCIS_DOMAIN = "uscis-sentinel";
     private static final String USCIS_CATEGORY_FORMS = "forms";
     private static final String USCIS_CATEGORY_ANNOUNCEMENTS = "announcements";
+    private static final String USCIS_CATEGORY_POLICY = "policy-manual";
 
     private final ResourceSyncStateRepository syncStateRepository;
     private final ResourceVersionHistoryRepository versionHistoryRepository;
@@ -154,6 +157,49 @@ public class USCISStatusServiceImpl implements USCISStatusService {
         return Optional.of(response);
     }
 
+    @Override
+    public Optional<USCISStatusResponse> getPolicyManualStatus(String resourceId) {
+        return getPolicyManualStatus(resourceId, null);
+    }
+
+    @Override
+    public Optional<USCISStatusResponse> getPolicyManualStatus(String resourceId, String userId) {
+        log.info("Fetching USCIS policy status for: {} for user: {}", resourceId, userId);
+
+        Optional<ResourceSyncState> stateOpt = syncStateRepository.findByDomainAndCategoryAndResourceId(USCIS_DOMAIN,
+                USCIS_CATEGORY_POLICY, resourceId);
+
+        if (stateOpt.isEmpty()) {
+            log.info("No policy state found for: {}. Returning initial status.", resourceId);
+            return Optional.of(USCISStatusResponse.builder()
+                    .resourceId(resourceId)
+                    .domain(USCIS_DOMAIN)
+                    .category(USCIS_CATEGORY_POLICY)
+                    .currentVersion("INITIAL")
+                    .enabled(true)
+                    .subscribed(false)
+                    .build());
+        }
+
+        ResourceSyncState state = stateOpt.get();
+        USCISStatusResponse response = mapToResponse(state);
+
+        // Check subscription if userId is present
+        if (userId != null) {
+            List<Map<String, Object>> subscriptions = linqraClient.getSubscriptions(userId);
+            for (Map<String, Object> sub : subscriptions) {
+                if (resourceId.equals(sub.get("resourceId")) && USCIS_DOMAIN.equals(sub.get("domain"))
+                        && USCIS_CATEGORY_POLICY.equals(sub.get("category"))) {
+                    response.setSubscribed(true);
+                    response.setSubscriptionId((String) sub.get("id"));
+                    break;
+                }
+            }
+        }
+
+        return Optional.of(response);
+    }
+
     private USCISStatusResponse mapToResponse(ResourceSyncState state) {
         List<ResourceVersionHistory> history = versionHistoryRepository
                 .findByDomainAndCategoryAndResourceIdOrderByDetectedAtDesc(
@@ -188,9 +234,11 @@ public class USCISStatusServiceImpl implements USCISStatusService {
     }
 
     private String beautifySummary(String summary) {
-        if (summary == null) return null;
+        if (summary == null)
+            return null;
         return summary.replace("newsroom-alerts", "USCIS Announcements")
-                      .replace("news-releases", "USCIS News Releases");
+                .replace("news-releases", "USCIS News Releases")
+                .replace("policy-updates", "USCIS Policy Manual Updates");
     }
 
     private Map<String, Object> extractPayloadSafe(ResourceSyncState state) {
@@ -200,10 +248,12 @@ public class USCISStatusServiceImpl implements USCISStatusService {
         }
 
         // Priority 2: Safe fallback for existing records with buried LLM analysis
-        if (state.getLastAnalysis() == null) return null;
+        if (state.getLastAnalysis() == null)
+            return null;
 
         try {
-            // Recursively search for any JSON content in the analysis map (OpenAI, Gemini, Claude compatible)
+            // Recursively search for any JSON content in the analysis map (OpenAI, Gemini,
+            // Claude compatible)
             String jsonContent = findJsonContent(state.getLastAnalysis());
             if (jsonContent != null) {
                 return objectMapper.readValue(jsonContent, Map.class);
@@ -215,23 +265,44 @@ public class USCISStatusServiceImpl implements USCISStatusService {
     }
 
     /**
-     * Recursively searches for a string that looks like a JSON object within a Map or List.
+     * Recursively searches for a string that looks like a JSON object within a Map
+     * or List.
      */
     private String findJsonContent(Object obj) {
         if (obj instanceof String) {
             String str = ((String) obj).trim();
+
+            // Priority 1: Cleanly stripped markdown
+            if (str.contains("```")) {
+                int start = str.indexOf("{");
+                int end = str.lastIndexOf("}");
+                if (start != -1 && end != -1 && start < end) {
+                    str = str.substring(start, end + 1).trim();
+                }
+            }
+
+            // Priority 2: Direct JSON check
             if (str.startsWith("{") && str.endsWith("}")) {
                 return str;
+            }
+
+            // Priority 3: Regex fallback for buried JSON
+            Pattern pattern = Pattern.compile("\\{.*\\}", Pattern.DOTALL);
+            Matcher matcher = pattern.matcher(str);
+            if (matcher.find()) {
+                return matcher.group();
             }
         } else if (obj instanceof Map) {
             for (Object value : ((Map<?, ?>) obj).values()) {
                 String found = findJsonContent(value);
-                if (found != null) return found;
+                if (found != null)
+                    return found;
             }
         } else if (obj instanceof List) {
             for (Object item : (List<?>) obj) {
                 String found = findJsonContent(item);
-                if (found != null) return found;
+                if (found != null)
+                    return found;
             }
         }
         return null;

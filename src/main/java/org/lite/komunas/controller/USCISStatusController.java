@@ -99,4 +99,35 @@ public class USCISStatusController {
                     return ResponseEntity.notFound().build();
                 });
     }
+
+    @GetMapping("/policy-manual/{resourceId}")
+    @Operation(
+            summary = "Get USCIS policy manual status",
+            description = "Returns the current sync state and structured legal updates for a monitored USCIS Policy Manual resource."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Policy manual status successfully retrieved.",
+                    content = @Content(schema = @Schema(implementation = USCISStatusResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No monitoring record found for the given policy manual ID"
+            )
+    })
+    public ResponseEntity<?> checkPolicyManualStatus(
+            @Parameter(description = "The Policy Manual Resource ID (e.g., policy-updates)", example = "policy-updates")
+            @PathVariable String resourceId,
+            @RequestParam(required = false) String userId) {
+
+        log.info("USCIS Status API: Fetching status for policy manual: {} for user: {}", resourceId, userId);
+
+        return statusService.getPolicyManualStatus(resourceId, userId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> {
+                    log.warn("USCIS Status API: Policy manual resource not found: {}", resourceId);
+                    return ResponseEntity.notFound().build();
+                });
+    }
 }

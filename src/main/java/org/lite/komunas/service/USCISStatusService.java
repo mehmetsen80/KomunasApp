@@ -13,4 +13,7 @@ public interface USCISStatusService {
 
     Optional<USCISStatusResponse> getNewsroomStatus(String resourceId);
     Optional<USCISStatusResponse> getNewsroomStatus(String resourceId, String userId);
+
+    Optional<USCISStatusResponse> getPolicyManualStatus(String resourceId);
+    Optional<USCISStatusResponse> getPolicyManualStatus(String resourceId, String userId);
 }

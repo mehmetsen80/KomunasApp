@@ -8,7 +8,9 @@ import Register from '../pages/Register';
 import ForgotPassword from '../pages/ForgotPassword';
 import ResetPassword from '../pages/ResetPassword';
 import FormDetail from '../pages/FormDetail';
-import NewsroomIntel from '../pages/NewsroomIntel';
+import NewsroomAlertsIntel from '../pages/NewsroomAlertsIntel';
+import NewsReleasesIntel from '../pages/NewsReleasesIntel';
+import PolicyManualIntel from '../pages/PolicyManualIntel';
 import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
 import Notifications from '../pages/Notifications';
@@ -23,7 +25,9 @@ const AppRoutes = () => {
       {/* Public Routes */}
       <Route path="/" element={<Home />} />
       <Route path="/form/:id" element={<FormDetail />} />
-      <Route path="/newsroom/:id" element={<NewsroomIntel />} />
+      <Route path="/newsroom/newsroom-alerts" element={<NewsroomAlertsIntel />} />
+      <Route path="/newsroom/news-releases" element={<NewsReleasesIntel />} />
+      <Route path="/newsroom/policy-updates" element={<PolicyManualIntel />} />
       
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

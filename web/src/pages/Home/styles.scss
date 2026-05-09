@@ -292,10 +292,10 @@
           animation: fadeIn 0.4s ease-out;
 
           &.subscribed {
-            background: rgba(16, 185, 129, 0.1);
-            color: #059669;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+            background: rgba($color-secondary, 0.05);
+            color: $color-secondary;
+            border: 1px solid rgba($color-secondary, 0.1);
+            box-shadow: 0 2px 8px rgba($color-secondary, 0.05);
           }
         }
       }
@@ -392,11 +392,41 @@
       align-items: center;
       gap: 0.25rem;
       font-size: 0.75rem;
-      font-weight: 700;
-      color: $color-secondary;
-      opacity: 0.4;
+      font-weight: 800;
+      color: color.adjust($color-accent, $lightness: -40%); // Darker for readability
+      background: rgba($color-accent, 0.1);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      width: fit-content;
       transition: $transition-smooth;
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+
+      &:hover {
+        background: $color-accent;
+        color: $color-dark;
+      }
+    }
+
+    .stripCardMeta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
       margin-top: 0.25rem;
+      margin-bottom: 0.25rem;
+
+      .miniBadge {
+        font-size: 0.65rem;
+        font-weight: 800;
+        color: $color-secondary;
+        background: rgba($color-secondary, 0.05);
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border: 1px solid rgba($color-secondary, 0.1);
+      }
     }
   }
 }

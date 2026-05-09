@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
   FileText, Download, ExternalLink, Search,
-  Bell, CheckCircle, AlertTriangle, Rss
+  Bell, CheckCircle, AlertTriangle, Rss, BookOpen,
+  Shield, Clock, ArrowRight, AlertCircle, CheckCircle2, Filter, Newspaper
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './styles.scss';
 import HeroBackground from '../../components/HeroBackground';
 import resourceSyncService from '../../services/resourceSyncService';
@@ -12,9 +13,12 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import { useAuth } from '../../contexts/AuthContext';
 import SubscribeFormModal from '../../components/Modals/SubscribeFormModal';
+import ViewIntelModal from '../../components/Modals/ViewIntelModal';
 
 const Home = () => {
   const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [viewModal, setViewModal] = useState({ isOpen: false, item: null, type: 'policy' });
   const [forms, setForms] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
@@ -24,6 +28,8 @@ const Home = () => {
   const [newsroomData, setNewsroomData] = useState(null);
   const [newsReleases, setNewsReleases] = useState([]);
   const [newsReleasesData, setNewsReleasesData] = useState(null);
+  const [policyUpdates, setPolicyUpdates] = useState([]);
+  const [policyData, setPolicyData] = useState(null);
   const [newsroomLoading, setNewsroomLoading] = useState(true);
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
@@ -62,8 +68,13 @@ const Home = () => {
         setNewsReleasesData(releasesData);
         setNewsReleases(releasesData?.payload?.alerts?.slice(0, 3) || []);
 
+        // Fetch Policy Manual Updates
+        const pData = await resourceSyncService.getPolicyManualStatus('policy-updates', user?.email);
+        setPolicyData(pData);
+        setPolicyUpdates(pData?.payload?.updates?.slice(0, 3) || []);
+
       } catch (err) {
-        console.error('Failed to load newsroom data:', err);
+        console.error('Failed to load newsroom/policy data:', err);
       } finally {
         setNewsroomLoading(false);
       }
@@ -166,18 +177,17 @@ const Home = () => {
             </div>
             <div className="stripCards">
               {newsroomAlerts.map((alert, i) => (
-                <a
+                <div
                   key={i}
-                  href={alert.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="stripCard"
+                  onClick={() => setViewModal({ isOpen: true, item: alert, type: 'newsroom-alerts' })}
+                  style={{ cursor: 'pointer' }}
                 >
                   <span className="stripDate">{alert.date}</span>
                   <h3 className="stripCardTitle">{alert.title}</h3>
                   <p className="stripCardSummary">{alert.summary}</p>
-                  <span className="stripReadMore">Read announcement <ExternalLink size={11} /></span>
-                </a>
+                  <span className="stripReadMore">Read announcement <ArrowRight size={11} /></span>
+                </div>
               ))}
             </div>
           </div>
@@ -203,18 +213,66 @@ const Home = () => {
             </div>
             <div className="stripCards">
               {newsReleases.map((release, i) => (
-                <a
+                <div
                   key={i}
-                  href={release.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="stripCard"
+                  onClick={() => setViewModal({ isOpen: true, item: release, type: 'news-releases' })}
+                  style={{ cursor: 'pointer' }}
                 >
                   <span className="stripDate">{release.date}</span>
                   <h3 className="stripCardTitle">{release.title}</h3>
                   <p className="stripCardSummary">{release.summary}</p>
-                  <span className="stripReadMore">Read release <ExternalLink size={11} /></span>
-                </a>
+                  <span className="stripReadMore">Read release <ArrowRight size={11} /></span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {/* ── Policy Manual Updates Strip ── */}
+        {!searchTerm && !newsroomLoading && policyUpdates.length > 0 && (
+          <div className="newsroomStrip" style={{ marginTop: '2rem' }}>
+            <div className="stripHeader">
+              <div className="stripTitle">
+                <BookOpen size={22} />
+                <span>USCIS Policy Manual Updates</span>
+                {policyData?.subscribed && (
+                  <div className="statusBadge subscribed">
+                    <CheckCircle size={14} />
+                    <span>Subscribed</span>
+                  </div>
+                )}
+              </div>
+              <Link to="/newsroom/policy-updates" className="stripViewAll">
+                View All <ExternalLink size={13} />
+              </Link>
+            </div>
+            <div className="stripCards">
+              {policyUpdates.map((update, i) => (
+                <div
+                  key={i}
+                  className="stripCard"
+                  onClick={() => setViewModal({ isOpen: true, item: update, type: 'policy-updates' })}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <span className="stripDate">{update.date}</span>
+                  <h3 className="stripCardTitle">{update.title}</h3>
+                  <p className="stripCardSummary" style={{ 
+                    fontSize: '0.8rem', 
+                    color: '#6b7280', 
+                    margin: '0.4rem 0 0.6rem',
+                    lineHeight: '1.4',
+                    display: '-webkit-box',
+                    WebkitLineClamp: '2',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden'
+                  }}>{update.summary}</p>
+                  <div className="stripCardMeta">
+                    {update.chapters && update.chapters.slice(0, 2).map((ch, idx) => (
+                      <span key={idx} className="miniBadge">{ch.title.split(' - ')[0]}</span>
+                    ))}
+                  </div>
+                  <span className="stripReadMore">Review substantive changes <ArrowRight size={11} /></span>
+                </div>
               ))}
             </div>
           </div>
@@ -330,6 +388,13 @@ const Home = () => {
         isUnsubscribing={modalConfig.isUnsubscribing}
         onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
         onSuccess={handleSubscriptionSuccess}
+      />
+      <ViewIntelModal
+        isOpen={viewModal.isOpen}
+        onClose={() => setViewModal(prev => ({ ...prev, isOpen: false }))}
+        item={viewModal.item}
+        type={viewModal.type}
+        onViewAll={() => navigate(`/newsroom/${viewModal.type}`)}
       />
     </div>
   );

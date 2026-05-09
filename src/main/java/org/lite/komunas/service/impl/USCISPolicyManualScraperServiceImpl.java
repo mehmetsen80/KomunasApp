@@ -14,7 +14,7 @@ import org.lite.komunas.entity.ResourceSyncState;
 import org.lite.komunas.entity.ResourceVersionHistory;
 import org.lite.komunas.repository.ResourceSyncStateRepository;
 import org.lite.komunas.repository.ResourceVersionHistoryRepository;
-import org.lite.komunas.service.USCISNewsroomScraperService;
+import org.lite.komunas.service.USCISPolicyManualScraperService;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
@@ -22,31 +22,29 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 /**
- * NEWSROOM SCRAPER SERVICE - Specialized in USCIS Alerts and News Releases.
- * Utilizes a technically robust SLUG-BASED primary key strategy for alert
- * tracking.
+ * POLICY MANUAL SCRAPER SERVICE
+ * Specialized in monitoring the USCIS Policy Manual for substantive legal
+ * changes.
  */
-@Service("uscisNewsroomScraper")
+@Service("uscisPolicyManualScraper")
 @Slf4j
 @RequiredArgsConstructor
-public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperService {
+public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScraperService {
 
     private final ResourceSyncStateRepository syncStateRepository;
     private final ResourceVersionHistoryRepository historyRepository;
 
-    private static final String USCIS_ALERTS_URL = "https://www.uscis.gov/newsroom/alerts";
-    private static final String USCIS_NEWS_URL = "https://www.uscis.gov/newsroom/news-releases";
+    private static final String USCIS_POLICY_UPDATES_URL = "https://www.uscis.gov/policy-manual/updates";
 
     @Override
     public ResourceCheckResult checkForUpdates(String domain, String resourceId) {
-        log.info("Newsroom Specialist checking for updates - Domain: {}, ID: {}", domain, resourceId);
+        log.info("Policy Specialist checking for updates - Domain: {}, ID: {}", domain, resourceId);
 
-        String url = resourceId.equals("newsroom-alerts") ? USCIS_ALERTS_URL : USCIS_NEWS_URL;
-        List<Map<String, String>> alerts = scrapeAlerts(url);
+        List<Map<String, Object>> updates = scrapeUpdates();
 
-        // Generate state hash from the structured alert list
-        String currentHash = generateStateHash(alerts);
-        String category = "announcements";
+        // Generate state hash from the structured update list
+        String currentHash = generateStateHash(updates);
+        String category = "policy-manual";
         ResourceCheckResult result = null;
 
         Optional<ResourceSyncState> stateOpt = syncStateRepository.findByDomainAndCategoryAndResourceId(domain,
@@ -56,14 +54,14 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
             ResourceSyncState existingState = stateOpt.get();
             boolean hashChanged = !currentHash.equals(existingState.getLastKnownHash());
 
-            // We treat the latest alert's slug + date as the "version" for tracking
-            String newVersion = alerts.isEmpty() ? "EMPTY" : alerts.get(0).get("date");
+            String newVersion = updates.isEmpty() ? "EMPTY" : (String) updates.get(0).get("date");
 
             Map<String, Object> payloadMap = new HashMap<>();
-            payloadMap.put("alerts", alerts);
+            payloadMap.put("updates", updates);
 
-            String latestTitle = alerts.isEmpty() ? "No alerts" : (String) alerts.get(0).get("title");
-            String resultSummary = hashChanged ? "New news release: " + latestTitle : "No new alerts detected.";
+            String latestTitle = updates.isEmpty() ? "No updates" : (String) updates.get(0).get("title");
+            String resultSummary = hashChanged ? "New policy guidance: " + latestTitle
+                    : "No new policy updates detected.";
 
             result = ResourceCheckResult.builder()
                     .resourceId(resourceId)
@@ -75,16 +73,16 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                     .summary(resultSummary)
                     .oldHash(existingState.getLastKnownHash())
                     .currentHash(currentHash)
-                    .resourceUrl(url)
+                    .resourceUrl(USCIS_POLICY_UPDATES_URL)
                     .shouldSync(hashChanged || !existingState.isEnabled())
                     .payload(payloadMap)
                     .build();
         } else {
             Map<String, Object> payloadMap = new HashMap<>();
-            payloadMap.put("alerts", alerts);
+            payloadMap.put("updates", updates);
 
-            String latestTitle = alerts.isEmpty() ? "No alerts" : (String) alerts.get(0).get("title");
-            String resultSummary = "Initial news release discovery: " + latestTitle;
+            String latestTitle = updates.isEmpty() ? "No updates" : (String) updates.get(0).get("title");
+            String resultSummary = "Initial policy guidance discovery: " + latestTitle;
 
             result = ResourceCheckResult.builder()
                     .resourceId(resourceId)
@@ -92,11 +90,11 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                     .category(category)
                     .changed(true)
                     .oldVersion("INITIAL")
-                    .newVersion(alerts.isEmpty() ? "INITIAL" : alerts.get(0).get("date"))
+                    .newVersion(updates.isEmpty() ? "INITIAL" : (String) updates.get(0).get("date"))
                     .summary(resultSummary)
                     .oldHash("INITIAL")
                     .currentHash(currentHash)
-                    .resourceUrl(url)
+                    .resourceUrl(USCIS_POLICY_UPDATES_URL)
                     .shouldSync(true)
                     .payload(payloadMap)
                     .build();
@@ -107,7 +105,7 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
 
     @Override
     public ResourceCommitResponse commitUpdate(ResourceCommitRequest request) {
-        log.info("Newsroom Specialist committing update for {}/{} ({}): hash={}",
+        log.info("Policy Specialist committing update for {}/{} ({}): hash={}",
                 request.getDomain(), request.getCategory(), request.getResourceId(), request.getHash());
 
         ResourceSyncState state = syncStateRepository
@@ -116,9 +114,8 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                 .map(existingState -> {
                     existingState.setLastKnownHash(request.getHash());
                     existingState.setLastKnownVersion(request.getVersion());
-
                     existingState.setAgentTaskId(request.getAgentTaskId());
-                    existingState.setChangeType("ANNOUNCEMENT_UPDATE");
+                    existingState.setChangeType("POLICY_UPDATE");
                     existingState.setChangeDetected(request.isChangeDetected());
                     existingState.setSummary(request.getSummary());
                     existingState.setLastAnalysis(request.getAnalysis());
@@ -133,7 +130,7 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                         .category(request.getCategory())
                         .resourceId(request.getResourceId())
                         .agentTaskId(request.getAgentTaskId())
-                        .changeType("ANNOUNCEMENT_UPDATE")
+                        .changeType("POLICY_UPDATE")
                         .changeDetected(request.isChangeDetected())
                         .summary(request.getSummary())
                         .resourceUrl(request.getResourceUrl())
@@ -148,7 +145,6 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
 
         ResourceSyncState savedState = syncStateRepository.save(state);
 
-        // Create Version History for Newsroom delta
         ResourceVersionHistory history = ResourceVersionHistory.builder()
                 .domain(request.getDomain())
                 .category(request.getCategory())
@@ -157,7 +153,7 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                 .agentTaskId(request.getAgentTaskId())
                 .version(request.getVersion())
                 .hash(request.getHash())
-                .changeType("ANNOUNCEMENT_UPDATE")
+                .changeType("POLICY_UPDATE")
                 .summary(request.getSummary())
                 .changeDetected(request.isChangeDetected())
                 .analysis(request.getAnalysis())
@@ -178,48 +174,74 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                 .build();
     }
 
-    private List<Map<String, String>> scrapeAlerts(String url) {
-        log.info("Sovereign extraction: Scraping Alerts from {}", url);
-        List<Map<String, String>> alerts = new ArrayList<>();
+    private List<Map<String, Object>> scrapeUpdates() {
+        log.info("Sovereign extraction: Scraping Policy Manual Updates from {}", USCIS_POLICY_UPDATES_URL);
+        List<Map<String, Object>> updates = new ArrayList<>();
 
         try {
-            Document doc = Jsoup.connect(url).get();
+            Document doc = Jsoup.connect(USCIS_POLICY_UPDATES_URL).get();
             Elements rows = doc.select(".views-row");
 
+            int count = 0;
             for (Element row : rows) {
-                Element link = row.selectFirst(".views-field-title a");
-                Element dateEl = row.selectFirst(".views-field-field-display-date .datetime");
-                Element summaryEl = row.selectFirst(".views-field-body");
+                if (count++ >= 15)
+                    break; // Limit to most recent 15 updates to prevent token overflow
+                // Each update is wrapped in .pm-updates
+                Element updateEl = row.selectFirst(".pm-updates");
+                if (updateEl == null)
+                    continue;
 
-                if (link != null) {
-                    Map<String, String> alert = new HashMap<>();
-                    String href = link.attr("href");
+                Element headerEl = updateEl.selectFirst(".pm-resource__update_header");
+                Element summaryEl = updateEl.selectFirst(".pm-resource__content");
+                Element dateEl = updateEl.selectFirst("time");
+                Element readMoreLink = updateEl.selectFirst("a:contains(Read More), a[href$='.pdf']");
+                Elements chapterLinks = updateEl.select(".affected-sections a");
 
-                    // Extract Slug as Primary Key
-                    String slug = href.contains("/") ? href.substring(href.lastIndexOf("/") + 1) : href;
+                if (summaryEl != null) {
+                    Map<String, Object> update = new HashMap<>();
 
-                    alert.put("id", slug); // Primary Key
-                    alert.put("title", link.text().trim());
-                    alert.put("url", href.startsWith("http") ? href : "https://www.uscis.gov" + href);
-                    alert.put("date", dateEl != null ? dateEl.text().trim() : "UNKNOWN");
-                    alert.put("summary", summaryEl != null ? summaryEl.text().trim() : "");
+                    String dateText = dateEl != null ? dateEl.text().trim() : "UNKNOWN";
+                    String titleText = headerEl != null ? headerEl.text().trim() : "Policy Update";
 
-                    alerts.add(alert);
+                    String readMoreUrl = "";
+                    if (readMoreLink != null) {
+                        readMoreUrl = readMoreLink.attr("href");
+                        if (!readMoreUrl.startsWith("http"))
+                            readMoreUrl = "https://www.uscis.gov" + readMoreUrl;
+                    }
+
+                    // Generate a unique ID based on title and summary hash
+                    update.put("id", titleText + "-" + Math.abs(summaryEl.text().trim().hashCode()));
+                    update.put("date", dateText);
+                    update.put("title", titleText);
+                    update.put("summary", summaryEl.text().trim());
+                    update.put("url", readMoreUrl);
+
+                    List<Map<String, String>> affectedChapters = new ArrayList<>();
+                    for (Element link : chapterLinks) {
+                        Map<String, String> chapter = new HashMap<>();
+                        chapter.put("title", link.text().trim());
+                        String href = link.attr("href");
+                        chapter.put("url", href.startsWith("http") ? href : "https://www.uscis.gov" + href);
+                        affectedChapters.add(chapter);
+                    }
+                    update.put("chapters", affectedChapters);
+
+                    updates.add(update);
                 }
             }
         } catch (Exception e) {
-            log.error("Failed to extract sovereign alerts from {}: {}", url, e.getMessage());
+            log.error("Failed to extract Policy Manual updates: {}", e.getMessage());
         }
 
-        return alerts;
+        return updates;
     }
 
-    private String generateStateHash(List<Map<String, String>> alerts) {
+    private String generateStateHash(List<Map<String, Object>> updates) {
         try {
-            // High-fidelity state hashing based on slugs and dates
             StringBuilder sb = new StringBuilder();
-            for (Map<String, String> alert : alerts) {
-                sb.append(alert.get("id")).append("|").append(alert.get("date")).append("|");
+            for (Map<String, Object> update : updates) {
+                sb.append(update.get("id")).append("|").append(update.get("date")).append("|");
             }
 
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -232,15 +254,11 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
 
     @Override
     public List<ResourceCheckResult> checkAllUpdates(String domain) {
-        // Newsroom Specialist handles newsroom-alerts and news-releases
-        return List.of(
-                checkForUpdates(domain, "newsroom-alerts"),
-                checkForUpdates(domain, "news-releases"));
+        return List.of(checkForUpdates(domain, "policy-updates"));
     }
 
     @Override
     public void handleResourceUpdate(ResourceUpdateNotification notification) {
-        log.info("Newsroom processing update signal: {}", notification.getResourceId());
+        log.info("Policy Specialist processing update signal: {}", notification.getResourceId());
     }
-
 }
