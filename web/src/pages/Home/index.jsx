@@ -164,11 +164,18 @@ const Home = () => {
               <div className="stripTitle">
                 <Rss size={22} />
                 <span>Latest USCIS Announcements</span>
-                {newsroomData?.subscribed && (
-                  <div className="statusBadge subscribed">
-                    <CheckCircle size={14} />
-                    <span>Subscribed</span>
-                  </div>
+                {isAuthenticated ? (
+                  newsroomData?.subscribed && (
+                    <div className="statusBadge subscribed">
+                      <CheckCircle size={14} />
+                      <span>Subscribed</span>
+                    </div>
+                  )
+                ) : (
+                  <Link to="/login" className="statusBadge guest">
+                    <Bell size={14} />
+                    <span>Login to get alerts</span>
+                  </Link>
                 )}
               </div>
               <Link to="/newsroom/newsroom-alerts" className="stripViewAll">
@@ -200,11 +207,18 @@ const Home = () => {
               <div className="stripTitle">
                 <Rss size={22} />
                 <span>Latest News Releases</span>
-                {newsReleasesData?.subscribed && (
-                  <div className="statusBadge subscribed">
-                    <CheckCircle size={14} />
-                    <span>Subscribed</span>
-                  </div>
+                {isAuthenticated ? (
+                  newsReleasesData?.subscribed && (
+                    <div className="statusBadge subscribed">
+                      <CheckCircle size={14} />
+                      <span>Subscribed</span>
+                    </div>
+                  )
+                ) : (
+                  <Link to="/login" className="statusBadge guest">
+                    <Bell size={14} />
+                    <span>Login to get alerts</span>
+                  </Link>
                 )}
               </div>
               <Link to="/newsroom/news-releases" className="stripViewAll">
@@ -235,11 +249,18 @@ const Home = () => {
               <div className="stripTitle">
                 <BookOpen size={22} />
                 <span>USCIS Policy Manual Updates</span>
-                {policyData?.subscribed && (
-                  <div className="statusBadge subscribed">
-                    <CheckCircle size={14} />
-                    <span>Subscribed</span>
-                  </div>
+                {isAuthenticated ? (
+                  policyData?.subscribed && (
+                    <div className="statusBadge subscribed">
+                      <CheckCircle size={14} />
+                      <span>Subscribed</span>
+                    </div>
+                  )
+                ) : (
+                  <Link to="/login" className="statusBadge guest">
+                    <Bell size={14} />
+                    <span>Login to get alerts</span>
+                  </Link>
                 )}
               </div>
               <Link to="/newsroom/policy-updates" className="stripViewAll">

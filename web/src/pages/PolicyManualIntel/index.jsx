@@ -151,15 +151,23 @@ const PolicyManualIntel = () => {
                       {update.chapters && update.chapters.length > 0 && (
                         <div className="policyChapters">
                           {update.chapters.map((ch, i) => (
-                            <span key={i} className="miniBadge">{ch.title}</span>
+                            ch.url ? (
+                              <a key={i} href={ch.url} target="_blank" rel="noopener noreferrer" className="miniBadge clickable">
+                                {ch.title} <ExternalLink size={10} />
+                              </a>
+                            ) : (
+                              <span key={i} className="miniBadge">{ch.title}</span>
+                            )
                           ))}
                         </div>
                       )}
-                      <div className="cardActions">
-                        <a href={update.url || 'https://www.uscis.gov/policy-manual/updates'} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink size={14} /> Review Substantive Changes
-                        </a>
-                      </div>
+                      {update.url && (
+                        <div className="cardActions">
+                          <a href={update.url} target="_blank" rel="noopener noreferrer" className="primaryBtn">
+                            View Source Material <ExternalLink size={16} />
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -197,11 +205,13 @@ const PolicyManualIntel = () => {
                               <span className="impactLabel">Substantive Impact:</span>
                               <p className="alertDetails">{update.summary}</p>
                             </div>
-                            <div className="cardActions">
-                              <a href={update.url || 'https://www.uscis.gov/policy-manual/updates'} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink size={14} /> View Original Source
-                              </a>
-                            </div>
+                            {update.url && (
+                              <div className="cardActions">
+                                <a href={update.url} target="_blank" rel="noopener noreferrer">
+                                  <ExternalLink size={14} /> View Original Source
+                                </a>
+                              </div>
+                            )}
                           </div>
                         </div>
                       ))}
