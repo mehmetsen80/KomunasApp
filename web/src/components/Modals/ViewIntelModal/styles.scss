@@ -137,6 +137,18 @@
           padding: 0.3rem 0.75rem;
           border-radius: 8px;
           border: 1px solid #e5e7eb;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          transition: all 0.2s;
+
+          &.clickable:hover {
+            background: $color-secondary;
+            color: white;
+            border-color: $color-secondary;
+            transform: translateY(-1px);
+          }
         }
       }
     }

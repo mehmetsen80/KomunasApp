@@ -59,7 +59,13 @@ const ViewIntelModal = ({ isOpen, onClose, item, type = 'policy', onViewAll }) =
               <div className="sectionLabel">Affected Chapters:</div>
               <div className="chaptersList">
                 {item.chapters.map((ch, i) => (
-                  <span key={i} className="miniChapter">{ch.title}</span>
+                  ch.url ? (
+                    <a key={i} href={ch.url} target="_blank" rel="noopener noreferrer" className="miniChapter clickable">
+                      {ch.title} <ExternalLink size={12} />
+                    </a>
+                  ) : (
+                    <span key={i} className="miniChapter">{ch.title}</span>
+                  )
                 ))}
               </div>
             </div>
@@ -70,9 +76,11 @@ const ViewIntelModal = ({ isOpen, onClose, item, type = 'policy', onViewAll }) =
           <button className="secondaryBtn" onClick={onViewAll}>
             View Full Timeline <ArrowRight size={16} />
           </button>
-          <a href={item.url} target="_blank" rel="noopener noreferrer" className="primaryBtn">
-            View Source Material <ExternalLink size={16} />
-          </a>
+          {item.url && (
+            <a href={item.url} target="_blank" rel="noopener noreferrer" className="primaryBtn">
+              View Source Material <ExternalLink size={16} />
+            </a>
+          )}
         </div>
       </div>
     </div>
