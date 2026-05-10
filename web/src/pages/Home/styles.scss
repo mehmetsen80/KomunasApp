@@ -217,6 +217,22 @@
             font-weight: 900;
             color: $color-secondary;
             line-height: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            .statBadge {
+              font-size: 0.65rem;
+              font-weight: 800;
+              background-color: $color-accent;
+              color: $color-secondary;
+              padding: 0.2rem 0.6rem;
+              border-radius: 20px;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+              animation: badgePulse 2s infinite;
+              box-shadow: 0 4px 10px rgba($color-accent, 0.3);
+            }
           }
 
           .statLabel {
@@ -538,9 +554,9 @@
       /* Push nav links and actions away */
 
       img {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
         object-fit: cover;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       }
