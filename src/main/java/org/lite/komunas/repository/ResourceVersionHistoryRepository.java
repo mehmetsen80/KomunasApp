@@ -8,8 +8,11 @@ import java.util.List;
 
 @Repository
 public interface ResourceVersionHistoryRepository extends MongoRepository<ResourceVersionHistory, String> {
-    List<ResourceVersionHistory> findByDomainAndCategoryAndResourceIdOrderByDetectedAtDesc(String domain, String category,
+    List<ResourceVersionHistory> findByDomainAndCategoryAndResourceIdOrderByDetectedAtDesc(String domain,
+            String category,
             String resourceId);
+
+    List<ResourceVersionHistory> findBySyncStateIdOrderByDetectedAtDesc(String syncStateId);
 
     List<ResourceVersionHistory> findBySyncStateId(String syncStateId);
 
