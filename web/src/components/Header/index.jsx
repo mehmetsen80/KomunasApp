@@ -1,79 +1,140 @@
-import React from 'react';
-import { User, LogOut, LogIn, UserPlus, Bell, Rss, BookOpen } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { User, LogOut, LogIn, UserPlus, Bell, Rss, BookOpen, BarChart3, Menu, X, ChevronDown, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNotifications } from '../../contexts/NotificationContext';
 import notificationService from '../../services/notificationService';
+import LogoutConfirmationModal from '../Modals/LogoutConfirmationModal';
 import './styles.scss';
 
 const Header = ({ transparent = false }) => {
   const { isAuthenticated, user, logout } = useAuth();
-  const [unreadCount, setUnreadCount] = React.useState(0);
+  const { unreadCount } = useNotifications();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const userMenuRef = useRef(null);
 
-  React.useEffect(() => {
-    const fetchUnread = async () => {
-      if (isAuthenticated && user?.email) {
-        try {
-          const count = await notificationService.getUnreadCount(user.email.toLowerCase());
-          setUnreadCount(count);
-        } catch (err) {
-          console.error('Failed to fetch notifications for badge:', err);
-        }
+  const handleLogoutClick = () => {
+    setIsUserMenuOpen(false);
+    setIsLogoutModalOpen(true);
+  };
+
+  const handleConfirmLogout = () => {
+    logout();
+    setIsLogoutModalOpen(false);
+    setIsMenuOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setIsUserMenuOpen(false);
       }
     };
-
-    fetchUnread();
-    // Poll every 1 minute for updates
-    const interval = setInterval(fetchUnread, 60000);
-    return () => clearInterval(interval);
-  }, [isAuthenticated, user]);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
-    <header className={`header ${transparent ? 'transparent' : ''}`}>
-      <div className="headerNav">
-        <Link to="/" className="headerLogo">Komunas</Link>
-        <Link to="/newsroom/newsroom-alerts" className="navLink">
-          <Rss size={15} />
-          Announcements
-        </Link>
-        <Link to="/newsroom/news-releases" className="navLink">
-          <Rss size={15} />
-          Releases
-        </Link>
-        <Link to="/newsroom/policy-updates" className="navLink">
-          <BookOpen size={15} />
-          Policy Updates
-        </Link>
-      </div>
-      <div className="headerActions">
-        {isAuthenticated ? (
-          <>
-            <Link to="/notifications" className="navIconLink" title="Notifications">
-              <Bell size={18} />
-              {unreadCount > 0 && <span className="unreadBadge">{unreadCount}</span>}
+    <>
+      <header className={`header ${transparent ? 'transparent' : ''} ${isMenuOpen ? 'menuOpen' : ''}`}>
+        <div className="container headerContainer">
+          <div className="headerNav">
+            <Link to="/" className="headerLogo" onClick={() => setIsMenuOpen(false)}>
+              <img src="/icon.jpg" alt="Komunas" className="headerLogoIcon" />
+              Komunas
             </Link>
-            <Link to="/profile" className="userProfile">
-              <User size={18} />
-              <span>{user?.fullName || user?.username}</span>
-            </Link>
-            <button onClick={logout} className="logoutBtn">
-              <LogOut size={18} />
-              Logout
+
+            <button className="menuToggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-          </>
-        ) : (
-          <>
-            <Link to="/register" className="registerBtn">
-              <UserPlus size={18} />
-              Register
-            </Link>
-            <Link to="/login" className="loginBtn">
-              <LogIn size={18} />
-              Login
-            </Link>
-          </>
-        )}
-      </div>
-    </header>
+
+            <nav className={`navLinks ${isMenuOpen ? 'open' : ''}`}>
+              <Link to="/newsroom/newsroom-alerts" className="navLink" onClick={() => setIsMenuOpen(false)}>
+                <Rss size={15} />
+                Announcements
+              </Link>
+              <Link to="/newsroom/news-releases" className="navLink" onClick={() => setIsMenuOpen(false)}>
+                <Rss size={15} />
+                Releases
+              </Link>
+              <Link to="/newsroom/policy-updates" className="navLink" onClick={() => setIsMenuOpen(false)}>
+                <BookOpen size={15} />
+                Policy Updates
+              </Link>
+              <Link to="/newsroom/visa-bulletin" className="navLink" onClick={() => setIsMenuOpen(false)}>
+                <BarChart3 size={15} />
+                Visa Bulletin
+              </Link>
+            </nav>
+          </div>
+
+          <div className={`headerActions ${isMenuOpen ? 'open' : ''}`}>
+            {isAuthenticated ? (
+              <div className="authActionsGroup">
+                <Link to="/notifications" className="navIconLink" title="Notifications" onClick={() => setIsMenuOpen(false)}>
+                  <Bell size={18} />
+                  {unreadCount > 0 && <span className="unreadBadge">{unreadCount}</span>}
+                </Link>
+
+                <div className="userMenuWrapper" ref={userMenuRef}>
+                  <button
+                    className={`userProfileTrigger ${isUserMenuOpen ? 'active' : ''}`}
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  >
+                    <div className="avatar">
+                      {(user?.fullName || user?.username || 'U').charAt(0).toUpperCase()}
+                    </div>
+                    <span className="userName">{user?.fullName || user?.username}</span>
+                    <ChevronDown size={14} className={`chevron ${isUserMenuOpen ? 'rotate' : ''}`} />
+                  </button>
+
+                  {isUserMenuOpen && (
+                    <div className="userDropdown">
+                      <div className="dropdownHeader">
+                        <p className="userEmail">{user?.email}</p>
+                      </div>
+                      <div className="dropdownDivider"></div>
+                      <Link to="/profile" className="dropdownItem" onClick={() => setIsUserMenuOpen(false)}>
+                        <User size={16} />
+                        Profile Settings
+                      </Link>
+                      {/* <Link to="/settings" className="dropdownItem" onClick={() => setIsUserMenuOpen(false)}>
+                        <Settings size={16} />
+                        Preferences
+                      </Link> */}
+                      <div className="dropdownDivider"></div>
+                      <button onClick={handleLogoutClick} className="dropdownItem logout">
+                        <LogOut size={16} />
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="guestActions">
+                <Link to="/register" className="registerBtn" onClick={() => setIsMenuOpen(false)}>
+                  <UserPlus size={18} />
+                  Register
+                </Link>
+                <Link to="/login" className="loginBtn" onClick={() => setIsMenuOpen(false)}>
+                  <LogIn size={18} />
+                  Login
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+
+      <LogoutConfirmationModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={handleConfirmLogout}
+      />
+    </>
   );
 };
 

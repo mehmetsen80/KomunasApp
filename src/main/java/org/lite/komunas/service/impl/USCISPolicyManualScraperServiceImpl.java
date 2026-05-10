@@ -12,6 +12,7 @@ import org.lite.komunas.dto.ResourceCommitResponse;
 import org.lite.komunas.dto.ResourceUpdateNotification;
 import org.lite.komunas.entity.ResourceSyncState;
 import org.lite.komunas.entity.ResourceVersionHistory;
+import org.lite.komunas.enums.ResourceChangeType;
 import org.lite.komunas.repository.ResourceSyncStateRepository;
 import org.lite.komunas.repository.ResourceVersionHistoryRepository;
 import org.lite.komunas.service.USCISPolicyManualScraperService;
@@ -72,7 +73,7 @@ public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScr
                     .newVersion(newVersion)
                     .summary(resultSummary)
                     .oldHash(existingState.getLastKnownHash())
-                    .currentHash(currentHash)
+                    .newHash(currentHash)
                     .resourceUrl(USCIS_POLICY_UPDATES_URL)
                     .shouldSync(hashChanged || !existingState.isEnabled())
                     .payload(payloadMap)
@@ -93,7 +94,7 @@ public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScr
                     .newVersion(updates.isEmpty() ? "INITIAL" : (String) updates.get(0).get("date"))
                     .summary(resultSummary)
                     .oldHash("INITIAL")
-                    .currentHash(currentHash)
+                    .newHash(currentHash)
                     .resourceUrl(USCIS_POLICY_UPDATES_URL)
                     .shouldSync(true)
                     .payload(payloadMap)
@@ -115,7 +116,7 @@ public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScr
                     existingState.setLastKnownHash(request.getHash());
                     existingState.setLastKnownVersion(request.getVersion());
                     existingState.setAgentTaskId(request.getAgentTaskId());
-                    existingState.setChangeType("POLICY_UPDATE");
+                    existingState.setChangeType(ResourceChangeType.POLICY_UPDATE.getValue());
                     existingState.setChangeDetected(request.isChangeDetected());
                     existingState.setSummary(request.getSummary());
                     existingState.setLastAnalysis(request.getAnalysis());
@@ -130,7 +131,7 @@ public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScr
                         .category(request.getCategory())
                         .resourceId(request.getResourceId())
                         .agentTaskId(request.getAgentTaskId())
-                        .changeType("POLICY_UPDATE")
+                        .changeType(ResourceChangeType.POLICY_UPDATE.getValue())
                         .changeDetected(request.isChangeDetected())
                         .summary(request.getSummary())
                         .resourceUrl(request.getResourceUrl())
@@ -153,7 +154,7 @@ public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScr
                 .agentTaskId(request.getAgentTaskId())
                 .version(request.getVersion())
                 .hash(request.getHash())
-                .changeType("POLICY_UPDATE")
+                .changeType(ResourceChangeType.POLICY_UPDATE.getValue())
                 .summary(request.getSummary())
                 .changeDetected(request.isChangeDetected())
                 .analysis(request.getAnalysis())

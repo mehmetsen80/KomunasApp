@@ -73,6 +73,34 @@ const resourceSyncService = {
       console.error(`Error in resourceSyncService.getPolicyManualStatus for ${resourceId}:`, error);
       throw error;
     }
+  },
+
+  /**
+   * Fetches the status and full history for a specific visa bulletin resource.
+   */
+  getVisaBulletinStatus: async (resourceId, userId = null) => {
+    try {
+      const url = userId ? `/api/uscis/status/visa-bulletin/${resourceId}?userId=${userId}` : `/api/uscis/status/visa-bulletin/${resourceId}`;
+      const response = await axiosInstance.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error in resourceSyncService.getVisaBulletinStatus for ${resourceId}:`, error);
+      throw error;
+    }
+  },
+
+  /**
+   * Generic status fetcher for any category.
+   */
+  getResourceSyncState: async (resourceId, category, userId = null) => {
+    try {
+      const url = userId ? `/api/uscis/status/${category}/${resourceId}?userId=${userId}` : `/api/uscis/status/${category}/${resourceId}`;
+      const response = await axiosInstance.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error in resourceSyncService.getResourceSyncState for ${category}/${resourceId}:`, error);
+      throw error;
+    }
   }
 };
 

@@ -130,4 +130,35 @@ public class USCISStatusController {
                     return ResponseEntity.notFound().build();
                 });
     }
+
+    @GetMapping("/visa-bulletin/{resourceId}")
+    @Operation(
+            summary = "Get USCIS visa bulletin status",
+            description = "Returns the current sync state and structured monthly determinations for a monitored USCIS Visa Bulletin resource."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Visa Bulletin status successfully retrieved.",
+                    content = @Content(schema = @Schema(implementation = USCISStatusResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No monitoring record found for the given visa bulletin ID"
+            )
+    })
+    public ResponseEntity<?> checkVisaBulletinStatus(
+            @Parameter(description = "The Visa Bulletin Resource ID (e.g., visa-bulletin)", example = "visa-bulletin")
+            @PathVariable String resourceId,
+            @RequestParam(required = false) String userId) {
+
+        log.info("USCIS Status API: Fetching status for visa bulletin: {} for user: {}", resourceId, userId);
+
+        return statusService.getVisaBulletinStatus(resourceId, userId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> {
+                    log.warn("USCIS Status API: Visa Bulletin resource not found: {}", resourceId);
+                    return ResponseEntity.notFound().build();
+                });
+    }
 }

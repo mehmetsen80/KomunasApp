@@ -71,7 +71,7 @@ const PolicyManualIntel = () => {
         <AlertCircle size={48} />
         <h2>Oops!</h2>
         <p>{error}</p>
-        <button onClick={() => navigate('/')}>Back to Library</button>
+        <button onClick={() => navigate('/')}>Back to Home</button>
       </div>
     </div>
   );
@@ -79,151 +79,157 @@ const PolicyManualIntel = () => {
   const updates = data.payload?.updates || [];
 
   return (
-    <div className="intelPage policyManualIntel">
+    <div className="intelPage policyManualIntel newsroomIntelPage">
       <Header transparent />
 
-      <header className="detailHero">
-        <div className="heroContent">
+      <div className="pageHeader">
+        <div className="container">
           <button onClick={() => navigate('/')} className="backBtn">
-            <ArrowLeft size={20} />
-            Back to Library
+            <ArrowLeft size={18} /> Back to Home
           </button>
-          <div className="formTypeBadge">USCIS {data.domain}</div>
-          <h1>USCIS Policy Manual Updates</h1>
-          <p className="formSummary">
-            Continuous monitoring of the USCIS Policy Manual for substantive legal shifts and procedural updates.
-          </p>
-
-          <div className="quickMeta">
-            <div className="metaItem">
-              <ShieldCheck size={18} />
-              <span>Active Alerts: <strong>{updates.length}</strong></span>
+          <div className="headerContent">
+            <div className="titleArea">
+              <div className="badge">
+                <BookOpen size={14} />
+                <span>{data.domain} Intelligence Center</span>
+              </div>
+              <h1>USCIS Policy Manual Updates</h1>
+              <p className="subtitle">
+                Continuous monitoring of the USCIS Policy Manual for substantive legal shifts, procedural guidance, and official updates.
+              </p>
             </div>
-            <div className="metaItem">
-              <Clock size={18} />
-              <span>Last Checked: {formatDateTime(data.lastCheckedAt)}</span>
+            <div className="metaInfo">
+              <div className="metaItem">
+                <Clock size={16} />
+                <span>Last Synced: {formatDateTime(data.lastCheckedAt)}</span>
+              </div>
+              <div className="metaItem">
+                <ShieldCheck size={16} />
+                <span>Verified Updates: <strong>{updates.length}</strong></span>
+              </div>
             </div>
           </div>
 
           <div className="heroActions">
             <a href="https://www.uscis.gov/policy-manual/updates" target="_blank" rel="noopener noreferrer" className="primaryAction">
-              <BookOpen size={20} /> View Official Policy Manual
+              <BookOpen size={18} /> View Official Policy Manual
             </a>
 
             {isAuthenticated && (
               <div className="subscriptionAction">
                 {data.subscribed ? (
                   <button className="subscribedBtn" onClick={() => setModalConfig({ isOpen: true, isUnsubscribing: true })} disabled={submitting}>
-                    {submitting ? <div className="mini-spinner"></div> : <CheckCircle size={20} />} Subscribed
+                    {submitting ? <div className="mini-spinner"></div> : <CheckCircle size={18} />}
+                    Subscribed
                   </button>
                 ) : (
                   <button className="subscribeBtn" onClick={() => setModalConfig({ isOpen: true, isUnsubscribing: false })} disabled={submitting}>
-                    {submitting ? <div className="mini-spinner"></div> : <Bell size={20} />} Subscribe to Updates
+                    {submitting ? <div className="mini-spinner"></div> : <Bell size={18} />}
+                    Subscribe to Updates
                   </button>
                 )}
               </div>
             )}
           </div>
         </div>
-      </header>
+      </div>
 
-      <main className="detailContent">
-        <section className="historySection">
-          <div className="sectionHeader">
-            <ShieldCheck size={24} />
-            <h2>Current Legal Updates</h2>
-          </div>
+      <main className="contentSection">
+        <div className="container">
 
-          <div className="currentIntelligence">
-            {updates.length > 0 ? (
-              <div className="versionUpdates">
-                {updates.map((update, idx) => (
+          <div className="archiveSection">
+            <div className="sectionHeader">
+              <ShieldCheck size={24} />
+              <h2>Current Legal Intelligence</h2>
+            </div>
+
+            <div className="versionTimeline">
+              {updates.length > 0 ? (
+                updates.map((update, idx) => (
                   <div key={idx} className="timelineItem">
+                    <div className="timelineDot active"></div>
                     <div className="timelineCard">
                       <div className="cardHeader">
-                        <span className="dateTag">{update.date}</span>
+                        <span className="versionTag">{update.date}</span>
                       </div>
-                      <p className="cardSummary">{update.title}</p>
-                      <div className="alertDescriptionBox">
-                        <span className="impactLabel">Substantive Legal Impact:</span>
-                        <p className="alertDetails">{update.summary}</p>
-                      </div>
-                      {update.chapters && update.chapters.length > 0 && (
-                        <div className="policyChapters">
-                          {update.chapters.map((ch, i) => (
-                            ch.url ? (
-                              <a key={i} href={ch.url} target="_blank" rel="noopener noreferrer" className="miniBadge clickable">
-                                {ch.title} <ExternalLink size={10} />
-                              </a>
-                            ) : (
-                              <span key={i} className="miniBadge">{ch.title}</span>
-                            )
-                          ))}
+                      <div className="cardContent">
+                        <h3>{update.title}</h3>
+                        <div className="intelligenceBox">
+                          <span className="impactLabel">Substantive Legal Impact:</span>
+                          <p>{update.summary}</p>
                         </div>
-                      )}
-                      {update.url && (
-                        <div className="cardActions">
-                          <a href={update.url} target="_blank" rel="noopener noreferrer" className="primaryBtn">
-                            View Source Material <ExternalLink size={16} />
+                        {update.chapters && update.chapters.length > 0 && (
+                          <div className="policyChapters" style={{ marginTop: '1.25rem', display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                            {update.chapters.map((ch, i) => (
+                              <span key={i} className="miniBadge" style={{ background: '#f1f5f9', color: '#1e293b', padding: '0.25rem 0.75rem', borderRadius: '6px', fontSize: '0.75rem', fontWeight: '700', border: '1px solid #e2e8f0' }}>
+                                {ch.title}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        <div className="cardActions" style={{ marginTop: '1.5rem' }}>
+                          <a href={update.url} target="_blank" rel="noopener noreferrer" className="sourceLink" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1e293b', fontWeight: '700', textDecoration: 'none', fontSize: '0.9rem' }}>
+                            Review Official Source <ExternalLink size={14} />
                           </a>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="noHistory"><p>No active legal updates in the current pipeline.</p></div>
-            )}
-          </div>
-
-          <div className="sectionHeader" style={{ opacity: 0.6, marginTop: '5rem' }}>
-            <History size={24} />
-            <h2>Historical Legal Archive</h2>
-          </div>
-
-          <div className="versionTimeline">
-            {(() => {
-              const history = (data.versionHistory || []).filter((_, idx) => idx > 0 || !data.payload);
-              if (history.length > 0) {
-                return history.map((version, vIdx) => (
-                  <div key={vIdx} className="versionGroup">
-                    <div className="versionHeader">
-                      <div className="versionDot"></div>
-                      <div className="versionInfo">
-                        <span className="versionMeta">Detection Event • {formatDateTime(version.detectedAt)}</span>
-                        <h2>{version.summary}</h2>
                       </div>
                     </div>
-                    <div className="versionUpdates">
-                      {(version.payload?.updates || []).map((update, i) => (
-                        <div key={i} className="timelineItem">
-                          <div className="timelineCard">
-                            <div className="cardHeader"><span className="dateTag">{update.date}</span></div>
-                            <p className="cardSummary">{update.title}</p>
-                            <div className="alertDescriptionBox">
-                              <span className="impactLabel">Substantive Impact:</span>
-                              <p className="alertDetails">{update.summary}</p>
+                  </div>
+                ))
+              ) : (
+                <div className="noHistory">No active updates in the current pipeline.</div>
+              )}
+            </div>
+          </div>
+
+          <div className="archiveSection" style={{ marginTop: '6rem' }}>
+            <div className="sectionHeader" style={{ opacity: 0.6 }}>
+              <History size={24} />
+              <h2>Historical Detection Archive</h2>
+            </div>
+
+            <div className="versionTimeline">
+              {(() => {
+                const history = (data.versionHistory || []).filter((_, idx) => idx > 0 || !data.payload);
+                if (history.length > 0) {
+                  return history.map((version, vIdx) => {
+                    const versionUpdates = version.payload?.updates || [];
+                    return (
+                      <div key={vIdx} className="timelineItem">
+                        <div className="timelineDot"></div>
+                        <div className="timelineCard historical">
+                          <div className="cardHeader">
+                            <span className="versionTag" style={{ background: '#f1f5f9', color: '#475569' }}>
+                              {new Date(version.detectedAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <div className="cardContent">
+                            <h3>{version.summary}</h3>
+                            <div className="archiveGrid" style={{ marginTop: '1.5rem', display: 'grid', gap: '1.5rem' }}>
+                              {versionUpdates.map((update, idx) => (
+                                <div key={idx} className="archiveItem" style={{ borderLeft: '3px solid #e2e8f0', paddingLeft: '1rem' }}>
+                                  <h4 style={{ fontSize: '1rem', color: '#1e293b', marginBottom: '0.5rem' }}>{update.title}</h4>
+                                  <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: '1.5' }}>{update.summary}</p>
+                                </div>
+                              ))}
                             </div>
-                            {update.url && (
-                              <div className="cardActions">
-                                <a href={update.url} target="_blank" rel="noopener noreferrer">
-                                  <ExternalLink size={14} /> View Original Source
-                                </a>
-                              </div>
-                            )}
+                            <div className="cardActions" style={{ marginTop: '1.5rem' }}>
+                              <a href={getCanonicalUrl(version)} target="_blank" rel="noopener noreferrer" className="sourceLink" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#64748b', fontWeight: '600', textDecoration: 'none', fontSize: '0.85rem' }}>
+                                View Original Source <ExternalLink size={12} />
+                              </a>
+                            </div>
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                ));
-              } else {
-                return <div className="noHistory"><p>No previous detection events found in the historical archive.</p></div>;
-              }
-            })()}
+                      </div>
+                    );
+                  });
+                } else {
+                  return <div className="noHistory">No previous detection events found.</div>;
+                }
+              })()}
+            </div>
           </div>
-        </section>
+        </div>
       </main>
 
       <Footer />
@@ -239,6 +245,7 @@ const PolicyManualIntel = () => {
         onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
         onSuccess={handleSubscriptionSuccess}
       />
+      <Footer />
     </div>
   );
 };

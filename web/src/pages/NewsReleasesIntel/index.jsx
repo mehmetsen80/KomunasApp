@@ -71,7 +71,7 @@ const NewsReleasesIntel = () => {
         <AlertCircleIcon size={48} />
         <h2>Oops!</h2>
         <p>{error}</p>
-        <button onClick={() => navigate('/')}>Back to Library</button>
+        <button onClick={() => navigate('/')}>Back to Home</button>
       </div>
     </div>
   );
@@ -79,134 +79,148 @@ const NewsReleasesIntel = () => {
   const alerts = data.payload?.alerts || [];
 
   return (
-    <div className="intelPage newsReleasesIntel">
+    <div className="intelPage newsReleasesIntel newsroomIntelPage">
       <Header transparent />
 
-      <header className="detailHero">
-        <div className="heroContent">
+      <div className="pageHeader">
+        <div className="container">
           <button onClick={() => navigate('/')} className="backBtn">
-            <ArrowLeftIcon size={20} />
-            Back to Library
+            <ArrowLeftIcon size={18} /> Back to Home
           </button>
-          <div className="formTypeBadge">USCIS {data.domain}</div>
-          <h1>USCIS News Releases</h1>
-          <p className="formSummary">
-            Continuous monitoring of official USCIS press releases and official media communications.
-          </p>
-
-          <div className="quickMeta">
-            <div className="metaItem">
-              <Newspaper size={18} />
-              <span>Latest Releases: <strong>{alerts.length}</strong></span>
+          <div className="headerContent">
+            <div className="titleArea">
+              <div className="badge">
+                <Newspaper size={14} />
+                <span>{data.domain} Intelligence Center</span>
+              </div>
+              <h1>USCIS News Releases</h1>
+              <p className="subtitle">
+                Continuous monitoring of official USCIS press releases, media communications, and breaking news events.
+              </p>
             </div>
-            <div className="metaItem">
-              <ClockIcon size={18} />
-              <span>Last Checked: {formatDateTime(data.lastCheckedAt)}</span>
+            <div className="metaInfo">
+              <div className="metaItem">
+                <ClockIcon size={16} />
+                <span>Last Synced: {formatDateTime(data.lastCheckedAt)}</span>
+              </div>
+              <div className="metaItem">
+                <ShieldCheckIcon size={16} />
+                <span>Verified Releases: <strong>{alerts.length}</strong></span>
+              </div>
             </div>
           </div>
 
           <div className="heroActions">
             <a href="https://www.uscis.gov/newsroom/news-releases" target="_blank" rel="noopener noreferrer" className="primaryAction">
-              <RssIcon size={20} /> View All News Releases
+              <RssIcon size={18} /> View Official Newsroom
             </a>
 
             {isAuthenticated && (
               <div className="subscriptionAction">
                 {data.subscribed ? (
                   <button className="subscribedBtn" onClick={() => setModalConfig({ isOpen: true, isUnsubscribing: true })} disabled={submitting}>
-                    {submitting ? <div className="mini-spinner"></div> : <CheckCircleIcon size={20} />} Subscribed
+                    {submitting ? <div className="mini-spinner"></div> : <CheckCircleIcon size={18} />}
+                    Subscribed
                   </button>
                 ) : (
                   <button className="subscribeBtn" onClick={() => setModalConfig({ isOpen: true, isUnsubscribing: false })} disabled={submitting}>
-                    {submitting ? <div className="mini-spinner"></div> : <BellIcon size={20} />} Subscribe to News
+                    {submitting ? <div className="mini-spinner"></div> : <BellIcon size={18} />}
+                    Subscribe to News
                   </button>
                 )}
               </div>
             )}
           </div>
         </div>
-      </header>
+      </div>
 
-      <main className="detailContent">
-        <section className="historySection">
-          <div className="sectionHeader">
-            <Newspaper size={24} />
-            <h2>Official News Digest</h2>
-          </div>
+      <main className="contentSection">
+        <div className="container">
 
-          <div className="currentIntelligence">
-            {alerts.length > 0 ? (
-              <div className="versionUpdates">
-                {alerts.map((alert, idx) => (
+          <div className="archiveSection">
+            <div className="sectionHeader">
+              <Newspaper size={24} />
+              <h2>Official News Intelligence</h2>
+            </div>
+
+            <div className="versionTimeline">
+              {alerts.length > 0 ? (
+                alerts.map((alert, idx) => (
                   <div key={idx} className="timelineItem">
+                    <div className="timelineDot active"></div>
                     <div className="timelineCard">
                       <div className="cardHeader">
-                        <span className="dateTag">{alert.date}</span>
+                        <span className="versionTag">{alert.date}</span>
                       </div>
-                      <p className="cardSummary">{alert.title}</p>
-                      <div className="alertDescriptionBox">
-                        <span className="impactLabel">News Summary:</span>
-                        <p className="alertDetails">{alert.summary}</p>
-                      </div>
-                      <div className="cardActions">
-                        <a href={alert.url || 'https://www.uscis.gov/newsroom/news-releases'} target="_blank" rel="noopener noreferrer">
-                          <ExternalLinkIcon size={14} /> Read Full Release
-                        </a>
+                      <div className="cardContent">
+                        <h3>{alert.title}</h3>
+                        <div className="intelligenceBox">
+                          <span className="impactLabel">Official Summary:</span>
+                          <p>{alert.summary}</p>
+                        </div>
+                        <div className="cardActions" style={{ marginTop: '1.5rem' }}>
+                          <a href={alert.url || 'https://www.uscis.gov/newsroom/news-releases'} target="_blank" rel="noopener noreferrer" className="sourceLink" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1e293b', fontWeight: '700', textDecoration: 'none', fontSize: '0.9rem' }}>
+                            Read Full Release <ExternalLinkIcon size={14} />
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="noHistory"><p>No active news releases in the current pipeline.</p></div>
-            )}
+                ))
+              ) : (
+                <div className="noHistory">No active news releases in the current pipeline.</div>
+              )}
+            </div>
           </div>
 
-          <div className="sectionHeader" style={{ opacity: 0.6, marginTop: '5rem' }}>
-            <HistoryIcon size={24} />
-            <h2>Historical News Archive</h2>
-          </div>
+          <div className="archiveSection" style={{ marginTop: '6rem' }}>
+            <div className="sectionHeader" style={{ opacity: 0.6 }}>
+              <HistoryIcon size={24} />
+              <h2>Historical News Archive</h2>
+            </div>
 
-          <div className="versionTimeline">
-            {(() => {
-              const history = (data.versionHistory || []).filter((_, idx) => idx > 0 || !data.payload);
-              if (history.length > 0) {
-                return history.map((version, vIdx) => (
-                  <div key={vIdx} className="versionGroup">
-                    <div className="versionHeader">
-                      <div className="versionDot"></div>
-                      <div className="versionInfo">
-                        <span className="versionMeta">Detection Event • {formatDateTime(version.detectedAt)}</span>
-                        <h2>{version.summary}</h2>
-                      </div>
-                    </div>
-                    <div className="versionUpdates">
-                      {(version.payload?.alerts || []).map((alert, i) => (
-                        <div key={i} className="timelineItem">
-                          <div className="timelineCard">
-                            <div className="cardHeader"><span className="dateTag">{alert.date}</span></div>
-                            <p className="cardSummary">{alert.title}</p>
-                            <div className="alertDescriptionBox">
-                              <span className="impactLabel">Summary:</span>
-                              <p className="alertDetails">{alert.summary}</p>
+            <div className="versionTimeline">
+              {(() => {
+                const history = (data.versionHistory || []).filter((_, idx) => idx > 0 || !data.payload);
+                if (history.length > 0) {
+                  return history.map((version, vIdx) => {
+                    const versionUpdates = version.payload?.alerts || [];
+                    return (
+                      <div key={vIdx} className="timelineItem">
+                        <div className="timelineDot"></div>
+                        <div className="timelineCard historical">
+                          <div className="cardHeader">
+                            <span className="versionTag" style={{ background: '#f1f5f9', color: '#475569' }}>
+                              {new Date(version.detectedAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <div className="cardContent">
+                            <h3>{version.summary}</h3>
+                            <div className="archiveGrid" style={{ marginTop: '1.5rem', display: 'grid', gap: '1.5rem' }}>
+                              {versionUpdates.map((alert, idx) => (
+                                <div key={idx} className="archiveItem" style={{ borderLeft: '3px solid #e2e8f0', paddingLeft: '1rem' }}>
+                                  <h4 style={{ fontSize: '1rem', color: '#1e293b', marginBottom: '0.5rem' }}>{alert.title}</h4>
+                                  <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: '1.5' }}>{alert.summary}</p>
+                                </div>
+                              ))}
                             </div>
-                            <div className="cardActions">
-                              <a href={alert.url || 'https://www.uscis.gov/newsroom/news-releases'} target="_blank" rel="noopener noreferrer">
-                                <ExternalLinkIcon size={14} /> View Original Source
+                            <div className="cardActions" style={{ marginTop: '1.5rem' }}>
+                              <a href={alert.url || 'https://www.uscis.gov/newsroom/news-releases'} target="_blank" rel="noopener noreferrer" className="sourceLink" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#64748b', fontWeight: '600', textDecoration: 'none', fontSize: '0.85rem' }}>
+                                View Original Source <ExternalLinkIcon size={12} />
                               </a>
                             </div>
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                ));
-              } else {
-                return <div className="noHistory"><p>No previous detection events found in the historical archive.</p></div>;
-              }
-            })()}
+                      </div>
+                    );
+                  });
+                } else {
+                  return <div className="noHistory">No previous news events found.</div>;
+                }
+              })()}
+            </div>
           </div>
-        </section>
+        </div>
       </main>
 
       <Footer />
@@ -222,6 +236,7 @@ const NewsReleasesIntel = () => {
         onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
         onSuccess={handleSubscriptionSuccess}
       />
+      <Footer />
     </div>
   );
 };

@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 import org.lite.komunas.dto.*;
 import org.lite.komunas.entity.ResourceSyncState;
 import org.lite.komunas.entity.ResourceVersionHistory;
+import org.lite.komunas.enums.ResourceChangeType;
 import org.lite.komunas.repository.ResourceSyncStateRepository;
 import org.lite.komunas.repository.ResourceVersionHistoryRepository;
 import org.lite.komunas.service.USCISFormScraperService;
@@ -130,7 +131,7 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                             .summary(resultSummary)
                             .effectiveDate(metadata.getEffectiveDate())
                             .oldHash(existingState.getLastKnownHash())
-                            .currentHash(currentHash)
+                            .newHash(currentHash)
                             .instructionsUrl(metadata.getInstructionsUrl())
                             .instructionsHash(instructionsHash)
                             .supplementalResources(processedSupplements)
@@ -166,7 +167,7 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                             .summary(resultSummary)
                             .effectiveDate(metadata.getEffectiveDate())
                             .oldHash("INITIAL")
-                            .currentHash(currentHash)
+                            .newHash(currentHash)
                             .instructionsUrl(metadata.getInstructionsUrl())
                             .instructionsHash(instructionsHash)
                             .supplementalResources(initialSupplements)
@@ -195,7 +196,7 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                     existingState.setOldDocumentId(request.getOldDocumentId());
                     existingState.setOldInstructionsDocumentId(request.getOldInstructionsDocumentId());
                     existingState.setAgentTaskId(request.getAgentTaskId());
-                    existingState.setChangeType(request.getChangeType());
+                    existingState.setChangeType(ResourceChangeType.FORM_UPDATE.getValue());
                     existingState.setChangeDetected(request.isChangeDetected());
                     existingState.setSummary(request.getSummary());
                     existingState.setResourceUrl(request.getResourceUrl());
@@ -255,7 +256,7 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                 .instructionsDocumentId(request.getInstructionsDocumentId())
                 .oldDocumentId(request.getOldDocumentId())
                 .oldInstructionsDocumentId(request.getOldInstructionsDocumentId())
-                .changeType(request.getChangeType())
+                .changeType(ResourceChangeType.FORM_UPDATE.getValue())
                 .summary(request.getSummary())
                 .changeDetected(request.isChangeDetected())
                 .analysis(request.getAnalysis())
