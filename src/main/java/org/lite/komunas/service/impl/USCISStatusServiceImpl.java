@@ -246,8 +246,7 @@ public class USCISStatusServiceImpl implements USCISStatusService {
 
     private USCISStatusResponse mapToResponse(ResourceSyncState state) {
         List<ResourceVersionHistory> history = versionHistoryRepository
-                .findByDomainAndCategoryAndResourceIdOrderByDetectedAtDesc(
-                        state.getDomain(), state.getCategory(), state.getResourceId());
+                .findBySyncStateIdOrderByDetectedAtDesc(state.getId());
 
         List<USCISStatusResponse.VersionEntry> versionEntries = history.stream()
                 .map(h -> {
