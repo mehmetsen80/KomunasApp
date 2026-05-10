@@ -14,11 +14,11 @@ const Profile = () => {
   return (
     <div className="profilePage">
       <HeroBackground />
-      
+
       <div className="profileContainer">
         <Link to="/" className="backBtn">
           <ArrowLeft size={18} />
-          Back to Library
+          Back to Home
         </Link>
 
         <div className="profileCard">
@@ -77,7 +77,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="footer">
           <p>© {new Date().getFullYear()} Komunas. Professional Identity Verified.</p>
         </div>

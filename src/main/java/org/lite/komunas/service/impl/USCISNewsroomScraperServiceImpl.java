@@ -12,6 +12,7 @@ import org.lite.komunas.dto.ResourceCommitResponse;
 import org.lite.komunas.dto.ResourceUpdateNotification;
 import org.lite.komunas.entity.ResourceSyncState;
 import org.lite.komunas.entity.ResourceVersionHistory;
+import org.lite.komunas.enums.ResourceChangeType;
 import org.lite.komunas.repository.ResourceSyncStateRepository;
 import org.lite.komunas.repository.ResourceVersionHistoryRepository;
 import org.lite.komunas.service.USCISNewsroomScraperService;
@@ -57,12 +58,12 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
             boolean hashChanged = !currentHash.equals(existingState.getLastKnownHash());
 
             // We treat the latest alert's slug + date as the "version" for tracking
-            String newVersion = alerts.isEmpty() ? "EMPTY" : alerts.get(0).get("date");
+            String newVersion = alerts.isEmpty() ? "EMPTY" : alerts.getFirst().get("date");
 
             Map<String, Object> payloadMap = new HashMap<>();
             payloadMap.put("alerts", alerts);
 
-            String latestTitle = alerts.isEmpty() ? "No alerts" : (String) alerts.get(0).get("title");
+            String latestTitle = alerts.isEmpty() ? "No alerts" : alerts.getFirst().get("title");
             String resultSummary = hashChanged ? "New news release: " + latestTitle : "No new alerts detected.";
 
             result = ResourceCheckResult.builder()
@@ -74,7 +75,7 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                     .newVersion(newVersion)
                     .summary(resultSummary)
                     .oldHash(existingState.getLastKnownHash())
-                    .currentHash(currentHash)
+                    .newHash(currentHash)
                     .resourceUrl(url)
                     .shouldSync(hashChanged || !existingState.isEnabled())
                     .payload(payloadMap)
@@ -83,7 +84,7 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
             Map<String, Object> payloadMap = new HashMap<>();
             payloadMap.put("alerts", alerts);
 
-            String latestTitle = alerts.isEmpty() ? "No alerts" : (String) alerts.get(0).get("title");
+            String latestTitle = alerts.isEmpty() ? "No alerts" : (String) alerts.getFirst().get("title");
             String resultSummary = "Initial news release discovery: " + latestTitle;
 
             result = ResourceCheckResult.builder()
@@ -92,10 +93,10 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                     .category(category)
                     .changed(true)
                     .oldVersion("INITIAL")
-                    .newVersion(alerts.isEmpty() ? "INITIAL" : alerts.get(0).get("date"))
+                    .newVersion(alerts.isEmpty() ? "INITIAL" : alerts.getFirst().get("date"))
                     .summary(resultSummary)
                     .oldHash("INITIAL")
-                    .currentHash(currentHash)
+                    .newHash(currentHash)
                     .resourceUrl(url)
                     .shouldSync(true)
                     .payload(payloadMap)
@@ -118,7 +119,7 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                     existingState.setLastKnownVersion(request.getVersion());
 
                     existingState.setAgentTaskId(request.getAgentTaskId());
-                    existingState.setChangeType("ANNOUNCEMENT_UPDATE");
+                    existingState.setChangeType(ResourceChangeType.ANNOUNCEMENT_UPDATE.getValue());
                     existingState.setChangeDetected(request.isChangeDetected());
                     existingState.setSummary(request.getSummary());
                     existingState.setLastAnalysis(request.getAnalysis());
@@ -133,7 +134,7 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                         .category(request.getCategory())
                         .resourceId(request.getResourceId())
                         .agentTaskId(request.getAgentTaskId())
-                        .changeType("ANNOUNCEMENT_UPDATE")
+                        .changeType(ResourceChangeType.ANNOUNCEMENT_UPDATE.getValue())
                         .changeDetected(request.isChangeDetected())
                         .summary(request.getSummary())
                         .resourceUrl(request.getResourceUrl())
@@ -157,7 +158,7 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                 .agentTaskId(request.getAgentTaskId())
                 .version(request.getVersion())
                 .hash(request.getHash())
-                .changeType("ANNOUNCEMENT_UPDATE")
+                .changeType(ResourceChangeType.ANNOUNCEMENT_UPDATE.getValue())
                 .summary(request.getSummary())
                 .changeDetected(request.isChangeDetected())
                 .analysis(request.getAnalysis())

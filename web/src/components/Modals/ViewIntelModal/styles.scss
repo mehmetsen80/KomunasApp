@@ -2,14 +2,18 @@
 @use "../../../assets/styles/variables" as *;
 
 .viewIntelModal.modalContent {
-  max-width: 800px;
+  max-width: 1000px;
   width: 95%;
+  max-height: 90vh;
   background: white;
   border-radius: 24px;
-  padding: 2.5rem;
+  padding: 0; // Padding handled by internal sections for scrolling
   position: relative;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
   .closeBtn {
     position: absolute;
@@ -26,6 +30,7 @@
     cursor: pointer;
     color: #6b7280;
     transition: all 0.2s;
+    z-index: 10;
 
     &:hover {
       background: rgba(0, 0, 0, 0.1);
@@ -35,7 +40,9 @@
   }
 
   .modalHeader {
-    margin-bottom: 2rem;
+    padding: 2.5rem 2.5rem 1.5rem;
+    border-bottom: 1px solid #f3f4f6;
+    flex-shrink: 0;
 
     .headerTop {
       display: flex;
@@ -57,6 +64,12 @@
           background: rgba($color-secondary, 0.08);
           color: $color-secondary;
           border: 1px solid rgba($color-secondary, 0.05);
+        }
+
+        &.visa-bulletin {
+          background: rgba(#059669, 0.08);
+          color: #059669;
+          border: 1px solid rgba(#059669, 0.05);
         }
       }
 
@@ -89,6 +102,25 @@
   }
 
   .modalBody {
+    padding: 2rem 2.5rem;
+    overflow-y: auto;
+    flex: 1;
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #e5e7eb;
+      border-radius: 10px;
+      &:hover {
+        background: #d1d5db;
+      }
+    }
+
     .analysisSection {
       background: rgba($color-secondary, 0.02);
       border: 1px solid rgba($color-secondary, 0.05);
@@ -116,12 +148,116 @@
       }
     }
 
-    .chaptersSection {
+    .determinationBox {
+      background: #f0fdf4;
+      border: 1px solid #dcfce7;
+      padding: 1.25rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      
+      .boxLabel {
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #065f46;
+        text-transform: uppercase;
+        margin-bottom: 0.4rem;
+      }
+      
+      .boxValue {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #064e3b;
+      }
+    }
+
+    .highlightsSection {
+      margin-bottom: 1.5rem;
+      
       .sectionLabel {
         font-size: 0.75rem;
         font-weight: 800;
         color: #6b7280;
         margin-bottom: 0.75rem;
+      }
+      
+      .highlightsList {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        
+        .highlightItem {
+          background: #f9fafb;
+          border: 1px solid #f3f4f6;
+          padding: 1rem;
+          border-radius: 12px;
+          
+          .highlightHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            
+            .hCategory {
+              font-weight: 800;
+              color: #111827;
+              font-size: 0.95rem;
+            }
+            
+            .hMovement {
+              font-size: 0.75rem;
+              font-weight: 800;
+              background: #f3f4f6;
+              padding: 0.2rem 0.6rem;
+              border-radius: 20px;
+              color: #4b5563;
+              
+              &.positive {
+                background: #ecfdf5;
+                color: #059669;
+              }
+            }
+          }
+          
+          .hAnalysis {
+            font-size: 0.9rem;
+            color: #4b5563;
+            line-height: 1.5;
+          }
+        }
+      }
+    }
+
+    .adviceSection {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 1.25rem;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 1.5rem;
+      
+      .sectionLabel {
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #1e40af;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+      
+      .adviceText {
+        font-size: 0.95rem;
+        color: #1e3a8a;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+    }
+
+    .chaptersSection, .bulletinSection {
+      .sectionLabel {
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: #6b7280;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
       }
 
       .chaptersList {
@@ -152,26 +288,91 @@
         }
       }
     }
+
+    .bulletinSection {
+      .bulletinTableWrapper {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        overflow-x: auto; // Handle wide tables
+        margin-top: 1rem;
+
+        &.SovereignTable {
+          table {
+            width: 100%;
+            border-collapse: collapse !important;
+            font-size: 0.85rem;
+            border: none !important;
+
+            tr:first-child td, tr:first-child th {
+              background: #f1f5f9;
+              color: #475569;
+              font-weight: 800;
+              font-size: 0.7rem;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+              border-bottom: 1px solid #e2e8f0;
+              padding: 0.75rem 1rem;
+            }
+
+            td {
+              padding: 0.75rem 1rem;
+              color: #1e293b;
+              border: none !important;
+              border-bottom: 1px solid #f1f5f9 !important;
+              text-align: left;
+
+              b, strong {
+                color: $color-secondary;
+                font-weight: 700;
+              }
+            }
+
+            tr:last-child td {
+              border-bottom: none !important;
+            }
+
+            tr:nth-child(even) {
+              background: rgba(248, 250, 252, 0.5);
+            }
+
+            tr:hover {
+              background: #f1f5f9;
+            }
+          }
+        }
+      }
+    }
   }
 
   .modalFooter {
-    margin-top: 2.5rem;
-    display: flex;
+    padding: 1.5rem 2.5rem 2.5rem;
+    border-top: 1px solid #f3f4f6;
+    justify-content: space-between;
+    align-items: center;
     gap: 1rem;
+    flex-shrink: 0;
+
+    .footerActions {
+      display: flex;
+      gap: 1rem;
+      flex: 1;
+      justify-content: flex-end;
+    }
 
     button, a {
-      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.75rem;
-      padding: 1rem;
-      border-radius: 14px;
+      gap: 0.6rem;
+      padding: 0.8rem 1.25rem;
+      border-radius: 12px;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.2s;
       text-decoration: none;
+      white-space: nowrap;
     }
 
     .primaryBtn {
@@ -182,19 +383,26 @@
       &:hover {
         background: color.adjust($color-secondary, $lightness: -5%);
         transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba($color-secondary, 0.2);
+        box-shadow: 0 10px 20px rgba($color-secondary, 0.1);
       }
     }
 
     .secondaryBtn {
       background: white;
       color: $color-secondary;
-      border: 1px solid rgba($color-secondary, 0.2);
+      border: 1px solid rgba($color-secondary, 0.1);
 
       &:hover {
         background: rgba($color-secondary, 0.02);
-        border-color: $color-secondary;
+        border-color: rgba($color-secondary, 0.3);
         transform: translateY(-2px);
+      }
+
+      &.outline {
+        border-style: dashed;
+        &:hover {
+          border-style: solid;
+        }
       }
     }
   }

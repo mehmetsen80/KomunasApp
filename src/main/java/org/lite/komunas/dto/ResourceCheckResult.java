@@ -49,7 +49,7 @@ public class ResourceCheckResult {
     private String oldHash;
     
     @Schema(description = "SHA-256 hash of the current resource version")
-    private String currentHash;
+    private String newHash;
     
     @Schema(description = "Full URL to download the current resource", example = "https://www.uscis.gov/sites/default/files/document/forms/i-485.pdf")
     private String resourceUrl;

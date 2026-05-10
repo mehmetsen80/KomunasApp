@@ -46,7 +46,89 @@
     .deltaValue {
       font-size: 0.9rem;
       color: #1f2937;
+      word-break: break-word;
     }
+
+    &.deltaRow--list {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      align-items: flex-start;
+
+      .deltaKey {
+        padding-bottom: 0.25rem;
+        border-bottom: 2px solid rgba($color-secondary, 0.1);
+        width: fit-content;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  .deltaList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .deltaListItem {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+    padding: 1rem;
+    border-left: 4px solid $color-secondary;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.03);
+      transform: translateX(4px);
+    }
+
+    .listItemField {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+
+      .fieldLabel {
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+      }
+
+      .fieldValue {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: #374151;
+
+        a {
+          color: $color-secondary;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.85rem;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .jsonVal {
+    background: #1f2937;
+    color: #f3f4f6;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    overflow-x: auto;
+    margin: 0;
   }
 
   .comparisonValue {

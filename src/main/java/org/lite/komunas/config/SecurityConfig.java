@@ -63,13 +63,26 @@ public class SecurityConfig {
         return decoder;
     }
 
+    private static final String[] PUBLIC_URLS = {
+            "/auth/**",
+            "/health",
+            "/actuator/health",
+            "/error",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/api/uscis/status/**",
+            "/api/uscis/newsroom/**",
+            "/api/uscis/policy-manual/**",
+            "/api/uscis/visa-bulletin/**",
+            "/api/uscis/sync/**"
+    };
+
     @Bean
     @Order(1)
     public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/auth/**", "/health", "/actuator/health", "/error",
-                        "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
-                        "/api/uscis/status/**", "/api/uscis/newsroom/**", "/api/uscis/policy-manual/**", "/api/uscis/sync/**")
+                .securityMatcher(PUBLIC_URLS)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth

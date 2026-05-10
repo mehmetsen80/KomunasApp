@@ -28,6 +28,7 @@ public class USCISStatusServiceImpl implements USCISStatusService {
     private static final String USCIS_CATEGORY_FORMS = "forms";
     private static final String USCIS_CATEGORY_ANNOUNCEMENTS = "announcements";
     private static final String USCIS_CATEGORY_POLICY = "policy-manual";
+    private static final String USCIS_CATEGORY_VISA_BULLETIN = "visa-bulletin";
 
     private final ResourceSyncStateRepository syncStateRepository;
     private final ResourceVersionHistoryRepository versionHistoryRepository;
@@ -200,6 +201,49 @@ public class USCISStatusServiceImpl implements USCISStatusService {
         return Optional.of(response);
     }
 
+    @Override
+    public Optional<USCISStatusResponse> getVisaBulletinStatus(String resourceId) {
+        return getVisaBulletinStatus(resourceId, null);
+    }
+
+    @Override
+    public Optional<USCISStatusResponse> getVisaBulletinStatus(String resourceId, String userId) {
+        log.info("Fetching USCIS visa bulletin status for: {} for user: {}", resourceId, userId);
+
+        Optional<ResourceSyncState> stateOpt = syncStateRepository.findByDomainAndCategoryAndResourceId(USCIS_DOMAIN,
+                USCIS_CATEGORY_VISA_BULLETIN, resourceId);
+
+        if (stateOpt.isEmpty()) {
+            log.info("No visa bulletin state found for: {}. Returning initial status.", resourceId);
+            return Optional.of(USCISStatusResponse.builder()
+                    .resourceId(resourceId)
+                    .domain(USCIS_DOMAIN)
+                    .category(USCIS_CATEGORY_VISA_BULLETIN)
+                    .currentVersion("INITIAL")
+                    .enabled(true)
+                    .subscribed(false)
+                    .build());
+        }
+
+        ResourceSyncState state = stateOpt.get();
+        USCISStatusResponse response = mapToResponse(state);
+
+        // Check subscription if userId is present
+        if (userId != null) {
+            List<Map<String, Object>> subscriptions = linqraClient.getSubscriptions(userId);
+            for (Map<String, Object> sub : subscriptions) {
+                if (resourceId.equals(sub.get("resourceId")) && USCIS_DOMAIN.equals(sub.get("domain"))
+                        && USCIS_CATEGORY_VISA_BULLETIN.equals(sub.get("category"))) {
+                    response.setSubscribed(true);
+                    response.setSubscriptionId((String) sub.get("id"));
+                    break;
+                }
+            }
+        }
+
+        return Optional.of(response);
+    }
+
     private USCISStatusResponse mapToResponse(ResourceSyncState state) {
         List<ResourceVersionHistory> history = versionHistoryRepository
                 .findByDomainAndCategoryAndResourceIdOrderByDetectedAtDesc(
@@ -238,7 +282,8 @@ public class USCISStatusServiceImpl implements USCISStatusService {
             return null;
         return summary.replace("newsroom-alerts", "USCIS Announcements")
                 .replace("news-releases", "USCIS News Releases")
-                .replace("policy-updates", "USCIS Policy Manual Updates");
+                .replace("policy-updates", "USCIS Policy Manual Updates")
+                .replace("visa-bulletin", "USCIS Visa Bulletin Charts");
     }
 
     private Map<String, Object> extractPayloadSafe(ResourceSyncState state) {

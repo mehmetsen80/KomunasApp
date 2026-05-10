@@ -1,0 +1,148 @@
+@use "sass:color";
+@use "../../../assets/styles/variables" as *;
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent.logoutModal {
+  background: white;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 24px;
+  padding: 2.5rem;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  .closeBtn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+  }
+
+  .modalHeader {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .iconWrapper.logout {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      background: rgba(#ef4444, 0.08);
+      color: #ef4444;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: $color-secondary;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #6b7280;
+    }
+  }
+
+  .modalBody {
+    margin-bottom: 2.5rem;
+
+    .infoBox {
+      background: #f8fafc;
+      padding: 1.25rem;
+      border-radius: 12px;
+      border: 1px solid #f1f5f9;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      
+      svg {
+        color: #64748b;
+        flex-shrink: 0;
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: #475569;
+        line-height: 1.5;
+        margin: 0;
+      }
+    }
+  }
+
+  .modalFooter {
+    display: flex;
+    gap: 1rem;
+
+    button {
+      flex: 1;
+      padding: 1rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cancelBtn {
+      background: white;
+      border: 1px solid #e5e7eb;
+      color: #4b5563;
+
+      &:hover {
+        background: #f9fafb;
+        border-color: #d1d5db;
+      }
+    }
+
+    .confirmBtn.logout {
+      background: #ef4444;
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(#ef4444, 0.2);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(#ef4444, 0.3);
+        background: color.adjust(#ef4444, $lightness: -5%);
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}

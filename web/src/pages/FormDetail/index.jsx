@@ -97,62 +97,55 @@ const FormDetail = () => {
   }
 
   return (
-    <div className="formDetailPage">
+    <div className="formDetailPage intelPage">
       <Header transparent />
-
-      <header className="detailHero">
-        <div className="heroContent">
+ 
+      <div className="pageHeader">
+        <div className="container">
           <button onClick={() => navigate('/')} className="backBtn">
-            <ArrowLeft size={20} />
-            Back to Library
+            <ArrowLeft size={18} /> Back to Home
           </button>
-          <div className="formTypeBadge">USCIS {form.domain}</div>
-          <h1>{form.resourceId}</h1>
-          <p className="formSummary">{form.summary}</p>
-
-          <div className="quickMeta">
-            <div className="metaItem">
-              <ShieldCheck size={18} />
-              <span>Current Version: <strong>{form.currentVersion}</strong></span>
+          <div className="headerContent">
+            <div className="titleArea">
+              <div className="formTypeBadge">USCIS {form.domain}</div>
+              <h1>{form.resourceId}</h1>
+              <p className="formSummary">{form.summary}</p>
             </div>
-            <div className="metaItem">
-              <Calendar size={18} />
-              <span>Effective: <strong>{form.effectiveDate}</strong></span>
-            </div>
-            <div className="metaItem">
-              <Clock size={18} />
-              <span>Last Checked: {formatDateTime(form.lastCheckedAt)}</span>
+            
+            <div className="metaInfo">
+              <div className="metaItem">
+                <ShieldCheck size={16} />
+                <span>Current Version: <strong>{form.currentVersion}</strong></span>
+              </div>
+              <div className="metaItem">
+                <Calendar size={16} />
+                <span>Effective: <strong>{form.effectiveDate}</strong></span>
+              </div>
+              <div className="metaItem">
+                <Clock size={16} />
+                <span>Last Checked: {formatDateTime(form.lastCheckedAt)}</span>
+              </div>
             </div>
           </div>
 
           <div className="heroActions">
             <a href={form.resourceUrl} target="_blank" rel="noopener noreferrer" className="primaryAction">
-              <Download size={20} />
-              Download Latest Form (PDF)
+              <Download size={18} /> Download Latest Form (PDF)
             </a>
             <a href={form.instructionsUrl} target="_blank" rel="noopener noreferrer" className="secondaryAction">
-              <FileText size={20} />
-              View Instructions
+              <FileText size={18} /> View Official Instructions
             </a>
-
+ 
             {isAuthenticated && (
               <div className="subscriptionAction">
                 {form.subscribed ? (
-                  <button
-                    className="subscribedBtn"
-                    onClick={openUnsubscribeModal}
-                    disabled={submitting}
-                  >
-                    {submitting ? <div className="mini-spinner"></div> : <CheckCircle size={20} />}
-                    Subscribed
-                  </button>
+                  <div className="statusBadge subscribed big">
+                    <ShieldCheck size={18} />
+                    <span>Subscribed to Alerts</span>
+                  </div>
                 ) : (
-                  <button
-                    className="subscribeBtn"
-                    onClick={openSubscribeModal}
-                    disabled={submitting}
-                  >
-                    {submitting ? <div className="mini-spinner"></div> : <Bell size={20} />}
+                  <button className="subscribeBtnLink" onClick={openSubscribeModal} disabled={submitting}>
+                    <Bell size={18} />
                     Subscribe to Updates
                   </button>
                 )}
@@ -160,9 +153,10 @@ const FormDetail = () => {
             )}
           </div>
         </div>
-      </header>
+      </div>
 
       <main className="detailContent">
+        <div className="container">
 
         {form.supplementalResources && Object.keys(form.supplementalResources).length > 0 && (
           <section className="supplementalSection">
@@ -227,6 +221,7 @@ const FormDetail = () => {
             )}
           </div>
         </section>
+        </div>
       </main>
 
       <Footer />

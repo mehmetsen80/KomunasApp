@@ -16,4 +16,7 @@ public interface USCISStatusService {
 
     Optional<USCISStatusResponse> getPolicyManualStatus(String resourceId);
     Optional<USCISStatusResponse> getPolicyManualStatus(String resourceId, String userId);
+
+    Optional<USCISStatusResponse> getVisaBulletinStatus(String resourceId);
+    Optional<USCISStatusResponse> getVisaBulletinStatus(String resourceId, String userId);
 }
