@@ -56,7 +56,7 @@ axiosInstance.interceptors.response.use(
         localStorage.removeItem('komunas_token')
         localStorage.removeItem('komunas_user')
         if (window.location.pathname !== '/login') {
-          window.location.href = '/login'
+          window.location.href = '/login';
         }
       }
     } else if (error.response?.status === 403) {

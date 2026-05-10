@@ -95,8 +95,9 @@ public class UserServiceImpl implements UserService {
 
             // Inject dynamic values
             String loginLink = "https://komunas.com/login";
+            String fullName = user.getFullName() != null ? user.getFullName() : user.getUsername();
             String body = template
-                    .replace("[NAME]", user.getFullName())
+                    .replace("[NAME]", fullName)
                     .replace("[LOGIN_LINK]", loginLink);
 
             EmailRequestDTO emailRequest = EmailRequestDTO.builder()
@@ -186,9 +187,10 @@ public class UserServiceImpl implements UserService {
             }
 
             // Inject dynamic values
+            String fullName = user.getFullName() != null ? user.getFullName() : user.getUsername();
             String resetLink = "https://komunas.com/reset-password?token=" + token;
             String body = template
-                    .replace("[NAME]", user.getFullName())
+                    .replace("[NAME]", fullName)
                     .replace("[RESET_LINK]", resetLink);
 
             EmailRequestDTO emailRequest = EmailRequestDTO.builder()
