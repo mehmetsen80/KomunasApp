@@ -272,6 +272,7 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                 .version(savedState.getLastKnownVersion())
                 .summary(savedState.getSummary())
                 .status("COMMITTED")
+                .changeDetected(savedState.isChangeDetected())
                 .build();
     }
 

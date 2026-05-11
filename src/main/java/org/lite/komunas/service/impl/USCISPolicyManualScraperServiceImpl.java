@@ -172,6 +172,7 @@ public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScr
                 .version(savedState.getLastKnownVersion())
                 .summary(savedState.getSummary())
                 .status("COMMITTED")
+                .changeDetected(savedState.isChangeDetected())
                 .build();
     }
 
@@ -183,10 +184,7 @@ public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScr
             Document doc = Jsoup.connect(USCIS_POLICY_UPDATES_URL).get();
             Elements rows = doc.select(".views-row");
 
-            int count = 0;
             for (Element row : rows) {
-                if (count++ >= 15)
-                    break; // Limit to most recent 15 updates to prevent token overflow
                 // Each update is wrapped in .pm-updates
                 Element updateEl = row.selectFirst(".pm-updates");
                 if (updateEl == null)
@@ -231,6 +229,16 @@ public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScr
                     updates.add(update);
                 }
             }
+
+            // Sort all updates by Date (descending) then ID (descending)
+            updates.sort((a, b) -> {
+                int dateComp = parseDate((String) b.get("date")).compareTo(parseDate((String) a.get("date")));
+                return dateComp != 0 ? dateComp : ((String) b.get("id")).compareTo((String) a.get("id"));
+            });
+
+            if (updates.size() > 15) {
+                updates = new ArrayList<>(updates.subList(0, 15));
+            }
         } catch (Exception e) {
             log.error("Failed to extract Policy Manual updates: {}", e.getMessage());
         }
@@ -238,10 +246,26 @@ public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScr
         return updates;
     }
 
+    private java.time.LocalDate parseDate(String dateStr) {
+        try {
+            if (dateStr == null || "UNKNOWN".equals(dateStr))
+                return java.time.LocalDate.MIN;
+            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("MMMM d, yyyy",
+                    java.util.Locale.ENGLISH);
+            return java.time.LocalDate.parse(dateStr, formatter);
+        } catch (Exception e) {
+            return java.time.LocalDate.MIN;
+        }
+    }
+
     private String generateStateHash(List<Map<String, Object>> updates) {
         try {
+            // Sort updates by ID to ensure deterministic hashing regardless of HTML order
+            List<Map<String, Object>> sortedUpdates = new ArrayList<>(updates);
+            sortedUpdates.sort(Comparator.comparing(u -> (String) u.get("id")));
+
             StringBuilder sb = new StringBuilder();
-            for (Map<String, Object> update : updates) {
+            for (Map<String, Object> update : sortedUpdates) {
                 sb.append(update.get("id")).append("|").append(update.get("date")).append("|");
             }
 

@@ -29,4 +29,7 @@ public class ResourceCommitResponse {
     
     @Schema(description = "Status of the commit operation", example = "COMMITTED")
     private String status;
+
+    @Schema(description = "Indicates if a meaningful change was detected", example = "true")
+    private boolean changeDetected;
 }
