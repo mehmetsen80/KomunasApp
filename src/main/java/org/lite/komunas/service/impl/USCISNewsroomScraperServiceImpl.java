@@ -176,6 +176,7 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                 .version(savedState.getLastKnownVersion())
                 .summary(savedState.getSummary())
                 .status("COMMITTED")
+                .changeDetected(savedState.isChangeDetected())
                 .build();
     }
 
@@ -208,6 +209,16 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                     alerts.add(alert);
                 }
             }
+
+            // Sort all scraped alerts by Date (descending) then ID (descending)
+            alerts.sort((a, b) -> {
+                int dateComp = parseDate(b.get("date")).compareTo(parseDate(a.get("date")));
+                return dateComp != 0 ? dateComp : b.get("id").compareTo(a.get("id"));
+            });
+
+            if (alerts.size() > 10) {
+                alerts = new ArrayList<>(alerts.subList(0, 10));
+            }
         } catch (Exception e) {
             log.error("Failed to extract sovereign alerts from {}: {}", url, e.getMessage());
         }
@@ -215,11 +226,26 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
         return alerts;
     }
 
+    private java.time.LocalDate parseDate(String dateStr) {
+        try {
+            if (dateStr == null || "UNKNOWN".equals(dateStr))
+                return java.time.LocalDate.MIN;
+            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("MMMM d, yyyy",
+                    java.util.Locale.ENGLISH);
+            return java.time.LocalDate.parse(dateStr, formatter);
+        } catch (Exception e) {
+            return java.time.LocalDate.MIN;
+        }
+    }
+
     private String generateStateHash(List<Map<String, String>> alerts) {
         try {
-            // High-fidelity state hashing based on slugs and dates
+            // Sort alerts by ID to ensure deterministic hashing regardless of HTML order
+            List<Map<String, String>> sortedAlerts = new ArrayList<>(alerts);
+            sortedAlerts.sort(Comparator.comparing(a -> a.get("id")));
+
             StringBuilder sb = new StringBuilder();
-            for (Map<String, String> alert : alerts) {
+            for (Map<String, String> alert : sortedAlerts) {
                 sb.append(alert.get("id")).append("|").append(alert.get("date")).append("|");
             }
 
