@@ -657,7 +657,7 @@ const Home = () => {
                   </div>
                   <h3 className="determinationValue">{visaBulletinData.payload?.familyDetermination?.chartType || 'Dates for Filing'}</h3>
 
-                  {visaBulletinData.payload?.highlights && (
+                  {visaBulletinData.payload?.highlights && visaBulletinData.payload.highlights.filter(h => h.category.startsWith('F')).length > 0 ? (
                     <div className="featuredDates">
                       {visaBulletinData.payload.highlights
                         .filter(h => h.category.startsWith('F'))
@@ -668,6 +668,13 @@ const Home = () => {
                             <span className="val">{h.movement.split(' ').pop()}</span>
                           </div>
                         ))}
+                    </div>
+                  ) : (
+                    <div className="featuredDates empty">
+                      <div className="dateRow">
+                        <span className="cat">Stability</span>
+                        <span className="val">No significant movement</span>
+                      </div>
                     </div>
                   )}
 
@@ -714,7 +721,7 @@ const Home = () => {
                   </div>
                   <h3 className="determinationValue">{visaBulletinData.payload?.employmentDetermination?.chartType || 'Final Action Dates'}</h3>
 
-                  {visaBulletinData.payload?.highlights && (
+                  {visaBulletinData.payload?.highlights && visaBulletinData.payload.highlights.filter(h => h.category.startsWith('EB') || /^\d/.test(h.category)).length > 0 ? (
                     <div className="featuredDates">
                       {visaBulletinData.payload.highlights
                         .filter(h => h.category.startsWith('EB') || /^\d/.test(h.category))
@@ -725,6 +732,13 @@ const Home = () => {
                             <span className="val">{h.movement.split(' ').pop()}</span>
                           </div>
                         ))}
+                    </div>
+                  ) : (
+                    <div className="featuredDates empty">
+                      <div className="dateRow">
+                        <span className="cat">Stability</span>
+                        <span className="val">No significant movement</span>
+                      </div>
                     </div>
                   )}
 
