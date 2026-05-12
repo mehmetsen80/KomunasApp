@@ -651,21 +651,27 @@ const Home = () => {
                 >
                   <div className="cardHeader">
                     <span className="stripLabel">Family-Sponsored</span>
-                    {visaBulletinData.payload?.highlights?.some(h => h.category.startsWith('F')) && (
+                    {visaBulletinData.payload?.highlights?.some(h => 
+                      h.category.startsWith('F') || 
+                      h.category.toLowerCase().includes('family')
+                    ) && (
                       <span className="movementBadge">Movement</span>
                     )}
                   </div>
                   <h3 className="determinationValue">{visaBulletinData.payload?.familyDetermination?.chartType || 'Dates for Filing'}</h3>
 
-                  {visaBulletinData.payload?.highlights && visaBulletinData.payload.highlights.filter(h => h.category.startsWith('F')).length > 0 ? (
+                  {visaBulletinData.payload?.highlights && visaBulletinData.payload.highlights.filter(h => h.category.startsWith('F') || h.category.toLowerCase().includes('family')).length > 0 ? (
                     <div className="featuredDates">
                       {visaBulletinData.payload.highlights
-                        .filter(h => h.category.startsWith('F'))
+                        .filter(h => 
+                          h.category.startsWith('F') || 
+                          h.category.toLowerCase().includes('family')
+                        )
                         .slice(0, 3)
                         .map((h, i) => (
                           <div key={i} className="dateRow">
                             <span className="cat">{h.category}</span>
-                            <span className="val">{h.movement.split(' ').pop()}</span>
+                            <span className="val">{h.movement.split(' ')[0]}</span>
                           </div>
                         ))}
                     </div>
@@ -715,7 +721,13 @@ const Home = () => {
                 >
                   <div className="cardHeader">
                     <span className="stripLabel">Employment-Based</span>
-                    {visaBulletinData.payload?.highlights?.some(h => h.category.startsWith('EB') || /^\d/.test(h.category)) && (
+                    {visaBulletinData.payload?.highlights?.some(h => 
+                      h.category.startsWith('EB') || 
+                      /^\d/.test(h.category) || 
+                      h.category.toLowerCase().includes('worker') ||
+                      h.category.toLowerCase().includes('employment') ||
+                      h.category.toLowerCase().includes('aside')
+                    ) && (
                       <span className="movementBadge">Movement</span>
                     )}
                   </div>
@@ -724,12 +736,18 @@ const Home = () => {
                   {visaBulletinData.payload?.highlights && visaBulletinData.payload.highlights.filter(h => h.category.startsWith('EB') || /^\d/.test(h.category)).length > 0 ? (
                     <div className="featuredDates">
                       {visaBulletinData.payload.highlights
-                        .filter(h => h.category.startsWith('EB') || /^\d/.test(h.category))
+                        .filter(h => 
+                          h.category.startsWith('EB') || 
+                          /^\d/.test(h.category) || 
+                          h.category.toLowerCase().includes('worker') ||
+                          h.category.toLowerCase().includes('employment') ||
+                          h.category.toLowerCase().includes('aside')
+                        )
                         .slice(0, 3)
                         .map((h, i) => (
                           <div key={i} className="dateRow">
                             <span className="cat">{h.category}</span>
-                            <span className="val">{h.movement.split(' ').pop()}</span>
+                            <span className="val">{h.movement.split(' ')[0]}</span>
                           </div>
                         ))}
                     </div>
