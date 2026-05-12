@@ -1542,6 +1542,22 @@
         border-radius: 8px;
         border: 1px solid rgba($color-secondary, 0.05);
 
+        &.empty {
+          background: rgba($color-secondary, 0.015);
+          border-style: dashed;
+          padding: 0.8rem;
+
+          .cat {
+            font-style: italic;
+            opacity: 0.5;
+          }
+
+          .val {
+            font-size: 0.7rem;
+            opacity: 0.6;
+          }
+        }
+
         .dateRow {
           display: flex;
           justify-content: space-between;
