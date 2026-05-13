@@ -75,6 +75,8 @@ public class SecurityConfig {
             "/api/uscis/newsroom/**",
             "/api/uscis/policy-manual/**",
             "/api/uscis/visa-bulletin/**",
+            "/api/uscis/processing-times/**",
+            "/api/uscis/notifications/**",
             "/api/uscis/sync/**"
     };
 

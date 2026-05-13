@@ -13,7 +13,8 @@ import {
   AlertTriangle,
   Info,
   Bell,
-  CheckCircle
+  CheckCircle,
+  Activity
 } from 'lucide-react';
 import resourceSyncService from '../../services/resourceSyncService';
 import notificationService from '../../services/notificationService';
@@ -135,6 +136,10 @@ const FormDetail = () => {
             <a href={form.instructionsUrl} target="_blank" rel="noopener noreferrer" className="secondaryAction">
               <FileText size={18} /> View Official Instructions
             </a>
+            
+            <button onClick={() => navigate(`/processing-times/${id}`)} className="secondaryAction" style={{ background: 'white', color: '#1e293b', border: '1px solid #e2e8f0' }}>
+              <Activity size={18} /> Processing Times Intel
+            </button>
 
             {isAuthenticated && (
               <div className="subscriptionAction">

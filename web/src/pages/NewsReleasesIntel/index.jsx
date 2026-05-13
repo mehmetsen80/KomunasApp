@@ -89,16 +89,16 @@ const NewsReleasesIntel = () => {
           </button>
           <div className="headerContent">
             <div className="titleArea">
-              <div className="badge">
-                <Newspaper size={14} />
-                <span>{data.domain} Intelligence Center</span>
-              </div>
               <h1>USCIS News Releases</h1>
               <p className="subtitle">
                 Continuous monitoring of official USCIS press releases, media communications, and breaking news events.
               </p>
             </div>
             <div className="metaInfo">
+              <div className="badge">
+                <Newspaper size={14} />
+                <span>USCIS News Releases Intelligence</span>
+              </div>
               <div className="metaItem">
                 <ClockIcon size={16} />
                 <span>Last Synced: {formatDateTime(data.lastCheckedAt)}</span>

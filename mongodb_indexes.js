@@ -12,7 +12,7 @@
 
 // 1. Resource Category and ID Unique Index
 db.resource_sync_state.createIndex(
-    { "resourceCategory": 1, "resourceId": 1 },
+    { "domain": 1, "category": 1, "resourceId": 1 },
     {
         "name": "resource_sync_idx",
         "unique": true,
@@ -53,7 +53,7 @@ db.resource_sync_state.createIndex(
 
 // 1. History Category, ID, and Time Index (for querying recent history)
 db.resource_version_history.createIndex(
-    { "resourceCategory": 1, "resourceId": 1, "detectedAt": -1 },
+    { "domain": 1, "category": 1, "resourceId": 1, "detectedAt": -1 },
     {
         "name": "history_category_id_time_idx",
         "background": true

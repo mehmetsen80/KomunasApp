@@ -88,16 +88,16 @@ const NewsroomAlertsIntel = () => {
           </button>
           <div className="headerContent">
             <div className="titleArea">
-              <div className="badge">
-                <RssIcon size={14} />
-                <span>{data.domain} Intelligence Center</span>
-              </div>
               <h1>USCIS Newsroom Alerts</h1>
               <p className="subtitle">
                 Monitoring official USCIS Newsroom Alerts for breaking announcements, immediate procedural changes, and critical updates.
               </p>
             </div>
             <div className="metaInfo">
+              <div className="badge">
+                <RssIcon size={14} />
+                <span>USCIS Newsroom Alerts Intelligence</span>
+              </div>
               <div className="metaItem">
                 <ClockIcon size={16} />
                 <span>Last Synced: {formatDateTime(data.lastCheckedAt)}</span>

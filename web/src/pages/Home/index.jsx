@@ -3,7 +3,7 @@ import {
   Zap, FileText, Download, ExternalLink, Search,
   Bell, CheckCircle, AlertTriangle, Rss, BookOpen, BarChart3,
   Shield, Clock, ArrowRight, AlertCircle, CheckCircle2, Filter, Newspaper,
-  User, LogOut, LogIn, UserPlus, Menu, X, ChevronDown
+  User, LogOut, LogIn, UserPlus, Menu, X, ChevronDown, Activity
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import './styles.scss';
@@ -260,6 +260,9 @@ const Home = () => {
                 </Link>
                 <Link to="/newsroom/visa-bulletin" className="heroNavLink" onClick={() => setIsMenuOpen(false)}>
                   <BarChart3 size={14} />Visa Bulletin
+                </Link>
+                <Link to="/processing-times" className="heroNavLink" onClick={() => setIsMenuOpen(false)}>
+                  <Activity size={14} />Processing Times
                 </Link>
               </nav>
             </div>

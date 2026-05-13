@@ -244,6 +244,88 @@ public class USCISStatusServiceImpl implements USCISStatusService {
         return Optional.of(response);
     }
 
+    @Override
+    public Optional<USCISStatusResponse> getProcessingTimesStatus(String resourceId) {
+        return getProcessingTimesStatus(resourceId, null);
+    }
+
+    @Override
+    public Optional<USCISStatusResponse> getProcessingTimesStatus(String resourceId, String userId) {
+        log.info("Fetching USCIS processing times status for: {} for user: {}", resourceId, userId);
+
+        Optional<ResourceSyncState> stateOpt = syncStateRepository.findByDomainAndCategoryAndResourceId(USCIS_DOMAIN,
+                "processing-times", resourceId);
+
+        if (stateOpt.isEmpty()) {
+            log.info("No processing times state found for: {}. Returning initial status.", resourceId);
+            return Optional.of(USCISStatusResponse.builder()
+                    .resourceId(resourceId)
+                    .domain(USCIS_DOMAIN)
+                    .category("processing-times")
+                    .currentVersion("INITIAL")
+                    .enabled(true)
+                    .subscribed(false)
+                    .build());
+        }
+
+        ResourceSyncState state = stateOpt.get();
+        USCISStatusResponse response = mapToResponse(state);
+
+        // Check subscription if userId is present
+        if (userId != null) {
+            List<Map<String, Object>> subscriptions = linqraClient.getSubscriptions(userId);
+            for (Map<String, Object> sub : subscriptions) {
+                if (resourceId.equals(sub.get("resourceId")) && USCIS_DOMAIN.equals(sub.get("domain"))
+                        && "processing-times".equals(sub.get("category"))) {
+                    response.setSubscribed(true);
+                    response.setSubscriptionId((String) sub.get("id"));
+                    break;
+                }
+            }
+        }
+
+        return Optional.of(response);
+    }
+
+    @Override
+    public List<USCISStatusResponse> getAllProcessingTimesStatuses() {
+        return getAllProcessingTimesStatuses(null);
+    }
+
+    @Override
+    public List<USCISStatusResponse> getAllProcessingTimesStatuses(String userId) {
+        log.info("Fetching all USCIS processing times statuses for user: {}", userId);
+
+        List<ResourceSyncState> states = syncStateRepository.findByDomainAndCategory(USCIS_DOMAIN,
+                "processing-times");
+
+        // Fetch subscriptions if userId is present
+        Map<String, Map<String, Object>> subscriptionsMap = new HashMap<>();
+        if (userId != null) {
+            List<Map<String, Object>> subscriptions = linqraClient.getSubscriptions(userId);
+            for (Map<String, Object> sub : subscriptions) {
+                String resId = (String) sub.get("resourceId");
+                String domain = (String) sub.get("domain");
+                String category = (String) sub.get("category");
+                if (USCIS_DOMAIN.equals(domain) && "processing-times".equals(category)) {
+                    subscriptionsMap.put(resId, sub);
+                }
+            }
+        }
+
+        return states.stream()
+                .map(state -> {
+                    USCISStatusResponse response = mapToResponse(state);
+                    if (subscriptionsMap.containsKey(state.getResourceId())) {
+                        Map<String, Object> sub = subscriptionsMap.get(state.getResourceId());
+                        response.setSubscribed(true);
+                        response.setSubscriptionId((String) sub.get("id"));
+                    }
+                    return response;
+                })
+                .toList();
+    }
+
     private USCISStatusResponse mapToResponse(ResourceSyncState state) {
         List<ResourceVersionHistory> history = versionHistoryRepository
                 .findBySyncStateIdOrderByDetectedAtDesc(state.getId());

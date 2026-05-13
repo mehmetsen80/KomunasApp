@@ -12,6 +12,7 @@ import NewsroomAlertsIntel from '../pages/NewsroomAlertsIntel';
 import NewsReleasesIntel from '../pages/NewsReleasesIntel';
 import PolicyManualIntel from '../pages/PolicyManualIntel';
 import VisaBulletinIntel from '../pages/VisaBulletinIntel';
+import ProcessingTimesIntel from '../pages/ProcessingTimesIntel';
 import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
 import Notifications from '../pages/Notifications';
@@ -30,6 +31,8 @@ const AppRoutes = () => {
       <Route path="/newsroom/news-releases" element={<NewsReleasesIntel />} />
       <Route path="/newsroom/policy-updates" element={<PolicyManualIntel />} />
       <Route path="/newsroom/visa-bulletin" element={<VisaBulletinIntel />} />
+      <Route path="/processing-times" element={<ProcessingTimesIntel />} />
+      <Route path="/processing-times/:formId" element={<ProcessingTimesIntel />} />
       
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

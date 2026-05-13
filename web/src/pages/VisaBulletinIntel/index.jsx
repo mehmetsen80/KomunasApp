@@ -74,10 +74,6 @@ const VisaBulletinIntel = () => {
           </Link>
           <div className="headerContent">
             <div className="titleArea">
-              <div className="badge">
-                <BarChart3 size={14} />
-                <span>Visa Availability Priority Dates</span>
-              </div>
               <h1>Adjustment of Status Filing Charts</h1>
               <p className="subtitle">
                 Official USCIS determination for <strong>{currentMonth} {currentYear}</strong> adjustment of status filings.
@@ -85,6 +81,10 @@ const VisaBulletinIntel = () => {
             </div>
             
             <div className="metaInfo">
+              <div className="badge">
+                <BarChart3 size={14} />
+                <span>Visa Availability Priority Dates</span>
+              </div>
               <div className="metaItem">
                 <Clock size={16} />
                 <span>Last Synced: {data?.lastCheckedAt ? new Date(data.lastCheckedAt).toLocaleTimeString() : 'Recent'}</span>
