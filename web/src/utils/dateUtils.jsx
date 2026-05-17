@@ -72,6 +72,27 @@ export const formatDateTime = (dateInput) => {
 };
 
 /**
+ * Specialized multi-line format for dashboard sync health items.
+ */
+export const formatSyncTime = (dateInput) => {
+  if (!dateInput) return 'Never';
+  const date = parseDate(dateInput);
+  
+  if (isNaN(date.getTime())) return 'Invalid Date';
+
+  const monthDay = date.toLocaleString('en-US', { month: 'short', day: 'numeric' });
+  const yearTime = date.toLocaleString('en-US', { 
+    year: 'numeric', 
+    hour: '2-digit', 
+    minute: '2-digit', 
+    timeZoneName: 'short' 
+  });
+
+  const relative = getRelativeTime(dateInput);
+  return relative ? `${relative}, ${monthDay},\n${yearTime}` : `${monthDay},\n${yearTime}`;
+};
+
+/**
  * Formats a date for simple YYYY-MM-DD display.
  */
 export const formatDate = (dateInput) => {

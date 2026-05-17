@@ -1,0 +1,104 @@
+@use "../../../assets/styles/variables" as *;
+
+.modalContent.ptModal {
+  max-width: 500px;
+  
+  .modalHeader {
+    .iconWrapper {
+      &.sub {
+        background: rgba($color-secondary, 0.08);
+        color: $color-secondary;
+      }
+      &.unsub {
+        background: rgba(#ef4444, 0.08);
+        color: #ef4444;
+      }
+    }
+  }
+
+  .modalBody {
+    .subBenefits {
+      .benefitGrid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+
+        .benefitItem {
+          display: flex;
+          gap: 1rem;
+          align-items: flex-start;
+
+          svg {
+            color: $color-secondary;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+          }
+
+          div {
+            display: flex;
+            flex-direction: column;
+            
+            strong {
+              font-size: 0.95rem;
+              color: $color-secondary;
+              font-weight: 800;
+            }
+
+            span {
+              font-size: 0.85rem;
+              color: #64748b;
+              line-height: 1.4;
+            }
+          }
+        }
+      }
+    }
+
+    .unsubWarning {
+      background: rgba(#ef4444, 0.03);
+      padding: 1.25rem;
+      border-radius: 12px;
+      border: 1px solid rgba(#ef4444, 0.08);
+
+      p {
+        color: #1e293b;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      ul {
+        padding-left: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        li {
+          font-size: 0.85rem;
+          color: #64748b;
+        }
+      }
+    }
+  }
+
+  .modalFooter {
+    .confirmBtn {
+      &.sub {
+        background: $color-secondary;
+        color: white;
+        
+        &:hover {
+          background: color-mix(in srgb, $color-secondary, black 10%);
+        }
+      }
+      &.unsub {
+        background: #ef4444;
+        color: white;
+
+        &:hover {
+          background: #dc2626;
+        }
+      }
+    }
+  }
+}

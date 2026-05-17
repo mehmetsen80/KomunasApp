@@ -1,0 +1,56 @@
+// --- UNIVERSAL DATA TOOLTIP REGISTRY ---
+.data-tooltip-trigger {
+  position: relative;
+  cursor: help;
+  transition: all 0.2s ease;
+
+  &.tooltip-up:hover::after {
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: tooltip-fade-in-up 0.2s ease-out;
+  }
+
+  &.tooltip-down:hover::after {
+    top: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: tooltip-fade-in-down 0.2s ease-out;
+  }
+
+  &:hover {
+    &::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      background: #1e293b;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      white-space: pre-wrap;
+      width: 260px;
+      text-transform: none;
+      letter-spacing: normal;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      z-index: 999999; 
+      pointer-events: none;
+      line-height: 1.5;
+      text-align: left;
+      opacity: 1;
+      visibility: visible;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+    }
+  }
+}
+
+@keyframes tooltip-fade-in-up {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes tooltip-fade-in-down {
+  from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}

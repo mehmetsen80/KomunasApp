@@ -1,0 +1,126 @@
+{
+  "link": {
+    "target": "workflow",
+    "action": "execute"
+  },
+  "query": {
+    "intent": "uscis_visa_bulletin_sync",
+    "params": {
+      "resourceCategory": "visa-bulletin",
+      "resourceId": "filing-charts",
+      "teamId": "67d0aeb17172416c411d419e",
+      "userId": "timursen"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "summary": "Visa Bulletin Deep-Scrape",
+        "description": "Continuous monitoring of the USCIS Adjustment of Status charts and Deep-Scraping of the Department of State Visa Bulletin.",
+        "target": "komunas-app",
+        "action": "fetch",
+        "intent": "/api/uscis/visa-bulletin/check/{{params.resourceId}}",
+        "params": {},
+        "payload": null,
+        "llmConfig": null,
+        "async": null,
+        "jump": {
+          "condition": "{{step1.result.shouldSync}} == false",
+          "conditionDesc": "Up-to-Date",
+          "targetStep": 0
+        }
+      },
+      {
+        "step": 2,
+        "summary": "AI Visa Intelligence Digest",
+        "description": "Analyzing priority date movements and USCIS filing determinations to synthesize a structured monthly digest.",
+        "target": "openai-chat",
+        "action": "generate",
+        "intent": "generate",
+        "params": null,
+        "payload": [
+          {
+            "role": "system",
+            "content": "You are a Senior U.S. Immigration Analyst specializing in the Visa Bulletin. Analyze the provided payload containing the latest Department of State Visa Bulletin and USCIS filing determinations. Review the 'rawDosText' and the four HTML tables. Identify significant advancements, retrogressions, or 'Current' status shifts across ALL visa preference categories, including all sub-categories and set-asides (e.g., Religious Workers, Rural/High Unemployment set-asides). You MUST provide a balanced set of 4-6 highlights. Prioritize the most significant monthly movements, but ensure at least two highlights for Family-Sponsored and two for Employment-Based categories are included to maintain a complete intelligence brief. If a major category is stable, note it as 'Remains Current' or 'No Movement' with a brief analysis of the backlog. Output MUST follow this exact JSON schema: { \"title\": \"Catchy 4-7 word title summarizing key shifts\", \"summary\": \"A high-fidelity 2-3 sentence overview of critical shifts.\", \"determination\": \"Explicit statement on USCIS authorization (Final Action vs Dates for Filing).\", \"highlights\": [ { \"category\": \"e.g. EB-2 India\", \"movement\": \"e.g. Advanced 4 months\", \"analysis\": \"Substantive impact analysis.\" } ], \"actionableAdvice\": \"Actionable recommendation for current applicants.\" }. Ensure summaries are professional and avoid filler."
+          },
+          {
+            "role": "user",
+            "content": "Latest Visa Bulletin Payload:\n{{step1.result.payload}}"
+          }
+        ],
+        "llmConfig": {
+          "model": "gpt-4o",
+          "settings": {
+            "temperature": 0.1,
+            "max.tokens": 4096
+          }
+        },
+        "async": null,
+        "cacheConfig": null
+      },
+      {
+        "step": 3,
+        "summary": "Commit Visa Intel Metadata",
+        "description": "Committing the synchronized Visa Bulletin data and legal analysis to the central resource repository.",
+        "target": "komunas-app",
+        "action": "create",
+        "intent": "/api/uscis/visa-bulletin/commit",
+        "params": null,
+        "payload": {
+          "domain": "uscis-sentinel",
+          "category": "{{params.resourceCategory}}",
+          "resourceId": "{{params.resourceId}}",
+          "version": "{{step1.result.newVersion}}",
+          "hash": "{{step1.result.newHash}}",
+          "changeType": "VISA_BULLETIN_UPDATE",
+          "changeDetected": "{{step1.result.changed}}",
+          "summary": "Visa Bulletin: {{step2.result.output.title}} ({{step1.result.newVersion}})",
+          "analysis": "{{step2.result}}",
+          "payload": {
+            "title": "{{step2.result.output.title}}",
+            "summary": "{{step2.result.output.summary}}",
+            "determination": "{{step2.result.output.determination}}",
+            "highlights": "{{step2.result.output.highlights}}",
+            "actionableAdvice": "{{step2.result.output.actionableAdvice}}",
+            "month": "{{step1.result.payload.month}}",
+            "year": "{{step1.result.payload.year}}",
+            "familyDetermination": "{{step1.result.payload.familyDetermination}}",
+            "employmentDetermination": "{{step1.result.payload.employmentDetermination}}",
+            "nextMonthStatus": "{{step1.result.payload.nextMonthStatus}}",
+            "employmentFinalActionTable": "{{step1.result.payload.employmentFinalActionTable}}",
+            "familyFinalActionTable": "{{step1.result.payload.familyFinalActionTable}}",
+            "employmentDatesForFilingTable": "{{step1.result.payload.employmentDatesForFilingTable}}",
+            "familyDatesForFilingTable": "{{step1.result.payload.familyDatesForFilingTable}}"
+          }
+        },
+        "llmConfig": null,
+        "async": null,
+        "cacheConfig": null
+      },
+      {
+        "step": 4,
+        "summary": "Dispatch Notification",
+        "description": "Dispatching high-priority notifications for the new Visa Bulletin and priority date movements.",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/notifications/dispatch",
+        "params": null,
+        "payload": {
+          "domain": "uscis-sentinel",
+          "category": "{{params.resourceCategory}}",
+          "resourceId": "{{params.resourceId}}",
+          "reportUrl": "{{step1.result.resourceUrl}}",
+          "severity": "HIGH",
+          "summary": "Visa Bulletin: {{step2.result.output.title}} ({{step1.result.newVersion}})",
+          "details": "{{step2.result.output.summary}} Determination: {{step2.result.output.determination}}",
+          "delta": {
+            "highlights": "{{step2.result.output.highlights}}",
+            "advice": "{{step2.result.output.actionableAdvice}}"
+          }
+        },
+        "llmConfig": null,
+        "async": null,
+        "cacheConfig": null
+      }
+    ]
+  }
+}

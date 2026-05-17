@@ -17,6 +17,7 @@ const resourceSyncService = {
         id: item.resourceId,
         domain: item.domain,
         category: item.category,
+        displayName: item.displayName,
         name: item.summary || 'USCIS Form',
         version: item.currentVersion || 'N/A',
         status: item.enabled ? 'Active' : 'Inactive',
@@ -25,7 +26,10 @@ const resourceSyncService = {
         lastCheckedAt: item.lastCheckedAt,
         changeDetected: item.changeDetected,
         subscribed: item.subscribed,
-        subscriptionId: item.subscriptionId
+        subscriptionId: item.subscriptionId,
+        changeType: item.changeType,
+        payload: item.payload,
+        summary: item.summary
       }));
     } catch (error) {
       console.error('Error in resourceSyncService.getAllFormStatuses:', error);

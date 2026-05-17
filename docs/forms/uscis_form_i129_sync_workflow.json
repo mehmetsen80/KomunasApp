@@ -1,0 +1,361 @@
+{
+  "link": {
+    "target": "workflow",
+    "action": "execute"
+  },
+  "query": {
+    "intent": "uscis_form_sync",
+    "params": {
+      "domain": "uscis-sentinel",
+      "category": "forms",
+      "resourceId": "I-129",
+      "teamId": "67d0aeb17172416c411d419e",
+      "userId": "timursen",
+      "collectionId": "69ac77018626a22133fff877",
+      "agentTaskId": "69c5a07794816c41cec7f40e"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "summary": "I-129 Edition Check",
+        "description": "Monitoring USCIS for updates to Petition for Nonimmigrant Worker, including H2A, H-1B, L-1, and R-1 supplemental protocols",
+        "target": "komunas-app",
+        "action": "fetch",
+        "intent": "/api/uscis/sync/check/{{params.resourceId}}",
+        "jump": {
+          "condition": "{{step1.result.shouldSync}} == false",
+          "conditionDesc": "Up-to-Date",
+          "targetStep": 16
+        }
+      },
+      {
+        "step": 2,
+        "summary": "Form I-129 Ingestion",
+        "description": "Ingressing primary I-129 PDF for nonimmigrant worker petition analysis",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.resourceUrl}}",
+          "fileName": "{{params.resourceId}}_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 3,
+        "summary": "Instruction Ingestion",
+        "description": "Ingressing I-129 Instructions for updated filing fees and classification criteria",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.instructionsUrl}}",
+          "fileName": "{{params.resourceId}}_instructions_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 4,
+        "summary": "I-129H2A Ingestion",
+        "description": "Ingressing Form I-129H2A for agricultural worker petitions",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.i129h2a.url}}",
+          "fileName": "I-129H2A_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 5,
+        "summary": "I-129H2A Instructions Ingestion",
+        "description": "Ingressing Instructions for Form I-129H2A",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.i129h2ainstr.url}}",
+          "fileName": "I-129H2A_instructions_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 6,
+        "summary": "H-1B Checklist Ingestion",
+        "description": "Ingressing M-735 Optional Checklist for H-1B filings",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.m735.url}}",
+          "fileName": "M-735_H1B_Checklist_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 7,
+        "summary": "H-2A Checklist Ingestion",
+        "description": "Ingressing M-1097 Optional Checklist for H-2A filings",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.m1097.url}}",
+          "fileName": "M-1097_H2A_Checklist_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 8,
+        "summary": "H-2B Checklist Ingestion",
+        "description": "Ingressing M-1087 Optional Checklist for H-2B filings",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.m1087.url}}",
+          "fileName": "M-1087_H2B_Checklist_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 9,
+        "summary": "R-1 Checklist Ingestion",
+        "description": "Ingressing M-736 Optional Checklist for Religious Workers (R-1)",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.m736.url}}",
+          "fileName": "M-736_R1_Checklist_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 10,
+        "summary": "DOT Codes Ingestion",
+        "description": "Ingressing M-746 Dictionary of Occupational Titles (DOT) Codes",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.m746.url}}",
+          "fileName": "M-746_DOT_Codes_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 11,
+        "summary": "Main Form Delta Extraction",
+        "description": "Extracting content shifts for the primary I-129 Form PDF",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "newDocumentId": "{{step2.result.documentId}}",
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Temporary Employment Classifications (H, L, O, P)",
+            "Religious Worker Eligibility (R-1)",
+            "Petitioner Evidentiary Requirements"
+          ]
+        }
+      },
+      {
+        "step": 12,
+        "summary": "Instructions Delta Extraction",
+        "description": "Extracting shifts in the I-129 Instructions regarding filing fees and classification criteria",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "newDocumentId": "{{step3.result.documentId}}",
+          "resourceId": "{{params.resourceId}}_instructions",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Classification Criteria",
+            "Filing Fee Schedules",
+            "Residency Requirements"
+          ]
+        }
+      },
+      {
+        "step": 13,
+        "summary": "H-2A Suite Delta Extraction",
+        "description": "Extracting shifts in the H-2A supplemental form and instructions",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.supplementalResources.i129h2a.oldDocumentId}}",
+          "newDocumentId": "{{step4.result.documentId}}",
+          "resourceId": "I-129H2A",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Agricultural Labor Standards",
+            "H-2A Classification Specifics"
+          ]
+        }
+      },
+      {
+        "step": 14,
+        "summary": "Checklists & DOT Delta Extraction",
+        "description": "Extracting shifts across M-735, M-736, M-1097, M-1087, and M-746 Dictionary of Occupational Titles",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.supplementalResources.m735.oldDocumentId}}",
+          "newDocumentId": "{{step6.result.documentId}}",
+          "resourceId": "I-129_Checklists",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Evidence Checklists (H1B, R1, H2A, H2B)",
+            "DOT Code Mapping Shifts"
+          ]
+        }
+      },
+      {
+        "step": 15,
+        "summary": "AI Suite-Wide Labor Analysis",
+        "description": "Synthesizing shifts across the full I-129 labor petition suite",
+        "target": "openai-chat",
+        "action": "generate",
+        "intent": "generate",
+        "payload": [
+          {
+            "role": "system",
+            "content": "You are a High-Sensitivity USCIS Senior Specialist in Nonimmigrant Worker Petitions. Your mission is to detect ANY deviation in policy, procedures, or text within the ENTIRE Form I-129 suite.\n\nRULES:\n1. Output MUST be valid JSON.\n2. Be extremely sensitive: Any difference in text, even minor, MUST be reported with \"changeDetected\": true.\n3. For every category marked as 'CHANGED', you MUST provide a high-fidelity delta in the 'details' field following this format: '[Location: <Document Name>, Page X, Section Y] <Change Type>: <Context>'. \n4. If the inputs are empty (Initial Discovery), summarize the current version's key classifications/checklists IF text is provided. IF the input text is empty for all documents, set \"changeDetected\": true, set status to \"INITIAL_DISCOVERY\", and in details state: \"Baseline established; waiting for full content ingestion for detailed summary.\"\n5. STRICT RULE: Do NOT invent Page numbers or specific policy changes if the input text is empty. Hallucination is UNACCEPTABLE.\n6. If ANY category status is 'CHANGED' or 'INITIAL_DISCOVERY', the top-level \"changeDetected\" MUST be true.\n7. The 'summary' field MUST be a comprehensive, human-readable synthesis of all detected shifts across the main form, instructions, H-2A suite, and specialized checklists.\n8. Output MUST follow this schema:\n{\n  \"resourceId\": \"{{params.resourceId}}\",\n  \"changeDetected\": true,\n  \"categories\": [\n    { \"name\": \"Category Name\", \"status\": \"INITIAL_DISCOVERY\", \"details\": \"[Location: Document Name] Baseline summary of current protocol...\" }\n  ],\n  \"summary\": \"[Detailed synthesis...]\"\n}"
+          },
+          {
+            "role": "user",
+            "content": "### MAIN FORM DELTAS\nOld: {{step11.result.oldText}}\nNew: {{step11.result.newText}}\n\n### INSTRUCTIONS DELTAS\nOld: {{step12.result.oldText}}\nNew: {{step12.result.newText}}\n\n### H-2A SUITE DELTAS\nOld: {{step13.result.oldText}}\nNew: {{step13.result.newText}}\n\n### CHECKLISTS & DOT DELTAS\nOld: {{step14.result.oldText}}\nNew: {{step14.result.newText}}"
+          }
+        ]
+      },
+      {
+        "step": 16,
+        "summary": "I-129 State Commit",
+        "description": "Finalizing I-129 state (including specialized supplements) into the Sovereign Knowledge Hub DB",
+        "target": "komunas-app",
+        "action": "create",
+        "intent": "/api/uscis/sync/commit",
+        "payload": {
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "displayName": "{{step1.result.displayName}}",
+          "version": "{{step1.result.newVersion}}",
+          "effectiveDate": "{{step1.result.effectiveDate}}",
+          "hash": "{{step1.result.newHash}}",
+          "instructionsHash": "{{step1.result.instructionsHash}}",
+          "resourceUrl": "{{step1.result.resourceUrl}}",
+          "instructionsUrl": "{{step1.result.instructionsUrl}}",
+          "supplementalResources": {
+            "i129h2a": {
+              "name": "Form I-129H2A",
+              "url": "{{step1.result.supplementalResources.i129h2a.url}}",
+              "hash": "{{step1.result.supplementalResources.i129h2a.hash}}",
+              "documentId": "{{step4.result.documentId??step1.result.supplementalResources.i129h2a.oldDocumentId}}"
+            },
+            "i129h2ainstr": {
+              "name": "Instructions I-129H2A",
+              "url": "{{step1.result.supplementalResources.i129h2ainstr.url}}",
+              "hash": "{{step1.result.supplementalResources.i129h2ainstr.hash}}",
+              "documentId": "{{step5.result.documentId??step1.result.supplementalResources.i129h2ainstr.oldDocumentId}}"
+            },
+            "m735": {
+              "name": "H-1B Checklist",
+              "url": "{{step1.result.supplementalResources.m735.url}}",
+              "hash": "{{step1.result.supplementalResources.m735.hash}}",
+              "documentId": "{{step6.result.documentId??step1.result.supplementalResources.m735.oldDocumentId}}"
+            },
+            "m1097": {
+              "name": "H-2A Checklist",
+              "url": "{{step1.result.supplementalResources.m1097.url}}",
+              "hash": "{{step1.result.supplementalResources.m1097.hash}}",
+              "documentId": "{{step7.result.documentId??step1.result.supplementalResources.m1097.oldDocumentId}}"
+            },
+            "m1087": {
+              "name": "H-2B Checklist",
+              "url": "{{step1.result.supplementalResources.m1087.url}}",
+              "hash": "{{step1.result.supplementalResources.m1087.hash}}",
+              "documentId": "{{step8.result.documentId??step1.result.supplementalResources.m1087.oldDocumentId}}"
+            },
+            "m736": {
+              "name": "R-1 Checklist",
+              "url": "{{step1.result.supplementalResources.m736.url}}",
+              "hash": "{{step1.result.supplementalResources.m736.hash}}",
+              "documentId": "{{step9.result.documentId??step1.result.supplementalResources.m736.oldDocumentId}}"
+            },
+            "m746": {
+              "name": "DOT Codes Dictionary",
+              "url": "{{step1.result.supplementalResources.m746.url}}",
+              "hash": "{{step1.result.supplementalResources.m746.hash}}",
+              "documentId": "{{step10.result.documentId??step1.result.supplementalResources.m746.oldDocumentId}}"
+            }
+          },
+          "documentId": "{{step2.result.documentId??step1.result.oldDocumentId}}",
+          "instructionsDocumentId": "{{step3.result.documentId??step1.result.oldInstructionsDocumentId}}",
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "oldInstructionsDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "changeType": "EDITION_UPDATE",
+          "agentTaskId": "{{params.agentTaskId}}",
+          "changeDetected": "{{step15.result.changeDetected??false}}",
+          "summary": "{{step15.result.summary??USCIS Form I-129 suite scan completed - No nonimmigrant classification shifts detected.}}",
+          "analysis": "{{step15.result??{ \"status\": \"NO_CHANGE\", \"changeDetected\": false, \"details\": \"The surveillance check for Form I-129 was completed. No document content updates were found during this cycle.\" }}}"
+        },
+        "jump": {
+          "condition": "{{step16.result.changeDetected}} == false",
+          "conditionDesc": "No Classification Changes",
+          "targetStep": 0
+        }
+      },
+      {
+        "step": 17,
+        "summary": "Dispatch Notification",
+        "description": "Notifying priority subscribers of Form I-129 edition updates or classification shifts",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/notifications/dispatch",
+        "payload": {
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "resourceId": "{{params.resourceId}}",
+          "type": "EDITION_UPDATE",
+          "reportUrl": "https://komunas.com",
+          "severity": "HIGH",
+          "summary": "USCIS Form {{params.resourceId}} Updated to Edition {{step16.result.version}}",
+          "details": "{{step16.result.summary}}",
+          "delta": "{{step1.result.delta}}"
+        }
+      }
+    ]
+  }
+}

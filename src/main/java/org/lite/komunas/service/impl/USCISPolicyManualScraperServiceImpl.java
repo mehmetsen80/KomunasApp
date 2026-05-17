@@ -89,7 +89,7 @@ public class USCISPolicyManualScraperServiceImpl implements USCISPolicyManualScr
                     .resourceId(resourceId)
                     .domain(domain)
                     .category(category)
-                    .changed(true)
+                    .changed(false)
                     .oldVersion("INITIAL")
                     .newVersion(updates.isEmpty() ? "INITIAL" : (String) updates.get(0).get("date"))
                     .summary(resultSummary)

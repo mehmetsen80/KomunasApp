@@ -1,0 +1,96 @@
+{
+  "link": {
+    "target": "workflow",
+    "action": "execute"
+  },
+  "query": {
+    "intent": "uscis_newsroom_sync",
+    "params": {
+      "resourceCategory": "announcements",
+      "resourceId": "newsroom-alerts",
+      "teamId": "67d0aeb17172416c411d419e",
+      "userId": "timursen"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "summary": "Newsroom Alert Check",
+        "description": "Monitoring USCIS Newsroom Alerts for new announcements and updates",
+        "target": "komunas-app",
+        "action": "fetch",
+        "intent": "/api/uscis/newsroom/check/{{params.resourceId}}",
+        "jump": {
+          "condition": "{{step1.result.shouldSync}} == false",
+          "conditionDesc": "Up-to-Date",
+          "targetStep": 0
+        }
+      },
+      {
+        "step": 2,
+        "summary": "AI Announcement Digest",
+        "description": "Synthesizing a high-fidelity intelligence digest of recent USCIS announcements.",
+        "target": "openai-chat",
+        "action": "generate",
+        "intent": "generate",
+        "payload": [
+          {
+            "role": "system",
+            "content": "You are a USCIS Policy Analyst. Review the provided JSON of the latest USCIS announcements. Provide a high-level summary of the overall activity, and then provide a SUBSTANTIVE summary for EACH alert. Explain the 'WHY' behind the alert and its 'PRACTICAL IMPACT' on applicants or practitioners. Avoid generic filler. You MUST preserve the exact 'url', 'title', and 'date' from the input for each alert. Output MUST follow this exact JSON schema: { \"title\": \"Short 3-6 word catchy title summarizing the most important update\", \"summary\": \"A high-fidelity 2-3 sentence overview of all recent USCIS activity covered in this digest.\", \"alerts\": [ { \"title\": \"Original Title\", \"date\": \"Original Date\", \"summary\": \"A detailed 3-5 sentence intelligence summary explaining the substantive changes and practical impact of this specific alert.\", \"url\": \"Original URL\" } ] }. IMPORTANT: Do NOT truncate or use ellipsis (...) in any field. Write complete sentences. Ensure your generated summaries use standard spaces only."
+          },
+          {
+            "role": "user",
+            "content": "Latest Announcements Payload:\n{{step1.result.payload}}"
+          }
+        ],
+        "llmConfig": {
+          "model": "gpt-4o",
+          "settings": {
+            "temperature": 0.1,
+            "max.tokens": 4096
+          }
+        }
+      },
+      {
+        "step": 3,
+        "summary": "Commit Resource Metadata",
+        "description": "Committing detected changes and AI analysis to the central resource repository",
+        "target": "komunas-app",
+        "action": "create",
+        "intent": "/api/uscis/newsroom/commit",
+        "payload": {
+          "domain": "uscis-sentinel",
+          "category": "announcements",
+          "resourceId": "newsroom-alerts",
+          "version": "{{step1.result.newVersion}}",
+          "hash": "{{step1.result.newHash}}",
+          "changeType": "ANNOUNCEMENT_UPDATE",
+          "changeDetected": "{{step1.result.changed}}",
+          "summary": "New announcements: {{step2.result.output.title}} ({{step1.result.newVersion}})",
+          "analysis": "{{step2.result}}",
+          "payload": "{{step2.result.output}}"
+        }
+      },
+      {
+        "step": 4,
+        "summary": "Dispatch Notification",
+        "description": "Dispatching high-severity notifications for new USCIS announcements",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/notifications/dispatch",
+        "payload": {
+          "domain": "uscis-sentinel",
+          "category": "announcements",
+          "resourceId": "newsroom-alerts",
+          "type": "NEWS_UPDATE",
+          "reportUrl": "{{step1.result.resourceUrl}}",
+          "severity": "HIGH",
+          "summary": "USCIS Alert: {{step2.result.output.title}} ({{step1.result.newVersion}})",
+          "details": "{{step2.result.output.summary}}",
+          "delta": {
+            "alerts": "{{step2.result.output.alerts}}"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -12,6 +12,7 @@ import org.lite.komunas.service.USCISStatusService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ public class USCISStatusServiceImpl implements USCISStatusService {
     private static final String USCIS_CATEGORY_ANNOUNCEMENTS = "announcements";
     private static final String USCIS_CATEGORY_POLICY = "policy-manual";
     private static final String USCIS_CATEGORY_VISA_BULLETIN = "visa-bulletin";
+
+    private static final int RECENT_CHANGE_LOOKBACK_HOURS = 72;
 
     private final ResourceSyncStateRepository syncStateRepository;
     private final ResourceVersionHistoryRepository versionHistoryRepository;
@@ -64,6 +67,11 @@ public class USCISStatusServiceImpl implements USCISStatusService {
                     log.info("Subscription MATCH found for form: {} with subscriptionId: {}", formId, sub.get("id"));
                     response.setSubscribed(true);
                     response.setSubscriptionId((String) sub.get("id"));
+
+                    // Use displayName from Linqra if available
+                    if (sub.containsKey("displayName")) {
+                        response.setDisplayName((String) sub.get("displayName"));
+                    }
                     break;
                 }
             }
@@ -108,6 +116,11 @@ public class USCISStatusServiceImpl implements USCISStatusService {
                         Map<String, Object> sub = subscriptionsMap.get(state.getResourceId());
                         response.setSubscribed(true);
                         response.setSubscriptionId((String) sub.get("id"));
+
+                        // Use displayName from Linqra if available
+                        if (sub.containsKey("displayName")) {
+                            response.setDisplayName((String) sub.get("displayName"));
+                        }
                     }
                     return response;
                 })
@@ -334,26 +347,50 @@ public class USCISStatusServiceImpl implements USCISStatusService {
                 .map(h -> {
                     USCISStatusResponse.VersionEntry entry = USCISStatusResponse.from(h);
                     entry.setSummary(beautifySummary(entry.getSummary()));
+                    entry.setPayload(extractPayloadSafe(h.getAnalysis(), h.getPayload()));
                     return entry;
                 })
                 .toList();
+
+        // High-Fidelity recent change lookup (72-hour sliding window)
+        // If an actual change was recorded in the history within the last 72 hours,
+        // we keep the critical change alert/badge active and showcase the actual change
+        // details.
+        Optional<ResourceVersionHistory> lastChangeOpt = versionHistoryRepository
+                .findFirstBySyncStateIdAndChangeDetectedIsTrueAndDetectedAtAfterOrderByDetectedAtDesc(
+                        state.getId(), LocalDateTime.now().minusHours(RECENT_CHANGE_LOOKBACK_HOURS));
+
+        boolean finalChangeDetected = state.isChangeDetected();
+        String finalSummary = beautifySummary(state.getSummary());
+        String finalChangeType = state.getChangeType();
+        Map<String, Object> finalPayload = extractPayloadSafe(state.getLastAnalysis(), state.getPayload());
+
+        if (lastChangeOpt.isPresent()) {
+            ResourceVersionHistory lastChange = lastChangeOpt.get();
+            finalChangeDetected = true;
+            finalSummary = beautifySummary(lastChange.getSummary());
+            finalChangeType = lastChange.getChangeType();
+            finalPayload = extractPayloadSafe(lastChange.getAnalysis(), lastChange.getPayload());
+        }
 
         return USCISStatusResponse.builder()
                 .resourceId(state.getResourceId())
                 .domain(state.getDomain())
                 .category(state.getCategory())
+                .displayName(
+                        state.getDisplayName() != null ? state.getDisplayName() : "USCIS Form " + state.getResourceId())
                 .currentVersion(state.getLastKnownVersion())
                 .effectiveDate(state.getEffectiveDate())
                 .resourceUrl(state.getResourceUrl())
                 .instructionsUrl(state.getInstructionsUrl())
                 .supplementalResources(state.getSupplementalResources())
-                .changeDetected(state.isChangeDetected())
-                .changeType(state.getChangeType())
-                .summary(beautifySummary(state.getSummary()))
+                .changeDetected(finalChangeDetected)
+                .changeType(finalChangeType)
+                .summary(finalSummary)
                 .lastCheckedAt(state.getLastCheckedAt())
                 .lastUpdatedAt(state.getLastUpdatedAt())
                 .enabled(state.isEnabled())
-                .payload(extractPayloadSafe(state))
+                .payload(finalPayload)
                 .versionHistory(versionEntries)
                 .build();
     }
@@ -367,25 +404,25 @@ public class USCISStatusServiceImpl implements USCISStatusService {
                 .replace("visa-bulletin", "USCIS Visa Bulletin Charts");
     }
 
-    private Map<String, Object> extractPayloadSafe(ResourceSyncState state) {
+    private Map<String, Object> extractPayloadSafe(Object analysis, Map<String, Object> payload) {
         // Priority 1: Use the dedicated payload field if it exists (Vendor Neutral)
-        if (state.getPayload() != null && !state.getPayload().isEmpty()) {
-            return state.getPayload();
+        if (payload != null && !payload.isEmpty()) {
+            return payload;
         }
 
         // Priority 2: Safe fallback for existing records with buried LLM analysis
-        if (state.getLastAnalysis() == null)
+        if (analysis == null)
             return null;
 
         try {
             // Recursively search for any JSON content in the analysis map (OpenAI, Gemini,
             // Claude compatible)
-            String jsonContent = findJsonContent(state.getLastAnalysis());
+            String jsonContent = findJsonContent(analysis);
             if (jsonContent != null) {
                 return objectMapper.readValue(jsonContent, Map.class);
             }
         } catch (Exception e) {
-            log.debug("No structured payload found in analysis for resource: {}", state.getResourceId());
+            log.debug("No structured payload found in analysis");
         }
         return null;
     }

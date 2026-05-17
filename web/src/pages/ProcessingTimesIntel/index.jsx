@@ -22,7 +22,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { formatDateTime } from '../../utils/dateUtils';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import SubscribePolicyModal from '../../components/Modals/SubscribePolicyModal';
+import SubscribeProcessingTimesModal from '../../components/Modals/SubscribeProcessingTimesModal';
 import './styles.scss';
 
 // Map USCIS category codes to human-readable labels
@@ -357,7 +357,7 @@ const ProcessingTimesDetail = ({ formId }) => {
                     : combo.officeCode === 'NBC' ? 'National Benefits Center'
                     : combo.officeCode === 'SCD' ? 'Service Center Operations'
                     : combo.officeCode || 'Unknown';
-                  const categoryLabel = CATEGORY_LABELS[combo.formCategory] || combo.formCategory || 'General';
+                  const categoryLabel = combo.categoryLabel || CATEGORY_LABELS[combo.formCategory] || combo.formCategory || 'General';
                   const hasError = !!combo.error;
                   const time = combo.estimatedTime || 'N/A';
                   const unit = combo.timeUnit && combo.timeUnit !== 'Unknown' ? combo.timeUnit : '';
@@ -435,7 +435,7 @@ const ProcessingTimesDetail = ({ formId }) => {
 
       <Footer />
 
-      <SubscribePolicyModal
+      <SubscribeProcessingTimesModal
         isOpen={modalConfig.isOpen}
         resourceId={formId}
         domain={data.domain}

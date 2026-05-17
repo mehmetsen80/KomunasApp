@@ -39,25 +39,42 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
 
     @Override
     public ResourceCheckResult checkForUpdates(String domain, String formId, String formCategory, String officeCode) {
-        String resourceId = formId + (formCategory != null && !formCategory.isEmpty() ? "-" + formCategory : "") + "-" + officeCode;
-        log.info("Processing Times Specialist checking for updates - Domain: {}, Form: {}, Category: {}, Office: {}", domain, formId, formCategory, officeCode);
+        String resourceId = formId + (formCategory != null && !formCategory.isEmpty() ? "-" + formCategory : "") + "-"
+                + officeCode;
+        log.info("Processing Times Specialist checking for updates - Domain: {}, Form: {}, Category: {}, Office: {}",
+                domain, formId, formCategory, officeCode);
 
         Map<String, Object> timesData = scrapeProcessingTimes(formId, formCategory, officeCode);
+
+        // Add human-readable labels from the enum if available
+        Arrays.stream(USCISTrackableForm.values())
+                .filter(f -> f.getFormId().equalsIgnoreCase(formId)
+                        && Objects.equals(f.getCategoryCode(), formCategory)
+                        && f.getOfficeCode().equalsIgnoreCase(officeCode))
+                .findFirst()
+                .ifPresent(f -> {
+                    timesData.put("categoryLabel", f.getCategoryName());
+                    timesData.put("officeLabel", f.getOfficeName());
+                });
+
         return processScrapeResult(domain, resourceId, formId, timesData);
     }
 
-    private ResourceCheckResult processScrapeResult(String domain, String resourceId, String formId, Map<String, Object> timesData) {
+    private ResourceCheckResult processScrapeResult(String domain, String resourceId, String formId,
+            Map<String, Object> timesData) {
         String currentHash = generateStateHash(timesData);
         String category = "processing-times";
         ResourceCheckResult result = null;
 
-        Optional<ResourceSyncState> stateOpt = syncStateRepository.findByDomainAndCategoryAndResourceId(domain, category, resourceId);
+        Optional<ResourceSyncState> stateOpt = syncStateRepository.findByDomainAndCategoryAndResourceId(domain,
+                category, resourceId);
         String version = LocalDateTime.now().getYear() + "-" + LocalDateTime.now().getMonthValue();
 
         if (stateOpt.isPresent()) {
             ResourceSyncState existingState = stateOpt.get();
             boolean hashChanged = !currentHash.equals(existingState.getLastKnownHash());
-            String resultSummary = hashChanged ? "Processing Times Update for " + formId : "No changes to Processing Times for " + formId;
+            String resultSummary = hashChanged ? "Processing Times Update for " + formId
+                    : "No changes to Processing Times for " + formId;
 
             result = ResourceCheckResult.builder()
                     .resourceId(resourceId)
@@ -78,10 +95,10 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
                     .resourceId(resourceId)
                     .domain(domain)
                     .category(category)
-                    .changed(true)
+                    .changed(false)
                     .oldVersion("INITIAL")
                     .newVersion(version)
-                    .summary("Initial Processing Times discovery for " + formId)
+                    .summary("Initial Processing Times synchronized for " + formId)
                     .oldHash("INITIAL")
                     .newHash(currentHash)
                     .resourceUrl(USCIS_PROCESSING_TIMES_API)
@@ -168,7 +185,8 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
         log.info("Scraping Processing Times via Playwright UI Automation: {}", USCIS_PROCESSING_TIMES_API);
         Map<String, Object> data = new HashMap<>();
         data.put("formId", formId);
-        if (formCategory != null) data.put("formCategory", formCategory);
+        if (formCategory != null)
+            data.put("formCategory", formCategory);
         data.put("officeCode", officeCode);
 
         try (Playwright playwright = Playwright.create()) {
@@ -176,45 +194,48 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
                     Paths.get(System.getProperty("user.home"), ".komunas_firefox_profile"),
                     new BrowserType.LaunchPersistentContextOptions()
                             .setHeadless(false)
-                            .setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:125.0) Gecko/20100101 Firefox/125.0")
-            );
+                            .setUserAgent(
+                                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:125.0) Gecko/20100101 Firefox/125.0"));
             Page page = context.pages().isEmpty() ? context.newPage() : context.pages().get(0);
 
             log.info("Playwright navigating to {}", USCIS_PROCESSING_TIMES_API);
             page.navigate(USCIS_PROCESSING_TIMES_API);
-            
+
             // Wait for Cloudflare Turnstile/challenge to clear
             page.waitForLoadState(LoadState.NETWORKIDLE);
-            
+
             // Try to auto-click the Turnstile widget if it appears
             try {
                 if (page.locator("iframe[title*='Cloudflare']").count() > 0) {
                     log.info("Cloudflare Turnstile detected. Attempting auto-click bypass...");
-                    page.frameLocator("iframe[title*='Cloudflare']").locator("body").click(new com.microsoft.playwright.Locator.ClickOptions().setDelay(200));
+                    page.frameLocator("iframe[title*='Cloudflare']").locator("body")
+                            .click(new com.microsoft.playwright.Locator.ClickOptions().setDelay(200));
                     Thread.sleep(4000);
                 }
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             // Playwright UI Automation:
             // Act like a human: fill out the dropdowns and click submit.
             // Using the exact values: I-130, 134A-IR, FOD
             page.locator("#formName").selectOption(formId);
-            
+
             if (formCategory != null && !formCategory.isEmpty()) {
                 page.locator("#formCategory").selectOption(formCategory);
             }
-            
+
             String actualOfficeVal = officeCode;
             if ("SCOPS".equals(actualOfficeVal)) {
                 actualOfficeVal = "SCD";
                 log.info("Mapped SCOPS to dropdown value: {}", actualOfficeVal);
             }
-            
+
             page.locator("select[id*='office']").selectOption(actualOfficeVal);
             page.locator("button:has-text('Get processing time')").click();
 
             // Wait for the result to render on the screen!
-            // Next.js streams the response via RSC, so we wait for the text to appear instead of tracking the network.
+            // Next.js streams the response via RSC, so we wait for the text to appear
+            // instead of tracking the network.
             page.locator("text=completed within").waitFor();
 
             // Extract the result directly from the DOM
@@ -230,8 +251,9 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
 
     private String generateStateHash(Map<String, Object> data) {
         try {
-            if (data.containsKey("error")) return "ERROR_" + System.currentTimeMillis();
-            
+            if (data.containsKey("error"))
+                return "ERROR_" + System.currentTimeMillis();
+
             String rawJson = (String) data.getOrDefault("rawJson", "");
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(rawJson.getBytes());
@@ -258,7 +280,7 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
                 }
             }
         }
-        
+
         String notesText = "";
         int notesIdx = resultText.indexOf("Notes");
         if (notesIdx != -1) {
@@ -267,12 +289,13 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
                 notesText = resultText.substring(notesIdx + 5, endNotesIdx).replaceAll("\\r?\\n", " ").trim();
             }
         }
-        
+
         data.put("estimatedTime", estimatedTime);
         data.put("timeUnit", timeUnit);
         data.put("notes", notesText);
-        
-        // This clean string ensures the hash only tracks true data updates, not UI changes
+
+        // This clean string ensures the hash only tracks true data updates, not UI
+        // changes
         data.put("rawJson", String.format("Time: %s %s | Notes: %s", estimatedTime, timeUnit, notesText));
     }
 
@@ -286,32 +309,36 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
         List<USCISTrackableForm> targets = Arrays.stream(USCISTrackableForm.values())
                 .filter(form -> form.getFormId().equalsIgnoreCase(formId))
                 .toList();
-        
+
         if (targets.isEmpty()) {
             log.warn("No tracked combinations found for form: {}", formId);
             return null;
         }
-        
+
         // Scrape all sub-combinations
         List<ResourceCheckResult> batchResults = performBatchScrape(domain, targets);
-        
+
         // Aggregate payload
         Map<String, Object> aggregatedPayload = new HashMap<>();
         for (ResourceCheckResult res : batchResults) {
             aggregatedPayload.put(res.getResourceId(), res.getPayload());
         }
-        
+
+        // Generate beautiful HTML for email notifications (injected into delta)
+        aggregatedPayload.put("injectedHtml", generateInjectedHtml(aggregatedPayload));
+
         // Generate a composite master hash for the entire form
         String compositeHash = generateStateHash(aggregatedPayload);
         String category = "processing-times";
-        
-        Optional<ResourceSyncState> stateOpt = syncStateRepository.findByDomainAndCategoryAndResourceId(domain, category, formId);
+
+        Optional<ResourceSyncState> stateOpt = syncStateRepository.findByDomainAndCategoryAndResourceId(domain,
+                category, formId);
         String version = LocalDateTime.now().getYear() + "-" + LocalDateTime.now().getMonthValue();
-        
+
         if (stateOpt.isPresent()) {
             ResourceSyncState existingState = stateOpt.get();
             boolean hashChanged = !compositeHash.equals(existingState.getLastKnownHash());
-            
+
             return ResourceCheckResult.builder()
                     .resourceId(formId)
                     .domain(domain)
@@ -319,7 +346,8 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
                     .changed(hashChanged)
                     .oldVersion(existingState.getLastKnownVersion())
                     .newVersion(version)
-                    .summary(hashChanged ? "Processing Times Update for " + formId : "No changes to Processing Times for " + formId)
+                    .summary(hashChanged ? "Processing Times Update for " + formId
+                            : "No changes to Processing Times for " + formId)
                     .oldHash(existingState.getLastKnownHash())
                     .newHash(compositeHash)
                     .resourceUrl(USCIS_PROCESSING_TIMES_API)
@@ -331,10 +359,10 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
                     .resourceId(formId)
                     .domain(domain)
                     .category(category)
-                    .changed(true)
+                    .changed(false)
                     .oldVersion("INITIAL")
                     .newVersion(version)
-                    .summary("Initial Processing Times discovery for " + formId)
+                    .summary("Initial Processing Times synchronized for " + formId)
                     .oldHash("INITIAL")
                     .newHash(compositeHash)
                     .resourceUrl(USCIS_PROCESSING_TIMES_API)
@@ -348,35 +376,42 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
         List<ResourceCheckResult> results = new ArrayList<>();
         log.info("Starting Batch Processing Times Scrape for {} combinations...", targets.size());
 
-        // Share ONE single browser context for the entire batch to avoid Cloudflare detection
+        // Share ONE single browser context for the entire batch to avoid Cloudflare
+        // detection
         try (Playwright playwright = Playwright.create()) {
             BrowserContext context = playwright.firefox().launchPersistentContext(
                     Paths.get(System.getProperty("user.home"), ".komunas_firefox_profile"),
                     new BrowserType.LaunchPersistentContextOptions()
                             .setHeadless(false)
-                            .setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:125.0) Gecko/20100101 Firefox/125.0")
-            );
+                            .setUserAgent(
+                                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:125.0) Gecko/20100101 Firefox/125.0"));
             Page page = context.pages().isEmpty() ? context.newPage() : context.pages().get(0);
 
             log.info("Playwright navigating to {}", USCIS_PROCESSING_TIMES_API);
             page.navigate(USCIS_PROCESSING_TIMES_API);
             page.waitForLoadState(LoadState.NETWORKIDLE);
-            
+
             // Try to auto-click the Turnstile widget if it appears
             try {
                 if (page.locator("iframe[title*='Cloudflare']").count() > 0) {
                     log.info("Cloudflare Turnstile detected. Attempting auto-click bypass...");
-                    page.frameLocator("iframe[title*='Cloudflare']").locator("body").click(new com.microsoft.playwright.Locator.ClickOptions().setDelay(200));
+                    page.frameLocator("iframe[title*='Cloudflare']").locator("body")
+                            .click(new com.microsoft.playwright.Locator.ClickOptions().setDelay(200));
                     Thread.sleep(4000);
                 }
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             for (USCISTrackableForm target : targets) {
-                log.info("Scraping combo: {} | {} | {}", target.getFormId(), target.getCategoryCode(), target.getOfficeCode());
+                log.info("Scraping combo: {} | {} | {}", target.getFormId(), target.getCategoryCode(),
+                        target.getOfficeCode());
                 Map<String, Object> data = new HashMap<>();
                 data.put("formId", target.getFormId());
-                if (target.getCategoryCode() != null) data.put("formCategory", target.getCategoryCode());
+                if (target.getCategoryCode() != null)
+                    data.put("formCategory", target.getCategoryCode());
                 data.put("officeCode", target.getOfficeCode());
+                data.put("categoryLabel", target.getCategoryName());
+                data.put("officeLabel", target.getOfficeName());
 
                 try {
                     page.locator("#formName").selectOption(target.getFormId());
@@ -388,11 +423,12 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
                         actualOfficeVal = "SCD";
                         log.info("Mapped SCOPS to dropdown value: {}", actualOfficeVal);
                     }
-                    
+
                     page.locator("select[id*='office']").selectOption(actualOfficeVal);
                     page.locator("button:has-text('Get processing time')").click();
 
-                    page.locator("text=completed within").waitFor(new com.microsoft.playwright.Locator.WaitForOptions().setTimeout(15000));
+                    page.locator("text=completed within")
+                            .waitFor(new com.microsoft.playwright.Locator.WaitForOptions().setTimeout(15000));
                     String resultText = page.locator("body").innerText();
                     extractAndCleanPayload(resultText, data);
 
@@ -404,7 +440,11 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
                 }
 
                 // Evaluate the DB state using our helper
-                String resourceId = target.getFormId() + (target.getCategoryCode() != null && !target.getCategoryCode().isEmpty() ? "-" + target.getCategoryCode() : "") + "-" + target.getOfficeCode();
+                String resourceId = target.getFormId()
+                        + (target.getCategoryCode() != null && !target.getCategoryCode().isEmpty()
+                                ? "-" + target.getCategoryCode()
+                                : "")
+                        + "-" + target.getOfficeCode();
                 results.add(processScrapeResult(domain, resourceId, target.getFormId(), data));
             }
         } catch (Exception e) {
@@ -417,5 +457,65 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
     @Override
     public void handleResourceUpdate(ResourceUpdateNotification notification) {
         log.info("Processing Times Specialist processing update signal: {}", notification.getResourceId());
+    }
+
+    private String generateInjectedHtml(Map<String, Object> combinations) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<div style='margin-top: 20px;'>");
+        sb.append(
+                "<h3 style='color: #c9d1d9; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; margin-bottom: 16px;'>Office & Category Breakdown</h3>");
+
+        for (Map.Entry<String, Object> entry : combinations.entrySet()) {
+            if (!(entry.getValue() instanceof Map))
+                continue;
+            @SuppressWarnings("unchecked")
+            Map<String, Object> data = (Map<String, Object>) entry.getValue();
+
+            String office = String
+                    .valueOf(data.getOrDefault("officeLabel", data.getOrDefault("officeCode", "Unknown")));
+            String category = String
+                    .valueOf(data.getOrDefault("categoryLabel", data.getOrDefault("formCategory", "General")));
+            String time = String.valueOf(data.getOrDefault("estimatedTime", "N/A"));
+            String unit = String.valueOf(data.getOrDefault("timeUnit", ""));
+            if (unit.equalsIgnoreCase("unknown") || unit.equalsIgnoreCase("N/A"))
+                unit = "";
+            String notes = String.valueOf(data.getOrDefault("notes", ""));
+
+            sb.append(
+                    "<div style='background: rgba(255,255,255,0.03); border-left: 3px solid #ed7534; padding: 16px; margin-bottom: 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);'>");
+            sb.append("<table style='width: 100%; border-collapse: collapse;'><tr>");
+            sb.append("<td style='vertical-align: top;'>");
+            sb.append("<div style='color: #ffffff; font-size: 15px; font-weight: 800;'>").append(office)
+                    .append("</div>");
+            sb.append("<div style='color: #8b949e; font-size: 12px; font-weight: 600; margin-top: 2px;'>")
+                    .append(category).append("</div>");
+            sb.append("</td>");
+            sb.append("<td style='vertical-align: top; text-align: right; white-space: nowrap; padding-left: 15px;'>");
+            sb.append("<div style='color: #58a6ff; font-size: 20px; font-weight: 900; line-height: 1;'>").append(time)
+                    .append("</div>");
+            if (!unit.isEmpty()) {
+                sb.append(
+                        "<div style='color: #8b949e; font-size: 10px; font-weight: 700; text-transform: uppercase; margin-top: 2px;'>")
+                        .append(unit).append("</div>");
+            }
+            sb.append("</td>");
+            sb.append("</tr></table>");
+
+            if (!notes.isEmpty()) {
+                sb.append(
+                        "<div style='margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); color: #8b949e; font-size: 11px; line-height: 1.6;'>");
+                String[] paragraphs = notes.split("\\*{2,}");
+                for (String p : paragraphs) {
+                    if (!p.trim().isEmpty()) {
+                        sb.append("<p style='margin: 4px 0;'>").append(p.trim()).append("</p>");
+                    }
+                }
+                sb.append("</div>");
+            }
+            sb.append("</div>");
+        }
+
+        sb.append("</div>");
+        return sb.toString();
     }
 }

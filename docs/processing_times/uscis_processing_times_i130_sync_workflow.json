@@ -1,0 +1,120 @@
+{
+  "link": {
+    "target": "workflow",
+    "action": "execute"
+  },
+  "query": {
+    "intent": "uscis_processing_times_i130_sync",
+    "params": {
+      "resourceCategory": "processing-times",
+      "formId": "I-130",
+      "teamId": "681a97eaec715f343bcb1ecf",
+      "userId": "timursen"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "summary": "Processing Times Fetch",
+        "description": "Continuous batch monitoring of the USCIS Processing Times API specifically for Form I-130 (Petition for Alien Relative) across all preference categories (Immediate Relatives, F1-F4) and offices (NBC, SCD, FOD).",
+        "target": "komunas-app",
+        "action": "fetch",
+        "intent": "/api/uscis/processing-times/check/form/{{params.formId}}",
+        "params": {},
+        "payload": null,
+        "llmConfig": null,
+        "async": null,
+        "jump": {
+          "condition": "{{step1.result.shouldSync}} == false",
+          "conditionDesc": "Up-to-Date",
+          "targetStep": 0
+        }
+      },
+      {
+        "step": 2,
+        "summary": "AI Processing Times Digest",
+        "description": "Analyzing I-130 processing times API response to determine 80th percentile shifts, Visa Bulletin constraints, and prioritization notes.",
+        "target": "openai-chat",
+        "action": "generate",
+        "intent": "generate",
+        "params": null,
+        "payload": [
+          {
+            "role": "system",
+            "content": "You are an expert USCIS Immigration Intelligence Analyst. Your task is to analyze the latest batch of processing times specifically for Form I-130 (Petition for Alien Relative). You will receive a JSON payload containing processing data across multiple service centers (NBC, SCD) and Field Offices (FOD) for various family preference categories. INSTRUCTIONS: 1. Identify Trends: Compare shifts across offices and categories. 2. Group by Impact: Highlight differences between Immediate Relatives (IR) vs. Family Preference categories (F11, F21, F31, F41). 3. Interpret 'See notes': If an estimated time is 'See notes', read the accompanying text and explain that USCIS is prioritizing cases based on Department of State Visa Bulletin constraints rather than fixed timelines. Output MUST follow this exact JSON schema: { \"title\": \"Catchy 4-7 word title summarizing I-130 processing times\", \"summary\": \"A high-fidelity 1-2 sentence overview of family-based petition backlogs.\", \"formId\": \"I-130\", \"percentile80\": \"e.g. 17.5-261.5 Months depending on office/category\", \"trend\": \"e.g. Increasing/Decreasing/Stable\", \"analysis\": \"Substantive impact analysis across the different field offices and categories, specifically addressing Visa Bulletin constraints when applicable.\" }. Ensure summaries are professional, objective, and avoid filler."
+          },
+          {
+            "role": "user",
+            "content": "Latest Processing Times Payload:\n{{step1.result.payload}}"
+          }
+        ],
+        "llmConfig": {
+          "model": "gpt-4o",
+          "settings": {
+            "temperature": 0.1,
+            "max.tokens": 2048
+          }
+        },
+        "async": null,
+        "cacheConfig": null
+      },
+      {
+        "step": 3,
+        "summary": "Commit Processing Times Metadata",
+        "description": "Persisting structured processing times data and version hashes into the Sovereign DB via Komunas.",
+        "target": "komunas-app",
+        "action": "create",
+        "intent": "/api/uscis/processing-times/commit",
+        "params": null,
+        "payload": {
+          "domain": "uscis-sentinel",
+          "category": "processing-times",
+          "resourceId": "{{params.formId}}",
+          "resourceUrl": "{{step1.result.resourceUrl}}",
+          "version": "{{step1.result.newVersion}}",
+          "hash": "{{step1.result.newHash}}",
+          "changeDetected": "{{step1.result.changed}}",
+          "summary": "{{step2.result.output.summary}}",
+          "analysis": "{{step2.result}}",
+          "payload": {
+            "title": "{{step2.result.output.title}}",
+            "summary": "{{step2.result.output.summary}}",
+            "formId": "{{step2.result.output.formId}}",
+            "percentile80": "{{step2.result.output.percentile80}}",
+            "trend": "{{step2.result.output.trend}}",
+            "analysis": "{{step2.result.output.analysis}}",
+            "combinations": "{{step1.result.payload}}"
+          }
+        },
+        "llmConfig": null,
+        "async": null
+      },
+      {
+        "step": 4,
+        "summary": "Dispatch Notification",
+        "description": "Routing the formatted processing times update to the Notification Service for email broadcast.",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/notifications/dispatch",
+        "params": null,
+        "payload": {
+          "domain": "uscis-sentinel",
+          "category": "processing-times",
+          "resourceId": "{{params.formId}}",
+          "type": "PROCESSING_TIMES_UPDATE",
+          "reportUrl": "{{step1.result.resourceUrl}}",
+          "severity": "MEDIUM",
+          "summary": "Processing Times Alert: {{step2.result.output.title}}",
+          "details": "{{step2.result.output.summary}}",
+          "delta": {
+            "percentile80": "{{step2.result.output.percentile80}}",
+            "trend": "{{step2.result.output.trend}}",
+            "analysis": "{{step2.result.output.analysis}}",
+            "injectedHtml": "{{step1.result.payload.injectedHtml}}"
+          }
+        },
+        "llmConfig": null,
+        "async": false
+      }
+    ]
+  }
+}
