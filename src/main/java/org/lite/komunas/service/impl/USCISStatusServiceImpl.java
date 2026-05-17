@@ -404,6 +404,7 @@ public class USCISStatusServiceImpl implements USCISStatusService {
                 .replace("visa-bulletin", "USCIS Visa Bulletin Charts");
     }
 
+    @SuppressWarnings("unchecked")
     private Map<String, Object> extractPayloadSafe(Object analysis, Map<String, Object> payload) {
         // Priority 1: Use the dedicated payload field if it exists (Vendor Neutral)
         if (payload != null && !payload.isEmpty()) {
@@ -413,6 +414,10 @@ public class USCISStatusServiceImpl implements USCISStatusService {
         // Priority 2: Safe fallback for existing records with buried LLM analysis
         if (analysis == null)
             return null;
+
+        if (analysis instanceof Map) {
+            return (Map<String, Object>) analysis;
+        }
 
         try {
             // Recursively search for any JSON content in the analysis map (OpenAI, Gemini,

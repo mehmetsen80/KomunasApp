@@ -383,8 +383,8 @@ const Home = () => {
                     )}
                   </div>
                   <div className="pulseTitle">
-                    <h3>Your Intelligence Command</h3>
-                    <p>Live surveillance of your selected USCIS resources</p>
+                    <h3>My Surveillance Dashboard</h3>
+                    <p>Real-time updates and alerts for your tracked resources</p>
                   </div>
                 </div>
 
@@ -472,7 +472,7 @@ const Home = () => {
 
                 <div className="subsSection">
                   <div className="subsHeader">
-                    <h4 className="subsTitle">Intelligence Surveillance for {user?.fullName || user?.username || 'You'}</h4>
+                    <h4 className="subsTitle">My Monitored Resources</h4>
                     <span className="subsCountBadge">{monitoredStats.count} Active</span>
                   </div>
                   <div className="subsGrid">
@@ -485,16 +485,28 @@ const Home = () => {
                       <div className="noSubs">No resources monitored yet. Browse the library below to start tracking.</div>
                     ) : (
                       <>
-                        {forms.filter(f => f.subscribed).map(form => (
-                          <Link key={form.id} to={`/form/${form.id}`} className={`subChip ${form.changeDetected ? 'critical' : ''}`}>
-                            <div className="chipIcon"><FileText size={16} /></div>
-                            <div className="chipText">
-                              <span className="chipId">{form.id}</span>
-                              <span className="chipName">{form.displayName?.replace('USCIS ', '').replace('Form ', '')}</span>
-                              <span className="chipStatus">{form.changeDetected ? 'Change Detected' : 'Up to Date'}</span>
-                            </div>
-                          </Link>
-                        ))}
+                        {forms.filter(f => f.subscribed).map(form => {
+                          const isInitialDiscovery = form.changeDetected && (
+                            form.payload?.status === "INITIAL_DISCOVERY" ||
+                            form.payload?.categories?.some(c => c.status === "INITIAL_DISCOVERY") ||
+                            form.changeType === "INITIAL_DISCOVERY" ||
+                            form.summary?.includes("Baseline established")
+                          );
+                          return (
+                            <Link key={form.id} to={`/form/${form.id}`} className={`subChip ${form.changeDetected ? (isInitialDiscovery ? 'baseline' : 'critical') : ''}`}>
+                              <div className="chipIcon"><FileText size={16} /></div>
+                              <div className="chipText">
+                                <span className="chipId">{form.id}</span>
+                                <span className="chipName">{form.displayName?.replace('USCIS ', '').replace('Form ', '')}</span>
+                                <span className="chipStatus">
+                                  {form.changeDetected
+                                    ? (isInitialDiscovery ? 'Initial Discovery' : 'Change Detected')
+                                    : 'Up to Date'}
+                                </span>
+                              </div>
+                            </Link>
+                          );
+                        })}
                         {processingTimes.filter(pt => pt.subscribed).map(pt => (
                           <Link key={pt.resourceId} to={`/processing-times/${pt.resourceId}`} className={`subChip ${pt.changeDetected ? 'critical' : ''}`}>
                             <div className="chipIcon"><Activity size={16} /></div>
