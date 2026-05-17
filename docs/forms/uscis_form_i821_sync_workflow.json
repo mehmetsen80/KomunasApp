@@ -1,0 +1,175 @@
+{
+  "link": {
+    "target": "workflow",
+    "action": "execute"
+  },
+  "query": {
+    "intent": "uscis_form_sync_i821",
+    "params": {
+      "domain": "uscis-sentinel",
+      "category": "forms",
+      "resourceId": "I-821",
+      "teamId": "67d0aeb17172416c411d419e",
+      "userId": "timursen",
+      "collectionId": "69ac77018626a22133fff877",
+      "agentTaskId": "69c6aa58122e08020d6d7b75"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "summary": "I-821 Edition Check",
+        "description": "Monitoring USCIS for updates to the Application for Temporary Protected Status, including country-specific designation shifts",
+        "target": "komunas-app",
+        "action": "fetch",
+        "intent": "/api/uscis/sync/check/{{params.resourceId}}",
+        "jump": {
+          "condition": "{{step1.result.shouldSync}} == false",
+          "conditionDesc": "Up-to-Date",
+          "targetStep": 7
+        }
+      },
+      {
+        "step": 2,
+        "summary": "Form I-821 Ingestion",
+        "description": "Ingressing primary I-821 PDF into Knowledge Hub for TPS protocol analysis",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.resourceUrl}}",
+          "fileName": "{{params.resourceId}}_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 3,
+        "summary": "Instruction Ingestion",
+        "description": "Ingressing I-821 Instructions for updated country-specific eligibility and continuous presence requirements",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.instructionsUrl}}",
+          "fileName": "{{params.resourceId}}_instructions_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 4,
+        "summary": "Main Form Delta Extraction",
+        "description": "Extracting specific content changes regarding initial registration periods, re-registration requirements, and physical presence standards",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "newDocumentId": "{{step2.result.documentId}}",
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "TPS Designation Countries",
+            "Registration & Re-registration Periods",
+            "Continuous Residence Standards",
+            "Inadmissibility Waivers"
+          ]
+        }
+      },
+      {
+        "step": 5,
+        "summary": "Instructions Delta Extraction",
+        "description": "Extracting shifts in the I-821 Instructions regarding country designations and deadlines",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "newDocumentId": "{{step3.result.documentId}}",
+          "resourceId": "{{params.resourceId}}_instructions",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Country Designation Shifts",
+            "Evidentiary Guidelines",
+            "Filing Locations & Fees"
+          ]
+        }
+      },
+      {
+        "step": 6,
+        "summary": "AI TPS Analysis",
+        "description": "Analyzing I-821 changes with focus on humanitarian protection and country-specific relief policy",
+        "target": "openai-chat",
+        "action": "generate",
+        "intent": "generate",
+        "payload": [
+          {
+            "role": "system",
+            "content": "You are a High-Sensitivity USCIS Senior Specialist in Humanitarian Protection and Temporary Protected Status (TPS). Your mission is to detect ANY deviation in policy, procedures, or text within the ENTIRE Form I-821 suite.\n\nRULES:\n1. Output MUST be valid JSON.\n2. Be extremely sensitive: Any difference in text, even minor, MUST be reported with \"changeDetected\": true.\n3. For every category marked as 'CHANGED', you MUST provide a high-fidelity delta in the 'details' field following this format: '[Location: <Document Name>, Page X, Section Y] <Change Type>: <Context>'. \n4. If the inputs are empty (Initial Discovery), summarize the current version's key TPS/eligibility protocols IF text is provided. IF the input text is empty for all documents, set \"changeDetected\": true, set status to \"INITIAL_DISCOVERY\", and in details state: \"Baseline established; waiting for full content ingestion for detailed summary.\"\n5. STRICT RULE: Do NOT invent Page numbers or specific policy changes if the input text is empty. Hallucination is UNACCEPTABLE.\n6. If ANY category status is 'CHANGED' or 'INITIAL_DISCOVERY', the top-level \"changeDetected\" MUST be true.\n7. The 'summary' field MUST be a comprehensive, human-readable synthesis of all detected shifts across the main form and instructions.\n8. Output MUST follow this schema:\n{\n  \"resourceId\": \"{{params.resourceId}}\",\n  \"changeDetected\": true,\n  \"categories\": [\n    { \"name\": \"Category Name\", \"status\": \"INITIAL_DISCOVERY\", \"details\": \"[Location: Document Name] Baseline summary of current protocol...\" }\n  ],\n  \"summary\": \"[Detailed synthesis...]\"\n}"
+          },
+          {
+            "role": "user",
+            "content": "### MAIN FORM DELTAS\nOld: {{step4.result.oldText}}\nNew: {{step4.result.newText}}\n\n### INSTRUCTIONS DELTAS\nOld: {{step5.result.oldText}}\nNew: {{step5.result.newText}}"
+          }
+        ]
+      },
+      {
+        "step": 7,
+        "summary": "I-821 State Commit",
+        "description": "Finalizing I-821 state into the Sovereign Knowledge Hub DB",
+        "target": "komunas-app",
+        "action": "create",
+        "intent": "/api/uscis/sync/commit",
+        "payload": {
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "displayName": "{{step1.result.displayName}}",
+          "version": "{{step1.result.newVersion}}",
+          "effectiveDate": "{{step1.result.effectiveDate}}",
+          "hash": "{{step1.result.newHash}}",
+          "instructionsHash": "{{step1.result.instructionsHash}}",
+          "resourceUrl": "{{step1.result.resourceUrl}}",
+          "instructionsUrl": "{{step1.result.instructionsUrl}}",
+          "documentId": "{{step2.result.documentId??step1.result.oldDocumentId}}",
+          "instructionsDocumentId": "{{step3.result.documentId??step1.result.oldInstructionsDocumentId}}",
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "oldInstructionsDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "changeType": "EDITION_UPDATE",
+          "agentTaskId": "{{params.agentTaskId}}",
+          "changeDetected": "{{step6.result.changeDetected??false}}",
+          "summary": "{{step6.result.summary??USCIS Form I-821 scan completed - No TPS protocol changes detected.}}",
+          "analysis": "{{step6.result??{ \"status\": \"NO_CHANGE\", \"changeDetected\": false, \"details\": \"The TPS protocol scan found no version updates.\" }}}"
+        },
+        "jump": {
+          "condition": "{{step7.result.changeDetected}} == false",
+          "conditionDesc": "No Changes Found",
+          "targetStep": 0
+        }
+      },
+      {
+        "step": 8,
+        "summary": "Dispatch Notification",
+        "description": "Notifying priority subscribers of I-821 edition updates or TPS protocol shifts",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/notifications/dispatch",
+        "payload": {
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "resourceId": "{{params.resourceId}}",
+          "type": "EDITION_UPDATE",
+          "reportUrl": "https://komunas.com",
+          "severity": "HIGH",
+          "summary": "USCIS Form {{params.resourceId}} Updated to Edition {{step7.result.version}}",
+          "details": "{{step7.result.summary}}",
+          "delta": "{{step1.result.delta}}"
+        }
+      }
+    ]
+  }
+}

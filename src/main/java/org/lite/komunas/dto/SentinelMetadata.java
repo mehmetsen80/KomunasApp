@@ -13,6 +13,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SentinelMetadata {
+    private String displayName;
     private String version;
     private String effectiveDate;
     private String resourceUrl;

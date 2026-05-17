@@ -1,0 +1,258 @@
+{
+  "link": {
+    "target": "workflow",
+    "action": "execute"
+  },
+  "query": {
+    "intent": "uscis_form_sync",
+    "params": {
+      "domain": "uscis-sentinel",
+      "category": "forms",
+      "resourceId": "I-600",
+      "teamId": "67d0aeb17172416c411d419e",
+      "userId": "timursen",
+      "collectionId": "69ac77018626a22133fff877",
+      "agentTaskId": "69c532e094816c41cec7ed80"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "summary": "I-600 Edition Check",
+        "description": "Monitoring USCIS for updates to the Orphan Petition, including Supplements 1, 2, and 3",
+        "target": "komunas-app",
+        "action": "fetch",
+        "intent": "/api/uscis/sync/check/{{params.resourceId}}",
+        "jump": {
+          "condition": "{{step1.result.shouldSync}} == false",
+          "conditionDesc": "Up-to-Date",
+          "targetStep": 11
+        }
+      },
+      {
+        "step": 2,
+        "summary": "Form I-600 Ingestion",
+        "description": "Ingressing primary I-600 PDF into Knowledge Hub",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.resourceUrl}}",
+          "fileName": "{{params.resourceId}}_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 3,
+        "summary": "Instruction Ingestion",
+        "description": "Ingressing I-600 Instructions for updated orphan definition and home study requirements",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.instructionsUrl}}",
+          "fileName": "{{params.resourceId}}_instructions_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 4,
+        "summary": "Supplement 1 Ingestion",
+        "description": "Ingressing Supplement 1 (Listing of Adult Member of the Household)",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.supp1.url}}",
+          "fileName": "I-600_supp1_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 5,
+        "summary": "Supplement 2 Ingestion",
+        "description": "Ingressing Supplement 2 (Consent to Disclose Information)",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.supp2.url}}",
+          "fileName": "I-600_supp2_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 6,
+        "summary": "Supplement 3 Ingestion",
+        "description": "Ingressing Supplement 3 (Request for Action on Approved Form)",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.supp3.url}}",
+          "fileName": "I-600_supp3_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 7,
+        "summary": "Main Form Delta Extraction",
+        "description": "Extracting content shifts for the primary I-600 Form PDF",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "newDocumentId": "{{step2.result.documentId}}",
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Orphan Definition & Eligibility",
+            "Home Study Validity & Standards"
+          ]
+        }
+      },
+      {
+        "step": 8,
+        "summary": "Instructions Delta Extraction",
+        "description": "Extracting shifts in the I-600 Instructions regarding adoption protocols",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "newDocumentId": "{{step3.result.documentId}}",
+          "resourceId": "{{params.resourceId}}_instructions",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Home Study Requirements",
+            "Evidentiary Standards",
+            "Filing Locations"
+          ]
+        }
+      },
+      {
+        "step": 9,
+        "summary": "Supplements Delta Extraction",
+        "description": "Extracting shifts across Supplements 1, 2, and 3",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.supplementalResources.supp1.oldDocumentId}}",
+          "newDocumentId": "{{step4.result.documentId}}",
+          "resourceId": "I-600_Supplements",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Adult Household Member Disclosure",
+            "Privacy Consent Protocols",
+            "Post-Approval Action Requests"
+          ]
+        }
+      },
+      {
+        "step": 10,
+        "summary": "AI Suite-Wide Orphan Analysis",
+        "description": "Synthesizing shifts across the full I-600 adoption suite",
+        "target": "openai-chat",
+        "action": "generate",
+        "intent": "generate",
+        "payload": [
+          {
+            "role": "system",
+            "content": "You are a High-Sensitivity USCIS Senior Specialist in Orphan Petitions. Your mission is to detect ANY deviation in policy, procedures, or text within the ENTIRE Form I-600 suite.\n\nRULES:\n1. Output MUST be valid JSON.\n2. Be extremely sensitive: Any difference in text, even minor, MUST be reported with \"changeDetected\": true.\n3. For every category marked as 'CHANGED', you MUST provide a high-fidelity delta in the 'details' field following this format: '[Location: <Document Name>, Page X, Section Y] <Change Type>: <Context>'. \n4. If the inputs are empty (Initial Discovery), summarize the current version's key adoption/eligibility protocols IF text is provided. IF the input text is empty for all documents, set \"changeDetected\": true, set status to \"INITIAL_DISCOVERY\", and in details state: \"Baseline established; waiting for full content ingestion for detailed summary.\"\n5. STRICT RULE: Do NOT invent Page numbers or specific policy changes if the input text is empty. Hallucination is UNACCEPTABLE.\n6. If ANY category status is 'CHANGED' or 'INITIAL_DISCOVERY', the top-level \"changeDetected\" MUST be true.\n7. The 'summary' field MUST be a comprehensive, human-readable synthesis of all detected shifts across the main form and instructions.\n8. Output MUST follow this schema:\n{\n  \"resourceId\": \"{{params.resourceId}}\",\n  \"changeDetected\": true,\n  \"categories\": [\n    { \"name\": \"Category Name\", \"status\": \"INITIAL_DISCOVERY\", \"details\": \"[Location: Document Name] Baseline summary of current protocol...\" }\n  ],\n  \"summary\": \"[Detailed synthesis...]\"\n}"
+          },
+          {
+            "role": "user",
+            "content": "### MAIN FORM DELTAS\nOld: {{step7.result.oldText}}\nNew: {{step7.result.newText}}\n\n### INSTRUCTIONS DELTAS\nOld: {{step8.result.oldText}}\nNew: {{step8.result.newText}}\n\n### SUPPLEMENTS DELTAS\nOld: {{step9.result.oldText}}\nNew: {{step9.result.newText}}"
+          }
+        ]
+      },
+      {
+        "step": 11,
+        "summary": "I-600 State Commit",
+        "description": "Finalizing I-600 state into the Sovereign Knowledge Hub DB",
+        "target": "komunas-app",
+        "action": "create",
+        "intent": "/api/uscis/sync/commit",
+        "payload": {
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "displayName": "{{step1.result.displayName}}",
+          "version": "{{step1.result.newVersion}}",
+          "effectiveDate": "{{step1.result.effectiveDate}}",
+          "hash": "{{step1.result.newHash}}",
+          "instructionsHash": "{{step1.result.instructionsHash}}",
+          "resourceUrl": "{{step1.result.resourceUrl}}",
+          "instructionsUrl": "{{step1.result.instructionsUrl}}",
+          "supplementalResources": {
+            "supp1": {
+              "name": "Supplement 1",
+              "url": "{{step1.result.supplementalResources.supp1.url}}",
+              "hash": "{{step1.result.supplementalResources.supp1.hash}}",
+              "documentId": "{{step4.result.documentId??step1.result.supplementalResources.supp1.oldDocumentId}}"
+            },
+            "supp2": {
+              "name": "Supplement 2",
+              "url": "{{step1.result.supplementalResources.supp2.url}}",
+              "hash": "{{step1.result.supplementalResources.supp2.hash}}",
+              "documentId": "{{step5.result.documentId??step1.result.supplementalResources.supp2.oldDocumentId}}"
+            },
+            "supp3": {
+              "name": "Supplement 3",
+              "url": "{{step1.result.supplementalResources.supp3.url}}",
+              "hash": "{{step1.result.supplementalResources.supp3.hash}}",
+              "documentId": "{{step6.result.documentId??step1.result.supplementalResources.supp3.oldDocumentId}}"
+            }
+          },
+          "documentId": "{{step2.result.documentId??step1.result.oldDocumentId}}",
+          "instructionsDocumentId": "{{step3.result.documentId??step1.result.oldInstructionsDocumentId}}",
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "oldInstructionsDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "changeType": "EDITION_UPDATE",
+          "agentTaskId": "{{params.agentTaskId}}",
+          "changeDetected": "{{step10.result.changeDetected??false}}",
+          "summary": "{{step10.result.summary??USCIS Form I-600 scan completed - No orphan classification protocol changes detected.}}",
+          "analysis": "{{step10.result??{ \"status\": \"NO_CHANGE\", \"changeDetected\": false, \"details\": \"The surveillance check for Form I-600 was completed. No document content updates were found during this cycle.\" }}}"
+        },
+        "jump": {
+          "condition": "{{step11.result.changeDetected}} == false",
+          "conditionDesc": "I-600 Protocols Up-to-Date",
+          "targetStep": 0
+        }
+      },
+      {
+        "step": 12,
+        "summary": "Dispatch Notification",
+        "description": "Notifying priority subscribers of Form I-600 updates",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/notifications/dispatch",
+        "payload": {
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "resourceId": "{{params.resourceId}}",
+          "type": "EDITION_UPDATE",
+          "reportUrl": "https://komunas.com",
+          "severity": "HIGH",
+          "summary": "USCIS Form {{params.resourceId}} Updated to Edition {{step11.result.version}}",
+          "details": "{{step11.result.summary}}",
+          "delta": "{{step1.result.delta}}"
+        }
+      }
+    ]
+  }
+}

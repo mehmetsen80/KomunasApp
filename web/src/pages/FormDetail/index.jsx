@@ -13,7 +13,8 @@ import {
   AlertTriangle,
   Info,
   Bell,
-  CheckCircle
+  CheckCircle,
+  Activity
 } from 'lucide-react';
 import resourceSyncService from '../../services/resourceSyncService';
 import notificationService from '../../services/notificationService';
@@ -107,12 +108,12 @@ const FormDetail = () => {
           </button>
           <div className="headerContent">
             <div className="titleArea">
-              <div className="formTypeBadge">USCIS {form.domain}</div>
-              <h1>{form.resourceId}</h1>
+              <h1>{form.displayName}</h1>
               <p className="formSummary">{form.summary}</p>
             </div>
 
             <div className="metaInfo">
+              <div className="formTypeBadge">USCIS Form Intelligence</div>
               <div className="metaItem">
                 <ShieldCheck size={16} />
                 <span>Current Version: <strong>{form.currentVersion}</strong></span>
@@ -135,6 +136,10 @@ const FormDetail = () => {
             <a href={form.instructionsUrl} target="_blank" rel="noopener noreferrer" className="secondaryAction">
               <FileText size={18} /> View Official Instructions
             </a>
+            
+            <button onClick={() => navigate(`/processing-times/${id}`)} className="secondaryAction" style={{ background: 'white', color: '#1e293b', border: '1px solid #e2e8f0' }}>
+              <Activity size={18} /> Processing Times Intel
+            </button>
 
             {isAuthenticated && (
               <div className="subscriptionAction">
@@ -196,10 +201,20 @@ const FormDetail = () => {
                         <div className="tagWrapper">
                           <span className="versionTag">v{entry.version}</span>
                           {entry.changeDetected && (
-                            <span className="criticalBadge">
-                              <AlertTriangle size={12} />
-                              CRITICAL CHANGE
-                            </span>
+                            (entry.payload?.status === "INITIAL_DISCOVERY" || 
+                             entry.payload?.categories?.some(c => c.status === "INITIAL_DISCOVERY") ||
+                             entry.changeType === "INITIAL_DISCOVERY" ||
+                             entry.summary?.includes("Baseline established")) ? (
+                              <span className="baselineBadge">
+                                <Info size={12} />
+                                INITIAL DISCOVERY
+                              </span>
+                            ) : (
+                              <span className="criticalBadge">
+                                <AlertTriangle size={12} />
+                                CRITICAL CHANGE
+                              </span>
+                            )
                           )}
                         </div>
                         <span className="dateTag">{formatDateTime(entry.detectedAt)}</span>

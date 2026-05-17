@@ -17,6 +17,7 @@ const resourceSyncService = {
         id: item.resourceId,
         domain: item.domain,
         category: item.category,
+        displayName: item.displayName,
         name: item.summary || 'USCIS Form',
         version: item.currentVersion || 'N/A',
         status: item.enabled ? 'Active' : 'Inactive',
@@ -25,7 +26,10 @@ const resourceSyncService = {
         lastCheckedAt: item.lastCheckedAt,
         changeDetected: item.changeDetected,
         subscribed: item.subscribed,
-        subscriptionId: item.subscriptionId
+        subscriptionId: item.subscriptionId,
+        changeType: item.changeType,
+        payload: item.payload,
+        summary: item.summary
       }));
     } catch (error) {
       console.error('Error in resourceSyncService.getAllFormStatuses:', error);
@@ -75,9 +79,6 @@ const resourceSyncService = {
     }
   },
 
-  /**
-   * Fetches the status and full history for a specific visa bulletin resource.
-   */
   getVisaBulletinStatus: async (resourceId, userId = null) => {
     try {
       const url = userId ? `/api/uscis/status/visa-bulletin/${resourceId}?userId=${userId}` : `/api/uscis/status/visa-bulletin/${resourceId}`;
@@ -85,6 +86,34 @@ const resourceSyncService = {
       return response.data;
     } catch (error) {
       console.error(`Error in resourceSyncService.getVisaBulletinStatus for ${resourceId}:`, error);
+      throw error;
+    }
+  },
+
+  /**
+   * Fetches the status and full history for a specific processing times resource.
+   */
+  getProcessingTimesStatus: async (resourceId, userId = null) => {
+    try {
+      const url = userId ? `/api/uscis/status/processing-times/${resourceId}?userId=${userId}` : `/api/uscis/status/processing-times/${resourceId}`;
+      const response = await axiosInstance.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error in resourceSyncService.getProcessingTimesStatus for ${resourceId}:`, error);
+      throw error;
+    }
+  },
+
+  /**
+   * Fetches all monitored processing times statuses.
+   */
+  getAllProcessingTimesStatuses: async (userId = null) => {
+    try {
+      const url = userId ? `/api/uscis/status/processing-times/all?userId=${userId}` : '/api/uscis/status/processing-times/all';
+      const response = await axiosInstance.get(url);
+      return response.data;
+    } catch (error) {
+      console.error('Error in resourceSyncService.getAllProcessingTimesStatuses:', error);
       throw error;
     }
   },

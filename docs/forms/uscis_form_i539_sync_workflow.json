@@ -1,0 +1,258 @@
+{
+  "link": {
+    "target": "workflow",
+    "action": "execute"
+  },
+  "query": {
+    "intent": "uscis_form_sync_i539",
+    "params": {
+      "domain": "uscis-sentinel",
+      "category": "forms",
+      "resourceId": "I-539",
+      "teamId": "67d0aeb17172416c411d419e",
+      "userId": "timursen",
+      "collectionId": "69ac77018626a22133fff877",
+      "agentTaskId": "69c5b53494816c41cec80272"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "summary": "I-539 Edition Check",
+        "description": "Monitoring USCIS for updates to stay extensions and change of status, including I-539A and M-752 supplemental protocols",
+        "target": "komunas-app",
+        "action": "fetch",
+        "intent": "/api/uscis/sync/check/{{params.resourceId}}",
+        "jump": {
+          "condition": "{{step1.result.shouldSync}} == false",
+          "conditionDesc": "Up-to-Date",
+          "targetStep": 11
+        }
+      },
+      {
+        "step": 2,
+        "summary": "Form I-539 Ingestion",
+        "description": "Ingressing primary I-539 PDF for stay extension and change of status analysis",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.resourceUrl}}",
+          "fileName": "{{params.resourceId}}_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 3,
+        "summary": "Instruction Ingestion",
+        "description": "Ingressing I-539 Instructions for updated residency duration and biometric standards",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.instructionsUrl}}",
+          "fileName": "{{params.resourceId}}_instructions_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 4,
+        "summary": "I-539A Supplemental Ingestion",
+        "description": "Ingressing Form I-539A Supplemental Information for Multiple Applicants",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.i539a.url}}",
+          "fileName": "I-539A_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 5,
+        "summary": "M-752 Filing Tips Ingestion",
+        "description": "Ingressing Form M-752 Helpful Filing Tips for Form I-539",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.m752.url}}",
+          "fileName": "M-752_Filing_Tips_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 6,
+        "summary": "Main Form Delta Extraction",
+        "description": "Extracting content shifts for the primary I-539 Form PDF",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "newDocumentId": "{{step2.result.documentId}}",
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Stay Extension Eligibility",
+            "Change of Status Requirements",
+            "Biometric Service Standards",
+            "Filing Evidence Checklist"
+          ]
+        }
+      },
+      {
+        "step": 7,
+        "summary": "Instructions Delta Extraction",
+        "description": "Extracting shifts in the I-539 Instructions regarding residency and filing protocols",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "newDocumentId": "{{step3.result.documentId}}",
+          "resourceId": "{{params.resourceId}}_instructions",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Instructional Protocols",
+            "Filing Locations",
+            "Evidence Requirements"
+          ]
+        }
+      },
+      {
+        "step": 8,
+        "summary": "I-539A Delta Extraction",
+        "description": "Extracting shifts in the I-539A Supplemental form for multiple applicants",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.supplementalResources.i539a.oldDocumentId}}",
+          "newDocumentId": "{{step4.result.documentId}}",
+          "resourceId": "I-539A",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Multiple Applicant Protocols",
+            "Supplemental Evidence"
+          ]
+        }
+      },
+      {
+        "step": 9,
+        "summary": "M-752 Filing Tips Delta Extraction",
+        "description": "Extracting shifts in the M-752 Helpful Filing Tips",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.supplementalResources.m752.oldDocumentId}}",
+          "newDocumentId": "{{step5.result.documentId}}",
+          "resourceId": "M-752",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Filing Tips",
+            "Common Mistakes",
+            "Submission Checklist"
+          ]
+        }
+      },
+      {
+        "step": 10,
+        "summary": "AI Suite-Wide Analysis",
+        "description": "Synthesizing changes across the full I-539 suite (Form, Instructions, I-539A, and M-752 Tips)",
+        "target": "openai-chat",
+        "action": "generate",
+        "intent": "generate",
+        "payload": [
+          {
+            "role": "system",
+            "content": "You are a High-Sensitivity USCIS Senior Specialist. Your mission is to detect ANY deviation in policy, procedures, or text within the ENTIRE Form I-539 suite (Form, Instructions, I-539A, and Filing Tips).\n\nRULES:\n1. Output MUST be valid JSON.\n2. Be extremely sensitive: Any difference in text, even minor, MUST be reported with \"changeDetected\": true.\n3. For every category marked as 'CHANGED', you MUST provide a high-fidelity delta in the 'details' field following this format: '[Location: <Document Name>, Page X, Section Y] <Change Type>: <Context>'. \n4. If the inputs are empty (Initial Discovery), summarize the current version's key protocols IF text is provided. IF the input text is empty for all documents, set \"changeDetected\": true, set status to \"INITIAL_DISCOVERY\", and in details state: \"Baseline established; waiting for full content ingestion for detailed summary.\"\n5. STRICT RULE: Do NOT invent Page numbers or specific policy changes if the input text is empty. Hallucination is UNACCEPTABLE.\n6. If ANY category status is 'CHANGED' or 'INITIAL_DISCOVERY', the top-level \"changeDetected\" MUST be true.\n7. The 'summary' field MUST be a comprehensive, human-readable synthesis of all detected shifts across the entire suite.\n8. Output MUST follow this schema:\n{\n  \"resourceId\": \"{{params.resourceId}}\",\n  \"changeDetected\": true,\n  \"categories\": [\n    { \"name\": \"Category Name\", \"status\": \"INITIAL_DISCOVERY\", \"details\": \"[Location: Document Name] Baseline summary of current protocol...\" }\n  ],\n  \"summary\": \"[Detailed synthesis...]\"\n}"
+          },
+          {
+            "role": "user",
+            "content": "### MAIN FORM DELTAS\nOld: {{step6.result.oldText}}\nNew: {{step6.result.newText}}\n\n### INSTRUCTIONS DELTAS\nOld: {{step7.result.oldText}}\nNew: {{step7.result.newText}}\n\n### I-539A SUPPLEMENTAL DELTAS\nOld: {{step8.result.oldText}}\nNew: {{step8.result.newText}}\n\n### M-752 FILING TIPS DELTAS\nOld: {{step9.result.oldText}}\nNew: {{step9.result.newText}}"
+          }
+        ]
+      },
+      {
+        "step": 11,
+        "summary": "I-539 State Commit",
+        "description": "Finalizing I-539 state (including I-539A and M-752) into the Sovereign Knowledge Hub DB",
+        "target": "komunas-app",
+        "action": "create",
+        "intent": "/api/uscis/sync/commit",
+        "payload": {
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "displayName": "{{step1.result.displayName}}",
+          "version": "{{step1.result.newVersion}}",
+          "effectiveDate": "{{step1.result.effectiveDate}}",
+          "hash": "{{step1.result.newHash}}",
+          "instructionsHash": "{{step1.result.instructionsHash}}",
+          "resourceUrl": "{{step1.result.resourceUrl}}",
+          "instructionsUrl": "{{step1.result.instructionsUrl}}",
+          "supplementalResources": {
+            "i539a": {
+              "name": "Form I-539A Supplemental",
+              "url": "{{step1.result.supplementalResources.i539a.url}}",
+              "hash": "{{step1.result.supplementalResources.i539a.hash}}",
+              "documentId": "{{step4.result.documentId??step1.result.supplementalResources.i539a.oldDocumentId}}"
+            },
+            "m752": {
+              "name": "Filing Tips (M-752)",
+              "url": "{{step1.result.supplementalResources.m752.url}}",
+              "hash": "{{step1.result.supplementalResources.m752.hash}}",
+              "documentId": "{{step5.result.documentId??step1.result.supplementalResources.m752.oldDocumentId}}"
+            }
+          },
+          "documentId": "{{step2.result.documentId??step1.result.oldDocumentId}}",
+          "instructionsDocumentId": "{{step3.result.documentId??step1.result.oldInstructionsDocumentId}}",
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "oldInstructionsDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "changeType": "EDITION_UPDATE",
+          "agentTaskId": "{{params.agentTaskId}}",
+          "changeDetected": "{{step10.result.changeDetected??false}}",
+          "summary": "{{step10.result.summary??USCIS Form I-539 suite scan completed - No status extension protocols changed.}}",
+          "analysis": "{{step10.result??{ \"status\": \"NO_CHANGE\", \"changeDetected\": false, \"details\": \"The surveillance check for Form I-539 was completed. No document content updates were found during this cycle.\" }}}"
+        },
+        "jump": {
+          "condition": "{{step11.result.changeDetected}} == false",
+          "conditionDesc": "No Status Changes",
+          "targetStep": 0
+        }
+      },
+      {
+        "step": 12,
+        "summary": "Dispatch Notification",
+        "description": "Notifying priority subscribers of Form I-539 edition updates or status eligibility shifts",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/notifications/dispatch",
+        "payload": {
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "resourceId": "{{params.resourceId}}",
+          "type": "EDITION_UPDATE",
+          "reportUrl": "https://komunas.com",
+          "severity": "HIGH",
+          "summary": "USCIS Form {{params.resourceId}} Updated to Edition {{step11.result.version}}",
+          "details": "{{step11.result.summary}}",
+          "delta": "{{step1.result.delta}}"
+        }
+      }
+    ]
+  }
+}

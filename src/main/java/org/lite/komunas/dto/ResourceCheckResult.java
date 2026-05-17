@@ -23,6 +23,9 @@ public class ResourceCheckResult {
     
     @Schema(description = "The resource category", example = "announcements")
     private String category;
+
+    @Schema(description = "The descriptive name of the resource", example = "Adjustment of Status")
+    private String displayName;
     
     @Schema(description = "Indicates if the user is subscribed to this resource", example = "true")
     private boolean subscribed;

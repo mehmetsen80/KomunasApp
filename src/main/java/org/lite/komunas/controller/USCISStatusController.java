@@ -161,4 +161,39 @@ public class USCISStatusController {
                     return ResponseEntity.notFound().build();
                 });
     }
+
+    @GetMapping("/processing-times/{resourceId}")
+    @Operation(
+            summary = "Get USCIS processing times status",
+            description = "Returns the current sync state and structured analysis for a monitored USCIS Processing Times resource."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Processing times status successfully retrieved.",
+                    content = @Content(schema = @Schema(implementation = USCISStatusResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No monitoring record found for the given processing times ID"
+            )
+    })
+    public ResponseEntity<?> checkProcessingTimesStatus(
+            @Parameter(description = "The Processing Times Resource ID (e.g., I-130) or 'all' to fetch everything", example = "I-130")
+            @PathVariable String resourceId,
+            @RequestParam(required = false) String userId) {
+
+        log.info("USCIS Status API: Fetching status for processing times: {} for user: {}", resourceId, userId);
+
+        if ("all".equalsIgnoreCase(resourceId)) {
+            return ResponseEntity.ok(statusService.getAllProcessingTimesStatuses(userId));
+        }
+
+        return statusService.getProcessingTimesStatus(resourceId, userId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> {
+                    log.warn("USCIS Status API: Processing times resource not found: {}", resourceId);
+                    return ResponseEntity.notFound().build();
+                });
+    }
 }

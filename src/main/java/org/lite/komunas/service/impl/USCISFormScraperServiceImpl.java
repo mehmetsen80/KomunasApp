@@ -119,12 +119,15 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
 
                     boolean shouldSync = contentChanged || missingDocs || !existingState.isEnabled();
 
-                    String resultSummary = contentChanged ? "Detected update for Form " + resourceId + " (" + metadata.getVersion() + ")" : "No changes detected for Form " + resourceId;
+                    String resultSummary = contentChanged
+                            ? "Detected update for Form " + resourceId + " (" + metadata.getVersion() + ")"
+                            : "No changes detected for Form " + resourceId;
 
                     return ResourceCheckResult.builder()
                             .resourceId(resourceId)
                             .domain(domain)
                             .category(formsCategory)
+                            .displayName(metadata.getDisplayName())
                             .changed(contentChanged)
                             .oldVersion(existingState.getLastKnownVersion())
                             .newVersion(metadata.getVersion())
@@ -155,13 +158,15 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                                 .build());
                     }
 
-                    String resultSummary = "Initial discovery of Form " + resourceId + " (" + metadata.getVersion() + ")";
+                    String resultSummary = "Initial discovery of Form " + resourceId + " (" + metadata.getVersion()
+                            + ")";
 
                     return ResourceCheckResult.builder()
                             .resourceId(resourceId)
                             .domain(domain)
                             .category(formsCategory)
-                            .changed(true)
+                            .displayName(metadata.getDisplayName())
+                            .changed(false)
                             .oldVersion("INITIAL")
                             .newVersion(metadata.getVersion())
                             .summary(resultSummary)
@@ -179,14 +184,18 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
 
     @Override
     public ResourceCommitResponse commitUpdate(ResourceCommitRequest request) {
+        String domain = request.getDomain() != null ? request.getDomain() : "uscis-sentinel";
+        String category = request.getCategory() != null ? request.getCategory() : "forms";
+
         log.info("Worker committing update for {}/{} ({}): version={}, hash={}",
-                request.getDomain(), request.getCategory(), request.getResourceId(), request.getVersion(),
+                domain, category, request.getResourceId(), request.getVersion(),
                 request.getHash());
 
         ResourceSyncState state = syncStateRepository
-                .findByDomainAndCategoryAndResourceId(request.getDomain(), request.getCategory(),
+                .findByDomainAndCategoryAndResourceId(domain, category,
                         request.getResourceId())
                 .map(existingState -> {
+                    existingState.setDisplayName(request.getDisplayName());
                     existingState.setLastKnownVersion(request.getVersion());
                     existingState.setEffectiveDate(request.getEffectiveDate());
                     existingState.setLastKnownHash(request.getHash());
@@ -205,15 +214,13 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                     existingState.setLastCheckedAt(LocalDateTime.now());
                     existingState.setLastUpdatedAt(LocalDateTime.now());
                     existingState.setEnabled(true);
-
-                    // Update Supplemental Resources
                     existingState.setSupplementalResources(request.getSupplementalResources());
-
                     return existingState;
                 })
                 .orElseGet(() -> ResourceSyncState.builder()
-                        .domain(request.getDomain())
-                        .category(request.getCategory())
+                        .domain(domain)
+                        .category(category)
+                        .displayName(request.getDisplayName())
                         .resourceId(request.getResourceId())
                         .documentId(request.getDocumentId())
                         .instructionsDocumentId(request.getInstructionsDocumentId())
@@ -240,9 +247,10 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
 
         // Create Version History
         ResourceVersionHistory history = ResourceVersionHistory.builder()
-                .domain(request.getDomain())
-                .category(request.getCategory())
+                .domain(domain)
+                .category(category)
                 .resourceId(request.getResourceId())
+                .displayName(request.getDisplayName())
                 .syncStateId(savedState.getId())
                 .agentTaskId(request.getAgentTaskId())
                 .version(request.getVersion())
@@ -344,6 +352,13 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
 
         try {
             Document doc = Jsoup.connect(url).get();
+
+            // Extract Form Name from h1
+            String displayName = "USCIS Form " + normalizedFormId.toUpperCase();
+            Element h1 = doc.selectFirst("h1");
+            if (h1 != null) {
+                displayName = h1.text().trim();
+            }
 
             // Extract version (Edition Date) and Effective Date (Mandatory Date)
             String version = "UNKNOWN";
@@ -493,6 +508,7 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
             }
 
             return SentinelMetadata.builder()
+                    .displayName(displayName)
                     .version(version)
                     .effectiveDate(effectiveDate)
                     .resourceUrl(pdfUrl)

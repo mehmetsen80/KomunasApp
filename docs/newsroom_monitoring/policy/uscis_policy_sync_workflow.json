@@ -1,0 +1,112 @@
+{
+  "link": {
+    "target": "workflow",
+    "action": "execute"
+  },
+  "query": {
+    "intent": "uscis_policy_sync",
+    "params": {
+      "resourceCategory": "policy-manual",
+      "resourceId": "policy-updates",
+      "teamId": "67d0aeb17172416c411d419e",
+      "userId": "timursen"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "summary": "USCIS Policy Update",
+        "description": "Continuous monitoring of the USCIS Policy Manual for substantive legal shifts and procedural updates.",
+        "target": "komunas-app",
+        "action": "fetch",
+        "intent": "/api/uscis/policy-manual/check/{{params.resourceId}}",
+        "params": {},
+        "payload": null,
+        "llmConfig": null,
+        "async": null,
+        "jump": {
+          "condition": "{{step1.result.shouldSync}} == false",
+          "conditionDesc": "Up-to-Date",
+          "targetStep": 0
+        }
+      },
+      {
+        "step": 2,
+        "summary": "AI Legal Digest",
+        "description": "Synthesizing a structured legal digest of Policy Manual updates, highlighting affected chapters and guidance shifts.",
+        "target": "openai-chat",
+        "action": "generate",
+        "intent": "generate",
+        "params": null,
+        "payload": [
+          {
+            "role": "system",
+            "content": "You are a USCIS Policy Analyst specialized in the Policy Manual. Review the provided JSON of the latest updates. Provide a high-level summary of the overall guidance changes, and then summarize EACH update by explaining its SUBSTANTIVE LEGAL IMPACT. Focus on what is changing for applicants, practitioners, or officers. Avoid generic phrases like 'This update provides technical guidance'. Instead, explain the 'WHY' and the 'PRACTICAL EFFECT'. Preserve the exact 'url', 'title', 'date', and 'chapters' from the input for each update. Output MUST follow this exact JSON schema: { \"title\": \"Short 3-6 word catchy title summarizing the most important update\", \"summary\": \"A high-fidelity 2-3 sentence overview of all policy shifts, emphasizing regulatory impact.\", \"updates\": [ { \"title\": \"Original Title\", \"date\": \"Original Date\", \"summary\": \"A descriptive summary (2-4 sentences) explaining the substantive changes and practical impact of this specific guidance update.\", \"url\": \"Original URL\", \"chapters\": [ { \"title\": \"Chapter Title\", \"url\": \"Chapter URL\" } ] } ] }. IMPORTANT: Do NOT truncate or use ellipsis (...) in any field. Write complete sentences. Ensure your generated summaries use standard spaces only."
+          },
+          {
+            "role": "user",
+            "content": "Latest Policy Updates Payload:\n{{step1.result.payload}}"
+          }
+        ],
+        "llmConfig": {
+          "model": "gpt-4o",
+          "settings": {
+            "temperature": 0.1,
+            "max.tokens": 4096
+          }
+        },
+        "async": null,
+        "cacheConfig": null
+      },
+      {
+        "step": 3,
+        "summary": "Commit Policy Metadata",
+        "description": "Committing detected policy changes and legal analysis to the central resource repository.",
+        "target": "komunas-app",
+        "action": "create",
+        "intent": "/api/uscis/policy-manual/commit",
+        "params": null,
+        "payload": {
+          "domain": "uscis-sentinel",
+          "category": "{{params.resourceCategory}}",
+          "resourceId": "{{params.resourceId}}",
+          "version": "{{step1.result.newVersion}}",
+          "hash": "{{step1.result.newHash}}",
+          "changeType": "POLICY_UPDATE",
+          "changeDetected": "{{step1.result.changed}}",
+          "summary": "New policy guidance: {{step2.result.output.title}} ({{step1.result.newVersion}})",
+          "analysis": "{{step2.result}}",
+          "payload": "{{step2.result.output}}"
+        },
+        "llmConfig": null,
+        "async": null,
+        "cacheConfig": null
+      },
+      {
+        "step": 4,
+        "summary": "Dispatch Notification",
+        "description": "Dispatching high-severity notifications for substantive USCIS policy guidance updates.",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/notifications/dispatch",
+        "params": null,
+        "payload": {
+          "domain": "uscis-sentinel",
+          "category": "{{params.resourceCategory}}",
+          "resourceId": "{{params.resourceId}}",
+          "type": "POLICY_UPDATE",
+          "reportUrl": "{{step1.result.resourceUrl}}",
+          "severity": "HIGH",
+          "summary": "Policy Update: {{step2.result.output.title}} ({{step1.result.newVersion}})",
+          "details": "{{step2.result.output.summary}}",
+          "delta": {
+            "updates": "{{step2.result.output.updates}}"
+          }
+        }
+,
+        "llmConfig": null,
+        "async": null,
+        "cacheConfig": null
+      }
+    ]
+  }
+}

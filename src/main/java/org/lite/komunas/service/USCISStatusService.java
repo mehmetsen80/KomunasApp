@@ -19,4 +19,10 @@ public interface USCISStatusService {
 
     Optional<USCISStatusResponse> getVisaBulletinStatus(String resourceId);
     Optional<USCISStatusResponse> getVisaBulletinStatus(String resourceId, String userId);
+
+    Optional<USCISStatusResponse> getProcessingTimesStatus(String resourceId);
+    Optional<USCISStatusResponse> getProcessingTimesStatus(String resourceId, String userId);
+
+    List<USCISStatusResponse> getAllProcessingTimesStatuses();
+    List<USCISStatusResponse> getAllProcessingTimesStatuses(String userId);
 }

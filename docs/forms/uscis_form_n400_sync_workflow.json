@@ -1,0 +1,216 @@
+{
+  "link": {
+    "target": "workflow",
+    "action": "execute"
+  },
+  "query": {
+    "intent": "uscis_form_sync",
+    "params": {
+      "domain": "uscis-sentinel",
+      "category": "forms",
+      "resourceId": "N-400",
+      "teamId": "67d0aeb17172416c411d419e",
+      "userId": "timursen",
+      "collectionId": "69ac77018626a22133fff877",
+      "agentTaskId": "69c41f31aa54fc27fe60a542"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "summary": "N-400 Edition Check",
+        "description": "Monitoring USCIS for updates to the Application for Naturalization, including the G-1151 supplemental document and fee changes",
+        "target": "komunas-app",
+        "action": "fetch",
+        "intent": "/api/uscis/sync/check/{{params.resourceId}}",
+        "jump": {
+          "condition": "{{step1.result.shouldSync}} == false",
+          "conditionDesc": "Up-to-Date",
+          "targetStep": 9
+        }
+      },
+      {
+        "step": 2,
+        "summary": "Form N-400 Ingestion",
+        "description": "Ingressing primary N-400 PDF into Knowledge Hub",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.resourceUrl}}",
+          "fileName": "{{params.resourceId}}_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 3,
+        "summary": "Instruction Ingestion",
+        "description": "Ingressing N-400 Instructions for updated residency, physical presence, and moral character guidance",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.instructionsUrl}}",
+          "fileName": "{{params.resourceId}}_instructions_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 4,
+        "summary": "G-1151 Supplemental Ingestion",
+        "description": "Ingressing G-1151 Notification of Acceptance for naturalization filing fee confirmation",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.g1151.url}}",
+          "fileName": "G-1151_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 5,
+        "summary": "Main Form Delta Extraction",
+        "description": "Extracting content shifts for the primary N-400 Form PDF",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "newDocumentId": "{{step2.result.documentId}}",
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Naturalization Eligibility Checkboxes",
+            "Continuous Residence & Physical Presence Data",
+            "Good Moral Character (GMC) Disclosures"
+          ]
+        }
+      },
+      {
+        "step": 6,
+        "summary": "Instructions Delta Extraction",
+        "description": "Extracting shifts in the N-400 Instructions regarding citizenship protocols",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "newDocumentId": "{{step3.result.documentId}}",
+          "resourceId": "{{params.resourceId}}_instructions",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Residency Calculation Rules",
+            "English & Civics Test Exemptions",
+            "Filing Locations & Fees"
+          ]
+        }
+      },
+      {
+        "step": 7,
+        "summary": "G-1151 Delta Extraction",
+        "description": "Extracting shifts in the fee notification supplemental document",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.supplementalResources.g1151.oldDocumentId}}",
+          "newDocumentId": "{{step4.result.documentId}}",
+          "resourceId": "G-1151",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Fee Acceptance Protocols",
+            "Electronic Notification Procedures"
+          ]
+        }
+      },
+      {
+        "step": 8,
+        "summary": "AI Suite-Wide Naturalization Analysis",
+        "description": "Synthesizing shifts across the full N-400 naturalization suite",
+        "target": "openai-chat",
+        "action": "generate",
+        "intent": "generate",
+        "payload": [
+          {
+            "role": "system",
+            "content": "You are a High-Sensitivity USCIS Senior Specialist in Naturalization. Your mission is to detect ANY deviation in policy, procedures, or text within the ENTIRE Form N-400 suite.\n\nRULES:\n1. Output MUST be valid JSON.\n2. Be extremely sensitive: Any difference in text, even minor, MUST be reported with \"changeDetected\": true.\n3. For every category marked as 'CHANGED', you MUST provide a high-fidelity delta in the 'details' field following this format: '[Location: <Document Name>, Page X, Section Y] <Change Type>: <Context>'. \n4. If the inputs are empty (Initial Discovery), summarize the current version's key citizenship/residency protocols IF text is provided. IF the input text is empty for all documents, set \"changeDetected\": true, set status to \"INITIAL_DISCOVERY\", and in details state: \"Baseline established; waiting for full content ingestion for detailed summary.\"\n5. STRICT RULE: Do NOT invent Page numbers or specific policy changes if the input text is empty. Hallucination is UNACCEPTABLE.\n6. If ANY category status is 'CHANGED' or 'INITIAL_DISCOVERY', the top-level \"changeDetected\" MUST be true.\n7. The 'summary' field MUST be a comprehensive, human-readable synthesis of all detected shifts across the main form, instructions, and G-1151.\n8. Output MUST follow this schema:\n{\n  \"resourceId\": \"{{params.resourceId}}\",\n  \"changeDetected\": true,\n  \"categories\": [\n    { \"name\": \"Category Name\", \"status\": \"INITIAL_DISCOVERY\", \"details\": \"[Location: Document Name] Baseline summary of current protocol...\" }\n  ],\n  \"summary\": \"[Detailed synthesis...]\"\n}"
+          },
+          {
+            "role": "user",
+            "content": "### MAIN FORM DELTAS\nOld: {{step5.result.oldText}}\nNew: {{step5.result.newText}}\n\n### INSTRUCTIONS DELTAS\nOld: {{step6.result.oldText}}\nNew: {{step6.result.newText}}\n\n### G-1151 SUPPLEMENTAL DELTAS\nOld: {{step7.result.oldText}}\nNew: {{step7.result.newText}}"
+          }
+        ]
+      },
+      {
+        "step": 9,
+        "summary": "N-400 State Commit",
+        "description": "Finalizing N-400 state into the Sovereign Knowledge Hub DB",
+        "target": "komunas-app",
+        "action": "create",
+        "intent": "/api/uscis/sync/commit",
+        "payload": {
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "displayName": "{{step1.result.displayName}}",
+          "version": "{{step1.result.newVersion}}",
+          "effectiveDate": "{{step1.result.effectiveDate}}",
+          "hash": "{{step1.result.newHash}}",
+          "instructionsHash": "{{step1.result.instructionsHash}}",
+          "resourceUrl": "{{step1.result.resourceUrl}}",
+          "instructionsUrl": "{{step1.result.instructionsUrl}}",
+          "supplementalResources": {
+            "g1151": {
+              "name": "G-1151 Notification",
+              "url": "{{step1.result.supplementalResources.g1151.url}}",
+              "hash": "{{step1.result.supplementalResources.g1151.hash}}",
+              "documentId": "{{step4.result.documentId??step1.result.supplementalResources.g1151.oldDocumentId}}"
+            }
+          },
+          "documentId": "{{step2.result.documentId??step1.result.oldDocumentId}}",
+          "instructionsDocumentId": "{{step3.result.documentId??step1.result.oldInstructionsDocumentId}}",
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "oldInstructionsDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "changeType": "EDITION_UPDATE",
+          "agentTaskId": "{{params.agentTaskId}}",
+          "changeDetected": "{{step8.result.changeDetected??false}}",
+          "summary": "{{step8.result.summary??USCIS Form N-400 scan completed - No residency or eligibility changes detected.}}",
+          "analysis": "{{step8.result??{ \"status\": \"NO_CHANGE\", \"changeDetected\": false, \"details\": \"The surveillance check for Form N-400 was completed. No document content updates were found during this cycle.\" }}}"
+        },
+        "jump": {
+          "condition": "{{step9.result.changeDetected}} == false",
+          "conditionDesc": "Naturalization Up-to-Date",
+          "targetStep": 0
+        }
+      },
+      {
+        "step": 10,
+        "summary": "Dispatch Notification",
+        "description": "Notifying priority subscribers of N-400 naturalization policy shifts",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/notifications/dispatch",
+        "payload": {
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "resourceId": "{{params.resourceId}}",
+          "type": "EDITION_UPDATE",
+          "reportUrl": "https://komunas.com",
+          "severity": "HIGH",
+          "summary": "USCIS Form {{params.resourceId}} Updated to Edition {{step9.result.version}}",
+          "details": "{{step9.result.summary}}",
+          "delta": "{{step1.result.delta}}"
+        }
+      }
+    ]
+  }
+}

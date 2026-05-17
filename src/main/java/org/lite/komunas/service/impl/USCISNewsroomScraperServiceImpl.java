@@ -91,7 +91,7 @@ public class USCISNewsroomScraperServiceImpl implements USCISNewsroomScraperServ
                     .resourceId(resourceId)
                     .domain(domain)
                     .category(category)
-                    .changed(true)
+                    .changed(false)
                     .oldVersion("INITIAL")
                     .newVersion(alerts.isEmpty() ? "INITIAL" : alerts.getFirst().get("date"))
                     .summary(resultSummary)

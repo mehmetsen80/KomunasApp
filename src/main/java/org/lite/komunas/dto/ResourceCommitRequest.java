@@ -20,6 +20,9 @@ public class ResourceCommitRequest {
     
     @Schema(description = "The category classification", example = "forms")
     private String category;
+
+    @Schema(description = "The descriptive name of the resource", example = "Adjustment of Status")
+    private String displayName;
     
     @Schema(description = "The domain of the resource", example = "uscis-sentinel")
     private String domain;

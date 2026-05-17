@@ -1,0 +1,216 @@
+{
+  "link": {
+    "target": "workflow",
+    "action": "execute"
+  },
+  "query": {
+    "intent": "uscis_form_sync",
+    "params": {
+      "domain": "uscis-sentinel",
+      "category": "forms",
+      "resourceId": "I-765",
+      "teamId": "67d0aeb17172416c411d419e",
+      "userId": "timursen",
+      "collectionId": "69ac77018626a22133fff877",
+      "agentTaskId": "69c35d61aa54fc27fe609cb1"
+    },
+    "workflow": [
+      {
+        "step": 1,
+        "summary": "I-765 Edition Check",
+        "description": "Monitoring USCIS for updates to the Application for Employment Authorization, including the I-765WS worksheet and category fee logic",
+        "target": "komunas-app",
+        "action": "fetch",
+        "intent": "/api/uscis/sync/check/{{params.resourceId}}",
+        "jump": {
+          "condition": "{{step1.result.shouldSync}} == false",
+          "conditionDesc": "Up-to-Date",
+          "targetStep": 9
+        }
+      },
+      {
+        "step": 2,
+        "summary": "Form I-765 Ingestion",
+        "description": "Ingressing primary I-765 PDF into Knowledge Hub",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.resourceUrl}}",
+          "fileName": "{{params.resourceId}}_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 3,
+        "summary": "Instruction Ingestion",
+        "description": "Ingressing I-765 Instructions for updated category codes and document requirements",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.instructionsUrl}}",
+          "fileName": "{{params.resourceId}}_instructions_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 4,
+        "summary": "I-765WS Worksheet Ingestion",
+        "description": "Ingressing Form I-765 Worksheet (I-765WS) for category-specific eligibility data",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/ingression/url",
+        "payload": {
+          "url": "{{step1.result.supplementalResources.i765ws.url}}",
+          "fileName": "I-765WS_{{step1.result.newVersion}}.pdf",
+          "collectionId": "{{params.collectionId}}",
+          "teamId": "{{params.teamId}}",
+          "contentType": "application/pdf"
+        }
+      },
+      {
+        "step": 5,
+        "summary": "Main Form Delta Extraction",
+        "description": "Extracting content shifts for the primary I-765 Form PDF",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "newDocumentId": "{{step2.result.documentId}}",
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Eligibility Category Basis",
+            "Mailing Address Protocols",
+            "Interpreter & Preparer Sections"
+          ]
+        }
+      },
+      {
+        "step": 6,
+        "summary": "Instructions Delta Extraction",
+        "description": "Extracting shifts in the I-765 Instructions regarding category codes",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "newDocumentId": "{{step3.result.documentId}}",
+          "resourceId": "{{params.resourceId}}_instructions",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Eligibility Category Codes (OPT, STEM, DACA, etc.)",
+            "Filing Fees & Biometric Requirements",
+            "Filing Locations & Online Eligibility"
+          ]
+        }
+      },
+      {
+        "step": 7,
+        "summary": "I-765WS Delta Extraction",
+        "description": "Extracting shifts in the employment authorization worksheet",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/kh/sync/delta-content",
+        "payload": {
+          "oldDocumentId": "{{step1.result.supplementalResources.i765ws.oldDocumentId}}",
+          "newDocumentId": "{{step4.result.documentId}}",
+          "resourceId": "I-765WS",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "categories": [
+            "Financial Necessity Definitions",
+            "Expense/Income Documentation Rules"
+          ]
+        }
+      },
+      {
+        "step": 8,
+        "summary": "AI Suite-Wide Employment Auth Analysis",
+        "description": "Synthesizing shifts across the full I-765 suite",
+        "target": "openai-chat",
+        "action": "generate",
+        "intent": "generate",
+        "payload": [
+          {
+            "role": "system",
+            "content": "You are a High-Sensitivity USCIS Senior Specialist in Employment Authorization. Your mission is to detect ANY deviation in policy, procedures, or text within the ENTIRE Form I-765 suite.\n\nRULES:\n1. Output MUST be valid JSON.\n2. Be extremely sensitive: Any difference in text, even minor, MUST be reported with \"changeDetected\": true.\n3. For every category marked as 'CHANGED', you MUST provide a high-fidelity delta in the 'details' field following this format: '[Location: <Document Name>, Page X, Section Y] <Change Type>: <Context>'. \n4. If the inputs are empty (Initial Discovery), summarize the current version's key category eligibility and fee protocols IF text is provided. IF the input text is empty for all documents, set \"changeDetected\": true, set status to \"INITIAL_DISCOVERY\", and in details state: \"Baseline established; waiting for full content ingestion for detailed summary.\"\n5. STRICT RULE: Do NOT invent Page numbers or specific policy changes if the input text is empty. Hallucination is UNACCEPTABLE.\n6. If ANY category status is 'CHANGED' or 'INITIAL_DISCOVERY', the top-level \"changeDetected\" MUST be true.\n7. The 'summary' field MUST be a comprehensive, human-readable synthesis of all detected shifts across the main form, instructions, and I-765WS.\n8. Output MUST follow this schema:\n{\n  \"resourceId\": \"{{params.resourceId}}\",\n  \"changeDetected\": true,\n  \"categories\": [\n    { \"name\": \"Category Name\", \"status\": \"INITIAL_DISCOVERY\", \"details\": \"[Location: Document Name] Baseline summary of current protocol...\" }\n  ],\n  \"summary\": \"[Detailed synthesis...]\"\n}"
+          },
+          {
+            "role": "user",
+            "content": "### MAIN FORM DELTAS\nOld: {{step5.result.oldText}}\nNew: {{step5.result.newText}}\n\n### INSTRUCTIONS DELTAS\nOld: {{step6.result.oldText}}\nNew: {{step6.result.newText}}\n\n### I-765WS WORKSHEET DELTAS\nOld: {{step7.result.oldText}}\nNew: {{step7.result.newText}}"
+          }
+        ]
+      },
+      {
+        "step": 9,
+        "summary": "I-765 State Commit",
+        "description": "Finalizing I-765 state into the Sovereign Knowledge Hub DB",
+        "target": "komunas-app",
+        "action": "create",
+        "intent": "/api/uscis/sync/commit",
+        "payload": {
+          "resourceId": "{{params.resourceId}}",
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "displayName": "{{step1.result.displayName}}",
+          "version": "{{step1.result.newVersion}}",
+          "effectiveDate": "{{step1.result.effectiveDate}}",
+          "hash": "{{step1.result.newHash}}",
+          "instructionsHash": "{{step1.result.instructionsHash}}",
+          "resourceUrl": "{{step1.result.resourceUrl}}",
+          "instructionsUrl": "{{step1.result.instructionsUrl}}",
+          "supplementalResources": {
+            "i765ws": {
+              "name": "I-765 Worksheet",
+              "url": "{{step1.result.supplementalResources.i765ws.url}}",
+              "hash": "{{step1.result.supplementalResources.i765ws.hash}}",
+              "documentId": "{{step4.result.documentId??step1.result.supplementalResources.i765ws.oldDocumentId}}"
+            }
+          },
+          "documentId": "{{step2.result.documentId??step1.result.oldDocumentId}}",
+          "instructionsDocumentId": "{{step3.result.documentId??step1.result.oldInstructionsDocumentId}}",
+          "oldDocumentId": "{{step1.result.oldDocumentId}}",
+          "oldInstructionsDocumentId": "{{step1.result.oldInstructionsDocumentId}}",
+          "changeType": "EDITION_UPDATE",
+          "agentTaskId": "{{params.agentTaskId}}",
+          "changeDetected": "{{step8.result.changeDetected??false}}",
+          "summary": "{{step8.result.summary??USCIS Form I-765 scan completed - No version changes found for Employment Authorization.}}",
+          "analysis": "{{step8.result??{ \"status\": \"NO_CHANGE\", \"changeDetected\": false, \"details\": \"The surveillance check for Form I-765 was completed. No document content updates were found during this cycle.\" }}}"
+        },
+        "jump": {
+          "condition": "{{step9.result.changeDetected}} == false",
+          "conditionDesc": "No Changes Found",
+          "targetStep": 0
+        }
+      },
+      {
+        "step": 10,
+        "summary": "Dispatch Notification",
+        "description": "Notifying priority subscribers of I-765 edition updates or fee shifts",
+        "target": "api-gateway",
+        "action": "create",
+        "intent": "/api/notifications/dispatch",
+        "payload": {
+          "domain": "{{params.domain}}",
+          "category": "{{params.category}}",
+          "resourceId": "{{params.resourceId}}",
+          "type": "EDITION_UPDATE",
+          "reportUrl": "https://komunas.com",
+          "severity": "HIGH",
+          "summary": "USCIS Form {{params.resourceId}} Updated to Edition {{step9.result.version}}",
+          "details": "{{step9.result.summary}}",
+          "delta": "{{step1.result.delta}}"
+        }
+      }
+    ]
+  }
+}

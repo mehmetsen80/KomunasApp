@@ -24,6 +24,7 @@ public class USCISStatusResponse {
     private String resourceId;         // e.g., "I-485"
     private String domain;             // e.g., "uscis-sentinel"
     private String category;           // e.g., "forms", "news", "alerts"
+    private String displayName;        // e.g., "Adjustment of Status"
 
     // Subscription status
     private boolean subscribed;
@@ -55,6 +56,7 @@ public class USCISStatusResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class VersionEntry {
+        private String displayName;
         private String version;
         private String effectiveDate;
         private String changeType;
@@ -71,6 +73,7 @@ public class USCISStatusResponse {
     /** Convenience factory — builds a VersionEntry from a ResourceVersionHistory entity. */
     public static VersionEntry from(ResourceVersionHistory h) {
         return VersionEntry.builder()
+                .displayName(h.getDisplayName())
                 .version(h.getVersion())
                 .effectiveDate(h.getEffectiveDate())
                 .changeType(h.getChangeType())

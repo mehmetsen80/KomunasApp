@@ -3,13 +3,13 @@ import {
   Zap, FileText, Download, ExternalLink, Search,
   Bell, CheckCircle, AlertTriangle, Rss, BookOpen, BarChart3,
   Shield, Clock, ArrowRight, AlertCircle, CheckCircle2, Filter, Newspaper,
-  User, LogOut, LogIn, UserPlus, Menu, X, ChevronDown
+  User, LogOut, LogIn, UserPlus, Menu, X, ChevronDown, Activity, Info
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import './styles.scss';
 import HeroBackground from '../../components/HeroBackground';
 import resourceSyncService from '../../services/resourceSyncService';
-import { formatDateTime } from '../../utils/dateUtils';
+import { formatDateTime, formatSyncTime, getRelativeTime } from '../../utils/dateUtils';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import { useNavigate as useNav } from 'react-router-dom';
@@ -18,6 +18,7 @@ import SubscribeFormModal from '../../components/Modals/SubscribeFormModal';
 import ViewIntelModal from '../../components/Modals/ViewIntelModal';
 import LogoutConfirmationModal from '../../components/Modals/LogoutConfirmationModal';
 import notificationService from '../../services/notificationService';
+import DataToolTip from '../../components/DataToolTip';
 
 const Home = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -40,6 +41,7 @@ const Home = () => {
   const [policyUpdates, setPolicyUpdates] = useState([]);
   const [policyData, setPolicyData] = useState(null);
   const [visaBulletinData, setVisaBulletinData] = useState(null);
+  const [processingTimes, setProcessingTimes] = useState([]);
   const [newsroomLoading, setNewsroomLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -105,6 +107,10 @@ const Home = () => {
         // Fetch Visa Bulletin Determination
         const vData = await resourceSyncService.getVisaBulletinStatus('filing-charts', user?.email);
         setVisaBulletinData(vData);
+
+        // Fetch Processing Times Updates
+        const ptData = await resourceSyncService.getAllProcessingTimesStatuses(user?.email);
+        setProcessingTimes(ptData?.slice(0, 3) || []);
 
       } catch (err) {
         console.error('Failed to load newsroom/policy data:', err);
@@ -181,8 +187,9 @@ const Home = () => {
       releases: newsReleasesData?.lastCheckedAt ? new Date(newsReleasesData.lastCheckedAt).getTime() : null,
       policy: policyData?.lastCheckedAt ? new Date(policyData.lastCheckedAt).getTime() : null,
       bulletin: visaBulletinData?.lastCheckedAt ? new Date(visaBulletinData.lastCheckedAt).getTime() : null,
+      processing: processingTimes.length > 0 ? Math.max(...processingTimes.map(pt => new Date(pt.lastCheckedAt).getTime())) : null,
     };
-  }, [forms, newsroomData, newsReleasesData, policyData, visaBulletinData]);
+  }, [forms, newsroomData, newsReleasesData, policyData, visaBulletinData, processingTimes]);
 
   const lastSyncTime = React.useMemo(() => {
     const times = Object.values(syncStatus).filter(t => t !== null);
@@ -192,6 +199,7 @@ const Home = () => {
 
   const monitoredStats = React.useMemo(() => {
     let count = forms.filter(f => f.subscribed).length;
+    count += processingTimes.filter(pt => pt.subscribed).length;
     if (newsroomData?.subscribed) count++;
     if (newsReleasesData?.subscribed) count++;
     if (policyData?.subscribed) count++;
@@ -200,7 +208,8 @@ const Home = () => {
     const allItems = [
       ...newsroomAlerts.map(a => new Date(a.date).getTime()),
       ...newsReleases.map(a => new Date(a.date).getTime()),
-      ...policyUpdates.map(a => new Date(a.date).getTime())
+      ...policyUpdates.map(a => new Date(a.date).getTime()),
+      ...processingTimes.map(pt => new Date(pt.lastUpdatedAt).getTime())
     ].filter(t => !isNaN(t));
 
     // For Visa Bulletin, use its month/year as a proxy for date if payload exists
@@ -215,7 +224,7 @@ const Home = () => {
       count,
       latestDate: latestItemDate ? new Date(latestItemDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'N/A'
     };
-  }, [forms, newsroomData, newsReleasesData, policyData, visaBulletinData, newsroomAlerts, newsReleases, policyUpdates]);
+  }, [forms, newsroomData, newsReleasesData, policyData, visaBulletinData, processingTimes, newsroomAlerts, newsReleases, policyUpdates]);
 
   const filteredForms = forms
     .filter(form =>
@@ -260,6 +269,9 @@ const Home = () => {
                 </Link>
                 <Link to="/newsroom/visa-bulletin" className="heroNavLink" onClick={() => setIsMenuOpen(false)}>
                   <BarChart3 size={14} />Visa Bulletin
+                </Link>
+                <Link to="/processing-times" className="heroNavLink" onClick={() => setIsMenuOpen(false)}>
+                  <Activity size={14} />Processing Times
                 </Link>
               </nav>
             </div>
@@ -316,21 +328,12 @@ const Home = () => {
         </div>
         <div className="heroMainContent">
           <div className="heroTextContent">
+            <h1>USCIS Intelligence Platform</h1>
             <div className="tagline">
               <span>Struggling to keep up with USCIS changes?</span>
               <strong>Never miss a new form or regulation again.</strong>
             </div>
-            <h1>USCIS Forms Library</h1>
-            <p>Direct access to the latest form versions and instructions.</p>
-            <div className="searchWrapper">
-              <Search size={20} />
-              <input
-                type="text"
-                placeholder="Search USCIS forms by ID or name…"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+            <p>Subscribe to forms, processing times, and policy updates for real-time monitoring and instant AI-driven alerts.</p>
           </div>
 
           <div className="heroVisualContent">
@@ -342,7 +345,7 @@ const Home = () => {
         </div>
 
         {/* ── Intelligence Brief / Workspace ── */}
-        {isAuthenticated && !searchTerm && (
+        {isAuthenticated && (
           <div className="userWorkspace">
             <div className="workspaceHeader">
               <h2>Intelligence Brief for {user?.fullName || user?.username}</h2>
@@ -380,8 +383,8 @@ const Home = () => {
                     )}
                   </div>
                   <div className="pulseTitle">
-                    <h3>Your Intelligence Command</h3>
-                    <p>Live surveillance of your selected USCIS resources</p>
+                    <h3>My Surveillance Dashboard</h3>
+                    <p>Real-time updates and alerts for your tracked resources</p>
                   </div>
                 </div>
 
@@ -432,30 +435,49 @@ const Home = () => {
                     <span>Intelligence Sync Health</span>
                   </div>
                   <div className="syncList">
-                    <div className="syncItem">
-                      <div className="syncLabel"><FileText size={12} /> Forms</div>
-                      <div className="syncValue">{syncStatus.forms ? formatDateTime(syncStatus.forms) : 'N/A'}</div>
-                    </div>
-                    <div className="syncItem">
-                      <div className="syncLabel"><Rss size={12} /> Newsroom</div>
-                      <div className="syncValue">{syncStatus.newsroom ? formatDateTime(syncStatus.newsroom) : 'N/A'}</div>
-                    </div>
-                    <div className="syncItem">
-                      <div className="syncLabel"><BookOpen size={12} /> Policy</div>
-                      <div className="syncValue">{syncStatus.policy ? formatDateTime(syncStatus.policy) : 'N/A'}</div>
-                    </div>
-                    <div className="syncItem">
-                      <div className="syncLabel"><BarChart3 size={12} /> Bulletin</div>
-                      <div className="syncValue">{syncStatus.bulletin ? formatDateTime(syncStatus.bulletin) : 'N/A'}</div>
-                    </div>
+                    <DataToolTip text={`Monitors USCIS PDF Edition Dates and form instructions for version shifts. \n\nLast Checked: ${syncStatus.forms ? formatDateTime(syncStatus.forms) : 'Never'}`}>
+                      <div className="syncItem">
+                        <div className="syncLabel"><FileText size={12} /> Forms</div>
+                        <div className="syncValue">{syncStatus.forms ? getRelativeTime(syncStatus.forms) : 'N/A'}</div>
+                      </div>
+                    </DataToolTip>
+                    <DataToolTip text={`Tracks the latest Newsroom Alerts and Releases for immediate policy impact. \n\nLast Checked: ${syncStatus.newsroom ? formatDateTime(syncStatus.newsroom) : 'Never'}`}>
+                      <div className="syncItem">
+                        <div className="syncLabel"><Rss size={12} /> Newsroom</div>
+                        <div className="syncValue">{syncStatus.newsroom ? getRelativeTime(syncStatus.newsroom) : 'N/A'}</div>
+                      </div>
+                    </DataToolTip>
+                    <DataToolTip text={`Monitors the USCIS Policy Manual for substantive legal and chapter updates. \n\nLast Checked: ${syncStatus.policy ? formatDateTime(syncStatus.policy) : 'Never'}`}>
+                      <div className="syncItem">
+                        <div className="syncLabel"><BookOpen size={12} /> Policy</div>
+                        <div className="syncValue">{syncStatus.policy ? getRelativeTime(syncStatus.policy) : 'N/A'}</div>
+                      </div>
+                    </DataToolTip>
+                    <DataToolTip text={`Checks for monthly Visa Bulletin priority date shifts and filing chart updates. \n\nLast Checked: ${syncStatus.bulletin ? formatDateTime(syncStatus.bulletin) : 'Never'}`}>
+                      <div className="syncItem">
+                        <div className="syncLabel"><BarChart3 size={12} /> Bulletin</div>
+                        <div className="syncValue">{syncStatus.bulletin ? getRelativeTime(syncStatus.bulletin) : 'N/A'}</div>
+                      </div>
+                    </DataToolTip>
+                    <DataToolTip text={`Real-time monitoring of USCIS wait time backlogs across different service centers. \n\nLast Checked: ${syncStatus.processing ? formatDateTime(syncStatus.processing) : 'Never'}`}>
+                      <div className="syncItem">
+                        <div className="syncLabel"><Activity size={12} /> Processing</div>
+                        <div className="syncValue">{syncStatus.processing ? getRelativeTime(syncStatus.processing) : 'N/A'}</div>
+                      </div>
+                    </DataToolTip>
                   </div>
                 </div>
 
                 <div className="sectionDivider"></div>
 
                 <div className="subsSection">
+                  <div className="subsHeader">
+                    <h4 className="subsTitle">My Monitored Resources</h4>
+                    <span className="subsCountBadge">{monitoredStats.count} Active</span>
+                  </div>
                   <div className="subsGrid">
                     {forms.filter(f => f.subscribed).length === 0 &&
+                      processingTimes.filter(pt => pt.subscribed).length === 0 &&
                       !newsroomData?.subscribed &&
                       !newsReleasesData?.subscribed &&
                       !policyData?.subscribed &&
@@ -463,12 +485,34 @@ const Home = () => {
                       <div className="noSubs">No resources monitored yet. Browse the library below to start tracking.</div>
                     ) : (
                       <>
-                        {forms.filter(f => f.subscribed).map(form => (
-                          <Link key={form.id} to={`/form/${form.id}`} className={`subChip ${form.changeDetected ? 'critical' : ''}`}>
-                            <div className="chipIcon"><FileText size={16} /></div>
+                        {forms.filter(f => f.subscribed).map(form => {
+                          const isInitialDiscovery = form.changeDetected && (
+                            form.payload?.status === "INITIAL_DISCOVERY" ||
+                            form.payload?.categories?.some(c => c.status === "INITIAL_DISCOVERY") ||
+                            form.changeType === "INITIAL_DISCOVERY" ||
+                            form.summary?.includes("Baseline established")
+                          );
+                          return (
+                            <Link key={form.id} to={`/form/${form.id}`} className={`subChip ${form.changeDetected ? (isInitialDiscovery ? 'baseline' : 'critical') : ''}`}>
+                              <div className="chipIcon"><FileText size={16} /></div>
+                              <div className="chipText">
+                                <span className="chipId">{form.id}</span>
+                                <span className="chipName">{form.displayName?.replace('USCIS ', '').replace('Form ', '')}</span>
+                                <span className="chipStatus">
+                                  {form.changeDetected
+                                    ? (isInitialDiscovery ? 'Initial Discovery' : 'Change Detected')
+                                    : 'Up to Date'}
+                                </span>
+                              </div>
+                            </Link>
+                          );
+                        })}
+                        {processingTimes.filter(pt => pt.subscribed).map(pt => (
+                          <Link key={pt.resourceId} to={`/processing-times/${pt.resourceId}`} className={`subChip ${pt.changeDetected ? 'critical' : ''}`}>
+                            <div className="chipIcon"><Activity size={16} /></div>
                             <div className="chipText">
-                              <span className="chipId">{form.id}</span>
-                              <span className="chipStatus">{form.changeDetected ? 'Change Detected' : 'Up to Date'}</span>
+                              <span className="chipId">{pt.resourceId} Wait Times</span>
+                              <span className="chipStatus">{pt.changeDetected ? 'Change Detected' : 'Up to Date'}</span>
                             </div>
                           </Link>
                         ))}
@@ -476,7 +520,7 @@ const Home = () => {
                           <Link to="/newsroom/newsroom-alerts" className="subChip">
                             <div className="chipIcon"><Rss size={16} /></div>
                             <div className="chipText">
-                              <span className="chipId">Announcements</span>
+                              <span className="chipId">USCIS Announcements</span>
                               <span className="chipStatus">Subscribed</span>
                             </div>
                           </Link>
@@ -494,7 +538,7 @@ const Home = () => {
                           <Link to="/newsroom/policy-updates" className="subChip">
                             <div className="chipIcon"><BookOpen size={16} /></div>
                             <div className="chipText">
-                              <span className="chipId">Policy Manual</span>
+                              <span className="chipId">Policy Manual Updates</span>
                               <span className="chipStatus">Subscribed</span>
                             </div>
                           </Link>
@@ -503,7 +547,7 @@ const Home = () => {
                           <Link to="/newsroom/visa-bulletin" className="subChip">
                             <div className="chipIcon"><BarChart3 size={16} /></div>
                             <div className="chipText">
-                              <span className="chipId">Visa Bulletin</span>
+                              <span className="chipId">Visa Bulletin Charts</span>
                               <span className="chipStatus">Subscribed</span>
                             </div>
                           </Link>
@@ -519,7 +563,7 @@ const Home = () => {
         )}
 
         {/* ── Newsroom Snippet Strip: Announcements ── */}
-        {!searchTerm && !newsroomLoading && newsroomAlerts.length > 0 && (
+        {newsroomAlerts.length > 0 && (
           <div className="newsroomStrip">
             <div className="stripInner">
               <div className="stripHeader">
@@ -541,7 +585,7 @@ const Home = () => {
                   )}
                 </div>
                 <Link to="/newsroom/newsroom-alerts" className="stripViewAll">
-                  View All <ExternalLink size={13} />
+                  View All Announcements<ExternalLink size={13} />
                 </Link>
               </div>
               <div className="stripCards">
@@ -564,7 +608,7 @@ const Home = () => {
         )}
 
         {/* ── Newsroom Snippet Strip: News Releases ── */}
-        {!searchTerm && !newsroomLoading && newsReleases.length > 0 && (
+        {newsReleases.length > 0 && (
           <div className="newsroomStrip" style={{ marginTop: '2rem' }}>
             <div className="stripInner">
               <div className="stripHeader">
@@ -586,7 +630,7 @@ const Home = () => {
                   )}
                 </div>
                 <Link to="/newsroom/news-releases" className="stripViewAll">
-                  View All <ExternalLink size={13} />
+                  View All Releases<ExternalLink size={13} />
                 </Link>
               </div>
               <div className="stripCards">
@@ -609,7 +653,7 @@ const Home = () => {
         )}
 
         {/* ── Visa Bulletin Determination Strip ── */}
-        {!searchTerm && !newsroomLoading && visaBulletinData && (
+        {visaBulletinData && (
           <div className="newsroomStrip" style={{ marginTop: '2rem' }}>
             <div className="stripInner">
               <div className="stripHeader">
@@ -632,7 +676,7 @@ const Home = () => {
                   )}
                 </div>
                 <Link to="/newsroom/visa-bulletin" className="stripViewAll">
-                  View All <ExternalLink size={13} />
+                  View All Bulletins <ExternalLink size={13} />
                 </Link>
               </div>
               <div className="stripCards determinationCards">
@@ -651,20 +695,20 @@ const Home = () => {
                 >
                   <div className="cardHeader">
                     <span className="stripLabel">Family-Sponsored</span>
-                    {visaBulletinData.payload?.highlights?.some(h => 
-                      h.category.startsWith('F') || 
+                    {visaBulletinData.payload?.highlights?.some(h =>
+                      h.category.startsWith('F') ||
                       h.category.toLowerCase().includes('family')
                     ) && (
-                      <span className="movementBadge">Movement</span>
-                    )}
+                        <span className="movementBadge">Movement</span>
+                      )}
                   </div>
                   <h3 className="determinationValue">{visaBulletinData.payload?.familyDetermination?.chartType || 'Dates for Filing'}</h3>
 
                   {visaBulletinData.payload?.highlights && visaBulletinData.payload.highlights.filter(h => h.category.startsWith('F') || h.category.toLowerCase().includes('family')).length > 0 ? (
                     <div className="featuredDates">
                       {visaBulletinData.payload.highlights
-                        .filter(h => 
-                          h.category.startsWith('F') || 
+                        .filter(h =>
+                          h.category.startsWith('F') ||
                           h.category.toLowerCase().includes('family')
                         )
                         .slice(0, 3)
@@ -721,24 +765,24 @@ const Home = () => {
                 >
                   <div className="cardHeader">
                     <span className="stripLabel">Employment-Based</span>
-                    {visaBulletinData.payload?.highlights?.some(h => 
-                      h.category.startsWith('EB') || 
-                      /^\d/.test(h.category) || 
+                    {visaBulletinData.payload?.highlights?.some(h =>
+                      h.category.startsWith('EB') ||
+                      /^\d/.test(h.category) ||
                       h.category.toLowerCase().includes('worker') ||
                       h.category.toLowerCase().includes('employment') ||
                       h.category.toLowerCase().includes('aside')
                     ) && (
-                      <span className="movementBadge">Movement</span>
-                    )}
+                        <span className="movementBadge">Movement</span>
+                      )}
                   </div>
                   <h3 className="determinationValue">{visaBulletinData.payload?.employmentDetermination?.chartType || 'Final Action Dates'}</h3>
 
                   {visaBulletinData.payload?.highlights && visaBulletinData.payload.highlights.filter(h => h.category.startsWith('EB') || /^\d/.test(h.category)).length > 0 ? (
                     <div className="featuredDates">
                       {visaBulletinData.payload.highlights
-                        .filter(h => 
-                          h.category.startsWith('EB') || 
-                          /^\d/.test(h.category) || 
+                        .filter(h =>
+                          h.category.startsWith('EB') ||
+                          /^\d/.test(h.category) ||
                           h.category.toLowerCase().includes('worker') ||
                           h.category.toLowerCase().includes('employment') ||
                           h.category.toLowerCase().includes('aside')
@@ -805,8 +849,66 @@ const Home = () => {
           </div>
         )}
 
+        {/* ── Processing Times Intelligence Strip ── */}
+        {processingTimes.length > 0 && (
+          <div className="newsroomStrip" style={{ marginTop: '2rem' }}>
+            <div className="stripInner">
+              <div className="stripHeader">
+                <div className="stripTitle">
+                  <Activity size={22} />
+                  <span>Processing Times Intelligence</span>
+                </div>
+                <Link to="/processing-times" className="stripViewAll">
+                  View All Forms <ExternalLink size={13} />
+                </Link>
+              </div>
+              <div className="stripCards">
+                {processingTimes.map((pt, i) => (
+                  <Link
+                    key={i}
+                    to={`/processing-times/${pt.resourceId}`}
+                    className="stripCard"
+                  >
+                    <div className="ptHeader">
+                      <div className="ptIdGroup">
+                        <span className="ptFormId">{pt.resourceId}</span>
+                        {pt.subscribed && (
+                          <div className="statusBadge subscribed">
+                            <CheckCircle size={14} /> Subscribed
+                          </div>
+                        )}
+                        {pt.changeDetected && (
+                          <div className="statusBadge critical">
+                            <AlertTriangle size={14} /> Update Detected
+                          </div>
+                        )}
+                      </div>
+                      <span className="stripDate">{formatDateTime(pt.lastCheckedAt)}</span>
+                    </div>
+                    <h3 className="stripCardTitle">
+                      {pt.payload?.title || (pt.payload?.categoryLabel ? `${pt.resourceId.split('-')[0]}: ${pt.payload.categoryLabel}` : pt.summary)}
+                    </h3>
+
+                    <div className="stripCardMeta">
+                      <span className="miniBadge">Wait: {pt.payload?.percentile80?.split(' depending')[0] || 'N/A'}</span>
+                      <span className="miniBadge trendIndicator" data-trend={pt.payload?.trend?.toLowerCase()}>
+                        {pt.payload?.trend || 'Stable'}
+                      </span>
+                      {pt.payload?.officeLabel && <span className="miniBadge">{pt.payload.officeLabel}</span>}
+                    </div>
+
+                    <p className="stripCardSummary">{pt.payload?.analysis?.substring(0, 100)}...</p>
+                    <div className="stripReadMore">View Intelligence Digest <ArrowRight size={11} /></div>
+
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* ── Policy Manual Updates Strip ── */}
-        {!searchTerm && !newsroomLoading && policyUpdates.length > 0 && (
+        {policyUpdates.length > 0 && (
           <div className="newsroomStrip" style={{ marginTop: '2rem' }}>
             <div className="stripInner">
               <div className="stripHeader">
@@ -869,7 +971,18 @@ const Home = () => {
       <main className="formsGrid">
         <div className="sectionHeader">
           <h2>USCIS Forms Library</h2>
-          <div className="countBadge">{filteredForms.length} Forms Available</div>
+          <div className="sectionHeaderActions">
+            <div className="searchWrapper">
+              <Search size={18} />
+              <input
+                type="text"
+                placeholder="Search forms..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="countBadge">{filteredForms.length} Forms Available</div>
+          </div>
         </div>
         {loading && (
           <div className="loadingState">
@@ -900,17 +1013,32 @@ const Home = () => {
                   <div className="formHeader">
                     <div className="idWrapper">
                       <Link to={`/form/${form.id}`} className="formId">{form.id}</Link>
+                      {form.subscribed && (
+                        <div className="statusBadge subscribed mini">
+                          <CheckCircle size={10} /> Subscribed
+                        </div>
+                      )}
                       {form.changeDetected && (
-                        <span className="criticalBadge">
-                          <AlertTriangle size={12} />
-                          CRITICAL CHANGE
-                        </span>
+                        (form.payload?.status === "INITIAL_DISCOVERY" ||
+                          form.payload?.categories?.some(c => c.status === "INITIAL_DISCOVERY") ||
+                          form.changeType === "INITIAL_DISCOVERY" ||
+                          form.summary?.includes("Baseline established")) ? (
+                          <span className="baselineBadge">
+                            <Info size={12} />
+                            INITIAL DISCOVERY
+                          </span>
+                        ) : (
+                          <span className="criticalBadge">
+                            <AlertTriangle size={12} />
+                            CRITICAL CHANGE
+                          </span>
+                        )
                       )}
                     </div>
                     <span className="formVersion">v{form.version}</span>
                   </div>
                   <h3 className="formName">
-                    <Link to={`/form/${form.id}`}>{form.name}</Link>
+                    <Link to={`/form/${form.id}`}>{form.displayName}</Link>
                   </h3>
                   <div className="formMeta">
                     <span className="lastChecked">

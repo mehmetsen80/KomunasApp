@@ -89,16 +89,16 @@ const PolicyManualIntel = () => {
           </button>
           <div className="headerContent">
             <div className="titleArea">
-              <div className="badge">
-                <BookOpen size={14} />
-                <span>{data.domain} Intelligence Center</span>
-              </div>
               <h1>USCIS Policy Manual Updates</h1>
               <p className="subtitle">
                 Continuous monitoring of the USCIS Policy Manual for substantive legal shifts, procedural guidance, and official updates.
               </p>
             </div>
             <div className="metaInfo">
+              <div className="badge">
+                <BookOpen size={14} />
+                <span>USCIS Policy Manual Intelligence</span>
+              </div>
               <div className="metaItem">
                 <Clock size={16} />
                 <span>Last Synced: {formatDateTime(data.lastCheckedAt)}</span>
@@ -214,7 +214,7 @@ const PolicyManualIntel = () => {
                               ))}
                             </div>
                             <div className="cardActions" style={{ marginTop: '1.5rem' }}>
-                              <a href={getCanonicalUrl(version)} target="_blank" rel="noopener noreferrer" className="sourceLink" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#64748b', fontWeight: '600', textDecoration: 'none', fontSize: '0.85rem' }}>
+                              <a href={version.resourceUrl || data?.resourceUrl || '#'} target="_blank" rel="noopener noreferrer" className="sourceLink" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#64748b', fontWeight: '600', textDecoration: 'none', fontSize: '0.85rem' }}>
                                 View Original Source <ExternalLink size={12} />
                               </a>
                             </div>
