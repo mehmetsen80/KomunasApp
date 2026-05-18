@@ -98,3 +98,7 @@ registration:
   welcome-from: "noreply@linqra.com"
   welcome-bcc:
     - "msen@linqra.com"
+
+uscis:
+  scraper:
+    headless: true
