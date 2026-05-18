@@ -10,39 +10,13 @@ RUN mvn clean install -DskipTests
 # Stage 2: Create the runtime image
 FROM eclipse-temurin:21-jdk-jammy
 
-# Install base network tools, SSL support, Xvfb, VNC, noVNC, fluxbox, and browser shared libraries for Firefox/Playwright
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    net-tools \
-    iputils-ping \
-    openssl \
-    ca-certificates \
-    xvfb \
-    x11vnc \
-    novnc \
-    websockify \
-    fluxbox \
-    libgtk-3-0 \
-    libasound2 \
-    libegl1 \
-    libx11-xcb1 \
-    libdbus-glib-1-2 \
-    libxt6 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    libgbm1 \
-    libpango-1.0-0 \
-    libcairo2 \
-    && rm -rf /var/lib/apt/lists/*
+# Install necessary packages
+RUN apt-get update && apt-get install -y net-tools iputils-ping openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 # Copy the application JAR from the build image
 COPY --from=build /app/target/KomunasApp.jar KomunasApp.jar
-
-# Copy the display entrypoint script
-COPY .kube/eks/entrypoint.sh entrypoint.sh
-RUN chmod +x entrypoint.sh
 
 # Copy the keystore and truststore files
 COPY keys/komunas-app-keystore-container.jks client-keystore.jks
@@ -74,7 +48,8 @@ RUN keytool -importkeystore -srckeystore /app/client-truststore.jks \
     -deststorepass "${CLIENT_TRUST_STORE_PASSWORD}" \
     -noprompt -srcstoretype JKS -deststoretype JKS || true
 
-# Expose Spring Boot and noVNC visual port
-EXPOSE 8082 8083
+EXPOSE 8082
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["java", \
+    "-Dhttps.protocols=TLSv1.2,TLSv1.3", \
+    "-jar", "KomunasApp.jar"]
