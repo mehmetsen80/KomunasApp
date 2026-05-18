@@ -2,8 +2,6 @@ package org.lite.komunas.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Jsoup;
-import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
@@ -20,6 +18,7 @@ import org.lite.komunas.enums.USCISTrackableForm;
 import org.lite.komunas.repository.ResourceSyncStateRepository;
 import org.lite.komunas.repository.ResourceVersionHistoryRepository;
 import org.lite.komunas.service.USCISProcessingTimesScraperService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
@@ -34,6 +33,9 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
 
     private final ResourceSyncStateRepository syncStateRepository;
     private final ResourceVersionHistoryRepository historyRepository;
+
+    @Value("${uscis.scraper.headless:true}")
+    private boolean headless;
 
     private static final String USCIS_PROCESSING_TIMES_API = "https://egov.uscis.gov/processing-times";
 
@@ -193,7 +195,7 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
             BrowserContext context = playwright.firefox().launchPersistentContext(
                     Paths.get(System.getProperty("user.home"), ".komunas_firefox_profile"),
                     new BrowserType.LaunchPersistentContextOptions()
-                            .setHeadless(false)
+                            .setHeadless(headless)
                             .setUserAgent(
                                     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:125.0) Gecko/20100101 Firefox/125.0"));
             Page page = context.pages().isEmpty() ? context.newPage() : context.pages().get(0);
@@ -382,7 +384,7 @@ public class USCISProcessingTimesScraperServiceImpl implements USCISProcessingTi
             BrowserContext context = playwright.firefox().launchPersistentContext(
                     Paths.get(System.getProperty("user.home"), ".komunas_firefox_profile"),
                     new BrowserType.LaunchPersistentContextOptions()
-                            .setHeadless(false)
+                            .setHeadless(headless)
                             .setUserAgent(
                                     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:125.0) Gecko/20100101 Firefox/125.0"));
             Page page = context.pages().isEmpty() ? context.newPage() : context.pages().get(0);
