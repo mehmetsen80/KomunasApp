@@ -1006,8 +1006,11 @@ const Home = () => {
             )}
             {filteredForms.map(form => (
               <div key={form.id} className="formCard">
-                <div className="formIcon">
-                  <FileText size={24} />
+                <div className="formLeftColumn">
+                  <div className="formIcon">
+                    <FileText size={24} />
+                  </div>
+                  <span className="formVersion">v{form.version}</span>
                 </div>
                 <div className="formDetails">
                   <div className="formHeader">
@@ -1035,7 +1038,6 @@ const Home = () => {
                         )
                       )}
                     </div>
-                    <span className="formVersion">v{form.version}</span>
                   </div>
                   <h3 className="formName">
                     <Link to={`/form/${form.id}`}>{form.displayName}</Link>
