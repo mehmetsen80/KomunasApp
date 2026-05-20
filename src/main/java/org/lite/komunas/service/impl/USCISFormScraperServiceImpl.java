@@ -62,8 +62,14 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
         return syncStateRepository.findByDomainAndCategoryAndResourceId(domain, formsCategory, resourceId)
                 .map(existingState -> {
                     boolean versionChanged = !metadata.getVersion().equals(existingState.getLastKnownVersion());
-                    boolean hashChanged = !currentHash.equals(existingState.getLastKnownHash());
+                    boolean hashChanged = !currentHash.equals("ERROR_DOWNLOADING") &&
+                            !currentHash.equals("NO_URL") &&
+                            !currentHash.equals("EMPTY_CONTENT") &&
+                            !currentHash.equals(existingState.getLastKnownHash());
                     boolean instrHashChanged = metadata.getInstructionsUrl() != null &&
+                            !instructionsHash.equals("ERROR_DOWNLOADING") &&
+                            !instructionsHash.equals("NO_URL") &&
+                            !instructionsHash.equals("EMPTY_CONTENT") &&
                             !instructionsHash.equals(existingState.getLastKnownInstructionsHash());
 
                     // Process Supplemental Resources
@@ -338,6 +344,12 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
     private String getAbsoluteUrl(String href) {
         if (href == null)
             return null;
+        if (href.contains("https://")) {
+            return href.substring(href.indexOf("https://"));
+        }
+        if (href.contains("http://")) {
+            return href.substring(href.indexOf("http://"));
+        }
         return href.startsWith("http") ? href : PDF_URL_PREFIX + href;
     }
 
