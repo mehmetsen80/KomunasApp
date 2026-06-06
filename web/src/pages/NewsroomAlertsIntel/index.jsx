@@ -78,8 +78,8 @@ const NewsroomAlertsIntel = () => {
   const alerts = data.payload?.alerts || [];
 
   return (
-    <div className="intelPage newsroomAlertsIntel newsroomIntelPage">
-      <Header transparent />
+    <div className={`intelPage newsroomAlertsIntel newsroomIntelPage ${isAuthenticated ? 'intelPage--authenticated' : ''}`}>
+      {!isAuthenticated && <Header transparent />}
 
       <div className="pageHeader">
         <div className="container">
@@ -88,23 +88,24 @@ const NewsroomAlertsIntel = () => {
           </button>
           <div className="headerContent">
             <div className="titleArea">
+              <div className="formTypeBadge">
+                <RssIcon size={12} style={{ marginRight: '4px' }} />
+                USCIS Newsroom Alerts Intelligence
+              </div>
               <h1>USCIS Newsroom Alerts</h1>
-              <p className="subtitle">
+              <p className="formSummary">
                 Monitoring official USCIS Newsroom Alerts for breaking announcements, immediate procedural changes, and critical updates.
               </p>
-            </div>
-            <div className="metaInfo">
-              <div className="badge">
-                <RssIcon size={14} />
-                <span>USCIS Newsroom Alerts Intelligence</span>
-              </div>
-              <div className="metaItem">
-                <ClockIcon size={16} />
-                <span>Last Synced: {formatDateTime(data.lastCheckedAt)}</span>
-              </div>
-              <div className="metaItem">
-                <ShieldCheckIcon size={16} />
-                <span>Verified Alerts: <strong>{alerts.length}</strong></span>
+              
+              <div className="metaInfoRow">
+                <div className="metaItem">
+                  <ClockIcon size={14} />
+                  <span>Last Synced: <strong>{formatDateTime(data.lastCheckedAt)}</strong></span>
+                </div>
+                <div className="metaItem">
+                  <ShieldCheckIcon size={14} />
+                  <span>Verified Alerts: <strong>{alerts.length}</strong></span>
+                </div>
               </div>
             </div>
           </div>
@@ -222,7 +223,7 @@ const NewsroomAlertsIntel = () => {
         </div>
       </main>
 
-      <Footer />
+      {!isAuthenticated && <Footer />}
 
       <SubscribeNewsroomModal
         isOpen={modalConfig.isOpen}
@@ -235,7 +236,6 @@ const NewsroomAlertsIntel = () => {
         onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
         onSuccess={handleSubscriptionSuccess}
       />
-      <Footer />
     </div>
   );
 };

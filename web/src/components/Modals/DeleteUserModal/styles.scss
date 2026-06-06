@@ -1,0 +1,116 @@
+@use "sass:color";
+@use "../../../assets/styles/variables" as *;
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent.deleteUserModal {
+  background: white;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 24px;
+  padding: 2.5rem;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  .closeBtn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+  }
+
+  .modalHeader {
+    text-align: center;
+    margin-bottom: 1.5rem;
+
+    .iconWrapper.danger {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      background: rgba(#e53e3e, 0.08);
+      color: #e53e3e;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: $color-text-main;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: $color-text-secondary;
+      line-height: 1.4;
+    }
+  }
+
+  .warningBox {
+    background: #fff5f5;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid #ffe3e3;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    
+    svg {
+      color: #e53e3e;
+      flex-shrink: 0;
+    }
+
+    p {
+      font-size: 0.825rem;
+      color: #c53030;
+      line-height: 1.4;
+      margin: 0;
+    }
+  }
+
+  .modalFooter {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    .premiumBtn {
+      flex: 1;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}

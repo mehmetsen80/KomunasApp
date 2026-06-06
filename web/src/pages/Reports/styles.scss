@@ -1,0 +1,341 @@
+@use "../../assets/styles/variables" as *;
+
+.reportsPage {
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .reportsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+
+  .reportsHeading {
+    .reportsTitle {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: $color-text-main;
+      margin: 0 0 4px 0;
+    }
+    .reportsSubtitle {
+      font-size: 0.875rem;
+      color: $color-text-secondary;
+      margin: 0;
+    }
+  }
+
+  .reportsActions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .btnReportExport {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: $color-bg;
+    border: 1px solid $color-border-strong;
+    border-radius: $radius-md;
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: $color-text-main;
+    cursor: pointer;
+    transition: $transition-smooth;
+
+    &:hover {
+      background: $color-sidebar-active;
+      border-color: $color-text-muted;
+    }
+  }
+
+  // Stats Grid
+  .reportsStats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+
+    .statCard {
+      background: $color-white;
+      border: 1px solid $color-border;
+      border-radius: $radius-lg;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: $shadow-card;
+
+      .statIcon {
+        width: 44px;
+        height: 44px;
+        background: rgba(200, 241, 53, 0.12);
+        border-radius: $radius-md;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #5a7a00;
+        flex-shrink: 0;
+      }
+
+      .statContent {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+
+        .statLabel {
+          font-size: 0.72rem;
+          font-weight: 600;
+          color: $color-text-muted;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 2px;
+        }
+
+        .statValue {
+          font-size: 1.4rem;
+          font-weight: 800;
+          color: $color-text-main;
+        }
+      }
+    }
+  }
+
+  // Filter Bar
+  .reportsFilterBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    padding: 1rem 1.25rem;
+    box-shadow: $shadow-sm;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    .searchWrapper {
+      position: relative;
+      flex: 1;
+      max-width: 450px;
+
+      @media (max-width: 900px) {
+        max-width: none;
+      }
+
+      .searchIcon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $color-text-muted;
+      }
+
+      .searchInput {
+        width: 100%;
+        padding: 10px 14px 10px 40px;
+        background: $color-bg;
+        border: 1px solid $color-border;
+        border-radius: $radius-md;
+        font-size: 0.875rem;
+        color: $color-text-main;
+        transition: $transition-smooth;
+
+        &:focus {
+          outline: none;
+          border-color: $color-text-muted;
+          background: $color-white;
+        }
+      }
+    }
+
+    .filterControls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      .filterGroup {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        label {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: $color-text-muted;
+          text-transform: uppercase;
+        }
+
+        .filterSelect {
+          padding: 8px 12px;
+          background: $color-bg;
+          border: 1px solid $color-border;
+          border-radius: $radius-md;
+          font-size: 0.825rem;
+          color: $color-text-main;
+          cursor: pointer;
+          min-width: 130px;
+          transition: $transition-smooth;
+
+          &:focus {
+            outline: none;
+            border-color: $color-text-muted;
+          }
+        }
+      }
+    }
+  }
+
+  // Reports Table
+  .reportsTableWrapper {
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-card;
+    overflow: hidden;
+  }
+
+  .reportsTable {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+
+    th, td {
+      padding: 14px 18px;
+      font-size: 0.85rem;
+    }
+
+    th {
+      background: $color-bg-secondary;
+      font-weight: 600;
+      color: $color-text-secondary;
+      border-bottom: 1px solid $color-border;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+    }
+
+    tr {
+      border-bottom: 1px solid rgba($color-border, 0.5);
+      transition: background 0.15s ease;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background: rgba($color-sidebar-active, 0.3);
+      }
+    }
+
+    .reportNameCell {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .reportName {
+        font-weight: 600;
+        color: $color-text-main;
+      }
+
+      .reportDesc {
+        font-size: 0.75rem;
+        color: $color-text-muted;
+      }
+    }
+
+    .categoryBadge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: $radius-full;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+
+      &--form {
+        background: rgba(59, 130, 246, 0.1);
+        color: #2563eb;
+      }
+
+      &--news {
+        background: rgba(168, 85, 247, 0.1);
+        color: #7c3aed;
+      }
+
+      &--proc {
+        background: rgba(234, 179, 8, 0.1);
+        color: #ca8a04;
+      }
+    }
+
+    .statusLabel {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+
+      .statusDot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+
+      &--synced {
+        color: #16a34a;
+        .statusDot { background: #16a34a; }
+      }
+
+      &--pending {
+        color: #ea580c;
+        .statusDot { background: #ea580c; }
+      }
+
+      &--disabled {
+        color: $color-text-muted;
+        .statusDot { background: $color-text-muted; }
+      }
+    }
+  }
+
+  .reportsEmptyCard {
+    background: $color-white;
+    border: 1px dashed $color-border-strong;
+    border-radius: $radius-lg;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: $color-text-main;
+      margin: 0 0 8px 0;
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: $color-text-secondary;
+      margin: 0;
+      max-width: 320px;
+    }
+  }
+}

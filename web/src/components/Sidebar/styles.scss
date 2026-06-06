@@ -1,4 +1,4 @@
-@use "../../assets/styles/variables" as *;
+@use '@/assets/styles/variables' as *;
 
 .sidebar {
   position: fixed;
@@ -6,116 +6,365 @@
   top: 0;
   bottom: 0;
   width: $sidebar-width;
-  background-color: $color-secondary;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  background: $color-sidebar-bg;
+  border-right: 1px solid $color-border;
   display: flex;
   flex-direction: column;
-  z-index: 100;
+  z-index: 50;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 
-  .logo {
-    height: $header-height;
-    display: flex;
-    align-items: center;
-    padding: 0 1.5rem;
-    gap: 0.75rem;
+// ─── Brand ────────────────────────────────────────────────────────────────────
+.sidebarBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px;
+  border-bottom: 1px solid $color-border;
+  flex-shrink: 0;
 
-    .logoContainer {
-      position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-
-      .logoImg {
-        height: 60px;
-        display: block;
-      }
-
-      .shineEffect {
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 50%;
-        height: 100%;
-        background: linear-gradient(
-          to right,
-          rgba(255, 255, 255, 0) 0%,
-          rgba(255, 255, 255, 0.4) 50%,
-          rgba(255, 255, 255, 0) 100%
-        );
-        transform: skewX(-25deg);
-        animation: shine 4s infinite ease-in-out;
-      }
-    }
-
-    .logoText {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: 1.25rem;
-      letter-spacing: 1px;
-      color: $color-white;
-    }
-  }
-
-  .nav {
-    flex: 1;
-    padding: 1.5rem 0.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .navItem {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    color: rgba(255, 255, 255, 0.6);
-    transition: $transition-smooth;
-    gap: 1rem;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: $color-white;
-    }
-
-    &.active {
-      background: rgba(255, 255, 255, 0.1);
-      color: $color-white;
-      .icon {
-        color: $color-white;
-      }
-    }
-  }
-
-  .icon {
+  .sidebarMark {
+    width: 34px;
+    height: 34px;
+    background: $color-accent;
+    border-radius: $radius-sm;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: inherit;
+    font-size: 1rem;
+    font-weight: 800;
+    color: $color-dark;
+    flex-shrink: 0;
   }
 
-  .label {
-    font-size: 0.95rem;
-    font-weight: 500;
-  }
+  .sidebarBrandText {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
 
-  .footer {
-    padding: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    
-    .version {
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.2);
-      text-align: center;
+    .sidebarName {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: $color-text-main;
+    }
+
+    .sidebarTagline {
+      font-size: 0.67rem;
+      color: $color-text-muted;
+      font-weight: 400;
     }
   }
 }
 
-@keyframes shine {
-  0% { left: -100%; }
-  20% { left: 100%; }
-  100% { left: 100%; }
+// ─── Navigation ───────────────────────────────────────────────────────────────
+.sidebarNav {
+  flex: 1;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebarItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: $radius-md;
+  text-decoration: none;
+  color: $color-text-secondary;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: $transition-smooth;
+  position: relative;
+  white-space: nowrap;
+
+  &:hover {
+    background: $color-sidebar-active;
+    color: $color-text-main;
+  }
+
+  &--active {
+    background: rgba(200, 241, 53, 0.15);
+    color: $color-text-main;
+    font-weight: 600;
+
+    .sidebarItemIcon {
+      color: #5a7a00;
+    }
+  }
+
+  .sidebarItemIcon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebarItemLabel {
+    flex: 1;
+  }
+}
+
+// ─── Group Accordion ─────────────────────────────────────────────────────────
+.sidebarGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 2px 0;
+
+  .sidebarGroupHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: $radius-md;
+    color: $color-text-secondary;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: $transition-smooth;
+    user-select: none;
+    white-space: nowrap;
+
+    &:hover {
+      background: $color-sidebar-active;
+      color: $color-text-main;
+    }
+
+    &--active {
+      color: $color-text-main;
+      font-weight: 600;
+
+      .sidebarItemIcon {
+        color: #5a7a00;
+      }
+    }
+
+    .sidebarItemIcon {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebarItemLabel {
+      flex: 1;
+    }
+
+    .groupArrow {
+      color: $color-text-muted;
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+    }
+  }
+
+  .sidebarGroupChildren {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-left: 14px;
+    border-left: 1px solid rgba($color-border-strong, 0.5);
+    margin-left: 20px;
+    margin-top: 2px;
+    margin-bottom: 4px;
+
+    .sidebarChildItem {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: $radius-md;
+      text-decoration: none;
+      color: $color-text-secondary;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: $transition-smooth;
+      white-space: nowrap;
+
+      &:hover {
+        background: $color-sidebar-active;
+        color: $color-text-main;
+      }
+
+      &--active {
+        background: rgba(200, 241, 53, 0.12);
+        color: $color-text-main;
+        font-weight: 600;
+
+        .sidebarChildIcon {
+          color: #5a7a00;
+        }
+      }
+
+      .sidebarChildIcon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        opacity: 0.8;
+      }
+
+      .sidebarChildLabel {
+        flex: 1;
+      }
+    }
+  }
+}
+
+
+.sidebarBadge {
+  background: $color-danger;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: $radius-full;
+  min-width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+// ─── Footer / Coverage Card ───────────────────────────────────────────────────
+.sidebarFooter {
+  padding: 12px 10px 16px;
+  border-top: 1px solid $color-border;
+  flex-shrink: 0;
+}
+
+.coverageCard {
+  background: $color-bg-secondary;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.coverageHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .coverageIcon { color: $color-text-muted; }
+
+  .coverageTitle {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: $color-text-secondary;
+  }
+}
+
+// Status badge — replaces big % number
+.coverageStatus {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: $radius-full;
+  display: inline-block;
+  width: fit-content;
+
+  &--good {
+    background: rgba(22, 163, 74, 0.12);
+    color: #15803d;
+  }
+  &--warn {
+    background: rgba(217, 119, 6, 0.12);
+    color: #b45309;
+  }
+  &--bad {
+    background: rgba(185, 28, 28, 0.1);
+    color: #b91c1c;
+  }
+}
+
+// Per-category breakdown list
+.coverageBreakdown {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  li {
+    // Row: label (with DataToolTip) on the left, value on the right
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+
+    // DataToolTip wraps only the label — keep it inline
+    > span.data-tooltip-trigger {
+      display: inline;
+      width: auto;
+    }
+  }
+
+  .cbLabel {
+    font-size: 0.65rem;
+    color: $color-text-muted;
+    white-space: nowrap;
+  }
+
+  .cbValue {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: $color-text-main;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &--warn {
+      color: #b45309;
+    }
+  }
+}
+
+
+.coverageSources {
+  font-size: 0.62rem;
+  color: $color-text-muted;
+  text-align: right;
+}
+
+
+
+.coverageBar {
+  height: 6px;
+  background: $color-border;
+  border-radius: $radius-full;
+  overflow: hidden;
+
+  .coverageBarFill {
+    height: 100%;
+    background: $color-accent;
+    border-radius: $radius-full;
+    transition: width 0.6s ease;
+  }
+}
+
+
+
+.coverageBtn {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  margin-top: 2px;
+  width: 100%;
+  padding: 7px;
+  background: $color-bg;
+  border: 1px solid $color-border-strong;
+  border-radius: $radius-md;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $color-text-main;
+  cursor: pointer;
+  transition: $transition-smooth;
+  font-family: $font-sans;
+
+  &:hover {
+    background: $color-sidebar-active;
+    border-color: $color-text-muted;
+  }
 }

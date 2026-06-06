@@ -1,0 +1,245 @@
+@use '@/assets/styles/variables' as *;
+
+.topBar {
+  height: $topbar-height;
+  background: $color-bg;
+  border-bottom: 1px solid $color-border;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  flex-shrink: 0;
+  padding: 0 4rem;
+  display: flex;
+  align-items: center;
+}
+
+.topBarInner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+  gap: 1.5rem;
+}
+
+// ─── Search ────────────────────────────────────────────────────────────────────
+.topBarSearch {
+  flex: 1;
+  max-width: 560px;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .searchIcon {
+    position: absolute;
+    left: 12px;
+    color: $color-text-muted;
+    pointer-events: none;
+  }
+
+  .searchInput {
+    width: 100%;
+    height: 38px;
+    padding: 0 80px 0 38px;
+    background: $color-bg-secondary;
+    border: 1px solid $color-border;
+    border-radius: $radius-full;
+    font-size: 0.83rem;
+    color: $color-text-main;
+    font-family: $font-sans;
+    outline: none;
+    transition: $transition-smooth;
+
+    &::placeholder { color: $color-text-muted; }
+
+    &:focus {
+      border-color: $color-accent-dark;
+      background: $color-bg;
+      box-shadow: 0 0 0 3px rgba(200, 241, 53, 0.15);
+    }
+  }
+
+  .searchKbd {
+    position: absolute;
+    right: 12px;
+    padding: 2px 8px;
+    background: $color-bg;
+    border: 1px solid $color-border-strong;
+    border-radius: $radius-sm;
+    font-size: 0.7rem;
+    color: $color-text-muted;
+    font-family: $font-sans;
+    pointer-events: none;
+  }
+
+  .searchDropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: rgba($color-white, 0.96);
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    max-height: 400px;
+    overflow-y: auto;
+    backdrop-filter: blur(10px);
+    padding: 8px 0;
+
+    .searchSection {
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .sectionTitle {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $color-text-muted;
+        padding: 6px 14px;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid rgba($color-border, 0.5);
+        margin-bottom: 4px;
+      }
+    }
+
+    .searchItem {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease;
+
+      &:hover {
+        background: rgba($color-sidebar-active, 0.6);
+      }
+
+      .itemIcon {
+        color: $color-text-muted;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+      }
+
+      .itemContent {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+
+        .itemTitle {
+          font-size: 0.825rem;
+          font-weight: 600;
+          color: $color-text-main;
+        }
+
+        .itemDetail {
+          font-size: 0.72rem;
+          color: $color-text-muted;
+        }
+      }
+    }
+
+    .noResults {
+      padding: 16px;
+      text-align: center;
+      font-size: 0.825rem;
+      color: $color-text-secondary;
+    }
+  }
+}
+
+// ─── Right Actions ─────────────────────────────────────────────────────────────
+.topBarActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.topBarBell {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-md;
+  color: $color-text-secondary;
+  text-decoration: none;
+  transition: $transition-smooth;
+  background: $color-bg-secondary;
+  border: 1px solid $color-border;
+
+  &:hover {
+    background: $color-sidebar-active;
+    color: $color-text-main;
+  }
+}
+
+.topBarBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  background: $color-danger;
+  color: #fff;
+  border-radius: $radius-full;
+  font-size: 0.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid $color-bg;
+}
+
+// ─── User Avatar ──────────────────────────────────────────────────────────────
+.topBarUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px 4px 4px;
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: $transition-smooth;
+
+  &:hover { background: $color-bg-secondary; }
+}
+
+.userAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: $color-accent;
+  color: $color-dark;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+
+  .userName {
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: $color-text-main;
+  }
+
+  .userRole {
+    font-size: 0.68rem;
+    color: $color-text-muted;
+    font-weight: 400;
+  }
+}

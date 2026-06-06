@@ -79,8 +79,8 @@ const PolicyManualIntel = () => {
   const updates = data.payload?.updates || [];
 
   return (
-    <div className="intelPage policyManualIntel newsroomIntelPage">
-      <Header transparent />
+    <div className={`intelPage policyManualIntel newsroomIntelPage ${isAuthenticated ? 'intelPage--authenticated' : ''}`}>
+      {!isAuthenticated && <Header transparent />}
 
       <div className="pageHeader">
         <div className="container">
@@ -89,23 +89,24 @@ const PolicyManualIntel = () => {
           </button>
           <div className="headerContent">
             <div className="titleArea">
+              <div className="formTypeBadge">
+                <BookOpen size={12} style={{ marginRight: '4px' }} />
+                USCIS Policy Manual Intelligence
+              </div>
               <h1>USCIS Policy Manual Updates</h1>
-              <p className="subtitle">
+              <p className="formSummary">
                 Continuous monitoring of the USCIS Policy Manual for substantive legal shifts, procedural guidance, and official updates.
               </p>
-            </div>
-            <div className="metaInfo">
-              <div className="badge">
-                <BookOpen size={14} />
-                <span>USCIS Policy Manual Intelligence</span>
-              </div>
-              <div className="metaItem">
-                <Clock size={16} />
-                <span>Last Synced: {formatDateTime(data.lastCheckedAt)}</span>
-              </div>
-              <div className="metaItem">
-                <ShieldCheck size={16} />
-                <span>Verified Updates: <strong>{updates.length}</strong></span>
+              
+              <div className="metaInfoRow">
+                <div className="metaItem">
+                  <Clock size={14} />
+                  <span>Last Synced: <strong>{formatDateTime(data.lastCheckedAt)}</strong></span>
+                </div>
+                <div className="metaItem">
+                  <ShieldCheck size={14} />
+                  <span>Verified Updates: <strong>{updates.length}</strong></span>
+                </div>
               </div>
             </div>
           </div>
@@ -232,7 +233,7 @@ const PolicyManualIntel = () => {
         </div>
       </main>
 
-      <Footer />
+      {!isAuthenticated && <Footer />}
 
       <SubscribePolicyModal
         isOpen={modalConfig.isOpen}
@@ -245,7 +246,6 @@ const PolicyManualIntel = () => {
         onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
         onSuccess={handleSubscriptionSuccess}
       />
-      <Footer />
     </div>
   );
 };

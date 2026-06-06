@@ -1,146 +1,172 @@
+@use "../../assets/styles/variables" as *;
+
 .profilePage {
-  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
-  background-color: #0c0c0e;
-  position: relative;
-  overflow: hidden;
+  flex-direction: column;
+  gap: 2rem;
+  animation: profileAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
-  .profileContainer {
-    width: 100%;
-    max-width: 500px;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    animation: profileAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-
-    .backBtn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255, 255, 255, 0.6);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      width: fit-content;
-
-      &:hover {
-        color: #d6f281;
-        transform: translateX(-4px);
-      }
+  .profileHeading {
+    .profileTitle {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: $color-text-main;
+      margin: 0 0 4px 0;
     }
+    .profileSubtitle {
+      font-size: 0.875rem;
+      color: $color-text-secondary;
+      margin: 0;
+    }
+  }
 
+  .profileLayout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 2rem;
+    align-items: start;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .profileSidebar {
     .profileCard {
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 32px;
+      background: $color-white;
+      border: 1px solid $color-border;
+      border-radius: $radius-lg;
       overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      box-shadow: $shadow-card;
 
       .profileHeader {
-        padding: 40px;
-        background: linear-gradient(135deg, rgba(214, 242, 129, 0.1) 0%, rgba(214, 242, 129, 0) 100%);
+        padding: 2.5rem;
+        background: $color-white;
         display: flex;
         align-items: center;
-        gap: 24px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        gap: 1.5rem;
+        border-bottom: 1px solid $color-border;
 
         .avatarLarge {
-          width: 80px;
-          height: 80px;
-          border-radius: 24px;
-          background: #d6f281;
-          color: #222028;
+          width: 72px;
+          height: 72px;
+          border-radius: $radius-md;
+          background: rgba($color-dark, 0.05);
+          color: $color-dark;
+          border: 1px solid $color-border;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 32px;
+          font-size: 1.75rem;
           font-weight: 800;
-          box-shadow: 0 10px 20px rgba(214, 242, 129, 0.2);
         }
 
         .headerInfo {
-          h1 {
-            color: white;
-            font-size: 24px;
+          h2 {
+            font-size: 1.35rem;
             font-weight: 800;
+            color: $color-text-main;
             margin: 0;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
           }
 
           .usernameTag {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 14px;
-            margin: 4px 0 0 0;
+            color: $color-text-secondary;
+            font-size: 0.85rem;
+            margin: 2px 0 0 0;
             font-weight: 500;
           }
         }
       }
 
       .profileContent {
-        padding: 40px;
+        padding: 2.5rem;
 
         .infoSection {
           display: flex;
           flex-direction: column;
-          gap: 32px;
+          gap: 1.75rem;
 
           .infoItem {
             display: flex;
-            gap: 20px;
+            gap: 1.25rem;
             align-items: flex-start;
 
             .iconBox {
-              width: 44px;
-              height: 44px;
-              border-radius: 12px;
-              background: rgba(255, 255, 255, 0.05);
+              width: 40px;
+              height: 40px;
+              border-radius: $radius-md;
+              background: $color-bg-secondary;
+              border: 1px solid $color-border;
               display: flex;
               align-items: center;
               justify-content: center;
-              color: #d6f281;
+              color: $color-text-secondary;
               flex-shrink: 0;
             }
 
             .details {
               display: flex;
               flex-direction: column;
-              gap: 4px;
+              gap: 0.25rem;
 
               label {
-                color: rgba(255, 255, 255, 0.3);
-                font-size: 11px;
+                color: $color-text-secondary;
+                font-size: 0.72rem;
                 font-weight: 800;
                 text-transform: uppercase;
-                letter-spacing: 0.1em;
+                letter-spacing: 0.05em;
               }
 
               span {
-                color: rgba(255, 255, 255, 0.9);
-                font-size: 16px;
-                font-weight: 500;
+                color: $color-text-main;
+                font-size: 0.95rem;
+                font-weight: 600;
+                word-break: break-all;
               }
 
               .roleTags {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 8px;
-                margin-top: 4px;
+                gap: 0.35rem;
+                margin-top: 0.25rem;
 
                 .roleTag {
-                  padding: 4px 12px;
-                  background: rgba(214, 242, 129, 0.1);
-                  color: #d6f281;
-                  font-size: 12px;
-                  font-weight: 700;
-                  border-radius: 8px;
-                  border: 1px solid rgba(214, 242, 129, 0.2);
+                  padding: 3px 8px;
+                  border-radius: 20px;
+                  font-size: 0.65rem;
+                  font-weight: 800;
+                  text-transform: uppercase;
+                  letter-spacing: 0.05em;
+                  background: #f1f5f9;
+                  color: #475569;
+                  border: 1px solid #e2e8f0;
+
+                  &.role-super_admin {
+                    background: #f5f3ff;
+                    color: #7c3aed;
+                    border-color: #ddd6fe;
+                  }
+
+                  &.role-admin {
+                    background: #eff6ff;
+                    color: #2563eb;
+                    border-color: #bfdbfe;
+                  }
+
+                  &.role-gateway_admin {
+                    background: #fff7ed;
+                    color: #ea580c;
+                    border-color: #ffedd5;
+                  }
+
+                  &.role-gateway_admin_realm {
+                    background: #faf5ff;
+                    color: #9333ea;
+                    border-color: #f3e8ff;
+                  }
                 }
               }
             }
@@ -148,43 +174,299 @@
         }
 
         .actionSection {
-          margin-top: 48px;
-          padding-top: 32px;
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          margin-top: 2.5rem;
+          padding-top: 1.75rem;
+          border-top: 1px solid $color-border;
 
           .logoutAction {
             width: 100%;
-            padding: 16px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 0, 0, 0.2);
-            background: rgba(255, 0, 0, 0.05);
-            color: #ff4d4d;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-
-            &:hover {
-              background: #ff4d4d;
-              color: white;
-              transform: translateY(-2px);
-              box-shadow: 0 10px 20px rgba(255, 77, 77, 0.2);
-            }
           }
         }
       }
     }
+  }
 
-    .footer {
-      text-align: center;
-      p {
-        color: rgba(255, 255, 255, 0.2);
-        font-size: 12px;
+  .profileDashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .dashboardCard {
+      background: $color-white;
+      border: 1px solid $color-border;
+      border-radius: $radius-lg;
+      box-shadow: $shadow-card;
+      overflow: hidden;
+
+      .cardHeader {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid $color-border;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        .cardIcon {
+          color: $color-text-secondary;
+        }
+
+        h3 {
+          font-size: 1.1rem;
+          font-weight: 800;
+          color: $color-text-main;
+          margin: 0;
+          letter-spacing: -0.01em;
+        }
+      }
+
+      .cardBody {
+        padding: 1.5rem;
+      }
+    }
+
+    .teamsList {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .profileTeamItem {
+      background: $color-bg-secondary;
+      border: 1px solid $color-border;
+      border-radius: $radius-md;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+
+      .teamHeaderRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .teamName {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: $color-text-main;
+        margin: 0;
+      }
+
+      .statusBadge {
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+
+        &.active {
+          background: $color-success-bg;
+          color: $color-success;
+          border: 1px solid rgba($color-success, 0.2);
+        }
+
+        &.inactive {
+          background: $color-danger-bg;
+          color: $color-danger;
+          border: 1px solid rgba($color-danger, 0.2);
+        }
+      }
+
+      .teamDescription {
+        font-size: 0.875rem;
+        color: $color-text-secondary;
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .orgName {
+        font-size: 0.8rem;
+        color: $color-text-muted;
+        margin: 0;
         font-weight: 500;
       }
+
+      .profileTeamMembers {
+        h5 {
+          font-size: 0.72rem;
+          text-transform: uppercase;
+          color: $color-text-secondary;
+          font-weight: 800;
+          margin: 0 0 0.5rem 0;
+          letter-spacing: 0.05em;
+        }
+
+        .memberTags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .memberTag {
+          background: $color-white;
+          border: 1px solid $color-border;
+          padding: 4px 10px;
+          border-radius: 8px;
+          font-size: 0.78rem;
+          display: flex;
+          align-items: center;
+          gap: 0.35rem;
+
+          .memberName {
+            font-weight: 600;
+            color: $color-text-main;
+          }
+
+          .memberEmail {
+            color: $color-text-muted;
+            font-size: 0.72rem;
+          }
+        }
+
+        .noMembers {
+          font-size: 0.8rem;
+          color: $color-text-muted;
+          font-style: italic;
+        }
+      }
+    }
+
+    .followedSourcesList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+
+      @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .profileSourceItem {
+      background: $color-white;
+      border: 1px solid $color-border;
+      border-radius: $radius-md;
+      padding: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      transition: $transition-smooth;
+      text-decoration: none;
+
+      &:hover {
+        border-color: rgba($color-secondary, 0.2);
+        box-shadow: $shadow-sm;
+        transform: translateY(-2px);
+
+        .sourceLinkArrow {
+          color: $color-secondary;
+        }
+      }
+
+      .sourceMeta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        min-width: 0;
+      }
+
+      .sourceCategoryBadge {
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: $color-text-muted;
+        letter-spacing: 0.05em;
+      }
+
+      .sourceTitle {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: $color-text-main;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sourceSubtitle {
+        font-size: 0.8rem;
+        color: $color-text-secondary;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sourceLinkArrow {
+        color: $color-text-muted;
+        transition: $transition-smooth;
+        flex-shrink: 0;
+      }
+    }
+
+    .skeletonList {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .skeletonItem {
+        height: 80px;
+        background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+        background-size: 200% 100%;
+        animation: loadingSkeleton 1.5s infinite;
+        border-radius: $radius-md;
+      }
+    }
+
+    .emptyStateText {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: $color-text-secondary;
+
+      p {
+        margin: 0 0 0.5rem 0;
+        font-size: 0.95rem;
+      }
+
+      .subtext {
+        font-size: 0.82rem;
+        color: $color-text-muted;
+        margin: 0;
+      }
+
+      .profileNavigateLink {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: $color-dark;
+        text-decoration: none;
+        margin-top: 0.5rem;
+        transition: $transition-smooth;
+
+        &:hover {
+          color: $color-accent-dark;
+        }
+      }
+    }
+
+    .errorText {
+      color: $color-danger;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 2rem;
+    
+    p {
+      color: $color-text-muted;
+      font-size: 0.75rem;
+      margin: 0;
     }
   }
 }
@@ -192,7 +474,7 @@
 @keyframes profileAppear {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -200,20 +482,29 @@
   }
 }
 
+@keyframes loadingSkeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 @media (max-width: 480px) {
   .profilePage {
-    padding: 20px;
-    
-    .profileCard {
-      .profileHeader {
-        padding: 30px 20px;
-        flex-direction: column;
-        text-align: center;
-        gap: 16px;
-      }
-      
-      .profileContent {
-        padding: 30px 20px;
+    .profileSidebar {
+      .profileCard {
+        .profileHeader {
+          padding: 1.75rem 1.25rem;
+          flex-direction: column;
+          text-align: center;
+          gap: 1rem;
+        }
+        
+        .profileContent {
+          padding: 1.75rem 1.25rem;
+        }
       }
     }
   }

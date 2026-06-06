@@ -1,0 +1,57 @@
+@use '@/assets/styles/variables' as *;
+
+.appShell {
+  display: flex;
+  min-height: 100vh;
+  background: $color-bg-secondary;
+  font-family: $font-sans;
+}
+
+.appContent {
+  flex: 1;
+  margin-left: $sidebar-width;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.appMain {
+  flex: 1;
+  padding: 2rem 4rem;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+// ─── Overrides for public intelligence pages rendered inside app shell ───
+.intelPage--authenticated,
+.visaBulletinPage--authenticated {
+  min-height: auto !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  padding: 0 !important;
+
+  .container {
+    max-width: 1400px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .pageHeader {
+    padding: 0 0 2rem 0 !important;
+    background: transparent !important;
+
+    &::before {
+      display: none !important;
+    }
+
+    .backBtn {
+      display: none !important;
+    }
+  }
+
+  .contentSection {
+    padding: 2rem 0 0 0 !important;
+  }
+}

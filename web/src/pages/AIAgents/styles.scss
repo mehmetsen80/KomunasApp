@@ -1,0 +1,462 @@
+
+
+.aiAgentsPage {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 4rem;
+  
+  .pageHeader {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-bottom: 1px solid $color-border;
+    
+    .titleArea {
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba($color-text-secondary, 0.08);
+        color: $color-text-secondary;
+        border: 1px solid rgba($color-text-secondary, 0.15);
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      h1 {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: $color-text-main;
+        margin: 0 0 0.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        color: $color-text-secondary;
+        margin: 0;
+        font-size: 1.15rem;
+        line-height: 1.6;
+        max-width: 800px;
+      }
+    }
+  }
+
+  .agentsContainer {
+    padding: 0;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+
+    .agentsLoading, .agentsError {
+      padding: 3rem;
+      text-align: center;
+      background: white;
+      border: 1px solid $color-border;
+      border-radius: 12px;
+      color: $color-text-secondary;
+      font-size: 1.1rem;
+    }
+
+    .agentsError {
+      color: $color-danger;
+      border-color: rgba($color-danger, 0.2);
+      background: rgba($color-danger, 0.02);
+    }
+
+    .agentsList {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+
+      .agentRow {
+        background: white;
+        border: 1px solid $color-border;
+        border-radius: 16px;
+        box-shadow: $shadow-sm;
+        overflow: hidden;
+        transition: $transition-smooth;
+
+        &:hover {
+          box-shadow: $shadow-md;
+          border-color: rgba($color-info, 0.25);
+        }
+
+        // Parent Agent Row Header
+        .agentHeader {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          padding: 2rem;
+          gap: 2rem;
+
+          @media (max-width: 1024px) {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .agentHeaderLeft {
+            display: flex;
+            gap: 1.5rem;
+            flex: 1;
+
+            .iconWrapper {
+              width: 56px;
+              height: 56px;
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: white;
+              border: 1px solid $color-border;
+              box-shadow: $shadow-sm;
+              flex-shrink: 0;
+              
+              .agentIcon {
+                &.formIcon { color: $color-info; }
+                &.newsIcon { color: $color-warning; }
+                &.clockIcon { color: $color-success; }
+              }
+            }
+
+            .agentTitleDesc {
+              display: flex;
+              flex-direction: column;
+              gap: 0.5rem;
+
+              h2 {
+                margin: 0;
+                font-size: 1.5rem;
+                font-weight: 800;
+                color: $color-text-main;
+                letter-spacing: -0.01em;
+              }
+
+              .description {
+                color: $color-text-secondary;
+                font-size: 0.975rem;
+                line-height: 1.6;
+                margin: 0;
+
+                p {
+                  margin: 0 0 0.5rem;
+                  &:last-child {
+                    margin-bottom: 0;
+                  }
+                }
+              }
+            }
+          }
+
+          .agentHeaderRight {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-shrink: 0;
+
+            @media (max-width: 1024px) {
+              justify-content: space-between;
+              border-top: 1px solid $color-border;
+              padding-top: 1.5rem;
+              margin-top: 0.5rem;
+            }
+
+            .agentMetaGrid {
+              display: flex;
+              gap: 2rem;
+
+              .metaCell {
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+
+                .label {
+                  font-size: 0.75rem;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  color: $color-text-secondary;
+                  letter-spacing: 0.05em;
+                }
+
+                .value {
+                  font-size: 0.95rem;
+                  font-weight: 700;
+                  color: $color-text-main;
+
+                  &.code {
+                    font-family: $font-mono;
+                    color: $color-text-secondary;
+                    background: rgba($color-text-secondary, 0.05);
+                    padding: 0.15rem 0.45rem;
+                    border-radius: 4px;
+                    border: 1px solid rgba($color-text-secondary, 0.12);
+                    font-size: 0.85rem;
+                  }
+                }
+              }
+            }
+
+            .statusBadge {
+              display: inline-flex;
+              align-items: center;
+              gap: 0.4rem;
+              padding: 0.4rem 1rem;
+              border-radius: 9999px;
+              font-size: 0.75rem;
+              font-weight: 800;
+              letter-spacing: 0.06em;
+              box-shadow: $shadow-sm;
+
+              &.active {
+                background: rgba($color-success, 0.08);
+                color: $color-success;
+                border: 1px solid rgba($color-success, 0.15);
+              }
+
+              &.inactive {
+                background: rgba($color-text-secondary, 0.08);
+                color: $color-text-secondary;
+                border: 1px solid rgba($color-text-secondary, 0.15);
+              }
+            }
+          }
+        }
+
+        // Embedded Sub-tasks panel
+        .agentTasks {
+          padding: 2rem;
+          border-top: 1px solid $color-border;
+
+          .tasksHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+
+            h3 {
+              font-size: 1.1rem;
+              font-weight: 700;
+              color: $color-text-main;
+              margin: 0;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+            }
+
+            .countBadge {
+              font-size: 0.8rem;
+              color: $color-text-secondary;
+              background: rgba($color-text-secondary, 0.06);
+              padding: 0.25rem 0.75rem;
+              border-radius: 9999px;
+              font-weight: 600;
+              border: 1px solid rgba($color-text-secondary, 0.1);
+            }
+          }
+
+          .tasksEmpty {
+            font-size: 0.9rem;
+            color: $color-text-secondary;
+            padding: 1.5rem 0;
+            text-align: center;
+            font-style: italic;
+          }
+
+          .tasksTableWrapper {
+            overflow-x: auto;
+            background: white;
+
+            .tasksTable {
+              width: 100%;
+              border-collapse: collapse;
+              text-align: left;
+
+              th {
+                background: $color-bg-secondary;
+                padding: 1rem 1.25rem;
+                font-size: 0.75rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: $color-text-secondary;
+                letter-spacing: 0.05em;
+                border-bottom: 1px solid $color-border;
+              }
+
+              td {
+                padding: 1.25rem;
+                font-size: 0.9rem;
+                border-bottom: 1px solid $color-border;
+                vertical-align: top;
+                color: $color-text-main;
+              }
+
+              tr:last-child td {
+                border-bottom: none;
+              }
+
+              .taskRowClickable {
+                cursor: pointer;
+              }
+
+              .btnViewGraphRow {
+                background: rgba($color-accent, 0.12);
+                color: #728c0b;
+                border: 1px solid rgba($color-accent-dark, 0.35);
+                padding: 6px 12px;
+                border-radius: 6px;
+                font-size: 0.75rem;
+                font-weight: 700;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                transition: all 0.2s;
+                width: 100%;
+                box-sizing: border-box;
+
+                &:hover {
+                  background: $color-accent;
+                  border-color: $color-accent;
+                  color: #0f172a;
+                }
+              }
+
+              .taskRowActive {
+                background: white;
+                
+                &:hover {
+                  background: rgba($color-info, 0.02);
+                }
+              }
+
+              .taskRowDisabled {
+                background: rgba($color-bg-secondary, 0.2);
+                opacity: 0.75;
+                
+                &:hover {
+                  background: rgba($color-bg-secondary, 0.3);
+                }
+              }
+
+              // Column styles
+              .taskNameCol {
+                display: flex;
+                gap: 0.75rem;
+                align-items: flex-start;
+
+                .taskIndicator {
+                  width: 8px;
+                  height: 8px;
+                  border-radius: 50%;
+                  margin-top: 0.35rem;
+                  flex-shrink: 0;
+
+                  &.active {
+                    background: $color-success;
+                    box-shadow: 0 0 6px rgba($color-success, 0.6);
+                  }
+
+                  &.inactive {
+                    background: rgba($color-text-secondary, 0.3);
+                  }
+                }
+
+                .taskTextContent {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 0.25rem;
+                  max-width: 450px;
+
+                  .taskNameText {
+                    font-weight: 700;
+                    color: $color-text-main;
+                  }
+
+                  .taskDescText {
+                    font-size: 0.8rem;
+                    color: $color-text-secondary;
+                    line-height: 1.5;
+
+                    p {
+                      margin: 0 0 0.25rem;
+                      &:last-child {
+                        margin-bottom: 0;
+                      }
+                    }
+                  }
+                }
+              }
+
+              .triggerBadge {
+                display: inline-block;
+                font-size: 0.7rem;
+                font-weight: 800;
+                padding: 0.15rem 0.5rem;
+                border-radius: 4px;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+
+                &.cron {
+                  background: rgba($color-info, 0.08);
+                  color: $color-info;
+                  border: 1px solid rgba($color-info, 0.15);
+                }
+
+                &.manual {
+                  background: rgba($color-text-secondary, 0.08);
+                  color: $color-text-secondary;
+                  border: 1px solid rgba($color-text-secondary, 0.15);
+                }
+
+                &.event_driven, &.workflow {
+                  background: rgba($color-warning, 0.08);
+                  color: $color-warning;
+                  border: 1px solid rgba($color-warning, 0.15);
+                }
+              }
+
+              .scheduleText {
+                font-size: 0.85rem;
+                font-weight: 500;
+                color: $color-text-secondary;
+              }
+
+              .priorityText {
+                font-size: 0.85rem;
+                font-weight: 600;
+                background: rgba($color-text-secondary, 0.06);
+                padding: 0.15rem 0.45rem;
+                border-radius: 4px;
+                color: $color-text-secondary;
+              }
+
+              .timeoutText, .retriesText, .lastRunText {
+                font-size: 0.85rem;
+                color: $color-text-secondary;
+              }
+
+              .taskStatusLabel {
+                font-size: 0.75rem;
+                font-weight: 800;
+                letter-spacing: 0.05em;
+
+                &.enabled {
+                  color: $color-success;
+                }
+
+                &.disabled {
+                  color: $color-text-secondary;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

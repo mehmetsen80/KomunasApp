@@ -383,6 +383,8 @@ public class USCISStatusServiceImpl implements USCISStatusService {
                 .effectiveDate(state.getEffectiveDate())
                 .resourceUrl(state.getResourceUrl())
                 .instructionsUrl(state.getInstructionsUrl())
+                .documentId(state.getDocumentId())
+                .instructionsDocumentId(state.getInstructionsDocumentId())
                 .supplementalResources(state.getSupplementalResources())
                 .changeDetected(finalChangeDetected)
                 .changeType(finalChangeType)

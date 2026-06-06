@@ -1,27 +1,80 @@
-// Brand Colors
-$color-white: #FFFFFF;
-$color-dark: #222028;
-$color-gray-theme: #e6e5e5;
-$color-accent: #d6f281; // Premium Yellow Highlight
+// ─── Brand Core ───────────────────────────────────────────────────────────────
+$color-white:       #FFFFFF;
+$color-dark:        #1A1A2E;
+$color-accent:      #C8F135;   // Yellow-green brand accent (matches mockup)
+$color-accent-dark: #A8D120;   // Hover state for accent
 
-// Core Roles (Light Theme as requested)
-$color-bg: $color-white;
-$color-secondary: $color-dark;
-$color-theme: $color-gray-theme;
+// ─── Backgrounds ──────────────────────────────────────────────────────────────
+$color-bg:              #FFFFFF;
+$color-bg-secondary:    #F9FAFB;  // Slightly off-white for card surfaces
+$color-sidebar-bg:      #FFFFFF;
+$color-sidebar-active:  #F3F4F6;  // Active nav item background
 
-// Derived Colors
-$color-text-main: $color-dark;
-$color-text-secondary: rgba(34, 32, 40, 0.7);
-$color-border: rgba(34, 32, 40, 0.1);
+// ─── Text ─────────────────────────────────────────────────────────────────────
+$color-text-main:       #111827;
+$color-text-secondary:  #6B7280;
+$color-text-muted:      #9CA3AF;
+$color-text-light:      #FFFFFF;
 
-// Glassmorphism (Adjusted for Light Theme)
-$glass-bg: rgba(34, 32, 40, 0.03);
-$glass-border: rgba(34, 32, 40, 0.08);
-$glass-blur: 10px;
+// ─── Borders & Dividers ───────────────────────────────────────────────────────
+$color-border:          #E5E7EB;
+$color-border-strong:   #D1D5DB;
 
-// Layout
-$sidebar-width: 260px;
-$header-height: 100px;
+// ─── Semantic Colors ──────────────────────────────────────────────────────────
+$color-success:         #10B981;
+$color-success-bg:      #D1FAE5;
+$color-warning:         #F59E0B;
+$color-warning-bg:      #FEF3C7;
+$color-danger:          #EF4444;
+$color-danger-bg:       #FEE2E2;
+$color-info:            #3B82F6;
+$color-info-bg:         #DBEAFE;
 
-// Animations
-$transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+// ─── Impact Badge Colors ──────────────────────────────────────────────────────
+$impact-high-bg:        #FEE2E2;
+$impact-high-text:      #DC2626;
+$impact-medium-bg:      #FEF3C7;
+$impact-medium-text:    #D97706;
+$impact-low-bg:         #D1FAE5;
+$impact-low-text:       #059669;
+
+// ─── Alert Dot Colors ─────────────────────────────────────────────────────────
+$dot-red:               #EF4444;
+$dot-orange:            #F59E0B;
+$dot-green:             #10B981;
+
+// ─── Glassmorphism ────────────────────────────────────────────────────────────
+$glass-bg:              rgba(255, 255, 255, 0.8);
+$glass-border:          rgba(229, 231, 235, 0.8);
+$glass-blur:            12px;
+
+// ─── Shadows ──────────────────────────────────────────────────────────────────
+$shadow-sm:     0 1px 2px rgba(0, 0, 0, 0.05);
+$shadow-md:     0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+$shadow-lg:     0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+$shadow-card:   0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+
+// ─── Layout ───────────────────────────────────────────────────────────────────
+$sidebar-width:     220px;
+$topbar-height:     64px;
+$header-height:     64px;
+
+// ─── Typography ───────────────────────────────────────────────────────────────
+$font-sans:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-mono:     'JetBrains Mono', 'Fira Code', monospace;
+
+// ─── Border Radius ────────────────────────────────────────────────────────────
+$radius-sm:     6px;
+$radius-md:     10px;
+$radius-lg:     16px;
+$radius-xl:     24px;
+$radius-full:   9999px;
+
+// ─── Animations ───────────────────────────────────────────────────────────────
+$transition-smooth:     all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-spring:     all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+// ─── Backward Compatibility Aliases (for legacy SCSS files) ───────────────────
+$color-secondary:   $color-dark;       // was $color-secondary → now $color-dark
+$color-theme:       $color-bg-secondary; // was $color-gray-theme → bg-secondary
+
