@@ -9,6 +9,7 @@ import {
   ArrowRight,
   ChevronRight,
   Info,
+  Activity,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -344,15 +345,17 @@ const Overview = () => {
   return (
     <div className="overview">
       {/* ── Page Header ── */}
-      <div className="overviewHeader">
-        <div className="overviewHeading">
-          <h1 className="overviewTitle">Welcome back, {firstName}</h1>
-          <p className="overviewSubtitle">Here's what's happening in your regulatory monitoring.</p>
+      <div className="pageHeader">
+        <div className="headerContent">
+          <div className="titleArea">
+            <div className="badge">
+              <Activity size={14} />
+              <span>Workspace Overview</span>
+            </div>
+            <h1 className="overviewTitle">Welcome back, {firstName}</h1>
+            <p className="subtitle">Here's what's happening in your regulatory monitoring.</p>
+          </div>
         </div>
-        <button className="customizeBtn">
-          <Target size={14} />
-          Customize Dashboard
-        </button>
       </div>
 
       {/* ── Stats Row ── */}

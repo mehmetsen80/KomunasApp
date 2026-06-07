@@ -205,10 +205,18 @@ const Sources = () => {
   return (
     <div className="sourcesPage">
       {/* Header */}
-      <div className="sourcesHeader">
-        <div className="sourcesHeading">
-          <h1 className="sourcesTitle">USCIS Monitored Sources</h1>
-          <p className="sourcesSubtitle">Explore, monitor, and subscribe to real-time regulatory streams in the system.</p>
+      <div className="pageHeader">
+        <div className="headerContent">
+          <div className="titleArea">
+            <div className="badge">
+              <Layers size={14} />
+              <span>Regulatory Feeds</span>
+            </div>
+            <h1 className="sourcesTitle">USCIS Monitored Sources</h1>
+            <p className="subtitle">
+              Explore, monitor, and subscribe to real-time regulatory streams in the system.
+            </p>
+          </div>
         </div>
       </div>
 

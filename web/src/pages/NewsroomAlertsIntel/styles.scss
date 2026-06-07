@@ -88,11 +88,12 @@
         }
 
         h1 {
-          font-size: 3rem;
+          font-size: 2.25rem;
           font-weight: 800;
           color: $color-secondary;
-          margin: 0 0 1rem 0;
+          margin: 0 0 0.5rem 0;
           line-height: 1.1;
+          letter-spacing: -0.02em;
         }
 
         .formSummary {
@@ -479,11 +480,4 @@
   }
 }
 
-.newsroomAlertsIntel.intelPage--authenticated {
-  .pageHeader {
-    padding: 3rem 0 3rem;
-  }
-  .contentSection {
-    padding: 3rem 0;
-  }
-}
+

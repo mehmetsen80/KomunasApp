@@ -6,6 +6,47 @@
   flex-direction: column;
   gap: 1.5rem;
   max-width: 1400px;
+
+  .pageHeader {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-bottom: 1px solid $color-border;
+    margin: -2rem -2rem 2rem -2rem;
+
+    .titleArea {
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba($color-text-secondary, 0.08);
+        color: $color-text-secondary;
+        border: 1px solid rgba($color-text-secondary, 0.15);
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .overviewTitle {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: $color-text-main;
+        margin: 0 0 0.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        color: $color-text-secondary;
+        margin: 0;
+        font-size: 1.15rem;
+        line-height: 1.6;
+        max-width: 800px;
+      }
+    }
+  }
 }
 
 // Loading state
@@ -30,30 +71,6 @@
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
-
-// ─── Page Header ─────────────────────────────────────────────────────────────
-.overviewHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.overviewHeading {
-  .overviewTitle {
-    font-size: 1.65rem;
-    font-weight: 700;
-    color: $color-text-main;
-    margin: 0 0 4px;
-    letter-spacing: -0.01em;
-  }
-
-  .overviewSubtitle {
-    font-size: 0.875rem;
-    color: $color-text-secondary;
-    margin: 0;
-  }
-}
 
 .customizeBtn {
   display: flex;

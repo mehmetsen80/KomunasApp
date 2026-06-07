@@ -191,12 +191,18 @@ const Documents = () => {
   return (
     <div className="documentsPage">
       {/* Header */}
-      <div className="documentsHeader">
-        <div className="documentsHeading">
-          <h1 className="documentsTitle">USCIS Document Library</h1>
-          <p className="documentsSubtitle">
-            Quick access to official USCIS petition form PDFs and standard instruction filing manuals.
-          </p>
+      <div className="pageHeader">
+        <div className="headerContent">
+          <div className="titleArea">
+            <div className="badge">
+              <FileText size={14} />
+              <span>Document Assets</span>
+            </div>
+            <h1 className="documentsTitle">USCIS Document Library</h1>
+            <p className="subtitle">
+              Quick access to official USCIS petition form PDFs and standard instruction filing manuals.
+            </p>
+          </div>
         </div>
       </div>
 

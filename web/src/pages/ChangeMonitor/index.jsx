@@ -275,12 +275,18 @@ const ChangeMonitor = () => {
   return (
     <div className="changeMonitorPage">
       {/* Header */}
-      <div className="changeMonitorHeader">
-        <div className="changeMonitorHeading">
-          <h1 className="changeMonitorTitle">Change Monitor Feed</h1>
-          <p className="changeMonitorSubtitle">
-            Real-time tracking of form revisions, legal policy shifts, newsroom alerts, and backlog changes in the immigration landscape.
-          </p>
+      <div className="pageHeader">
+        <div className="headerContent">
+          <div className="titleArea">
+            <div className="badge">
+              <TrendingUp size={14} />
+              <span>Regulatory Timeline</span>
+            </div>
+            <h1 className="changeMonitorTitle">Change Monitor Feed</h1>
+            <p className="subtitle">
+              Real-time tracking of form revisions, legal policy shifts, newsroom alerts, and backlog changes in the immigration landscape.
+            </p>
+          </div>
         </div>
       </div>
 

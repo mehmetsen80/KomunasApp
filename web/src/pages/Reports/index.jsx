@@ -224,18 +224,24 @@ const Reports = () => {
   return (
     <div className="reportsPage">
       {/* Page Header */}
-      <div className="reportsHeader">
-        <div className="reportsHeading">
-          <h1 className="reportsTitle">Compliance Reports</h1>
-          <p className="reportsSubtitle">Analyze and export regulatory sync metrics, tracked sources, and compliance summaries.</p>
-        </div>
-        <div className="reportsActions">
-          <button className="btnReportExport" onClick={handleExportCSV}>
-            <Download size={15} /> Export CSV
-          </button>
-          <button className="btnReportExport" onClick={handleExportPDF}>
-            <FileText size={15} /> Export PDF
-          </button>
+      <div className="pageHeader">
+        <div className="headerContent">
+          <div className="titleArea">
+            <div className="badge">
+              <BarChart2 size={14} />
+              <span>Analytics & Reports</span>
+            </div>
+            <h1 className="reportsTitle">Compliance Reports</h1>
+            <p className="subtitle">Analyze and export regulatory sync metrics, tracked sources, and compliance summaries.</p>
+          </div>
+          <div className="reportsActions">
+            <button className="btnReportExport" onClick={handleExportCSV}>
+              <Download size={15} /> Export CSV
+            </button>
+            <button className="btnReportExport" onClick={handleExportPDF}>
+              <FileText size={15} /> Export PDF
+            </button>
+          </div>
         </div>
       </div>
 

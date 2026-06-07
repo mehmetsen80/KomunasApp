@@ -70,7 +70,7 @@ const EditUserModal = ({
 
         <div className="modalFooter">
           <Button variant="cancel" onClick={onClose}>Cancel</Button>
-          <Button variant="success" onClick={onSave}>Save Changes</Button>
+          <Button variant="primary" onClick={onSave}>Save Changes</Button>
         </div>
       </div>
     </div>

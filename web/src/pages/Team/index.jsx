@@ -153,12 +153,18 @@ const Team = () => {
   if (!adminMode) {
     return (
       <div className="teamPage">
-        <div className="teamHeader">
-          <div className="teamHeading">
-            <h1 className="teamTitle">My Teams</h1>
-            <p className="teamSubtitle">
-              Assigned workspaces, route access permissions, and organization groups fetched from the gateway.
-            </p>
+        <div className="pageHeader">
+          <div className="headerContent">
+            <div className="titleArea">
+              <div className="badge">
+                <Users size={14} />
+                <span>Registry & Team Control</span>
+              </div>
+              <h1 className="teamTitle">My Teams</h1>
+              <p className="subtitle">
+                Assigned workspaces, route access permissions, and organization groups fetched from the gateway.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -246,27 +252,33 @@ const Team = () => {
   // --- Render Super Admin View ---
   return (
     <div className="teamPage adminMode">
-      <div className="teamHeader">
-        <div className="teamHeading">
-          <h1 className="teamTitle">Registry Control & Teams</h1>
-          <p className="teamSubtitle">
-            Manage multi-tenant team assignments, view gateway roles, and audit organization workspaces.
-          </p>
-        </div>
+      <div className="pageHeader">
+        <div className="headerContent">
+          <div className="titleArea">
+            <div className="badge">
+              <Users size={14} />
+              <span>Registry & Team Control</span>
+            </div>
+            <h1 className="teamTitle">Registry Control & Teams</h1>
+            <p className="subtitle">
+              Manage multi-tenant team assignments, view gateway roles, and audit organization workspaces.
+            </p>
+          </div>
 
-        <div className="adminTabs">
-          <button 
-            className={`tabButton ${activeTab === 'users' ? 'active' : ''}`}
-            onClick={() => setActiveTab('users')}
-          >
-            👥 User Registry ({users.length})
-          </button>
-          <button 
-            className={`tabButton ${activeTab === 'teams' ? 'active' : ''}`}
-            onClick={() => setActiveTab('teams')}
-          >
-            🏢 Organization Teams ({allTeams.length})
-          </button>
+          <div className="adminTabs">
+            <button 
+              className={`tabButton ${activeTab === 'users' ? 'active' : ''}`}
+              onClick={() => setActiveTab('users')}
+            >
+              👥 User Registry ({users.length})
+            </button>
+            <button 
+              className={`tabButton ${activeTab === 'teams' ? 'active' : ''}`}
+              onClick={() => setActiveTab('teams')}
+            >
+              🏢 Organization Teams ({allTeams.length})
+            </button>
+          </div>
         </div>
       </div>
 

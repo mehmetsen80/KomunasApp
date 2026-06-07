@@ -121,12 +121,19 @@ const SavedSearches = () => {
 
   return (
     <div className="savedSearchesPage">
-      <div className="savedSearchesHeader">
-        <div className="savedSearchesHeading">
-          <h1 className="savedSearchesTitle">Saved Searches</h1>
-          <p className="savedSearchesSubtitle">
-            Quickly rerun search queries to monitor changes, news, policy updates, and processing times.
-          </p>
+      {/* Header */}
+      <div className="pageHeader">
+        <div className="headerContent">
+          <div className="titleArea">
+            <div className="badge">
+              <Search size={14} />
+              <span>Saved Queries</span>
+            </div>
+            <h1 className="savedSearchesTitle">Saved Searches</h1>
+            <p className="subtitle">
+              Quickly rerun search queries to monitor changes, news, policy updates, and processing times.
+            </p>
+          </div>
         </div>
       </div>
 

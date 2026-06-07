@@ -1,12 +1,20 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Shield, Brain, Globe, ArrowRight, Play, Layers, Clock, BookOpen, FileText, CheckCircle, Lock, Bell
+  Shield, Brain, Globe, ArrowRight, Play, Layers, Clock, BookOpen, FileText, CheckCircle, Lock, Bell, Scale, Briefcase, Users, X, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import VideoDemoModal from '../../components/Modals/VideoDemoModal';
 import RequestDemoModal from '../../components/Modals/RequestDemoModal';
 import './styles.scss';
+
+const PREVIEW_IMAGES = [
+  { src: '/dashboard-preview.png', alt: 'Dashboard Overview', label: 'Overview Dashboard' },
+  { src: '/sources-preview.png',   alt: 'Monitored Sources',   label: 'Monitored Sources' },
+  { src: '/subscribe-preview.png', alt: 'Subscription Modal',  label: 'Form Subscription' },
+  { src: '/documents-preview.png', alt: 'Documents Library',  label: 'Document Library' },
+  { src: '/aiagents-preview.png',  alt: 'AI Agents Panel',     label: 'AI Agents Panel' },
+];
 
 const FEATURES = [
   {
@@ -38,10 +46,28 @@ const Home = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const featuresRef = useRef(null);
+  const audienceRef = useRef(null);
   const sourcesRef = useRef(null);
   const securityRef = useRef(null);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const nextImage = () => {
+    setActiveImageIndex((prev) => (prev + 1) % PREVIEW_IMAGES.length);
+  };
+
+  const prevImage = () => {
+    setActiveImageIndex((prev) => (prev - 1 + PREVIEW_IMAGES.length) % PREVIEW_IMAGES.length);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextImage();
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Authenticated users should not see this page — redirect handled in AppRoutes
   if (isAuthenticated) {
@@ -51,6 +77,10 @@ const Home = () => {
 
   const scrollToFeatures = () => {
     featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToAudience = () => {
+    audienceRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const scrollToSources = () => {
@@ -76,6 +106,7 @@ const Home = () => {
 
           <div className="navLinks">
             <button className="navLink" onClick={scrollToFeatures}>Features</button>
+            <button className="navLink" onClick={scrollToAudience}>Who it's for</button>
             <button className="navLink" onClick={scrollToSources}>Monitored Sources</button>
             <button className="navLink" onClick={scrollToSecurity}>Security</button>
           </div>
@@ -115,10 +146,10 @@ const Home = () => {
               <button className="ctaPrimary" onClick={() => setIsDemoModalOpen(true)}>
                 Request a Demo <ArrowRight size={16} />
               </button>
-              <button className="ctaSecondary" onClick={() => setIsVideoModalOpen(true)}>
+              {/* <button className="ctaSecondary" onClick={() => setIsVideoModalOpen(true)}>
                 <Play size={14} className="playIcon" />
                 See How It Works
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -138,14 +169,88 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Full-Width Dashboard Preview Row */}
+        {/* Full-Width Dashboard Preview Row (Carousel) */}
         <div className="heroDashRow">
-          <div className="dashPreviewWrapper">
-            <img
-              src="/dashboard-preview.png"
-              alt="Komunas Dashboard Overview"
-              className="dashPreviewImg"
-            />
+          <div className="carouselContainer">
+            {/* Main Active Image Wrapper */}
+            <div 
+              className="dashPreviewWrapper" 
+              onClick={() => setIsPreviewOpen(true)}
+              style={{ cursor: 'pointer' }}
+            >
+              <img
+                src={PREVIEW_IMAGES[activeImageIndex].src}
+                alt={`${PREVIEW_IMAGES[activeImageIndex].alt} (Click to expand)`}
+                className="dashPreviewImg"
+              />
+              
+              {/* Left/Right Arrow Overlays */}
+              <button 
+                className="carouselArrow arrowLeft" 
+                onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                aria-label="Previous slide"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button 
+                className="carouselArrow arrowRight" 
+                onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                aria-label="Next slide"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
+
+            {/* Slide Indicators / Tabs */}
+            <div className="carouselIndicators">
+              {PREVIEW_IMAGES.map((img, idx) => (
+                <button
+                  key={img.src}
+                  className={`indicatorTab ${idx === activeImageIndex ? 'activeTab' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setActiveImageIndex(idx); }}
+                >
+                  <span className="indicatorDot" />
+                  <span className="indicatorLabel">{img.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Target Audience Section ── */}
+      <section className="landingAudience" ref={audienceRef}>
+        <div className="sectionHeader">
+          <div className="sectionBadge">Target Audience</div>
+          <h2>Who is Komunas for?</h2>
+          <p>
+            Komunas provides dedicated regulatory monitoring and early warning alerts tailored for teams managing high-stakes immigration compliance.
+          </p>
+        </div>
+
+        <div className="audienceGrid">
+          <div className="audienceCard">
+            <div className="cardIcon"><Scale size={22} /></div>
+            <h3>Immigration Law Firms</h3>
+            <p>
+              Automatically track form updates, policy manual revisions, and monthly visa bulletins. Prevent rejected filings and keep client applications on track without manual website checking.
+            </p>
+          </div>
+
+          <div className="audienceCard">
+            <div className="cardIcon"><Users size={22} /></div>
+            <h3>Global Mobility &amp; HR</h3>
+            <p>
+              Monitor wait-time backlogs across all USCIS service centers. Forecast employee visa timelines (H-1B, L-1, Green Cards) and maintain seamless communications with international hires.
+            </p>
+          </div>
+
+          <div className="audienceCard">
+            <div className="cardIcon"><Briefcase size={22} /></div>
+            <h3>Legal &amp; Compliance Teams</h3>
+            <p>
+              Receive instant alerts on critical regulatory events and policy modifications. Access detailed impact analysis reports to keep your organization aligned and audit-ready.
+            </p>
           </div>
         </div>
       </section>
@@ -280,6 +385,22 @@ const Home = () => {
 
       {/* ── Request Demo Modal ── */}
       <RequestDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
+
+      {/* ── Dashboard Image Lightbox Modal ── */}
+      {isPreviewOpen && (
+        <div className="previewLightboxOverlay" onClick={() => setIsPreviewOpen(false)}>
+          <div className="lightboxContent" onClick={(e) => e.stopPropagation()}>
+            <button className="lightboxCloseBtn" onClick={() => setIsPreviewOpen(false)} aria-label="Close preview">
+              <X size={26} />
+            </button>
+            <img
+              src={PREVIEW_IMAGES[activeImageIndex].src}
+              alt={`${PREVIEW_IMAGES[activeImageIndex].alt} Fullscreen`}
+              className="lightboxImg"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

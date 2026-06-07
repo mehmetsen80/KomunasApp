@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { Mail, Shield, Calendar, LogOut, Users, Layers, ExternalLink } from 'lucide-react';
+import { Mail, Shield, Calendar, LogOut, Users, Layers, ExternalLink, User } from 'lucide-react';
 import Button from '../../components/Button';
 import axiosInstance from '../../services/axiosInstance';
 import resourceSyncService from '../../services/resourceSyncService';
@@ -139,11 +139,20 @@ const Profile = () => {
 
   return (
     <div className="profilePage">
-      <div className="profileHeading">
-        <h1 className="profileTitle">User Profile</h1>
-        <p className="profileSubtitle">
-          Manage your personal details, workspace authorization, and monitored feeds.
-        </p>
+      {/* Header */}
+      <div className="pageHeader">
+        <div className="headerContent">
+          <div className="titleArea">
+            <div className="badge">
+              <User size={14} />
+              <span>User Settings</span>
+            </div>
+            <h1 className="profileTitle">User Profile</h1>
+            <p className="subtitle">
+              Manage your personal details, workspace authorization, and monitored feeds.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="profileLayout">
