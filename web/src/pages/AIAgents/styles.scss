@@ -199,6 +199,32 @@
                     font-size: 0.85rem;
                   }
                 }
+
+                .intervalBadges {
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 0.35rem;
+                  max-width: 340px;
+                  margin-top: 0.15rem;
+
+                  .intervalBadge {
+                    display: inline-block;
+                    font-size: 0.72rem;
+                    font-weight: 700;
+                    padding: 3px 8px;
+                    border-radius: 6px;
+                    background: $color-info-bg;
+                    color: #1e40af;
+                    border: 1px solid rgba($color-info, 0.2);
+                    white-space: nowrap;
+
+                    &.manual {
+                      background: rgba($color-text-secondary, 0.08);
+                      color: $color-text-secondary;
+                      border-color: rgba($color-text-secondary, 0.15);
+                    }
+                  }
+                }
               }
             }
 
