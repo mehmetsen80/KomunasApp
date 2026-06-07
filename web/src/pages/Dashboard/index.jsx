@@ -49,7 +49,7 @@ const SparkChart = ({ data, labels }) => {
   const H = 110;
   const padX = 32; // spacious space on the left for Y axis numbers
   const padY = 12;
-  
+
   const points = data.map((v, i) => {
     const x = padX + (i / (data.length - 1)) * (W - padX - 8); // leave 8px on the right
     const y = padY + (1 - v / max) * (H - padY * 2);
@@ -179,12 +179,12 @@ const Overview = () => {
         resourceSyncService.getAllProcessingTimesStatuses(userId),
       ]);
 
-      if (formsData.status === 'fulfilled')   setForms(formsData.value || []);
-      if (alertsData.status === 'fulfilled')  setNewsAlerts(alertsData.value);
+      if (formsData.status === 'fulfilled') setForms(formsData.value || []);
+      if (alertsData.status === 'fulfilled') setNewsAlerts(alertsData.value);
       if (releasesData.status === 'fulfilled') setNewsReleases(releasesData.value);
-      if (policyData.status === 'fulfilled')  setPolicyManual(policyData.value);
-      if (visaData.status === 'fulfilled')    setVisaBulletin(visaData.value);
-      if (procData.status === 'fulfilled')    setProcessingTimes(procData.value || []);
+      if (policyData.status === 'fulfilled') setPolicyManual(policyData.value);
+      if (visaData.status === 'fulfilled') setVisaBulletin(visaData.value);
+      if (procData.status === 'fulfilled') setProcessingTimes(procData.value || []);
 
       if (userId) {
         const [notifData, countData] = await Promise.allSettled([
@@ -228,7 +228,7 @@ const Overview = () => {
             const detectedDate = new Date(h.detectedAt);
             const diffTime = now - detectedDate;
             const diffDays = Math.floor(diffTime / 864e5);
-            
+
             if (diffDays >= 0 && diffDays < days) {
               counts[days - 1 - diffDays] += 1;
               currentWeekChanges += 1;
@@ -299,6 +299,14 @@ const Overview = () => {
     .sort((a, b) => new Date(b.lastCheckedAt || 0) - new Date(a.lastCheckedAt || 0))
     .slice(0, 5);
 
+  const hasSubscriptions =
+    forms.some((f) => f.subscribed) ||
+    newsAlerts?.subscribed ||
+    newsReleases?.subscribed ||
+    policyManual?.subscribed ||
+    visaBulletin?.subscribed ||
+    processingTimes.some((p) => p.subscribed);
+
   // Grouped Monitored Resources
   const monitoredGroups = {
     'USCIS Forms': forms.map((f) => ({
@@ -309,22 +317,22 @@ const Overview = () => {
       subscribed: f.subscribed,
     })),
     'Newsroom & Announcements': [
-      ...(newsAlerts ? [{ id: 'newsroom-alerts',  title: 'Announcements',    subtitle: 'USCIS Announcements',  path: '/newsroom/newsroom-alerts',  subscribed: newsAlerts.subscribed }] : []),
-      ...(newsReleases ? [{ id: 'news-releases',  title: 'News Releases',    subtitle: 'USCIS Releases', path: '/newsroom/news-releases',    subscribed: newsReleases.subscribed }] : []),
-      ...(policyManual ? [{ id: 'policy-updates', title: 'Policy Manual',    subtitle: 'USCIS Policy Updates', path: '/newsroom/policy-updates',   subscribed: policyManual.subscribed }] : []),
+      ...(newsAlerts ? [{ id: 'newsroom-alerts', title: 'Announcements', subtitle: 'USCIS Announcements', path: '/newsroom/newsroom-alerts', subscribed: newsAlerts.subscribed }] : []),
+      ...(newsReleases ? [{ id: 'news-releases', title: 'News Releases', subtitle: 'USCIS Releases', path: '/newsroom/news-releases', subscribed: newsReleases.subscribed }] : []),
+      ...(policyManual ? [{ id: 'policy-updates', title: 'Policy Manual', subtitle: 'USCIS Policy Updates', path: '/newsroom/policy-updates', subscribed: policyManual.subscribed }] : []),
     ],
     'Visa Bulletins & Wait Times': [
-      ...(visaBulletin ? [{ id: 'visa-bulletin',  title: 'Visa Bulletin',    subtitle: 'Filing Charts', path: '/newsroom/visa-bulletin', subscribed: visaBulletin.subscribed }] : []),
+      ...(visaBulletin ? [{ id: 'visa-bulletin', title: 'Visa Bulletin', subtitle: 'Filing Charts', path: '/newsroom/visa-bulletin', subscribed: visaBulletin.subscribed }] : []),
       ...(processingTimes.length > 0 ? [{ id: 'processing-times', title: 'Processing Times', subtitle: 'USCIS Wait Times', path: '/processing-times', subscribed: false }] : []),
     ]
   };
 
-  const totalMonitoredCount = 
-    forms.length + 
-    (newsAlerts ? 1 : 0) + 
-    (newsReleases ? 1 : 0) + 
-    (policyManual ? 1 : 0) + 
-    (visaBulletin ? 1 : 0) + 
+  const totalMonitoredCount =
+    forms.length +
+    (newsAlerts ? 1 : 0) +
+    (newsReleases ? 1 : 0) +
+    (policyManual ? 1 : 0) +
+    (visaBulletin ? 1 : 0) +
     (processingTimes.length > 0 ? 1 : 0);
 
   // Announcements payload items
@@ -441,7 +449,7 @@ const Overview = () => {
           </div>
           {alertsRequiringAttention.length === 0 ? (
             <div className="emptyState">
-              {monitoredResources.length === 0
+              {!hasSubscriptions
                 ? 'Subscribe to resources to see alerts here.'
                 : 'No alerts requiring attention. You\'re all caught up! ✓'}
             </div>
