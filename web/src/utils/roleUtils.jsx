@@ -5,7 +5,9 @@
 export const ROLES = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
-  USER: 'USER'
+  USER: 'USER',
+  GATEWAY_ADMIN: 'gateway_admin',
+  GATEWAY_ADMIN_REALM: 'gateway_admin_realm'
 };
 
 /**
@@ -16,7 +18,7 @@ export const isSuperAdmin = (user) => {
 };
 
 /**
- * Checks if a user has the ADMIN role or SUPER_ADMIN role
+ * Checks if a user has the ADMIN or SUPER_ADMIN role
  */
 export const isAdmin = (user) => {
   return user?.roles?.includes(ROLES.ADMIN) || isSuperAdmin(user);

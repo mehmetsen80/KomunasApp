@@ -98,8 +98,8 @@ const FormDetail = () => {
   }
 
   return (
-    <div className="formDetailPage intelPage">
-      <Header transparent />
+    <div className={`formDetailPage intelPage ${isAuthenticated ? 'intelPage--authenticated' : ''}`}>
+      {!isAuthenticated && <Header transparent />}
 
       <div className="pageHeader">
         <div className="container">
@@ -108,23 +108,23 @@ const FormDetail = () => {
           </button>
           <div className="headerContent">
             <div className="titleArea">
+              <div className="formTypeBadge">USCIS Form Intelligence</div>
               <h1>{form.displayName}</h1>
               <p className="formSummary">{form.summary}</p>
-            </div>
-
-            <div className="metaInfo">
-              <div className="formTypeBadge">USCIS Form Intelligence</div>
-              <div className="metaItem">
-                <ShieldCheck size={16} />
-                <span>Current Version: <strong>{form.currentVersion}</strong></span>
-              </div>
-              <div className="metaItem">
-                <Calendar size={16} />
-                <span>Effective: <strong>{form.effectiveDate}</strong></span>
-              </div>
-              <div className="metaItem">
-                <Clock size={16} />
-                <span>Last Checked: {formatDateTime(form.lastCheckedAt)}</span>
+              
+              <div className="metaInfoRow">
+                <div className="metaItem">
+                  <ShieldCheck size={14} />
+                  <span>Version: <strong>{form.currentVersion}</strong></span>
+                </div>
+                <div className="metaItem">
+                  <Calendar size={14} />
+                  <span>Effective: <strong>{form.effectiveDate}</strong></span>
+                </div>
+                <div className="metaItem">
+                  <Clock size={14} />
+                  <span>Last Checked: <strong>{formatDateTime(form.lastCheckedAt)}</strong></span>
+                </div>
               </div>
             </div>
           </div>
@@ -239,7 +239,7 @@ const FormDetail = () => {
         </div>
       </main>
 
-      <Footer />
+      {!isAuthenticated && <Footer />}
 
       <SubscribeFormModal
         isOpen={modalConfig.isOpen}

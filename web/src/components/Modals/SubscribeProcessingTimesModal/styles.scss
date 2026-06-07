@@ -82,23 +82,11 @@
   }
 
   .modalFooter {
-    .confirmBtn {
-      &.sub {
-        background: $color-secondary;
-        color: white;
-        
-        &:hover {
-          background: color-mix(in srgb, $color-secondary, black 10%);
-        }
-      }
-      &.unsub {
-        background: #ef4444;
-        color: white;
+    display: flex;
+    gap: 1rem;
 
-        &:hover {
-          background: #dc2626;
-        }
-      }
+    .premiumBtn {
+      flex: 1;
     }
   }
 }

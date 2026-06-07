@@ -3,321 +3,430 @@
 .forgotPasswordPage {
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: $color-bg;
+  flex-direction: row;
+  background-color: $color-bg-secondary;
   position: relative;
   overflow: hidden;
-  padding: 1.5rem;
 
-  /* ── Dynamic Background ── */
-  .forgotPasswordBg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-
-    .blob {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.15;
-      animation: drift 20s infinite alternate ease-in-out;
-    }
-
-    .blob-1 {
-      background: $color-secondary;
-      top: -200px;
-      right: -100px;
-    }
-
-    .blob-2 {
-      background: $color-theme;
-      bottom: -300px;
-      left: -200px;
-      animation-delay: -10s;
-    }
-  }
-
-  .forgotPasswordContent {
-    width: 100%;
-    max-width: 440px;
+  // --- Left Column: Marketing Info Panel ---
+  .fpPanelLeft {
+    flex: 1;
+    background: url('../../assets/svgs/hero-grid.svg') repeat,
+                radial-gradient(circle at 70% 30%, rgba(200, 241, 53, 0.1) 0%, $color-dark 100%);
+    background-attachment: fixed;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: $color-white;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
     position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
 
-  .backLogin {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: $color-text-secondary;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: $transition-smooth;
-
-    &:hover {
-      color: $color-secondary;
-      transform: translateX(-4px);
-    }
-  }
-
-  .forgotPasswordCard {
-    background: $color-white;
-    padding: 3rem 2.5rem;
-    border-radius: 28px;
-    border: 1px solid $color-border;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-    animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-
-    .cardHeader {
-      text-align: center;
-      
-      .logoWrapper {
-        display: inline-flex;
-        border-radius: 20px;
-        overflow: hidden;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-
-        img {
-          height: 120px;
-          width: auto;
-          display: block;
-        }
-      }
-
-      h1 {
-        font-size: 1.75rem;
-        font-weight: 800;
-        color: $color-secondary;
-        margin-bottom: 0.5rem;
-      }
-
-      p {
-        color: $color-text-secondary;
-        font-size: 0.95rem;
-        line-height: 1.5;
-        padding: 0 5%;
-      }
-    }
-
-    .forgotPasswordForm {
+    .brandHeader {
       display: flex;
-      flex-direction: column;
-      gap: 1.75rem;
+      align-items: center;
+      gap: 0.75rem;
 
-      .inputGroup {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-
-        label {
-          font-size: 0.85rem;
-          font-weight: 700;
-          color: $color-secondary;
-          padding-left: 0.25rem;
-        }
-
-        .inputWrapper {
-          position: relative;
-          display: flex;
-          align-items: center;
-
-          .inputIcon {
-            position: absolute;
-            left: 1.25rem;
-            color: rgba(34, 32, 40, 0.3);
-            pointer-events: none;
-          }
-
-          input {
-            width: 100%;
-            background-color: rgba(34, 32, 40, 0.03);
-            border: 1px solid rgba(34, 32, 40, 0.08);
-            padding: 1.1rem 1.25rem 1.1rem 3.25rem;
-            border-radius: 14px;
-            font-size: 0.95rem;
-            color: $color-secondary;
-            transition: $transition-smooth;
-
-            &::placeholder {
-              color: rgba(34, 32, 40, 0.3);
-            }
-
-            &:focus {
-              outline: none;
-              background-color: $color-white;
-              border-color: $color-secondary;
-              box-shadow: 0 0 0 4px rgba(34, 32, 40, 0.05);
-            }
-          }
-        }
-      }
-
-      .errorMessage {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        background-color: #fff1f0;
-        border: 1px solid #ffa39e;
-        color: #cf1322;
-        padding: 0.8rem 1rem;
+      .brandLogo {
+        width: 36px;
+        height: 36px;
+        background: $color-accent;
+        color: $color-dark;
         border-radius: 10px;
-        font-size: 0.85rem;
-        animation: shake 0.4s ease-in-out;
-      }
-
-      .forgotPasswordSubmit {
-        margin-top: 1rem;
-        height: 3.5rem;
-        background-color: $color-secondary;
-        color: $color-white;
-        border: none;
-        border-radius: 14px;
-        font-size: 1rem;
-        font-weight: 700;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.75rem;
-        cursor: pointer;
-        transition: $transition-smooth;
-        line-height: 1;
+        font-size: 1.15rem;
+        font-weight: 800;
+        box-shadow: 0 4px 12px rgba(200, 241, 53, 0.2);
+      }
 
-        &:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(34, 32, 40, 0.25);
+      .brandName {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: $color-white;
+        letter-spacing: -0.01em;
+      }
+    }
+
+    .marketingContent {
+      margin: auto 0;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      .marketingTitle {
+        font-size: 2.25rem;
+        font-weight: 800;
+        line-height: 1.2;
+        color: $color-white;
+        letter-spacing: -0.02em;
+        margin: 0;
+
+        .highlightText {
+          color: $color-accent;
+        }
+      }
+
+      .marketingSubtitle {
+        font-size: 0.95rem;
+        color: #94a3b8;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .marketingPillars {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-top: 1rem;
+
+        .pillarItem {
+          display: flex;
+          gap: 1.25rem;
+          align-items: flex-start;
+
+          .pillarIcon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: $color-accent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+          }
+
+          .pillarText {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+
+            h3 {
+              font-size: 1rem;
+              font-weight: 700;
+              color: $color-white;
+              margin: 0;
+            }
+
+            p {
+              font-size: 0.85rem;
+              color: #94a3b8;
+              margin: 0;
+              line-height: 1.5;
+            }
+          }
+        }
+      }
+    }
+
+    .marketingFooter {
+      p {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.35);
+        margin: 0;
+      }
+    }
+  }
+
+  // --- Right Column: Form Panel ---
+  .fpPanelRight {
+    flex: 1;
+    background-color: $color-bg-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+
+    .fpContent {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .backHome {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $color-text-secondary;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: $transition-smooth;
+      width: fit-content;
+
+      &:hover {
+        color: $color-text-main;
+        transform: translateX(-4px);
+      }
+    }
+
+    .fpCard {
+      background: $color-white;
+      padding: 3rem 2.5rem;
+      border-radius: $radius-xl;
+      border: 1px solid $color-border;
+      box-shadow: $shadow-lg;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      .cardHeader {
+        text-align: center;
+
+        .logoWrapper {
+          display: inline-flex;
+          border-radius: $radius-md;
+          overflow: hidden;
+          margin-bottom: 1.25rem;
+          box-shadow: $shadow-sm;
+          border: 1px solid $color-border;
+
+          img {
+            height: 64px;
+            width: auto;
+            display: block;
+          }
         }
 
-        &:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
+        h1 {
+          font-size: 1.6rem;
+          font-weight: 800;
+          color: $color-text-main;
+          margin: 0 0 0.5rem 0;
+          letter-spacing: -0.01em;
         }
 
-        .spinner {
-          width: 20px;
-          height: 20px;
-          border: 2px solid rgba(255, 255, 255, 0.3);
-          border-top-color: $color-white;
-          border-radius: 50%;
-          animation: spin 0.8s linear infinite;
-          flex-shrink: 0;
+        p {
+          color: $color-text-secondary;
+          font-size: 0.875rem;
+          line-height: 1.5;
           margin: 0;
         }
       }
-    }
 
-    .successState {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.25rem;
-      animation: fadeIn 0.5s ease-out;
-
-      .successIcon {
-        width: 80px;
-        height: 80px;
-        background-color: rgba($color-theme, 0.2);
-        color: $color-secondary;
+      .fpForm {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        margin-bottom: 0.5rem;
-      }
+        flex-direction: column;
+        gap: 1.5rem;
 
-      h3 {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: $color-secondary;
-        margin: 0;
-      }
+        .inputGroup {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
 
-      p {
-        color: $color-text-secondary;
-        font-size: 0.95rem;
-        line-height: 1.6;
-        margin: 0;
-        padding: 0 10%;
+          label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: $color-text-secondary;
+            letter-spacing: 0.05em;
+          }
 
-        b { color: $color-secondary; }
-      }
+          .inputWrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
 
-      .returnLoginBtn {
-        margin-top: 1rem;
-        color: $color-secondary;
-        font-weight: 700;
-        text-decoration: none;
-        padding: 0.8rem 1.5rem;
-        border: 1px solid rgba($color-secondary, 0.1);
-        border-radius: 12px;
-        transition: $transition-smooth;
+            .inputIcon {
+              position: absolute;
+              left: 1rem;
+              color: $color-text-muted;
+              pointer-events: none;
+            }
 
-        &:hover {
-          background-color: rgba($color-secondary, 0.05);
-          border-color: $color-secondary;
+            input {
+              width: 100%;
+              background-color: $color-white;
+              border: 1px solid $color-border;
+              padding: 0.85rem 1rem 0.85rem 2.75rem;
+              border-radius: 12px;
+              font-size: 0.9rem;
+              color: $color-text-main;
+              transition: $transition-smooth;
+
+              &::placeholder {
+                color: $color-text-muted;
+              }
+
+              &:focus {
+                outline: none;
+                border-color: $color-accent-dark;
+                box-shadow: 0 0 0 3px rgba(200, 241, 53, 0.15);
+              }
+            }
+          }
+        }
+
+        .errorMessage {
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          background-color: $color-danger-bg;
+          border: 1px solid rgba($color-danger, 0.15);
+          color: $color-danger;
+          padding: 0.75rem 1rem;
+          border-radius: 10px;
+          font-size: 0.825rem;
+          font-weight: 600;
+          animation: shake 0.4s ease-in-out;
+        }
+
+        .fpSubmit {
+          width: 100%;
+          margin-top: 0.25rem;
         }
       }
-    }
 
-    .cardFooter {
-      text-align: center;
-
-      .securityBadge {
-        display: inline-flex;
+      .successState {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 0.4rem;
-        font-size: 0.75rem;
-        color: rgba(34, 32, 40, 0.4);
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        justify-content: center;
+        gap: 1rem;
+        animation: fadeIn 0.5s ease-out;
+
+        .successIcon {
+          width: 72px;
+          height: 72px;
+          background: rgba(200, 241, 53, 0.12);
+          color: $color-accent-dark;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          border: 2px solid rgba(200, 241, 53, 0.25);
+          margin-bottom: 0.5rem;
+        }
+
+        h3 {
+          font-size: 1.4rem;
+          font-weight: 800;
+          color: $color-text-main;
+          margin: 0;
+          letter-spacing: -0.01em;
+        }
+
+        p {
+          color: $color-text-secondary;
+          font-size: 0.875rem;
+          line-height: 1.6;
+          margin: 0;
+
+          b {
+            color: $color-text-main;
+            font-weight: 700;
+          }
+        }
+
+        .returnLoginBtn {
+          margin-top: 0.5rem;
+          display: inline-flex;
+          align-items: center;
+          color: $color-text-main;
+          font-weight: 700;
+          font-size: 0.875rem;
+          text-decoration: none;
+          padding: 0.7rem 1.5rem;
+          border: 1px solid $color-border;
+          border-radius: 12px;
+          transition: $transition-smooth;
+
+          &:hover {
+            background-color: $color-bg-secondary;
+            border-color: $color-accent-dark;
+            color: $color-accent-dark;
+          }
+        }
+      }
+
+      .cardFooter {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        border-top: 1px solid $color-border;
+        padding-top: 1.5rem;
+
+        .securityBadge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-size: 0.72rem;
+          color: $color-text-muted;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          justify-content: center;
+        }
+
+        .rememberPassword {
+          font-size: 0.875rem;
+          color: $color-text-secondary;
+          margin: 0;
+
+          a {
+            color: $color-text-main;
+            font-weight: 700;
+            text-decoration: none;
+            transition: $transition-smooth;
+
+            &:hover {
+              color: $color-accent-dark;
+            }
+          }
+        }
       }
     }
   }
 }
 
-@keyframes drift {
-  from { transform: translate(0, 0) scale(1); }
-  to { transform: translate(50px, 30px) scale(1.1); }
+// --- Responsive Collapse Rules ---
+@media (max-width: 960px) {
+  .forgotPasswordPage {
+    .fpPanelLeft {
+      display: none;
+    }
+    .fpPanelRight {
+      padding: 2rem 1.5rem;
+    }
+  }
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
 }
 
 @media (max-width: 480px) {
-  .forgotPasswordCard {
-    padding: 2.5rem 1.5rem;
+  .forgotPasswordPage {
+    .fpPanelRight {
+      .fpCard {
+        padding: 2.5rem 1.5rem;
+      }
+    }
   }
 }

@@ -1,0 +1,557 @@
+@use "../../assets/styles/variables" as *;
+
+.documentsPage {
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .pageHeader {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-bottom: 1px solid $color-border;
+    margin: -2rem -2rem 2rem -2rem;
+
+    .titleArea {
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba($color-text-secondary, 0.08);
+        color: $color-text-secondary;
+        border: 1px solid rgba($color-text-secondary, 0.15);
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .documentsTitle {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: $color-text-main;
+        margin: 0 0 0.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        color: $color-text-secondary;
+        margin: 0;
+        font-size: 1.15rem;
+        line-height: 1.6;
+        max-width: 800px;
+      }
+    }
+  }
+
+  // Stats Grid
+  .documentsStats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+
+    .statCard {
+      background: $color-white;
+      border: 1px solid $color-border;
+      border-radius: $radius-lg;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: $shadow-card;
+
+      .statIcon {
+        width: 44px;
+        height: 44px;
+        background: rgba(200, 241, 53, 0.12);
+        border-radius: $radius-md;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #5a7a00;
+        flex-shrink: 0;
+      }
+
+      .statContent {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+
+        .statLabel {
+          font-size: 0.72rem;
+          font-weight: 600;
+          color: $color-text-muted;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 2px;
+        }
+
+        .statValue {
+          font-size: 1.4rem;
+          font-weight: 800;
+          color: $color-text-main;
+        }
+      }
+    }
+  }
+
+  // Filter Bar
+  .documentsFilterBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    padding: 1rem 1.25rem;
+    box-shadow: $shadow-sm;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    // Search Box
+    .searchBox {
+      position: relative;
+      flex: 1;
+      max-width: 450px;
+
+      .searchIcon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $color-text-muted;
+        pointer-events: none;
+      }
+
+      .searchInput {
+        width: 100%;
+        padding: 10px 14px 10px 42px;
+        background: $color-bg-secondary;
+        border: 1px solid $color-border;
+        border-radius: $radius-md;
+        font-size: 0.875rem;
+        color: $color-text-main;
+        font-family: $font-sans;
+        transition: $transition-smooth;
+
+        &:focus {
+          outline: none;
+          border-color: $color-accent-dark;
+          background: $color-white;
+          box-shadow: 0 0 0 3px rgba(200, 241, 53, 0.15);
+        }
+      }
+    }
+
+    // Filter Controls
+    .filterControls {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+
+      // Tabs
+      .tabs {
+        display: flex;
+        background: $color-bg-secondary;
+        padding: 3px;
+        border-radius: $radius-md;
+        border: 1px solid $color-border;
+
+        .tabBtn {
+          padding: 7px 16px;
+          border: none;
+          background: transparent;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: $color-text-secondary;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: $transition-smooth;
+
+          &:hover {
+            color: $color-text-main;
+          }
+
+          &--active {
+            background: $color-white;
+            color: $color-text-main;
+            box-shadow: $shadow-sm;
+          }
+        }
+      }
+    }
+  }
+
+  // ─── Table List Layout ────────────────────────────────────────────────────────
+  .documentsTableWrapper {
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-card;
+    overflow-x: auto;
+
+    .documentsTable {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-family: $font-sans;
+
+      th {
+        background: $color-bg-secondary;
+        padding: 1rem 1.25rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: $color-text-muted;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid $color-border;
+        white-space: nowrap;
+      }
+
+      td {
+        padding: 1.1rem 1.25rem;
+        border-bottom: 1px solid rgba($color-border, 0.6);
+        vertical-align: middle;
+        font-size: 0.875rem;
+        color: $color-text-secondary;
+      }
+
+      .textRight {
+        text-align: right;
+      }
+
+      .documentRow {
+        transition: $transition-smooth;
+
+        &:last-child td {
+          border-bottom: none;
+        }
+
+        &:hover {
+          background: rgba($color-secondary, 0.02);
+        }
+      }
+
+      // Document Cell Info
+      .docCell {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        min-width: 320px;
+
+        .docIconWrapper {
+          width: 38px;
+          height: 38px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          background: $color-bg-secondary;
+
+          .formIconColor {
+            color: #5a7a00;
+          }
+
+          .instrIconColor {
+            color: #0284c7;
+          }
+        }
+
+        .docDetails {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+
+          .docName {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: $color-text-main;
+            cursor: pointer;
+            transition: $transition-smooth;
+
+            &:hover {
+              color: $color-secondary;
+              text-decoration: underline;
+            }
+          }
+
+          .docDesc {
+            font-size: 0.78rem;
+            color: $color-text-secondary;
+            line-height: 1.4;
+          }
+        }
+      }
+
+      // Form Code Badge
+      .docFormIdBadge {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        background: rgba($color-secondary, 0.07);
+        color: $color-secondary;
+        padding: 0.3rem 0.65rem;
+        border-radius: 6px;
+      }
+
+      // Format tag label
+      .formatLabel {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 800;
+        padding: 2px 8px;
+        border-radius: 6px;
+        text-transform: uppercase;
+
+        &.pdf {
+          background: #fee2e2;
+          color: #b91c1c;
+        }
+
+        &.html {
+          background: #e0f2fe;
+          color: #0369a1;
+        }
+      }
+
+      // Checked timestamp
+      .checkedDate {
+        font-size: 0.8rem;
+        color: $color-text-secondary;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      // KnowledgeHub Sync indicator
+      .khSyncStatus {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        white-space: nowrap;
+
+        .syncIndicator {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          display: inline-block;
+          flex-shrink: 0;
+        }
+
+        &--synced {
+          color: #16a34a; // Green
+
+          .syncIndicator {
+            background-color: #16a34a;
+            box-shadow: 0 0 8px rgba(22, 163, 74, 0.4);
+          }
+        }
+
+        &--pending {
+          color: $color-text-muted;
+
+          .syncIndicator {
+            background-color: $color-text-muted;
+          }
+        }
+
+        &--warning {
+          color: #d97706; // Amber/Orange
+
+          .syncIndicator {
+            background-color: #d97706;
+            box-shadow: 0 0 8px rgba(217, 119, 6, 0.4);
+          }
+
+          .khLink {
+            border-bottom-color: rgba(217, 119, 6, 0.4);
+
+            &:hover {
+              color: #b45309;
+              border-bottom-color: #b45309;
+            }
+          }
+        }
+
+        .khLink {
+          color: inherit;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          transition: $transition-smooth;
+          border-bottom: 1px dashed rgba(22, 163, 74, 0.4);
+
+          &:hover {
+            color: #15803d;
+            border-bottom-color: #15803d;
+          }
+        }
+      }
+
+      // Actions Column
+      .actionsCell {
+        min-width: 220px;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .btnAction {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 12px;
+        border-radius: $radius-md;
+        font-size: 0.78rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: $transition-smooth;
+        text-decoration: none;
+        white-space: nowrap;
+        flex-shrink: 0;
+
+        &--uscis {
+          background: $color-bg-secondary;
+          color: $color-text-main;
+          border: 1px solid $color-border;
+
+          &:hover {
+            background: $color-sidebar-active;
+            border-color: $color-text-secondary;
+          }
+        }
+
+        &--linqra {
+          background: $color-accent;
+          color: $color-dark;
+          border: 1px solid transparent;
+
+          &:hover {
+            background: $color-accent-dark;
+          }
+        }
+      }
+
+      .rowActions {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        justify-content: flex-end;
+        align-items: center;
+
+        .btnActionIntel {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          padding: 6px 12px;
+          background: $color-bg-secondary;
+          color: $color-text-main;
+          border: 1px solid $color-border;
+          border-radius: $radius-md;
+          font-size: 0.78rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: $transition-smooth;
+          white-space: nowrap;
+          flex-shrink: 0;
+
+          &:hover {
+            background: $color-sidebar-active;
+            border-color: $color-text-secondary;
+          }
+        }
+      }
+    }
+  }
+
+  // ─── Empty Card ──────────────────────────────────────────────────────────────
+  .documentsEmptyCard {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    color: $color-text-secondary;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: $shadow-card;
+
+    svg {
+      color: $color-text-muted;
+      opacity: 0.6;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: $color-text-main;
+      margin: 0;
+    }
+
+    p {
+      font-size: 0.875rem;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .clearFiltersBtn {
+      background: $color-accent;
+      color: $color-dark;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: $radius-md;
+      font-weight: 700;
+      cursor: pointer;
+      transition: $transition-smooth;
+      font-family: $font-sans;
+
+      &:hover {
+        background: $color-accent-dark;
+        transform: translateY(-1px);
+      }
+    }
+  }
+}
+
+// ─── Loading States ───────────────────────────────────────────────────────────
+.documentsLoading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 6rem 2rem;
+  color: $color-text-secondary;
+
+  .loadingSpinner {
+    width: 44px;
+    height: 44px;
+    border: 4px solid rgba(200, 241, 53, 0.15);
+    border-left-color: #5a7a00;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

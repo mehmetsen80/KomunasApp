@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Bell, Mail, Shield, CheckCircle, AlertTriangle } from 'lucide-react';
 import subscriptionService from '../../../services/subscriptionService';
+import Button from '../../Button';
 import './styles.scss';
 
 const SubscribeNewsroomModal = ({ isOpen, onClose, onSuccess, resourceId, domain, category, userEmail, subscriptionId, isUnsubscribing = false }) => {
@@ -26,7 +27,9 @@ const SubscribeNewsroomModal = ({ isOpen, onClose, onSuccess, resourceId, domain
     }
   };
 
-  const resourceName = resourceId === 'news-releases' ? 'USCIS News Releases' : 'USCIS Announcements';
+  const resourceName = resourceId === 'news-releases' ? 'USCIS News Releases' : 
+                       resourceId === 'visa-bulletin' ? 'Visa Bulletin Updates' : 
+                       'USCIS Announcements';
 
   return (
     <div className="modalOverlay" onClick={onClose}>
@@ -84,14 +87,14 @@ const SubscribeNewsroomModal = ({ isOpen, onClose, onSuccess, resourceId, domain
         </div>
 
         <div className="modalFooter">
-          <button className="cancelBtn" onClick={onClose} disabled={loading}>Cancel</button>
-          <button
-            className={`confirmBtn ${isUnsubscribing ? 'unsub' : 'sub'}`}
+          <Button variant="cancel" onClick={onClose} disabled={loading}>Cancel</Button>
+          <Button
+            variant={isUnsubscribing ? 'danger' : 'success'}
             onClick={handleConfirm}
-            disabled={loading}
+            loading={loading}
           >
-            {loading ? <div className="mini-spinner"></div> : (isUnsubscribing ? 'Stop Monitoring' : 'Start Monitoring')}
-          </button>
+            {isUnsubscribing ? 'Stop Monitoring' : 'Start Monitoring'}
+          </Button>
         </div>
       </div>
     </div>

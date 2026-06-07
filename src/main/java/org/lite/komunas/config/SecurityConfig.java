@@ -77,7 +77,8 @@ public class SecurityConfig {
             "/api/uscis/visa-bulletin/**",
             "/api/uscis/processing-times/**",
             "/api/uscis/notifications/**",
-            "/api/uscis/sync/**"
+            "/api/uscis/sync/**",
+            "/api/demo-requests/**"
     };
 
     @Bean

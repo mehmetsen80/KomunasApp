@@ -1,0 +1,249 @@
+@use '@/assets/styles/variables' as *;
+
+.appShell {
+  display: flex;
+  min-height: 100vh;
+  background: $color-bg-secondary;
+  font-family: $font-sans;
+}
+
+.appContent {
+  flex: 1;
+  margin-left: $sidebar-width;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.appMain {
+  flex: 1;
+  padding: 0 !important; // Pull pages edge-to-edge of appContent
+  overflow-y: auto;
+  min-height: 0;
+}
+
+// ─── Overrides for public intelligence pages rendered inside app shell ───
+.intelPage--authenticated,
+.visaBulletinPage--authenticated {
+  min-height: auto !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  padding: 0 !important;
+
+  .container {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .pageHeader {
+    background: white !important;
+    padding: 2.5rem 0 !important;
+    border-bottom: 1px solid $color-border !important;
+    margin: 0 !important; // naturally edge-to-edge due to appMain padding removal
+    position: relative !important;
+    overflow: hidden !important;
+    display: block !important;
+    width: auto !important;
+
+    &::before {
+      display: none !important;
+    }
+
+    .container {
+      max-width: 1600px !important;
+      margin: 0 auto !important;
+      padding: 0 2rem !important; // Align with the 2rem page content padding
+      width: 100% !important;
+      box-sizing: border-box !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 2rem !important;
+      flex-wrap: wrap !important;
+    }
+
+    .backBtn {
+      display: none !important;
+    }
+
+    .headerContent {
+      flex: 1 !important;
+      margin-bottom: 0 !important;
+      z-index: 2 !important;
+    }
+
+    .titleArea {
+      width: 100% !important;
+
+      .badge, .formTypeBadge {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        background: rgba($color-text-secondary, 0.08) !important;
+        color: $color-text-secondary !important;
+        border: 1px solid rgba($color-text-secondary, 0.15) !important;
+        padding: 0.35rem 0.85rem !important;
+        border-radius: 9999px !important;
+        font-size: 0.8rem !important;
+        font-weight: 600 !important;
+        margin-bottom: 1rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        box-shadow: none !important;
+
+        svg {
+          margin: 0 !important;
+          color: $color-text-secondary !important;
+        }
+
+        span {
+          color: $color-text-secondary !important;
+          font-weight: 600 !important;
+        }
+      }
+
+      h1 {
+        font-size: 2.25rem !important;
+        font-weight: 800 !important;
+        color: $color-text-main !important;
+        margin: 0 0 0.5rem 0 !important;
+        letter-spacing: -0.02em !important;
+        line-height: 1.2 !important;
+      }
+
+      .subtitle, .formSummary {
+        color: $color-text-secondary !important;
+        margin: 0 !important;
+        font-size: 1.15rem !important;
+        line-height: 1.6 !important;
+        max-width: 800px !important;
+        font-weight: 400 !important;
+
+        strong {
+          color: $color-text-main !important;
+        }
+      }
+
+      .metaInfoRow, .metaInfo {
+        display: none !important;
+      }
+    }
+
+    .heroActions {
+      display: flex !important;
+      gap: 1rem !important;
+      flex-wrap: wrap !important;
+      margin-top: 0 !important;
+      z-index: 2 !important;
+      position: relative !important;
+      align-items: center !important;
+
+      a, button {
+        padding: 0.75rem 1.25rem !important;
+        font-size: 0.9rem !important;
+        border-radius: 8px !important;
+        margin: 0 !important;
+      }
+
+      .subscriptionAction {
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+
+        button, .statusBadge {
+          padding: 0.75rem 1.25rem !important;
+          font-size: 0.9rem !important;
+          border-radius: 8px !important;
+          margin: 0 !important;
+          height: auto !important;
+        }
+      }
+    }
+  }
+
+  .contentSection, .detailContent {
+    padding: 2rem 0 !important; // horizontal padding handled by inner container
+
+    .container {
+      max-width: 1600px !important;
+      margin: 0 auto !important;
+      padding: 0 2rem !important; // 2rem horizontal padding
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+  }
+}
+
+// ─── Overrides for all other dashboard pages to achieve consistent layout & vertical alignment ───
+.appMain > .overview,
+.appMain > .changeMonitorPage,
+.appMain > .sourcesPage,
+.appMain > .documentsPage,
+.appMain > .teamPage,
+.appMain > .reportsPage,
+.appMain > .savedSearchesPage,
+.appMain > .profilePage,
+.appMain > .aiAgentsPage {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 0 2rem 0 !important; // only bottom padding
+  display: flex !important;
+  flex-direction: column !important;
+
+  .pageHeader {
+    background: white !important;
+    padding: 2.5rem 0 !important; // 0 horizontal padding
+    border-bottom: 1px solid $color-border !important;
+    margin: 0 !important; // naturally edge-to-edge due to appMain padding removal
+    position: relative !important;
+    overflow: hidden !important;
+    display: block !important;
+    width: auto !important;
+
+    .headerContent {
+      max-width: 1600px !important;
+      margin: 0 auto !important;
+      padding: 0 2rem !important; // 2rem horizontal padding
+      width: 100% !important;
+      box-sizing: border-box !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 2rem !important;
+      flex-wrap: wrap !important;
+      
+      .titleArea {
+        flex: 1 !important;
+      }
+    }
+  }
+
+  // Centering body content direct children below pageHeader
+  > *:not(.pageHeader) {
+    max-width: 1600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    padding-left: 2rem !important; // 2rem horizontal padding
+    padding-right: 2rem !important;
+    box-sizing: border-box !important;
+  }
+
+  // Specific overrides for direct children that are cards themselves (to align their outer borders with the inner content of containers)
+  > .monitoredCard {
+    max-width: 1560px !important;
+    padding: 1.25rem !important;
+  }
+
+  > .sourcesFilterBar,
+  > .changeMonitorFilterBar,
+  > .documentsFilterBar,
+  > .reportsFilterBar {
+    max-width: 1560px !important;
+    padding: 1rem 1.25rem !important;
+  }
+}

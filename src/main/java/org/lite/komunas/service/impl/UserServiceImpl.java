@@ -17,6 +17,7 @@ import org.springframework.util.StreamUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 import java.util.*;
 
 @Slf4j
@@ -252,6 +253,80 @@ public class UserServiceImpl implements UserService {
         map.put("fullName", user.getFullName());
         map.put("roles", user.getRoles());
         map.put("createdAt", user.getCreatedAt());
+        map.put("teamId", user.getTeamId());
         return map;
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        org.springframework.security.core.Authentication authentication = org.springframework.security.core.context.SecurityContextHolder
+                .getContext().getAuthentication();
+        User caller = null;
+        if (authentication != null) {
+            String currentUsername = authentication.getName();
+            caller = userRepository.findByUsernameIgnoreCaseOrEmailIgnoreCase(currentUsername, currentUsername)
+                    .orElse(null);
+        }
+
+        boolean isPrivileged = false;
+        if (caller != null) {
+            isPrivileged = caller.getRoles().contains("SUPER_ADMIN") || caller.getRoles().contains("ADMIN");
+        }
+
+        List<User> users;
+        if (isPrivileged) {
+            users = userRepository.findAll();
+        } else if (caller != null && caller.getTeamId() != null && !caller.getTeamId().isBlank()) {
+            users = userRepository.findByTeamId(caller.getTeamId());
+        } else if (caller != null) {
+            users = Collections.singletonList(caller);
+        } else {
+            users = Collections.emptyList();
+        }
+
+        List<TeamDTO> teams = linqraClient.fetchTeams();
+        Map<String, TeamDTO> teamMap = teams.stream()
+                .collect(Collectors.toMap(
+                        TeamDTO::getId,
+                        t -> t,
+                        (existing, replacement) -> existing));
+
+        return users.stream()
+                .map(user -> {
+                    TeamDTO teamInfo = teamMap != null ? teamMap.get(user.getTeamId()) : null;
+                    Map<String, Object> org = teamInfo != null ? teamInfo.getOrganization() : null;
+                    return UserDTO.builder()
+                            .id(user.getId())
+                            .username(user.getUsername())
+                            .email(user.getEmail())
+                            .fullName(user.getFullName())
+                            .roles(user.getRoles())
+                            .teamId(user.getTeamId())
+                            .teamName(teamInfo != null ? teamInfo.getName() : "No Team Assignment")
+                            .organizationId(org != null ? (String) org.get("id") : null)
+                            .organizationName(org != null ? (String) org.get("name") : "No Organization")
+                            .organizationShortName(org != null ? (String) org.get("shortName") : null)
+                            .build();
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateUser(String userId, Set<String> roles, String teamId) {
+        userRepository.findById(userId).ifPresent(user -> {
+            user.setRoles(roles);
+            user.setTeamId(teamId);
+            userRepository.save(user);
+        });
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+        userRepository.deleteById(userId);
+    }
+
+    @Override
+    public List<TeamDTO> getAllTeams() {
+        return linqraClient.fetchTeams();
     }
 }

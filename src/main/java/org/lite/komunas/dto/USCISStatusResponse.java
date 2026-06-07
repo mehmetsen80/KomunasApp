@@ -35,6 +35,8 @@ public class USCISStatusResponse {
     private String effectiveDate;
     private String resourceUrl;
     private String instructionsUrl;
+    private String documentId;
+    private String instructionsDocumentId;
     private Map<String, SupplementalResource> supplementalResources;
 
     // Change tracking

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Bell, Mail, Shield, CheckCircle, AlertTriangle, Clock, TrendingUp } from 'lucide-react';
 import subscriptionService from '../../../services/subscriptionService';
+import Button from '../../Button';
 import './styles.scss';
 
 const SubscribeProcessingTimesModal = ({ isOpen, onClose, onSuccess, resourceId, domain, category, userEmail, subscriptionId, isUnsubscribing = false }) => {
@@ -84,14 +85,14 @@ const SubscribeProcessingTimesModal = ({ isOpen, onClose, onSuccess, resourceId,
         </div>
 
         <div className="modalFooter">
-          <button className="cancelBtn" onClick={onClose} disabled={loading}>Cancel</button>
-          <button
-            className={`confirmBtn ${isUnsubscribing ? 'unsub' : 'sub'}`}
+          <Button variant="cancel" onClick={onClose} disabled={loading}>Cancel</Button>
+          <Button
+            variant={isUnsubscribing ? 'danger' : 'success'}
             onClick={handleConfirm}
-            disabled={loading}
+            loading={loading}
           >
-            {loading ? <div className="mini-spinner"></div> : (isUnsubscribing ? 'Stop Monitoring' : 'Start Monitoring')}
-          </button>
+            {isUnsubscribing ? 'Stop Monitoring' : 'Start Monitoring'}
+          </Button>
         </div>
       </div>
     </div>

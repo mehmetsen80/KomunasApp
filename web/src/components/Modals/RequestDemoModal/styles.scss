@@ -1,0 +1,248 @@
+@use "../../../assets/styles/variables" as *;
+
+.demoModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 15, 0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.demoModalContent {
+  background: $color-white !important;
+  width: 100% !important;
+  max-width: 480px !important;
+  border-radius: 24px !important;
+  padding: 2.5rem !important;
+  position: relative;
+  box-shadow: $shadow-lg, 0 0 0 1px $color-border !important;
+  animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none !important;
+
+  .closeBtn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s;
+
+    &:hover {
+      background: $color-bg-secondary;
+      color: $color-text-main;
+    }
+  }
+
+  .modalHeader {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .iconWrapper.demo {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      background: rgba($color-accent, 0.15);
+      color: $color-accent-dark;
+      border: 1px solid rgba($color-accent, 0.3);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: $color-text-main;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: $color-text-secondary;
+      line-height: 1.5;
+    }
+  }
+
+  .modalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+
+    .formError {
+      background: #fef2f2;
+      border: 1px solid #fee2e2;
+      color: $color-danger;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .formGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $color-text-main;
+      }
+    }
+
+    .inputWrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .inputIcon {
+        position: absolute;
+        left: 14px;
+        color: $color-text-muted;
+        pointer-events: none;
+        transition: color 0.2s ease;
+      }
+
+      .textareaIcon {
+        top: 14px;
+      }
+
+      input, textarea {
+        width: 100%;
+        padding: 12px 14px 12px 42px;
+        border: 1px solid $color-border-strong;
+        border-radius: $radius-lg;
+        font-size: 0.9rem;
+        font-family: $font-sans;
+        color: $color-text-main;
+        background: $color-white;
+        transition: $transition-smooth;
+
+        &:focus {
+          outline: none;
+          border-color: $color-accent-dark;
+          box-shadow: 0 0 0 4px rgba($color-accent, 0.25);
+          
+          + .inputIcon {
+            color: $color-accent-dark;
+          }
+        }
+
+        &:disabled {
+          background: $color-bg-secondary;
+          color: $color-text-muted;
+          cursor: not-allowed;
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+    }
+  }
+
+  .modalFooter {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+
+    button {
+      flex: 1;
+    }
+  }
+
+  // Success State Styling
+  .successContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 0.5rem 0.5rem;
+
+    .successIcon {
+      color: $color-success;
+      margin-bottom: 1.5rem;
+      animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: $color-text-main;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .successMessage {
+      font-size: 1rem;
+      color: $color-text-secondary;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+
+      strong {
+        color: $color-text-main;
+      }
+    }
+
+    .subMessage {
+      font-size: 0.85rem;
+      color: $color-text-muted;
+      line-height: 1.6;
+      background: $color-bg-secondary;
+      padding: 0.85rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid $color-border;
+      margin-bottom: 2rem;
+    }
+
+    .successFooter {
+      width: 100%;
+      display: flex;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 500px) {
+  .demoModalContent {
+    padding: 1.75rem !important;
+
+    .modalHeader {
+      margin-bottom: 1.5rem;
+      .iconWrapper.demo {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        svg {
+          width: 26px;
+          height: 26px;
+        }
+      }
+    }
+
+    .modalBody {
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+}

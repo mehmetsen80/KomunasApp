@@ -101,38 +101,8 @@
     display: flex;
     gap: 1rem;
 
-    button {
+    .premiumBtn {
       flex: 1;
-      padding: 1rem;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .cancelBtn {
-      background: white;
-      border: 1px solid #e5e7eb;
-      color: #4b5563;
-
-      &:hover {
-        background: #f9fafb;
-        border-color: #d1d5db;
-      }
-    }
-
-    .confirmBtn.logout {
-      background: #ef4444;
-      color: white;
-      border: none;
-      box-shadow: 0 4px 12px rgba(#ef4444, 0.2);
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(#ef4444, 0.3);
-        background: color.adjust(#ef4444, $lightness: -5%);
-      }
     }
   }
 }

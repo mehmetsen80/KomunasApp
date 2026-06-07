@@ -1,0 +1,461 @@
+@use "../../assets/styles/variables" as *;
+
+.sourcesPage {
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .pageHeader {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-bottom: 1px solid $color-border;
+    margin: -2rem -2rem 2rem -2rem;
+
+    .titleArea {
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba($color-text-secondary, 0.08);
+        color: $color-text-secondary;
+        border: 1px solid rgba($color-text-secondary, 0.15);
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .sourcesTitle {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: $color-text-main;
+        margin: 0 0 0.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        color: $color-text-secondary;
+        margin: 0;
+        font-size: 1.15rem;
+        line-height: 1.6;
+        max-width: 800px;
+      }
+    }
+  }
+
+  // Stats Grid
+  .sourcesStats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+
+    .statCard {
+      background: $color-white;
+      border: 1px solid $color-border;
+      border-radius: $radius-lg;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: $shadow-card;
+
+      .statIcon {
+        width: 44px;
+        height: 44px;
+        background: rgba(200, 241, 53, 0.12);
+        border-radius: $radius-md;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #5a7a00;
+        flex-shrink: 0;
+      }
+
+      .statContent {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+
+        .statLabel {
+          font-size: 0.72rem;
+          font-weight: 600;
+          color: $color-text-muted;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 2px;
+        }
+
+        .statValue {
+          font-size: 1.4rem;
+          font-weight: 800;
+          color: $color-text-main;
+        }
+      }
+    }
+  }
+
+  // Filter Bar
+  .sourcesFilterBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    padding: 1rem 1.25rem;
+    box-shadow: $shadow-sm;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    // Search Box
+    .searchBox {
+      position: relative;
+      flex: 1;
+      max-width: 450px;
+
+      .searchIcon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $color-text-muted;
+        pointer-events: none;
+      }
+
+      .searchInput {
+        width: 100%;
+        padding: 10px 14px 10px 42px;
+        background: $color-bg-secondary;
+        border: 1px solid $color-border;
+        border-radius: $radius-md;
+        font-size: 0.875rem;
+        color: $color-text-main;
+        font-family: $font-sans;
+        transition: $transition-smooth;
+
+        &:focus {
+          outline: none;
+          border-color: $color-accent-dark;
+          background: $color-white;
+          box-shadow: 0 0 0 3px rgba(200, 241, 53, 0.15);
+        }
+      }
+    }
+
+    // Filter Controls
+    .filterControls {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+
+      // Tabs
+      .tabs {
+        display: flex;
+        background: $color-bg-secondary;
+        padding: 3px;
+        border-radius: $radius-md;
+        border: 1px solid $color-border;
+
+        .tabBtn {
+          padding: 7px 16px;
+          border: none;
+          background: transparent;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: $color-text-secondary;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: $transition-smooth;
+
+          &:hover {
+            color: $color-text-main;
+          }
+
+          &--active {
+            background: $color-white;
+            color: $color-text-main;
+            box-shadow: $shadow-sm;
+          }
+        }
+      }
+
+      // Checkbox
+      .checkboxLabel {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: $color-text-secondary;
+        cursor: pointer;
+        user-select: none;
+
+        input {
+          width: 16px;
+          height: 16px;
+          border-radius: 4px;
+          border: 1px solid $color-border-strong;
+          cursor: pointer;
+          accent-color: #5a7a00;
+        }
+      }
+    }
+  }
+
+  // Grid/List of Sources
+  .sourcesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+
+    .sourceCard {
+      background: $color-white;
+      border: 1px solid $color-border;
+      border-radius: $radius-lg;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      box-shadow: $shadow-card;
+      transition: $transition-smooth;
+      position: relative;
+      overflow: hidden;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: $shadow-lg;
+        border-color: rgba(200, 241, 53, 0.3);
+      }
+
+      // Border indicator based on category
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: $color-border;
+      }
+
+      &--forms::before { background: $color-accent-dark; }
+      &--newsroom::before { background: $color-info; }
+      &--bulletins::before { background: $color-warning; }
+
+      .cardTop {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+
+        .cardInfo {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+
+          .sourceBadge {
+            align-self: flex-start;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 8px;
+            border-radius: $radius-full;
+            background: $color-bg-secondary;
+            color: $color-text-secondary;
+          }
+
+          .sourceTitle {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: $color-text-main;
+            margin: 4px 0 2px 0;
+          }
+
+          .sourceSubtitle {
+            font-size: 0.78rem;
+            color: $color-text-secondary;
+            line-height: 1.3;
+          }
+        }
+
+        .statusBadge {
+          font-size: 0.65rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          padding: 3px 8px;
+          border-radius: 6px;
+          letter-spacing: 0.02em;
+
+          &.active {
+            background: #d1fae5;
+            color: #065f46;
+          }
+
+          &.inactive {
+            background: #f1f5f9;
+            color: #475569;
+          }
+        }
+      }
+
+      // Middle Details
+      .cardDetails {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba($color-border, 0.6);
+
+        .detailItem {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          line-height: 1.2;
+
+          span {
+            font-size: 0.68rem;
+            color: $color-text-muted;
+            font-weight: 500;
+            text-transform: uppercase;
+          }
+
+          strong {
+            font-size: 0.8rem;
+            color: $color-text-main;
+            font-weight: 600;
+          }
+        }
+      }
+
+      // Actions at bottom
+      .cardActions {
+        display: flex;
+        gap: 8px;
+        margin-top: auto;
+        padding-top: 12px;
+        border-top: 1px solid rgba($color-border, 0.6);
+
+        .btn {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 8px 12px;
+          border-radius: $radius-md;
+          font-size: 0.8rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: $transition-smooth;
+          text-decoration: none;
+          font-family: $font-sans;
+        }
+
+        .btnIntel {
+          background: $color-bg-secondary;
+          color: $color-text-main;
+          border: 1px solid $color-border;
+
+          &:hover {
+            background: $color-sidebar-active;
+          }
+        }
+
+        .btnSubscribe {
+          border: 1px solid transparent;
+
+          &.subscribed {
+            background: #ecfdf5;
+            color: #047857;
+            border-color: #a7f3d0;
+
+            &:hover {
+              background: #fee2e2;
+              color: #b91c1c;
+              border-color: #fecaca;
+            }
+          }
+
+          &.unsubscribed {
+            background: $color-accent;
+            color: $color-dark;
+
+            &:hover {
+              background: $color-accent-dark;
+            }
+          }
+
+          &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+  }
+
+  // Loading and empty states
+  .sourcesLoading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 6rem 2rem;
+    color: $color-text-secondary;
+
+    .loadingSpinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid rgba(200, 241, 53, 0.15);
+      border-left-color: #5a7a00;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  .sourcesEmpty {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    color: $color-text-secondary;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+
+    svg {
+      color: $color-text-muted;
+      opacity: 0.6;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: $color-text-main;
+      margin: 0;
+    }
+
+    p {
+      font-size: 0.875rem;
+      margin: 0;
+    }
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

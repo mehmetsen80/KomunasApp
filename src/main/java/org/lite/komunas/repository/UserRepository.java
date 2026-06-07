@@ -50,6 +50,11 @@ public interface UserRepository extends MongoRepository<User, String> {
     boolean existsByEmail(String email);
 
     /**
+     * Find users by team ID
+     */
+    List<User> findByTeamId(String teamId);
+
+    /**
      * Find users by role
      */
     List<User> findByRolesContaining(String role);

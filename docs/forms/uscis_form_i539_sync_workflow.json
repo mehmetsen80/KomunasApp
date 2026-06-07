@@ -184,7 +184,14 @@
             "role": "user",
             "content": "### MAIN FORM DELTAS\nOld: {{step6.result.oldText}}\nNew: {{step6.result.newText}}\n\n### INSTRUCTIONS DELTAS\nOld: {{step7.result.oldText}}\nNew: {{step7.result.newText}}\n\n### I-539A SUPPLEMENTAL DELTAS\nOld: {{step8.result.oldText}}\nNew: {{step8.result.newText}}\n\n### M-752 FILING TIPS DELTAS\nOld: {{step9.result.oldText}}\nNew: {{step9.result.newText}}"
           }
-        ]
+        ],
+        "llmConfig": {
+          "model": "gpt-o4-mini",
+          "settings": {
+            "temperature": 0.1,
+            "max.tokens": 4096
+          }
+        }
       },
       {
         "step": 11,

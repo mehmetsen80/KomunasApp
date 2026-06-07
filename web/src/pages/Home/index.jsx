@@ -1,1126 +1,406 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  Zap, FileText, Download, ExternalLink, Search,
-  Bell, CheckCircle, AlertTriangle, Rss, BookOpen, BarChart3,
-  Shield, Clock, ArrowRight, AlertCircle, CheckCircle2, Filter, Newspaper,
-  User, LogOut, LogIn, UserPlus, Menu, X, ChevronDown, Activity, Info
-} from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './styles.scss';
-import HeroBackground from '../../components/HeroBackground';
-import resourceSyncService from '../../services/resourceSyncService';
-import { formatDateTime, formatSyncTime, getRelativeTime } from '../../utils/dateUtils';
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
-import { useNavigate as useNav } from 'react-router-dom';
+import {
+  Shield, Brain, Globe, ArrowRight, Play, Layers, Clock, BookOpen, FileText, CheckCircle, Lock, Bell, Scale, Briefcase, Users, X, ChevronLeft, ChevronRight
+} from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import SubscribeFormModal from '../../components/Modals/SubscribeFormModal';
-import ViewIntelModal from '../../components/Modals/ViewIntelModal';
-import LogoutConfirmationModal from '../../components/Modals/LogoutConfirmationModal';
-import notificationService from '../../services/notificationService';
-import DataToolTip from '../../components/DataToolTip';
+import VideoDemoModal from '../../components/Modals/VideoDemoModal';
+import RequestDemoModal from '../../components/Modals/RequestDemoModal';
+import './styles.scss';
+
+const PREVIEW_IMAGES = [
+  { src: '/dashboard-preview.png', alt: 'Dashboard Overview', label: 'Overview Dashboard' },
+  { src: '/sources-preview.png',   alt: 'Monitored Sources',   label: 'Monitored Sources' },
+  { src: '/subscribe-preview.png', alt: 'Subscription Modal',  label: 'Form Subscription' },
+  { src: '/documents-preview.png', alt: 'Documents Library',  label: 'Document Library' },
+  { src: '/aiagents-preview.png',  alt: 'AI Agents Panel',     label: 'AI Agents Panel' },
+];
+
+const FEATURES = [
+  {
+    icon: <Shield size={22} />,
+    title: 'Early Detection',
+    desc: 'Detect regulatory changes before they impact you.',
+  },
+  {
+    icon: <Brain size={22} />,
+    title: 'AI-Powered Analysis',
+    desc: 'Understand what changed and why it matters.',
+  },
+  {
+    icon: <Bell size={22} />,
+    title: 'Actionable Alerts',
+    desc: 'Get notified and take action with confidence.',
+  },
+  {
+    icon: <Globe size={22} />,
+    title: 'Full Coverage',
+    desc: 'Monitor all critical sources in real time.',
+  },
+];
+
+
+
 
 const Home = () => {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const [viewModal, setViewModal] = useState({ isOpen: false, item: null, type: 'policy' });
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  const [forms, setForms] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isHeaderUserMenuOpen, setIsHeaderUserMenuOpen] = useState(false);
-  const userMenuRef = useRef(null);
-  const headerUserMenuRef = useRef(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [submittingId, setSubmittingId] = useState(null);
-  const [newsroomAlerts, setNewsroomAlerts] = useState([]);
-  const [newsroomData, setNewsroomData] = useState(null);
-  const [newsReleases, setNewsReleases] = useState([]);
-  const [newsReleasesData, setNewsReleasesData] = useState(null);
-  const [policyUpdates, setPolicyUpdates] = useState([]);
-  const [policyData, setPolicyData] = useState(null);
-  const [visaBulletinData, setVisaBulletinData] = useState(null);
-  const [processingTimes, setProcessingTimes] = useState([]);
-  const [newsroomLoading, setNewsroomLoading] = useState(true);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(0);
+  const featuresRef = useRef(null);
+  const audienceRef = useRef(null);
+  const sourcesRef = useRef(null);
+  const securityRef = useRef(null);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const nextImage = () => {
+    setActiveImageIndex((prev) => (prev + 1) % PREVIEW_IMAGES.length);
+  };
+
+  const prevImage = () => {
+    setActiveImageIndex((prev) => (prev - 1 + PREVIEW_IMAGES.length) % PREVIEW_IMAGES.length);
+  };
 
   useEffect(() => {
-    const fetchUnread = async () => {
-      if (isAuthenticated && user?.email) {
-        try {
-          const count = await notificationService.getUnreadCount(user.email.toLowerCase());
-          setUnreadCount(count);
-        } catch (err) {
-          console.error('Failed to fetch unread count:', err);
-        }
-      }
-    };
-    fetchUnread();
-    const interval = setInterval(fetchUnread, 60000);
-    return () => clearInterval(interval);
-  }, [isAuthenticated, user]);
-
-  const [modalConfig, setModalConfig] = useState({
-    isOpen: false,
-    formId: null,
-    domain: null,
-    category: null,
-    isUnsubscribing: false,
-    subscriptionId: null
-  });
-
-  useEffect(() => {
-    const fetchForms = async () => {
-      try {
-        setLoading(true);
-        // Use user email as userId for subscription check
-        const data = await resourceSyncService.getAllFormStatuses(user?.email);
-        setForms(data);
-      } catch (err) {
-        setError('Unable to load forms library. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const fetchNewsroom = async () => {
-      try {
-        setNewsroomLoading(true);
-
-        // Fetch Announcements
-        const alertsData = await resourceSyncService.getNewsroomStatus('newsroom-alerts', user?.email);
-        setNewsroomData(alertsData);
-        setNewsroomAlerts(alertsData?.payload?.alerts?.slice(0, 3) || []);
-
-        // Fetch News Releases
-        const releasesData = await resourceSyncService.getNewsroomStatus('news-releases', user?.email);
-        setNewsReleasesData(releasesData);
-        setNewsReleases(releasesData?.payload?.alerts?.slice(0, 3) || []);
-
-        // Fetch Policy Manual Updates
-        const pData = await resourceSyncService.getPolicyManualStatus('policy-updates', user?.email);
-        setPolicyData(pData);
-        setPolicyUpdates(pData?.payload?.updates?.slice(0, 3) || []);
-
-        // Fetch Visa Bulletin Determination
-        const vData = await resourceSyncService.getVisaBulletinStatus('filing-charts', user?.email);
-        setVisaBulletinData(vData);
-
-        // Fetch Processing Times Updates
-        const ptData = await resourceSyncService.getAllProcessingTimesStatuses(user?.email);
-        setProcessingTimes(ptData?.slice(0, 3) || []);
-
-      } catch (err) {
-        console.error('Failed to load newsroom/policy data:', err);
-      } finally {
-        setNewsroomLoading(false);
-      }
-    };
-
-    fetchForms();
-    fetchNewsroom();
-  }, [user?.email]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-        setIsUserMenuOpen(false);
-      }
-      if (headerUserMenuRef.current && !headerUserMenuRef.current.contains(event.target)) {
-        setIsHeaderUserMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    const timer = setInterval(() => {
+      nextImage();
+    }, 6000);
+    return () => clearInterval(timer);
   }, []);
 
-  const handleLogoutClick = () => {
-    setIsUserMenuOpen(false);
-    setIsHeaderUserMenuOpen(false);
-    setIsLogoutModalOpen(true);
+  // Authenticated users should not see this page — redirect handled in AppRoutes
+  if (isAuthenticated) {
+    navigate('/overview', { replace: true });
+    return null;
+  }
+
+  const scrollToFeatures = () => {
+    featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const refreshData = async () => {
-    try {
-      const data = await resourceSyncService.getAllFormStatuses(user?.email);
-      setForms(data);
-    } catch (err) {
-      console.error('Refresh failed:', err);
-    }
+  const scrollToAudience = () => {
+    audienceRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleSubscriptionSuccess = () => {
-    const { formId, isUnsubscribing } = modalConfig;
-
-    // Optimistic update to prevent the "flip-back" effect
-    setForms(prev => prev.map(f => {
-      if (f.id === formId) {
-        return { ...f, subscribed: !isUnsubscribing };
-      }
-      return f;
-    }));
-
-    // Refresh the real data after a short delay to allow propagation
-    setTimeout(refreshData, 1500);
+  const scrollToSources = () => {
+    sourcesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const openSubscribeModal = (formId, domain, category) => {
-    if (!isAuthenticated) return;
-    setModalConfig({ isOpen: true, formId, domain, category, isUnsubscribing: false, subscriptionId: null });
+  const scrollToSecurity = () => {
+    securityRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  const openUnsubscribeModal = (formId, domain, category, subscriptionId) => {
-    setModalConfig({ isOpen: true, formId, domain, category, isUnsubscribing: true, subscriptionId });
-  };
-
-  const syncStatus = React.useMemo(() => {
-    const getLatest = (items) => {
-      if (!items || items.length === 0) return null;
-      return Math.max(...items.map(f => new Date(f.lastCheckedAt).getTime()));
-    };
-
-    return {
-      forms: getLatest(forms),
-      newsroom: newsroomData?.lastCheckedAt ? new Date(newsroomData.lastCheckedAt).getTime() : null,
-      releases: newsReleasesData?.lastCheckedAt ? new Date(newsReleasesData.lastCheckedAt).getTime() : null,
-      policy: policyData?.lastCheckedAt ? new Date(policyData.lastCheckedAt).getTime() : null,
-      bulletin: visaBulletinData?.lastCheckedAt ? new Date(visaBulletinData.lastCheckedAt).getTime() : null,
-      processing: processingTimes.length > 0 ? Math.max(...processingTimes.map(pt => new Date(pt.lastCheckedAt).getTime())) : null,
-    };
-  }, [forms, newsroomData, newsReleasesData, policyData, visaBulletinData, processingTimes]);
-
-  const lastSyncTime = React.useMemo(() => {
-    const times = Object.values(syncStatus).filter(t => t !== null);
-    const maxTime = times.length > 0 ? Math.max(...times) : null;
-    return maxTime ? formatDateTime(maxTime) : 'Just now';
-  }, [syncStatus]);
-
-  const monitoredStats = React.useMemo(() => {
-    let count = forms.filter(f => f.subscribed).length;
-    count += processingTimes.filter(pt => pt.subscribed).length;
-    if (newsroomData?.subscribed) count++;
-    if (newsReleasesData?.subscribed) count++;
-    if (policyData?.subscribed) count++;
-    if (visaBulletinData?.subscribed) count++;
-
-    const allItems = [
-      ...newsroomAlerts.map(a => new Date(a.date).getTime()),
-      ...newsReleases.map(a => new Date(a.date).getTime()),
-      ...policyUpdates.map(a => new Date(a.date).getTime()),
-      ...processingTimes.map(pt => new Date(pt.lastUpdatedAt).getTime())
-    ].filter(t => !isNaN(t));
-
-    // For Visa Bulletin, use its month/year as a proxy for date if payload exists
-    if (visaBulletinData?.payload?.month && visaBulletinData?.payload?.year) {
-      const vDate = new Date(`${visaBulletinData.payload.month} 1, ${visaBulletinData.payload.year}`).getTime();
-      if (!isNaN(vDate)) allItems.push(vDate);
-    }
-
-    const latestItemDate = allItems.length > 0 ? Math.max(...allItems) : null;
-
-    return {
-      count,
-      latestDate: latestItemDate ? new Date(latestItemDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'N/A'
-    };
-  }, [forms, newsroomData, newsReleasesData, policyData, visaBulletinData, processingTimes, newsroomAlerts, newsReleases, policyUpdates]);
-
-  const filteredForms = forms
-    .filter(form =>
-      form.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      form.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      // Prioritize changeDetected: true
-      if (a.changeDetected && !b.changeDetected) return -1;
-      if (!a.changeDetected && b.changeDetected) return 1;
-      // Secondary sort by ID
-      return a.id.localeCompare(b.id);
-    });
 
   return (
-    <div className="homePage" style={{ position: 'relative' }}>
+    <div className="landingPage">
+      {/* ── Top Navigation ── */}
+      <nav className="landingNav">
+        <div className="navInner">
+          <Link to="/" className="navBrand">
+            <div className="brandMark">K</div>
+            <div className="brandText">
+              <span className="brandName">Komunas</span>
+              <span className="brandSub">Regulatory Intelligence</span>
+            </div>
+          </Link>
+
+          <div className="navLinks">
+            <button className="navLink" onClick={scrollToFeatures}>Features</button>
+            <button className="navLink" onClick={scrollToAudience}>Who it's for</button>
+            <button className="navLink" onClick={scrollToSources}>Monitored Sources</button>
+            <button className="navLink" onClick={scrollToSecurity}>Security</button>
+          </div>
+
+          <div className="navActions">
+            <Link to="/login" className="navLogin">Log in</Link>
+            <button className="navCta" onClick={() => setIsDemoModalOpen(true)}>
+              Request a Demo <ArrowRight size={15} />
+            </button>
+          </div>
+        </div>
+      </nav>
 
       {/* ── Hero Section ── */}
-      <section className={`hero ${isMenuOpen ? 'menuOpen' : ''}`}>
-        <HeroBackground />
-        <div className="heroNav">
-          <div className="heroNavInner">
-            <div className="heroNavLeft">
-              <Link to="/" className="heroNavLogo" onClick={() => setIsMenuOpen(false)}>
-                <img src="/icon.jpg" alt="Komunas" />
-                <span>Komunas</span>
-              </Link>
+      <section className="hero">
+        <div className="heroInner">
+          {/* Left Column — headline + CTAs */}
+          <div className="heroLeft">
+            <div className="heroBadge">
+              <span>✦</span>
+              <span>AI-POWERED REGULATORY INTELLIGENCE</span>
+              <span>✦</span>
+            </div>
 
-              <button className="menuToggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <h1 className="heroTitle">
+              Stay Ahead of USCIS<br />
+              Changes <span className="accentText">That Matter</span>
+            </h1>
+
+            <p className="heroDesc">
+              Komunas monitors, analyzes, and alerts you about regulatory
+              changes across critical sources—so you can act early,
+              stay compliant, and reduce risk.
+            </p>
+
+            <div className="heroCtas">
+              <button className="ctaPrimary" onClick={() => setIsDemoModalOpen(true)}>
+                Request a Demo <ArrowRight size={16} />
               </button>
-
-              <nav className={`heroNavLinks ${isMenuOpen ? 'open' : ''}`}>
-                <Link to="/newsroom/newsroom-alerts" className="heroNavLink" onClick={() => setIsMenuOpen(false)}>
-                  <Rss size={14} />Announcements
-                </Link>
-                <Link to="/newsroom/news-releases" className="heroNavLink" onClick={() => setIsMenuOpen(false)}>
-                  <Rss size={14} />Releases
-                </Link>
-                <Link to="/newsroom/policy-updates" className="heroNavLink" onClick={() => setIsMenuOpen(false)}>
-                  <BookOpen size={14} />Policy Updates
-                </Link>
-                <Link to="/newsroom/visa-bulletin" className="heroNavLink" onClick={() => setIsMenuOpen(false)}>
-                  <BarChart3 size={14} />Visa Bulletin
-                </Link>
-                <Link to="/processing-times" className="heroNavLink" onClick={() => setIsMenuOpen(false)}>
-                  <Activity size={14} />Processing Times
-                </Link>
-              </nav>
+              {/* <button className="ctaSecondary" onClick={() => setIsVideoModalOpen(true)}>
+                <Play size={14} className="playIcon" />
+                See How It Works
+              </button> */}
             </div>
-            <div className={`heroNavActions ${isMenuOpen ? 'open' : ''}`}>
-              {isAuthenticated ? (
-                <>
-                  <Link to="/notifications" className="heroNavIcon" title="Notifications" onClick={() => setIsMenuOpen(false)}>
-                    <Bell size={17} />
-                    {unreadCount > 0 && <span className="unreadBadge">{unreadCount}</span>}
-                  </Link>
-                  <div className="heroUserMenuWrapper" ref={headerUserMenuRef}>
-                    <button
-                      className={`heroNavUser ${isHeaderUserMenuOpen ? 'active' : ''}`}
-                      onClick={() => setIsHeaderUserMenuOpen(!isHeaderUserMenuOpen)}
-                    >
-                      <div className="heroAvatar">
-                        {(user?.fullName || user?.username || 'U').charAt(0).toUpperCase()}
-                      </div>
-                      <span className="heroUserName">{user?.fullName || user?.username}</span>
-                      <ChevronDown size={14} className={`heroChevron ${isHeaderUserMenuOpen ? 'rotate' : ''}`} />
-                    </button>
+          </div>
 
-                    {isHeaderUserMenuOpen && (
-                      <div className="heroUserDropdown">
-                        <div className="dropdownHeader">
-                          <p className="userEmail">{user?.email}</p>
-                        </div>
-                        <div className="dropdownDivider"></div>
-                        <Link to="/profile" className="dropdownItem" onClick={() => setIsHeaderUserMenuOpen(false)}>
-                          <User size={16} />
-                          Profile Settings
-                        </Link>
-                        <div className="dropdownDivider"></div>
-                        <button onClick={handleLogoutClick} className="dropdownItem logout">
-                          <LogOut size={16} />
-                          Logout
-                        </button>
-                      </div>
-                    )}
+          {/* Right Column — Feature Pillars */}
+          <div className="heroRight" ref={featuresRef}>
+            <div className="featurePillars">
+              {FEATURES.map((f) => (
+                <div key={f.title} className="pillar">
+                  <div className="pillarIcon">{f.icon}</div>
+                  <div className="pillarText">
+                    <strong>{f.title}</strong>
+                    <span>{f.desc}</span>
                   </div>
-                </>
-              ) : (
-                <>
-                  <Link to="/register" className="heroNavRegister" onClick={() => setIsMenuOpen(false)}>
-                    <UserPlus size={17} />Register
-                  </Link>
-                  <Link to="/login" className="heroNavLogin" onClick={() => setIsMenuOpen(false)}>
-                    <LogIn size={17} />Login
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="heroMainContent">
-          <div className="heroTextContent">
-            <h1>USCIS Intelligence Platform</h1>
-            <div className="tagline">
-              <span>Struggling to keep up with USCIS changes?</span>
-              <strong>Never miss a new form or regulation again.</strong>
-            </div>
-            <p>Subscribe to forms, processing times, and policy updates for real-time monitoring and instant AI-driven alerts.</p>
-          </div>
-
-          <div className="heroVisualContent">
-            <div className="logoContainer">
-              <img src="/logo.jpg" alt="Komunas Logo" />
-              <div className="shineEffect"></div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* ── Intelligence Brief / Workspace ── */}
-        {isAuthenticated && (
-          <div className="userWorkspace">
-            <div className="workspaceHeader">
-              <h2>Intelligence Brief for {user?.fullName || user?.username}</h2>
-              <p>Direct access to your monitored USCIS resources and high-fidelity alerts.</p>
+        {/* Full-Width Dashboard Preview Row (Carousel) */}
+        <div className="heroDashRow">
+          <div className="carouselContainer">
+            {/* Main Active Image Wrapper */}
+            <div 
+              className="dashPreviewWrapper" 
+              onClick={() => setIsPreviewOpen(true)}
+              style={{ cursor: 'pointer' }}
+            >
+              <img
+                src={PREVIEW_IMAGES[activeImageIndex].src}
+                alt={`${PREVIEW_IMAGES[activeImageIndex].alt} (Click to expand)`}
+                className="dashPreviewImg"
+              />
+              
+              {/* Left/Right Arrow Overlays */}
+              <button 
+                className="carouselArrow arrowLeft" 
+                onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                aria-label="Previous slide"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button 
+                className="carouselArrow arrowRight" 
+                onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                aria-label="Next slide"
+              >
+                <ChevronRight size={20} />
+              </button>
             </div>
 
-            <div className="workspaceGrid">
-              <div className="surveillanceCard">
-                <div className="pulseHeader">
-                  <div className="userMenuWrapper" ref={userMenuRef}>
-                    <button
-                      className={`userBadge ${isUserMenuOpen ? 'active' : ''}`}
-                      onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      title="User Menu"
-                    >
-                      {user?.fullName?.charAt(0) || user?.username?.charAt(0) || 'U'}
-                    </button>
-
-                    {isUserMenuOpen && (
-                      <div className="userDropdown">
-                        <div className="dropdownHeader">
-                          <p className="userName">{user?.fullName || user?.username}</p>
-                          <p className="userEmail">{user?.email}</p>
-                        </div>
-                        <div className="dropdownDivider"></div>
-                        <Link to="/profile" className="dropdownItem" onClick={() => setIsUserMenuOpen(false)}>
-                          <User size={16} />
-                          Profile Settings
-                        </Link>
-                        <button onClick={handleLogoutClick} className="dropdownItem logout">
-                          <LogOut size={16} />
-                          Logout
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                  <div className="pulseTitle">
-                    <h3>My Surveillance Dashboard</h3>
-                    <p>Real-time updates and alerts for your tracked resources</p>
-                  </div>
-                </div>
-
-                <div className="statsGrid">
-                  <div className="statItem">
-                    <div className="statIcon"><FileText size={20} /></div>
-                    <div className="statInfo">
-                      <span className="statValue">{forms.filter(f => f.subscribed).length}</span>
-                      <span className="statLabel">Forms Monitored</span>
-                    </div>
-                  </div>
-                  <div className="statItem">
-                    <div className="statIcon"><Zap size={20} /></div>
-                    <div className="statInfo">
-                      <span className="statValue">{monitoredStats.latestDate}</span>
-                      <span className="statLabel">Latest Alert</span>
-                    </div>
-                  </div>
-                  <div className="statItem">
-                    <div className="statIcon"><AlertTriangle size={20} /></div>
-                    <div className="statInfo">
-                      <span className="statValue">{forms.filter(f => f.subscribed && f.changeDetected).length}</span>
-                      <span className="statLabel">Critical Changes</span>
-                    </div>
-                  </div>
-                  <div className="statItem">
-                    <div className="statIcon"><Shield size={20} /></div>
-                    <div className="statInfo">
-                      <span className="statValue">{monitoredStats.count}</span>
-                      <span className="statLabel">Total Monitored</span>
-                    </div>
-                  </div>
-                  <Link to="/notifications" className="statItem alerts">
-                    <div className="statIcon">
-                      <Bell size={20} />
-                      {unreadCount > 0 && <span className="notificationBadge">{unreadCount}</span>}
-                    </div>
-                    <div className="statInfo">
-                      <span className="statValue">{unreadCount}</span>
-                      <span className="statLabel">Unread Alerts</span>
-                    </div>
-                  </Link>
-                </div>
-
-                <div className="syncHealthSection">
-                  <div className="healthHeader">
-                    <div className="pulse"></div>
-                    <span>Intelligence Sync Health</span>
-                  </div>
-                  <div className="syncList">
-                    <DataToolTip text={`Monitors USCIS PDF Edition Dates and form instructions for version shifts. \n\nLast Checked: ${syncStatus.forms ? formatDateTime(syncStatus.forms) : 'Never'}`}>
-                      <div className="syncItem">
-                        <div className="syncLabel"><FileText size={12} /> Forms</div>
-                        <div className="syncValue">{syncStatus.forms ? getRelativeTime(syncStatus.forms) : 'N/A'}</div>
-                      </div>
-                    </DataToolTip>
-                    <DataToolTip text={`Tracks the latest Newsroom Alerts and Releases for immediate policy impact. \n\nLast Checked: ${syncStatus.newsroom ? formatDateTime(syncStatus.newsroom) : 'Never'}`}>
-                      <div className="syncItem">
-                        <div className="syncLabel"><Rss size={12} /> Newsroom</div>
-                        <div className="syncValue">{syncStatus.newsroom ? getRelativeTime(syncStatus.newsroom) : 'N/A'}</div>
-                      </div>
-                    </DataToolTip>
-                    <DataToolTip text={`Monitors the USCIS Policy Manual for substantive legal and chapter updates. \n\nLast Checked: ${syncStatus.policy ? formatDateTime(syncStatus.policy) : 'Never'}`}>
-                      <div className="syncItem">
-                        <div className="syncLabel"><BookOpen size={12} /> Policy</div>
-                        <div className="syncValue">{syncStatus.policy ? getRelativeTime(syncStatus.policy) : 'N/A'}</div>
-                      </div>
-                    </DataToolTip>
-                    <DataToolTip text={`Checks for monthly Visa Bulletin priority date shifts and filing chart updates. \n\nLast Checked: ${syncStatus.bulletin ? formatDateTime(syncStatus.bulletin) : 'Never'}`}>
-                      <div className="syncItem">
-                        <div className="syncLabel"><BarChart3 size={12} /> Bulletin</div>
-                        <div className="syncValue">{syncStatus.bulletin ? getRelativeTime(syncStatus.bulletin) : 'N/A'}</div>
-                      </div>
-                    </DataToolTip>
-                    <DataToolTip text={`Real-time monitoring of USCIS wait time backlogs across different service centers. \n\nLast Checked: ${syncStatus.processing ? formatDateTime(syncStatus.processing) : 'Never'}`}>
-                      <div className="syncItem">
-                        <div className="syncLabel"><Activity size={12} /> Processing</div>
-                        <div className="syncValue">{syncStatus.processing ? getRelativeTime(syncStatus.processing) : 'N/A'}</div>
-                      </div>
-                    </DataToolTip>
-                  </div>
-                </div>
-
-                <div className="sectionDivider"></div>
-
-                <div className="subsSection">
-                  <div className="subsHeader">
-                    <h4 className="subsTitle">My Monitored Resources</h4>
-                    <span className="subsCountBadge">{monitoredStats.count} Active</span>
-                  </div>
-                  <div className="subsGrid">
-                    {forms.filter(f => f.subscribed).length === 0 &&
-                      processingTimes.filter(pt => pt.subscribed).length === 0 &&
-                      !newsroomData?.subscribed &&
-                      !newsReleasesData?.subscribed &&
-                      !policyData?.subscribed &&
-                      !visaBulletinData?.subscribed ? (
-                      <div className="noSubs">No resources monitored yet. Browse the library below to start tracking.</div>
-                    ) : (
-                      <>
-                        {forms.filter(f => f.subscribed).map(form => {
-                          const isInitialDiscovery = form.changeDetected && (
-                            form.payload?.status === "INITIAL_DISCOVERY" ||
-                            form.payload?.categories?.some(c => c.status === "INITIAL_DISCOVERY") ||
-                            form.changeType === "INITIAL_DISCOVERY" ||
-                            form.summary?.includes("Baseline established")
-                          );
-                          return (
-                            <Link key={form.id} to={`/form/${form.id}`} className={`subChip ${form.changeDetected ? (isInitialDiscovery ? 'baseline' : 'critical') : ''}`}>
-                              <div className="chipIcon"><FileText size={16} /></div>
-                              <div className="chipText">
-                                <span className="chipId">{form.id}</span>
-                                <span className="chipName">{form.displayName?.replace('USCIS ', '').replace('Form ', '')}</span>
-                                <span className="chipStatus">
-                                  {form.changeDetected
-                                    ? (isInitialDiscovery ? 'Initial Discovery' : 'Change Detected')
-                                    : 'Up to Date'}
-                                </span>
-                              </div>
-                            </Link>
-                          );
-                        })}
-                        {processingTimes.filter(pt => pt.subscribed).map(pt => (
-                          <Link key={pt.resourceId} to={`/processing-times/${pt.resourceId}`} className={`subChip ${pt.changeDetected ? 'critical' : ''}`}>
-                            <div className="chipIcon"><Activity size={16} /></div>
-                            <div className="chipText">
-                              <span className="chipId">{pt.resourceId} Wait Times</span>
-                              <span className="chipStatus">{pt.changeDetected ? 'Change Detected' : 'Up to Date'}</span>
-                            </div>
-                          </Link>
-                        ))}
-                        {newsroomData?.subscribed && (
-                          <Link to="/newsroom/newsroom-alerts" className="subChip">
-                            <div className="chipIcon"><Rss size={16} /></div>
-                            <div className="chipText">
-                              <span className="chipId">USCIS Announcements</span>
-                              <span className="chipStatus">Subscribed</span>
-                            </div>
-                          </Link>
-                        )}
-                        {newsReleasesData?.subscribed && (
-                          <Link to="/newsroom/news-releases" className="subChip">
-                            <div className="chipIcon"><Rss size={16} /></div>
-                            <div className="chipText">
-                              <span className="chipId">News Releases</span>
-                              <span className="chipStatus">Subscribed</span>
-                            </div>
-                          </Link>
-                        )}
-                        {policyData?.subscribed && (
-                          <Link to="/newsroom/policy-updates" className="subChip">
-                            <div className="chipIcon"><BookOpen size={16} /></div>
-                            <div className="chipText">
-                              <span className="chipId">Policy Manual Updates</span>
-                              <span className="chipStatus">Subscribed</span>
-                            </div>
-                          </Link>
-                        )}
-                        {visaBulletinData?.subscribed && (
-                          <Link to="/newsroom/visa-bulletin" className="subChip">
-                            <div className="chipIcon"><BarChart3 size={16} /></div>
-                            <div className="chipText">
-                              <span className="chipId">Visa Bulletin Charts</span>
-                              <span className="chipStatus">Subscribed</span>
-                            </div>
-                          </Link>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Newsroom Snippet Strip: Announcements ── */}
-        {newsroomAlerts.length > 0 && (
-          <div className="newsroomStrip">
-            <div className="stripInner">
-              <div className="stripHeader">
-                <div className="stripTitle">
-                  <Rss size={22} />
-                  <span>Latest USCIS Announcements</span>
-                  {isAuthenticated ? (
-                    newsroomData?.subscribed && (
-                      <div className="statusBadge subscribed">
-                        <CheckCircle size={14} />
-                        <span>Subscribed</span>
-                      </div>
-                    )
-                  ) : (
-                    <Link to="/login" className="statusBadge guest">
-                      <Bell size={14} />
-                      <span>Login to get alerts</span>
-                    </Link>
-                  )}
-                </div>
-                <Link to="/newsroom/newsroom-alerts" className="stripViewAll">
-                  View All Announcements<ExternalLink size={13} />
-                </Link>
-              </div>
-              <div className="stripCards">
-                {newsroomAlerts.map((alert, i) => (
-                  <div
-                    key={i}
-                    className="stripCard"
-                    onClick={() => setViewModal({ isOpen: true, item: alert, type: 'newsroom-alerts' })}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <span className="stripDate">{alert.date}</span>
-                    <h3 className="stripCardTitle">{alert.title}</h3>
-                    <p className="stripCardSummary">{alert.summary}</p>
-                    <span className="stripReadMore">Read announcement <ArrowRight size={11} /></span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Newsroom Snippet Strip: News Releases ── */}
-        {newsReleases.length > 0 && (
-          <div className="newsroomStrip" style={{ marginTop: '2rem' }}>
-            <div className="stripInner">
-              <div className="stripHeader">
-                <div className="stripTitle">
-                  <Rss size={22} />
-                  <span>Latest News Releases</span>
-                  {isAuthenticated ? (
-                    newsReleasesData?.subscribed && (
-                      <div className="statusBadge subscribed">
-                        <CheckCircle size={14} />
-                        <span>Subscribed</span>
-                      </div>
-                    )
-                  ) : (
-                    <Link to="/login" className="statusBadge guest">
-                      <Bell size={14} />
-                      <span>Login to get alerts</span>
-                    </Link>
-                  )}
-                </div>
-                <Link to="/newsroom/news-releases" className="stripViewAll">
-                  View All Releases<ExternalLink size={13} />
-                </Link>
-              </div>
-              <div className="stripCards">
-                {newsReleases.map((release, i) => (
-                  <div
-                    key={i}
-                    className="stripCard"
-                    onClick={() => setViewModal({ isOpen: true, item: release, type: 'news-releases' })}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <span className="stripDate">{release.date}</span>
-                    <h3 className="stripCardTitle">{release.title}</h3>
-                    <p className="stripCardSummary">{release.summary}</p>
-                    <span className="stripReadMore">Read announcement <ArrowRight size={11} /></span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Visa Bulletin Determination Strip ── */}
-        {visaBulletinData && (
-          <div className="newsroomStrip" style={{ marginTop: '2rem' }}>
-            <div className="stripInner">
-              <div className="stripHeader">
-                <div className="stripTitle">
-                  <BarChart3 size={22} />
-                  <span>Visa Bulletin Filing Charts</span>
-                  <div className="monthBadge">{visaBulletinData.payload?.month} {visaBulletinData.payload?.year}</div>
-                  {isAuthenticated ? (
-                    visaBulletinData.subscribed && (
-                      <div className="statusBadge subscribed">
-                        <CheckCircle size={14} />
-                        <span>Subscribed</span>
-                      </div>
-                    )
-                  ) : (
-                    <Link to="/login" className="statusBadge guest">
-                      <Bell size={14} />
-                      <span>Login to get alerts</span>
-                    </Link>
-                  )}
-                </div>
-                <Link to="/newsroom/visa-bulletin" className="stripViewAll">
-                  View All Bulletins <ExternalLink size={13} />
-                </Link>
-              </div>
-              <div className="stripCards determinationCards">
-                <div
-                  className="stripCard determinationCard clickable"
-                  onClick={() => visaBulletinData.payload?.title && setViewModal({
-                    isOpen: true,
-                    item: {
-                      ...visaBulletinData.payload,
-                      url: visaBulletinData.payload.familyDetermination?.url,
-                      date: `${visaBulletinData.payload.month} ${visaBulletinData.payload.year}`
-                    },
-                    type: 'visa-bulletin'
-                  })}
-                  style={{ cursor: visaBulletinData.payload?.title ? 'pointer' : 'default' }}
+            {/* Slide Indicators / Tabs */}
+            <div className="carouselIndicators">
+              {PREVIEW_IMAGES.map((img, idx) => (
+                <button
+                  key={img.src}
+                  className={`indicatorTab ${idx === activeImageIndex ? 'activeTab' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setActiveImageIndex(idx); }}
                 >
-                  <div className="cardHeader">
-                    <span className="stripLabel">Family-Sponsored</span>
-                    {visaBulletinData.payload?.highlights?.some(h =>
-                      h.category.startsWith('F') ||
-                      h.category.toLowerCase().includes('family')
-                    ) && (
-                        <span className="movementBadge">Movement</span>
-                      )}
-                  </div>
-                  <h3 className="determinationValue">{visaBulletinData.payload?.familyDetermination?.chartType || 'Dates for Filing'}</h3>
-
-                  {visaBulletinData.payload?.highlights && visaBulletinData.payload.highlights.filter(h => h.category.startsWith('F') || h.category.toLowerCase().includes('family')).length > 0 ? (
-                    <div className="featuredDates">
-                      {visaBulletinData.payload.highlights
-                        .filter(h =>
-                          h.category.startsWith('F') ||
-                          h.category.toLowerCase().includes('family')
-                        )
-                        .slice(0, 3)
-                        .map((h, i) => (
-                          <div key={i} className="dateRow">
-                            <span className="cat">{h.category}</span>
-                            <span className="val">{h.movement.split(' ')[0]}</span>
-                          </div>
-                        ))}
-                    </div>
-                  ) : (
-                    <div className="featuredDates empty">
-                      <div className="dateRow">
-                        <span className="cat">Stability</span>
-                        <span className="val">No significant movement</span>
-                      </div>
-                    </div>
-                  )}
-
-                  <p className="determinationSub">Use this chart for {visaBulletinData.payload?.month} filings.</p>
-                  {visaBulletinData.payload?.familyDetermination?.url && (
-                    <div
-                      className="stripReadMore"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setViewModal({
-                          isOpen: true,
-                          item: {
-                            ...visaBulletinData.payload,
-                            url: visaBulletinData.payload.familyDetermination.url,
-                            date: `${visaBulletinData.payload.month} ${visaBulletinData.payload.year}`
-                          },
-                          type: 'visa-bulletin'
-                        });
-                      }}
-                    >
-                      View Official Bulletin <ArrowRight size={11} />
-                    </div>
-                  )}
-                </div>
-
-                <div
-                  className="stripCard determinationCard clickable"
-                  onClick={() => visaBulletinData.payload?.title && setViewModal({
-                    isOpen: true,
-                    item: {
-                      ...visaBulletinData.payload,
-                      url: visaBulletinData.payload.employmentDetermination?.url,
-                      date: `${visaBulletinData.payload.month} ${visaBulletinData.payload.year}`
-                    },
-                    type: 'visa-bulletin'
-                  })}
-                  style={{ cursor: visaBulletinData.payload?.title ? 'pointer' : 'default' }}
-                >
-                  <div className="cardHeader">
-                    <span className="stripLabel">Employment-Based</span>
-                    {visaBulletinData.payload?.highlights?.some(h =>
-                      h.category.startsWith('EB') ||
-                      /^\d/.test(h.category) ||
-                      h.category.toLowerCase().includes('worker') ||
-                      h.category.toLowerCase().includes('employment') ||
-                      h.category.toLowerCase().includes('aside')
-                    ) && (
-                        <span className="movementBadge">Movement</span>
-                      )}
-                  </div>
-                  <h3 className="determinationValue">{visaBulletinData.payload?.employmentDetermination?.chartType || 'Final Action Dates'}</h3>
-
-                  {visaBulletinData.payload?.highlights && visaBulletinData.payload.highlights.filter(h => h.category.startsWith('EB') || /^\d/.test(h.category)).length > 0 ? (
-                    <div className="featuredDates">
-                      {visaBulletinData.payload.highlights
-                        .filter(h =>
-                          h.category.startsWith('EB') ||
-                          /^\d/.test(h.category) ||
-                          h.category.toLowerCase().includes('worker') ||
-                          h.category.toLowerCase().includes('employment') ||
-                          h.category.toLowerCase().includes('aside')
-                        )
-                        .slice(0, 3)
-                        .map((h, i) => (
-                          <div key={i} className="dateRow">
-                            <span className="cat">{h.category}</span>
-                            <span className="val">{h.movement.split(' ')[0]}</span>
-                          </div>
-                        ))}
-                    </div>
-                  ) : (
-                    <div className="featuredDates empty">
-                      <div className="dateRow">
-                        <span className="cat">Stability</span>
-                        <span className="val">No significant movement</span>
-                      </div>
-                    </div>
-                  )}
-
-                  <p className="determinationSub">Use this chart for {visaBulletinData.payload?.month} filings.</p>
-                  {visaBulletinData.payload?.employmentDetermination?.url && (
-                    <div
-                      className="stripReadMore"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setViewModal({
-                          isOpen: true,
-                          item: {
-                            ...visaBulletinData.payload,
-                            url: visaBulletinData.payload.employmentDetermination.url,
-                            date: `${visaBulletinData.payload.month} ${visaBulletinData.payload.year}`
-                          },
-                          type: 'visa-bulletin'
-                        });
-                      }}
-                    >
-                      View Official Bulletin <ArrowRight size={11} />
-                    </div>
-                  )}
-                </div>
-                {visaBulletinData.payload?.title && (
-                  <div
-                    className="stripCard determinationCard intelligence"
-                    onClick={() => setViewModal({
-                      isOpen: true,
-                      item: {
-                        ...visaBulletinData.payload,
-                        url: visaBulletinData.payload.familyDetermination?.url,
-                        date: `${visaBulletinData.payload.month} ${visaBulletinData.payload.year}`
-                      },
-                      type: 'visa-bulletin'
-                    })}
-                  >
-                    <span className="stripLabel">Intelligence Analysis</span>
-                    <h3 className="determinationValue">{visaBulletinData.payload.title}</h3>
-                    <p className="determinationSub">{visaBulletinData.payload.summary}</p>
-                    <span className="stripReadMore">View Analysis Digest <ArrowRight size={11} /></span>
-                  </div>
-                )}
-              </div>
+                  <span className="indicatorDot" />
+                  <span className="indicatorLabel">{img.label}</span>
+                </button>
+              ))}
             </div>
           </div>
-        )}
-
-        {/* ── Processing Times Intelligence Strip ── */}
-        {processingTimes.length > 0 && (
-          <div className="newsroomStrip" style={{ marginTop: '2rem' }}>
-            <div className="stripInner">
-              <div className="stripHeader">
-                <div className="stripTitle">
-                  <Activity size={22} />
-                  <span>Processing Times Intelligence</span>
-                </div>
-                <Link to="/processing-times" className="stripViewAll">
-                  View All Forms <ExternalLink size={13} />
-                </Link>
-              </div>
-              <div className="stripCards">
-                {processingTimes.map((pt, i) => (
-                  <Link
-                    key={i}
-                    to={`/processing-times/${pt.resourceId}`}
-                    className="stripCard"
-                  >
-                    <div className="ptHeader">
-                      <div className="ptIdGroup">
-                        <span className="ptFormId">{pt.resourceId}</span>
-                        {pt.subscribed && (
-                          <div className="statusBadge subscribed">
-                            <CheckCircle size={14} /> Subscribed
-                          </div>
-                        )}
-                        {pt.changeDetected && (
-                          <div className="statusBadge critical">
-                            <AlertTriangle size={14} /> Update Detected
-                          </div>
-                        )}
-                      </div>
-                      <span className="stripDate">{formatDateTime(pt.lastCheckedAt)}</span>
-                    </div>
-                    <h3 className="stripCardTitle">
-                      {pt.payload?.title || (pt.payload?.categoryLabel ? `${pt.resourceId.split('-')[0]}: ${pt.payload.categoryLabel}` : pt.summary)}
-                    </h3>
-
-                    <div className="stripCardMeta">
-                      <span className="miniBadge">Wait: {pt.payload?.percentile80?.split(' depending')[0] || 'N/A'}</span>
-                      <span className="miniBadge trendIndicator" data-trend={pt.payload?.trend?.toLowerCase()}>
-                        {pt.payload?.trend || 'Stable'}
-                      </span>
-                      {pt.payload?.officeLabel && <span className="miniBadge">{pt.payload.officeLabel}</span>}
-                    </div>
-
-                    <p className="stripCardSummary">{pt.payload?.analysis?.substring(0, 100)}...</p>
-                    <div className="stripReadMore">View Intelligence Digest <ArrowRight size={11} /></div>
-
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Policy Manual Updates Strip ── */}
-        {policyUpdates.length > 0 && (
-          <div className="newsroomStrip" style={{ marginTop: '2rem' }}>
-            <div className="stripInner">
-              <div className="stripHeader">
-                <div className="stripTitle">
-                  <BookOpen size={22} />
-                  <span>USCIS Policy Manual Updates</span>
-                  {isAuthenticated ? (
-                    policyData?.subscribed && (
-                      <div className="statusBadge subscribed">
-                        <CheckCircle size={14} />
-                        <span>Subscribed</span>
-                      </div>
-                    )
-                  ) : (
-                    <Link to="/login" className="statusBadge guest">
-                      <Bell size={14} />
-                      <span>Login to get alerts</span>
-                    </Link>
-                  )}
-                </div>
-                <Link to="/newsroom/policy-updates" className="stripViewAll">
-                  View All <ExternalLink size={13} />
-                </Link>
-              </div>
-              <div className="stripCards">
-                {policyUpdates.map((update, i) => (
-                  <div
-                    key={i}
-                    className="stripCard"
-                    onClick={() => setViewModal({ isOpen: true, item: update, type: 'policy-updates' })}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <span className="stripDate">{update.date}</span>
-                    <h3 className="stripCardTitle">{update.title}</h3>
-                    <p className="stripCardSummary" style={{
-                      fontSize: '0.8rem',
-                      color: '#6b7280',
-                      margin: '0.4rem 0 0.6rem',
-                      lineHeight: '1.4',
-                      display: '-webkit-box',
-                      WebkitLineClamp: '2',
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden'
-                    }}>{update.summary}</p>
-                    <div className="stripCardMeta">
-                      {update.chapters && update.chapters.slice(0, 2).map((ch, idx) => (
-                        <span key={idx} className="miniBadge">{ch.title.split(' - ')[0]}</span>
-                      ))}
-                    </div>
-                    <span className="stripReadMore">Review substantive changes <ArrowRight size={11} /></span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+        </div>
       </section>
 
-      {/* ── Forms Grid ── */}
-      <main className="formsGrid">
+      {/* ── Target Audience Section ── */}
+      <section className="landingAudience" ref={audienceRef}>
         <div className="sectionHeader">
-          <h2>USCIS Forms Library</h2>
-          <div className="sectionHeaderActions">
-            <div className="searchWrapper">
-              <Search size={18} />
-              <input
-                type="text"
-                placeholder="Search forms..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div className="countBadge">{filteredForms.length} Forms Available</div>
+          <div className="sectionBadge">Target Audience</div>
+          <h2>Who is Komunas for?</h2>
+          <p>
+            Komunas provides dedicated regulatory monitoring and early warning alerts tailored for teams managing high-stakes immigration compliance.
+          </p>
+        </div>
+
+        <div className="audienceGrid">
+          <div className="audienceCard">
+            <div className="cardIcon"><Scale size={22} /></div>
+            <h3>Immigration Law Firms</h3>
+            <p>
+              Automatically track form updates, policy manual revisions, and monthly visa bulletins. Prevent rejected filings and keep client applications on track without manual website checking.
+            </p>
+          </div>
+
+          <div className="audienceCard">
+            <div className="cardIcon"><Users size={22} /></div>
+            <h3>Global Mobility &amp; HR</h3>
+            <p>
+              Monitor wait-time backlogs across all USCIS service centers. Forecast employee visa timelines (H-1B, L-1, Green Cards) and maintain seamless communications with international hires.
+            </p>
+          </div>
+
+          <div className="audienceCard">
+            <div className="cardIcon"><Briefcase size={22} /></div>
+            <h3>Legal &amp; Compliance Teams</h3>
+            <p>
+              Receive instant alerts on critical regulatory events and policy modifications. Access detailed impact analysis reports to keep your organization aligned and audit-ready.
+            </p>
           </div>
         </div>
-        {loading && (
-          <div className="loadingState">
-            <div className="spinner"></div>
-            <p>Synchronizing with USCIS records...</p>
+      </section>
+
+      {/* ── Monitored Sources Showcase Section ── */}
+      <section className="landingSources" ref={sourcesRef}>
+        <div className="sectionHeader">
+          <div className="sectionBadge">REAL-TIME FEEDS</div>
+          <h2>USCIS Monitored Streams</h2>
+          <p>
+            We actively monitor the following regulatory categories, indexing and analyzing
+            revisions the moment they are updated by the agency.
+          </p>
+        </div>
+
+        <div className="sourcesShowcaseGrid">
+          <div className="sourceShowcaseCard">
+            <div className="cardIcon"><FileText size={22} /></div>
+            <h3>USCIS Forms Library</h3>
+            <p>Monitors PDF document updates, instructions additions, and fee changes for Forms like I-129, I-140, I-485, and I-765.</p>
           </div>
-        )}
 
-        {error && (
-          <div className="errorState">
-            <p>{error}</p>
+          <div className="sourceShowcaseCard">
+            <div className="cardIcon"><Clock size={22} /></div>
+            <h3>Processing Wait Times</h3>
+            <p>Tracks backlog processing intervals across all USCIS field offices and service centers to forecast processing timelines.</p>
           </div>
-        )}
 
-        {!loading && !error && (
-          <div className="gridContainer">
-            {filteredForms.length === 0 && (
-              <div className="emptyState">
-                <p>{searchTerm ? `No forms matching "${searchTerm}" found.` : 'No forms currently monitored. Check back soon.'}</p>
-              </div>
-            )}
-            {filteredForms.map(form => (
-              <div key={form.id} className="formCard">
-                <div className="formLeftColumn">
-                  <div className="formIcon">
-                    <FileText size={24} />
-                  </div>
-                  <span className="formVersion">v{form.version}</span>
-                </div>
-                <div className="formDetails">
-                  <div className="formHeader">
-                    <div className="idWrapper">
-                      <Link to={`/form/${form.id}`} className="formId">{form.id}</Link>
-                      {form.subscribed && (
-                        <div className="statusBadge subscribed mini">
-                          <CheckCircle size={10} /> Subscribed
-                        </div>
-                      )}
-                      {form.changeDetected && (
-                        (form.payload?.status === "INITIAL_DISCOVERY" ||
-                          form.payload?.categories?.some(c => c.status === "INITIAL_DISCOVERY") ||
-                          form.changeType === "INITIAL_DISCOVERY" ||
-                          form.summary?.includes("Baseline established")) ? (
-                          <span className="baselineBadge">
-                            <Info size={12} />
-                            INITIAL DISCOVERY
-                          </span>
-                        ) : (
-                          <span className="criticalBadge">
-                            <AlertTriangle size={12} />
-                            CRITICAL CHANGE
-                          </span>
-                        )
-                      )}
-                    </div>
-                  </div>
-                  <h3 className="formName">
-                    <Link to={`/form/${form.id}`}>{form.displayName}</Link>
-                  </h3>
-                  <div className="formMeta">
-                    <span className="lastChecked">
-                      Last checked: {formatDateTime(form.lastCheckedAt)}
-                    </span>
-                  </div>
-                  <div className="formActions">
-                    <a href={form.pdfUrl} target="_blank" rel="noopener noreferrer" className="downloadBtn" title="Download Form">
-                      <Download size={16} /> PDF
-                    </a>
-                    <a href={form.instrUrl} target="_blank" rel="noopener noreferrer" className="downloadBtn" title="Download Instructions">
-                      <Download size={16} /> Instr
-                    </a>
+          <div className="sourceShowcaseCard">
+            <div className="cardIcon"><Bell size={22} /></div>
+            <h3>Announcements & News</h3>
+            <p>Scans USCIS alerts, newsroom releases, and temporary policy statements for immediate regulatory actions.</p>
+          </div>
 
-                    {isAuthenticated && (
-                      <div className="subscriptionAction">
-                        {form.subscribed ? (
-                          <button
-                            className="subscribedBtn"
-                            onClick={() => openUnsubscribeModal(form.id, form.domain, form.category, form.subscriptionId)}
-                            disabled={submittingId === form.id}
-                            title="Unsubscribe from updates"
-                          >
-                            {submittingId === form.id ? <div className="mini-spinner"></div> : <CheckCircle size={16} />}
-                            Subscribed
-                          </button>
-                        ) : (
-                          <button
-                            className="subscribeBtn"
-                            onClick={() => openSubscribeModal(form.id, form.domain, form.category)}
-                            disabled={submittingId === form.id}
-                            title="Subscribe to updates"
-                          >
-                            {submittingId === form.id ? <div className="mini-spinner"></div> : <Bell size={16} />}
-                            Subscribe
-                          </button>
-                        )}
-                      </div>
-                    )}
+          <div className="sourceShowcaseCard">
+            <div className="cardIcon"><BookOpen size={22} /></div>
+            <h3>Policy Manual Updates</h3>
+            <p>Indexes substantive revisions to the official USCIS Policy Manual to keep legal compliance aligned with agency directives.</p>
+          </div>
 
-                    <Link to={`/form/${form.id}`} className="viewLink" title="View Details">
-                      <ExternalLink size={16} />
-                    </Link>
-                  </div>
+          <div className="sourceShowcaseCard">
+            <div className="cardIcon"><Globe size={22} /></div>
+            <h3>Visa Bulletin Charts</h3>
+            <p>Checks monthly DOS adjustment charts to verify filing status determinations and green card eligibility windows.</p>
+          </div>
+
+          <div className="sourceShowcaseCard">
+            <div className="cardIcon"><Layers size={22} /></div>
+            <div className="cardHeaderRow">
+              <h3>Federal Register Notices</h3>
+              <span className="comingSoonBadge">Coming Soon</span>
+            </div>
+            <p>Monitors daily federal publications, proposed rule revisions, and public notices impacting immigration policies.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Security & Workspace Integration Section ── */}
+      <section className="landingSecurity" ref={securityRef}>
+        <div className="securityInner">
+          <div className="securityLeft">
+            <div className="sectionBadge">COMPLIANCE & RISK</div>
+            <h2>Enterprise-Grade Security</h2>
+            <p>
+              Komunas is engineered on a resilient zero-trust architecture, ensuring all team
+              workspace assignments and data-sync integrations remain protected.
+            </p>
+
+            <div className="securityFeaturesList">
+              <div className="securityFeatureItem">
+                <div className="checkIcon"><CheckCircle size={18} /></div>
+                <div>
+                  <strong>Federated Authentication</strong>
+                  <span>Scopes and user authentication are secured via OIDC and OAuth2 protocols.</span>
                 </div>
               </div>
-            ))}
+
+              <div className="securityFeatureItem">
+                <div className="checkIcon"><CheckCircle size={18} /></div>
+                <div>
+                  <strong>Linqra Gateway Synchronization</strong>
+                  <span>Bidirectional gateway mapping guarantees clean organizational boundaries and data isolation.</span>
+                </div>
+              </div>
+
+              <div className="securityFeatureItem">
+                <div className="checkIcon"><CheckCircle size={18} /></div>
+                <div>
+                  <strong>Registry Activity Audit</strong>
+                  <span>Automated tracking of team assignments, document downloads, and user settings changes.</span>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
-      </main>
 
-      <Footer />
+          <div className="securityRight">
+            <div className="securityMockCard">
+              <div className="cardHeader">
+                <Lock size={20} />
+                <span>Security Integrity Status</span>
+              </div>
+              <div className="cardBody">
+                <div className="statusRow">
+                  <span>Linqra Client Connection</span>
+                  <span className="statusOk">Connected</span>
+                </div>
+                <div className="statusRow">
+                  <span>OIDC Identity Provider</span>
+                  <span className="statusOk">Active</span>
+                </div>
+                <div className="statusRow">
+                  <span>Workspace Isolation</span>
+                  <span className="statusOk">Enforced</span>
+                </div>
+                <div className="statusRow">
+                  <span>Database Encryption</span>
+                  <span className="statusOk">TLS 1.3</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <SubscribeFormModal
-        isOpen={modalConfig.isOpen}
-        formId={modalConfig.formId}
-        domain={modalConfig.domain}
-        category={modalConfig.category}
-        userEmail={user?.email}
-        subscriptionId={modalConfig.subscriptionId}
-        isUnsubscribing={modalConfig.isUnsubscribing}
-        onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
-        onSuccess={handleSubscriptionSuccess}
-      />
-      <ViewIntelModal
-        isOpen={viewModal.isOpen}
-        onClose={() => setViewModal(prev => ({ ...prev, isOpen: false }))}
-        item={viewModal.item}
-        type={viewModal.type}
-        onViewAll={() => navigate(`/newsroom/${viewModal.type}`)}
-      />
-      <LogoutConfirmationModal
-        isOpen={isLogoutModalOpen}
-        onClose={() => setIsLogoutModalOpen(false)}
-        onConfirm={() => {
-          logout();
-          setIsLogoutModalOpen(false);
-          setIsMenuOpen(false);
-        }}
-      />
+      {/* ── Landing Footer ── */}
+      <footer className="landingFooter">
+        <p>© {new Date().getFullYear()} Komunas. Advanced Regulatory Intelligence & Linqra Integration.</p>
+      </footer>
+
+      {/* ── Video Player Modal ── */}
+      <VideoDemoModal isOpen={isVideoModalOpen} onClose={() => setIsVideoModalOpen(false)} />
+
+      {/* ── Request Demo Modal ── */}
+      <RequestDemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
+
+      {/* ── Dashboard Image Lightbox Modal ── */}
+      {isPreviewOpen && (
+        <div className="previewLightboxOverlay" onClick={() => setIsPreviewOpen(false)}>
+          <div className="lightboxContent" onClick={(e) => e.stopPropagation()}>
+            <button className="lightboxCloseBtn" onClick={() => setIsPreviewOpen(false)} aria-label="Close preview">
+              <X size={26} />
+            </button>
+            <img
+              src={PREVIEW_IMAGES[activeImageIndex].src}
+              alt={`${PREVIEW_IMAGES[activeImageIndex].alt} Fullscreen`}
+              className="lightboxImg"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

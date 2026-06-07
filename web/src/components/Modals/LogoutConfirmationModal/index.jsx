@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, LogOut, ShieldAlert } from 'lucide-react';
+import Button from '../../Button';
 import './styles.scss';
 
 const LogoutConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
@@ -28,10 +29,10 @@ const LogoutConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
         </div>
 
         <div className="modalFooter">
-          <button className="cancelBtn" onClick={onClose}>Stay Logged In</button>
-          <button className="confirmBtn logout" onClick={onConfirm}>
+          <Button variant="cancel" onClick={onClose}>Stay Logged In</Button>
+          <Button variant="danger" onClick={onConfirm}>
             Logout
-          </button>
+          </Button>
         </div>
       </div>
     </div>

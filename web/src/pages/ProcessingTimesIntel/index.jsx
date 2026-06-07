@@ -97,8 +97,8 @@ const ProcessingTimesLanding = () => {
   const formGroups = Object.values(grouped);
 
   return (
-    <div className="intelPage processingTimesIntel">
-      <Header transparent />
+    <div className={`intelPage processingTimesIntel ${isAuthenticated ? 'intelPage--authenticated' : ''}`}>
+      {!isAuthenticated && <Header transparent />}
 
       <div className="pageHeader">
         <div className="container">
@@ -108,16 +108,14 @@ const ProcessingTimesLanding = () => {
 
           <div className="headerContent">
             <div className="titleArea">
+              <div className="formTypeBadge">
+                <Activity size={12} style={{ marginRight: '4px' }} />
+                USCIS Processing Times Intelligence
+              </div>
               <h1>Processing Times Dashboard</h1>
-              <p className="subtitle">
+              <p className="formSummary">
                 AI-driven analysis of estimated wait times, historical trends, and Visa Bulletin constraints across all monitored USCIS forms.
               </p>
-            </div>
-            <div className="metaInfo">
-              <div className="badge">
-                <Activity size={14} />
-                <span>USCIS Processing Times Intelligence</span>
-              </div>
             </div>
           </div>
 
@@ -174,7 +172,7 @@ const ProcessingTimesLanding = () => {
         </div>
       </main>
 
-      <Footer />
+      {!isAuthenticated && <Footer />}
     </div>
   );
 };
@@ -234,8 +232,8 @@ const ProcessingTimesDetail = ({ formId }) => {
   const history = data.versionHistory || [];
 
   return (
-    <div className="intelPage processingTimesIntel">
-      <Header transparent />
+    <div className={`intelPage processingTimesIntel ${isAuthenticated ? 'intelPage--authenticated' : ''}`}>
+      {!isAuthenticated && <Header transparent />}
 
       <div className="pageHeader">
         <div className="container">
@@ -433,7 +431,7 @@ const ProcessingTimesDetail = ({ formId }) => {
         </div>
       </main>
 
-      <Footer />
+      {!isAuthenticated && <Footer />}
 
       <SubscribeProcessingTimesModal
         isOpen={modalConfig.isOpen}

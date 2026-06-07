@@ -5,6 +5,10 @@ import org.lite.komunas.dto.ForgotPasswordRequest;
 import org.lite.komunas.dto.LoginRequest;
 import org.lite.komunas.dto.RegisterRequest;
 import org.lite.komunas.dto.ResetPasswordRequest;
+import org.lite.komunas.dto.UserDTO;
+import org.lite.komunas.dto.TeamDTO;
+import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
@@ -39,4 +43,26 @@ public interface UserService {
      * @return AuthResponse with result message
      */
     AuthResponse resetPassword(ResetPasswordRequest request);
+
+    /**
+     * Fetch all users
+     * 
+     * @return List of UserDTOs
+     */
+    List<UserDTO> getAllUsers();
+
+    /**
+     * Update user details (roles and teamId)
+     */
+    void updateUser(String userId, Set<String> roles, String teamId);
+
+    /**
+     * Delete a user
+     */
+    void deleteUser(String userId);
+
+    /**
+     * Fetch all available teams from the gateway
+     */
+    List<TeamDTO> getAllTeams();
 }

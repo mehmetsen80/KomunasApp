@@ -66,6 +66,9 @@ public class RestTemplateConfig {
                 new MediaType("application", "*+json")));
         messageConverters.add(jsonConverter);
 
+        // Add Byte Array message converter to support file downloads
+        messageConverters.add(new org.springframework.http.converter.ByteArrayHttpMessageConverter());
+
         restTemplate.setMessageConverters(messageConverters);
 
         // Configure interceptors
@@ -76,27 +79,47 @@ public class RestTemplateConfig {
 
         // Add JWT token interceptor
         interceptors.add((request, body, execution) -> {
-            // Set global headers for all requests to ensure consistent JSON communication
-            request.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-            request.getHeaders().setAccept(List.of(
-                    MediaType.APPLICATION_JSON,
-                    MediaType.TEXT_PLAIN,
-                    new MediaType("application", "*+json")));
+            // Set global headers for all requests to ensure consistent JSON communication.
+            // Only set Content-Type if not already present (binary requests may need a
+            // different type).
+            if (!request.getHeaders().containsKey("Content-Type")) {
+                request.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            }
+            // Only set Accept if not already explicitly set by the caller.
+            if (!request.getHeaders().containsKey("Accept")) {
+                request.getHeaders().setAccept(List.of(
+                        MediaType.APPLICATION_JSON,
+                        MediaType.TEXT_PLAIN,
+                        new MediaType("application", "*+json")));
+            }
 
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication != null && authentication.getCredentials() instanceof Jwt) {
-                Jwt jwt = (Jwt) authentication.getCredentials();
-                String token = jwt.getTokenValue();
+            // Only inject the SecurityContext JWT if the caller has NOT already set an
+            // Authorization / X-User-Token header. When downloading documents from Linqra
+            // the
+            // caller must forward the browser's own Linqra-issued JWT rather than
+            // KomunasApp's
+            // HMAC-signed JWT (which Linqra's TeamContextService cannot validate).
+            boolean authAlreadySet = request.getHeaders().containsKey("Authorization")
+                    || request.getHeaders().containsKey("X-User-Token");
 
-                request.getHeaders().setBearerAuth(token);
-                request.getHeaders().set("X-User-Token", token);
+            if (!authAlreadySet) {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                if (authentication != null && authentication.getCredentials() instanceof Jwt) {
+                    Jwt jwt = (Jwt) authentication.getCredentials();
+                    String token = jwt.getTokenValue();
 
-                log.debug("Request headers: {}", request.getHeaders());
-                log.info("Forwarding token to API Gateway. Token type: {}, Issuer: {}",
-                        jwt.getHeaders().get("typ"),
-                        jwt.getClaim("iss"));
+                    request.getHeaders().setBearerAuth(token);
+                    request.getHeaders().set("X-User-Token", token);
+
+                    log.debug("Request headers: {}", request.getHeaders());
+                    log.info("Forwarding token to API Gateway. Token type: {}, Issuer: {}",
+                            jwt.getHeaders().get("typ"),
+                            jwt.getClaim("iss"));
+                } else {
+                    log.warn("No JWT token found in SecurityContext");
+                }
             } else {
-                log.warn("No JWT token found in SecurityContext");
+                log.debug("Auth headers already set by caller — skipping SecurityContext token injection");
             }
 
             try {

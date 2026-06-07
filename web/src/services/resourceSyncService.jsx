@@ -23,13 +23,17 @@ const resourceSyncService = {
         status: item.enabled ? 'Active' : 'Inactive',
         pdfUrl: item.resourceUrl,
         instrUrl: item.instructionsUrl,
+        documentId: item.documentId,
+        instructionsDocumentId: item.instructionsDocumentId,
         lastCheckedAt: item.lastCheckedAt,
+        lastUpdatedAt: item.lastUpdatedAt,
         changeDetected: item.changeDetected,
         subscribed: item.subscribed,
         subscriptionId: item.subscriptionId,
         changeType: item.changeType,
         payload: item.payload,
-        summary: item.summary
+        summary: item.summary,
+        versionHistory: item.versionHistory || []
       }));
     } catch (error) {
       console.error('Error in resourceSyncService.getAllFormStatuses:', error);

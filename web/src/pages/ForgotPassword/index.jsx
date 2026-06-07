@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { forgotPassword as forgotPasswordApi } from '../../services/authService';
-import { Mail, ArrowLeft, ShieldCheck, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Mail, ArrowLeft, ShieldCheck, AlertCircle, CheckCircle2, KeyRound, Activity, Brain, Users } from 'lucide-react';
+import Button from '../../components/Button';
 import './styles.scss';
 
 const ForgotPassword = () => {
@@ -32,79 +33,135 @@ const ForgotPassword = () => {
 
     return (
         <div className="forgotPasswordPage">
-            {/* ── Dynamic Background ── */}
-            <div className="forgotPasswordBg">
-                <div className="blob blob-1"></div>
-                <div className="blob blob-2"></div>
+            {/* Left Column: Brand Marketing Panel */}
+            <div className="fpPanelLeft">
+                <div className="brandHeader">
+                    <div className="brandLogo">K</div>
+                    <span className="brandName">Komunas</span>
+                </div>
+
+                <div className="marketingContent">
+                    <h2 className="marketingTitle">
+                        Your Access,{' '}
+                        <span className="highlightText">Restored Securely</span>
+                    </h2>
+                    <p className="marketingSubtitle">
+                        We use encrypted, time-limited recovery links to ensure your account stays protected throughout the reset process.
+                    </p>
+
+                    <div className="marketingPillars">
+                        <div className="pillarItem">
+                            <div className="pillarIcon">
+                                <KeyRound size={20} />
+                            </div>
+                            <div className="pillarText">
+                                <h3>Secure Recovery</h3>
+                                <p>Encrypted reset tokens expire automatically — no persistent vulnerabilities.</p>
+                            </div>
+                        </div>
+
+                        <div className="pillarItem">
+                            <div className="pillarIcon">
+                                <Activity size={20} />
+                            </div>
+                            <div className="pillarText">
+                                <h3>Stay Informed</h3>
+                                <p>Never miss a USCIS update. Resume your intelligence feed the moment you're back.</p>
+                            </div>
+                        </div>
+
+                        <div className="pillarItem">
+                            <div className="pillarIcon">
+                                <Brain size={20} />
+                            </div>
+                            <div className="pillarText">
+                                <h3>Seamless Return</h3>
+                                <p>Pick up right where you left off — your saved searches and team access are intact.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="marketingFooter">
+                    <p>© {new Date().getFullYear()} Komunas. Intelligence Verified.</p>
+                </div>
             </div>
 
-            <div className="forgotPasswordContent">
-                <Link to="/login" className="backLogin">
-                    <ArrowLeft size={18} />
-                    Back to Login
-                </Link>
+            {/* Right Column: Form Card */}
+            <div className="fpPanelRight">
+                <div className="fpContent">
+                    <Link to="/login" className="backHome">
+                        <ArrowLeft size={18} />
+                        Back to Login
+                    </Link>
 
-                <div className="forgotPasswordCard">
-                    <div className="cardHeader">
-                        <div className="logoWrapper">
-                            <img src="/icon.jpg" alt="Komunas Logo" />
-                        </div>
-                        <h1>Reset Password</h1>
-                        <p>Enter your email address and we'll send you a high-fidelity recovery link.</p>
-                    </div>
-
-                    {!success ? (
-                        <form className="forgotPasswordForm" onSubmit={handleSubmit}>
-                            <div className="inputGroup">
-                                <label htmlFor="email">Email Address</label>
-                                <div className="inputWrapper">
-                                    <Mail size={18} className="inputIcon" />
-                                    <input
-                                        id="email"
-                                        type="email"
-                                        placeholder="Enter your registered email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                        autoComplete="email"
-                                    />
-                                </div>
+                    <div className="fpCard">
+                        <div className="cardHeader">
+                            <div className="logoWrapper">
+                                <img src="/icon.jpg" alt="Komunas Logo" />
                             </div>
+                            <h1>Reset Password</h1>
+                            <p>Enter your email address and we'll send you a secure recovery link.</p>
+                        </div>
 
-                            {error && (
-                                <div className="errorMessage">
-                                    <AlertCircle size={18} />
-                                    <span>{error}</span>
+                        {!success ? (
+                            <form className="fpForm" onSubmit={handleSubmit}>
+                                <div className="inputGroup">
+                                    <label htmlFor="email">Email Address</label>
+                                    <div className="inputWrapper">
+                                        <Mail size={18} className="inputIcon" />
+                                        <input
+                                            id="email"
+                                            type="email"
+                                            placeholder="Enter your registered email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                            autoComplete="email"
+                                        />
+                                    </div>
                                 </div>
-                            )}
 
-                            <button type="submit" className="forgotPasswordSubmit" disabled={loading}>
-                                {loading ? (
-                                    <div className="spinner"></div>
-                                ) : (
-                                    <>
-                                        Send Recovery Link
-                                    </>
+                                {error && (
+                                    <div className="errorMessage">
+                                        <AlertCircle size={18} />
+                                        <span>{error}</span>
+                                    </div>
                                 )}
-                            </button>
-                        </form>
-                    ) : (
-                        <div className="successState">
-                            <div className="successIcon">
-                                <CheckCircle2 size={48} />
-                            </div>
-                            <h3>Check Your Inbox</h3>
-                            <p>If an account exists with <b>{email}</b>, you will receive a secure reset link shortly.</p>
-                            <Link to="/login" className="returnLoginBtn">
-                                Return to Login
-                            </Link>
-                        </div>
-                    )}
 
-                    <div className="cardFooter">
-                        <div className="securityBadge">
-                            <ShieldCheck size={14} />
-                            Secured with Linqra Intelligence
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    loading={loading}
+                                    icon={<Mail size={20} />}
+                                    className="fpSubmit"
+                                >
+                                    Send Recovery Link
+                                </Button>
+                            </form>
+                        ) : (
+                            <div className="successState">
+                                <div className="successIcon">
+                                    <CheckCircle2 size={40} />
+                                </div>
+                                <h3>Check Your Inbox</h3>
+                                <p>
+                                    If an account exists with <b>{email}</b>, you will receive a secure reset link shortly.
+                                </p>
+                                <Link to="/login" className="returnLoginBtn">
+                                    Return to Login
+                                </Link>
+                            </div>
+                        )}
+
+                        <div className="cardFooter">
+                            <div className="securityBadge">
+                                <ShieldCheck size={14} />
+                                Secured with Linqra Intelligence
+                            </div>
+                            <p className="rememberPassword">
+                                Remember your password? <Link to="/login">Sign In</Link>
+                            </p>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,269 @@
+@use "../../assets/styles/variables" as *;
+
+.savedSearchesPage {
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .pageHeader {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-bottom: 1px solid $color-border;
+    margin: -2rem -2rem 2rem -2rem;
+
+    .titleArea {
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba($color-text-secondary, 0.08);
+        color: $color-text-secondary;
+        border: 1px solid rgba($color-text-secondary, 0.15);
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .savedSearchesTitle {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: $color-text-main;
+        margin: 0 0 0.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        color: $color-text-secondary;
+        margin: 0;
+        font-size: 1.15rem;
+        line-height: 1.6;
+        max-width: 800px;
+      }
+    }
+  }
+
+  .errorCard {
+    background: #fef2f2;
+    border: 1px solid #fee2e2;
+    border-radius: $radius-lg;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #dc2626;
+    font-size: 0.9rem;
+
+    .retryBtn {
+      margin-left: auto;
+      background: white;
+      border: 1px solid #fee2e2;
+      color: #dc2626;
+      padding: 0.35rem 0.75rem;
+      border-radius: $radius-sm;
+      font-weight: 600;
+      cursor: pointer;
+      transition: $transition-smooth;
+
+      &:hover {
+        background: #fef2f2;
+      }
+    }
+  }
+
+  .noResultsCard {
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    padding: 4rem 2rem;
+    text-align: center;
+    max-width: 500px;
+    margin: 3rem auto;
+    box-shadow: $shadow-card;
+
+    .noResultsIcon {
+      width: 64px;
+      height: 64px;
+      background: rgba(200, 241, 53, 0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5a7a00;
+      margin: 0 auto 1.5rem auto;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: $color-text-main;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: $color-text-secondary;
+      line-height: 1.6;
+      margin: 0;
+    }
+  }
+
+  .searchesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .searchCard {
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $radius-lg;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: $shadow-card;
+    cursor: pointer;
+    transition: $transition-smooth;
+
+    &:hover {
+      border-color: rgba($color-secondary, 0.2);
+      box-shadow: $shadow-lg;
+      transform: translateY(-2px);
+
+      .searchIconWrapper {
+        background: rgba(200, 241, 53, 0.2);
+        color: #4b6600;
+      }
+    }
+
+    .cardMain {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .searchIconWrapper {
+      width: 36px;
+      height: 36px;
+      background: rgba(200, 241, 53, 0.12);
+      border-radius: $radius-md;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5a7a00;
+      flex-shrink: 0;
+      transition: $transition-smooth;
+    }
+
+    .searchDetails {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      min-width: 0; // Truncation safety
+    }
+
+    .searchQuery {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: $color-text-main;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .searchMeta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .metaItem {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.75rem;
+        color: $color-text-secondary;
+
+        svg {
+          color: $color-text-muted;
+        }
+      }
+    }
+
+    .cardActions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 0.85rem;
+      margin-top: auto;
+
+      .runBtn {
+        background: transparent;
+        border: none;
+        padding: 0;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: $color-secondary;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        cursor: pointer;
+        transition: $transition-smooth;
+        font-family: $font-sans;
+
+        &:hover {
+          color: #5a7a00;
+          transform: translateX(2px);
+        }
+      }
+
+      .deleteBtn {
+        margin-left: auto;
+        background: transparent;
+        border: none;
+        color: $color-text-secondary;
+        padding: 4px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: $transition-smooth;
+
+        &:hover {
+          color: #dc2626;
+          background: #fef2f2;
+        }
+      }
+    }
+  }
+}
+
+.savedSearchesLoading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 6rem 2rem;
+  color: $color-text-secondary;
+
+  .loadingSpinner {
+    width: 44px;
+    height: 44px;
+    border: 4px solid rgba(200, 241, 53, 0.15);
+    border-left-color: #5a7a00;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

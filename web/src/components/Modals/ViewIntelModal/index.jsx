@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, ExternalLink, Calendar, BookOpen, Newspaper, ArrowRight, ShieldCheck, BarChart3 } from 'lucide-react';
+import Button from '../../Button';
 import './styles.scss';
 
 const ViewIntelModal = ({ isOpen, onClose, item, type = 'policy', onViewAll }) => {
@@ -141,20 +142,32 @@ const ViewIntelModal = ({ isOpen, onClose, item, type = 'policy', onViewAll }) =
         </div>
 
         <div className="modalFooter">
-          <button className="secondaryBtn" onClick={onViewAll}>
-            View Full Timeline <ArrowRight size={16} />
-          </button>
+          <Button variant="secondary" onClick={onViewAll} icon={<ArrowRight size={16} />}>
+            View Full Timeline
+          </Button>
           
           <div className="footerActions">
             {item.url && (
-              <a href={item.url} target="_blank" rel="noopener noreferrer" className="primaryBtn">
-                View Official Bulletin <ExternalLink size={16} />
-              </a>
+              <Button
+                variant="primary"
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                icon={<ExternalLink size={16} />}
+              >
+                View Official Bulletin
+              </Button>
             )}
             {type === 'visa-bulletin' && (
-              <a href="https://www.uscis.gov/visabulletininfo" target="_blank" rel="noopener noreferrer" className="secondaryBtn outline">
-                USCIS Determination <ExternalLink size={16} />
-              </a>
+              <Button
+                variant="secondary"
+                href="https://www.uscis.gov/visabulletininfo"
+                target="_blank"
+                rel="noopener noreferrer"
+                icon={<ExternalLink size={16} />}
+              >
+                USCIS Determination
+              </Button>
             )}
           </div>
         </div>

@@ -1,0 +1,147 @@
+@use "sass:color";
+@use "../../../assets/styles/variables" as *;
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent.deleteSearchModal {
+  background: white;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 24px;
+  padding: 2.5rem;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  .closeBtn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+  }
+
+  .modalHeader {
+    text-align: center;
+    margin-bottom: 1.75rem;
+
+    .iconWrapper.delete {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      background: rgba(#dc2626, 0.08);
+      color: #dc2626;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: $color-secondary;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #6b7280;
+      line-height: 1.4;
+    }
+  }
+
+  .modalBody {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    .queryValueCard {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .queryLabel {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #94a3b8;
+        letter-spacing: 0.05em;
+      }
+
+      .queryText {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: $color-text-main;
+        word-break: break-all;
+      }
+    }
+
+    .infoBox {
+      background: #fffbeb;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid #fef3c7;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      
+      svg {
+        color: #d97706;
+        flex-shrink: 0;
+      }
+
+      p {
+        font-size: 0.85rem;
+        color: #b45309;
+        line-height: 1.4;
+        margin: 0;
+      }
+    }
+  }
+
+  .modalFooter {
+    display: flex;
+    gap: 1rem;
+
+    .premiumBtn {
+      flex: 1;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}

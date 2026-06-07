@@ -39,6 +39,9 @@ server:
 
 gateway:
   base-url: http://${GATEWAY_SERVICE_URL:localhost}:7777
+  uscis-form-monitor-agent-id: 69b5918aeeb79a6bf5fcf940
+  uscis-newsroom-monitor-agent-id: 69fd3ff76f97fa033758f7b4
+  uscis-processing-time-agent-id: 6a0aa10e94c4337229eedb73
 
 logging:
   file:
@@ -98,6 +101,10 @@ registration:
   welcome-from: "noreply@linqra.com"
   welcome-bcc:
     - "msen@linqra.com"
+
+demo-request:
+  recipient: "msen@linqra.com"
+  from: "noreply@linqra.com"
 
 uscis:
   scraper:

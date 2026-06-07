@@ -12,7 +12,7 @@
       "teamId": "67d0aeb17172416c411d419e",
       "userId": "timursen",
       "collectionId": "69ac77018626a22133fff877",
-      "agentTaskId": "69c0841b71ba477c76b154d1"
+      "agentTaskId": "69b224d79b8c45139dc7ed8a"
     },
     "workflow": [
       {
@@ -148,7 +148,14 @@
             "role": "user",
             "content": "### MAIN FORM DELTAS\nOld: {{step5.result.oldText}}\nNew: {{step5.result.newText}}\n\n### INSTRUCTIONS DELTAS\nOld: {{step6.result.oldText}}\nNew: {{step6.result.newText}}\n\n### I-130A SUPPLEMENTAL DELTAS\nOld: {{step7.result.oldText}}\nNew: {{step7.result.newText}}"
           }
-        ]
+        ],
+        "llmConfig": {
+          "model": "gpt-o4-mini",
+          "settings": {
+            "temperature": 0.1,
+            "max.tokens": 4096
+          }
+        }
       },
       {
         "step": 9,

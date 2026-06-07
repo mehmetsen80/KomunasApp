@@ -61,6 +61,8 @@ public class User implements UserDetails {
 
     private String avatarUrl;
 
+    private String teamId;
+
     @Field("reset_token")
     private String resetPasswordToken;
 

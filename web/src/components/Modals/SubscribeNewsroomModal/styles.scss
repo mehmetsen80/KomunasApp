@@ -152,52 +152,8 @@
     display: flex;
     gap: 1rem;
 
-    button {
+    .premiumBtn {
       flex: 1;
-      padding: 1rem;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .cancelBtn {
-      background: white;
-      border: 1px solid #e5e7eb;
-      color: #4b5563;
-
-      &:hover {
-        background: #f9fafb;
-        border-color: #d1d5db;
-      }
-    }
-
-    .confirmBtn {
-      border: none;
-      color: white;
-
-      &.sub {
-        background: color.adjust($color-accent, $lightness: -20%);
-        color: $color-dark;
-        box-shadow: 0 4px 12px rgba($color-accent, 0.2);
-
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 15px rgba($color-accent, 0.3);
-          background: color.adjust($color-accent, $lightness: -25%);
-        }
-      }
-
-      &.unsub {
-        background: #ef4444;
-        box-shadow: 0 4px 12px rgba(#ef4444, 0.2);
-
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 15px rgba(#ef4444, 0.3);
-        }
-      }
     }
   }
 }

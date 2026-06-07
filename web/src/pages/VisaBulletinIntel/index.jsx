@@ -14,8 +14,10 @@ import {
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import resourceSyncService from '../../services/resourceSyncService';
+import { formatDateTime } from '../../utils/dateUtils';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import SubscribeNewsroomModal from '../../components/Modals/SubscribeNewsroomModal';
 import './styles.scss';
 
 const VisaBulletinIntel = () => {
@@ -23,6 +25,21 @@ const VisaBulletinIntel = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [modalConfig, setModalConfig] = useState({ isOpen: false, isUnsubscribing: false });
+
+  const handleSubscriptionSuccess = () => {
+    const isUnsub = modalConfig.isUnsubscribing;
+
+    // Optimistic update
+    setData(prev => ({
+      ...prev,
+      subscribed: !isUnsub
+    }));
+
+    // Refresh data in background
+    setTimeout(fetchData, 1500);
+  };
 
   useEffect(() => {
     fetchData();
@@ -65,8 +82,8 @@ const VisaBulletinIntel = () => {
   const employment = payload.employmentDetermination || {};
 
   return (
-    <div className="visaBulletinPage">
-      <Header transparent />
+    <div className={`visaBulletinPage ${isAuthenticated ? 'visaBulletinPage--authenticated' : ''}`}>
+      {!isAuthenticated && <Header transparent />}
       <div className="pageHeader">
         <div className="container">
           <Link to="/" className="backBtn">
@@ -74,24 +91,24 @@ const VisaBulletinIntel = () => {
           </Link>
           <div className="headerContent">
             <div className="titleArea">
+              <div className="formTypeBadge">
+                <BarChart3 size={12} style={{ marginRight: '4px' }} />
+                Visa Availability Priority Dates
+              </div>
               <h1>Adjustment of Status Filing Charts</h1>
-              <p className="subtitle">
+              <p className="formSummary">
                 Official USCIS determination for <strong>{currentMonth} {currentYear}</strong> adjustment of status filings.
               </p>
-            </div>
-            
-            <div className="metaInfo">
-              <div className="badge">
-                <BarChart3 size={14} />
-                <span>Visa Availability Priority Dates</span>
-              </div>
-              <div className="metaItem">
-                <Clock size={16} />
-                <span>Last Synced: {data?.lastCheckedAt ? new Date(data.lastCheckedAt).toLocaleTimeString() : 'Recent'}</span>
-              </div>
-              <div className="metaItem">
-                <ShieldCheck size={16} />
-                <span>Verified USCIS Data Source</span>
+              
+              <div className="metaInfoRow">
+                <div className="metaItem">
+                  <Clock size={14} />
+                  <span>Last Synced: <strong>{data?.lastCheckedAt ? formatDateTime(data.lastCheckedAt) : 'Recent'}</strong></span>
+                </div>
+                <div className="metaItem">
+                  <ShieldCheck size={14} />
+                  <span>Verified USCIS Data Source</span>
+                </div>
               </div>
             </div>
           </div>
@@ -109,15 +126,25 @@ const VisaBulletinIntel = () => {
             {isAuthenticated && (
               <div className="subscriptionAction">
                 {data.subscribed ? (
-                  <div className="statusBadge subscribed big">
+                  <button 
+                    className="statusBadge subscribed big" 
+                    style={{ background: 'rgba(200, 241, 53, 0.15)', color: '#5a7a00', border: '1px solid rgba(200, 241, 53, 0.35)', cursor: 'pointer', fontFamily: 'inherit' }}
+                    onClick={() => setModalConfig({ isOpen: true, isUnsubscribing: true })}
+                    disabled={submitting}
+                  >
                     <ShieldCheck size={18} />
-                    <span>Subscribed to Alerts</span>
-                  </div>
+                    <span>Subscribed (Click to Unsubscribe)</span>
+                  </button>
                 ) : (
-                  <Link to="/" className="subscribeBtnLink">
+                  <button 
+                    className="subscribeBtnLink" 
+                    style={{ background: 'white', color: '#1e293b', border: '1px solid #e2e8f0', cursor: 'pointer', fontFamily: 'inherit' }}
+                    onClick={() => setModalConfig({ isOpen: true, isUnsubscribing: false })}
+                    disabled={submitting}
+                  >
                     <Bell size={18} />
-                    Subscribe to Updates
-                  </Link>
+                    <span>Subscribe to Updates</span>
+                  </button>
                 )}
               </div>
             )}
@@ -279,7 +306,19 @@ const VisaBulletinIntel = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {!isAuthenticated && <Footer />}
+
+      <SubscribeNewsroomModal
+        isOpen={modalConfig.isOpen}
+        resourceId="filing-charts"
+        domain={data?.domain}
+        category={data?.category}
+        userEmail={user?.email}
+        subscriptionId={data?.subscriptionId}
+        isUnsubscribing={modalConfig.isUnsubscribing}
+        onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
+        onSuccess={handleSubscriptionSuccess}
+      />
     </div>
   );
 };

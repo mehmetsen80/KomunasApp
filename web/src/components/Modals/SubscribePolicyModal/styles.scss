@@ -13,10 +13,10 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-.modalContent.policyModal {
+.modalContent {
   background: white;
   width: 100%;
-  max-width: 520px;
+  max-width: 500px;
   border-radius: 24px;
   padding: 2.5rem;
   position: relative;
@@ -56,8 +56,8 @@
       margin: 0 auto 1.5rem;
 
       &.sub {
-        background: rgba($color-secondary, 0.05);
-        color: $color-secondary;
+        background: rgba($color-accent, 0.2);
+        color: color.adjust($color-accent, $lightness: -45%);
       }
 
       &.unsub {
@@ -74,15 +74,13 @@
     }
 
     .formTarget {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: #6b7280;
       background: #f9fafb;
       display: inline-block;
-      padding: 0.3rem 0.9rem;
+      padding: 0.25rem 0.75rem;
       border-radius: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
   }
 
@@ -102,17 +100,12 @@
 
       .benefitItem {
         display: flex;
-        gap: 1.25rem;
+        gap: 1rem;
         align-items: flex-start;
-        padding: 1rem;
-        background: rgba($color-secondary, 0.02);
-        border-radius: 12px;
-        border: 1px solid rgba($color-secondary, 0.05);
 
         svg {
-          color: $color-secondary;
+          color: color.adjust($color-accent, $lightness: -20%);
           margin-top: 0.2rem;
-          flex-shrink: 0;
         }
 
         strong {
@@ -141,7 +134,7 @@
           position: relative;
           color: #4b5563;
           margin-bottom: 0.75rem;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
 
           &::before {
             content: '•';
@@ -159,68 +152,10 @@
     display: flex;
     gap: 1rem;
 
-    button {
+    .premiumBtn {
       flex: 1;
-      padding: 1rem;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .cancelBtn {
-      background: white;
-      border: 1px solid #e5e7eb;
-      color: #4b5563;
-
-      &:hover {
-        background: #f9fafb;
-        border-color: #d1d5db;
-      }
-    }
-
-    .confirmBtn {
-      border: none;
-      color: white;
-
-      &.sub {
-        background: $color-secondary;
-        box-shadow: 0 4px 12px rgba($color-secondary, 0.2);
-
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 15px rgba($color-secondary, 0.3);
-          opacity: 0.95;
-        }
-      }
-
-      &.unsub {
-        background: #ef4444;
-        box-shadow: 0 4px 12px rgba(#ef4444, 0.2);
-
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 15px rgba(#ef4444, 0.3);
-        }
-      }
     }
   }
-
-  .mini-spinner {
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto;
-  }
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 @keyframes fadeIn {

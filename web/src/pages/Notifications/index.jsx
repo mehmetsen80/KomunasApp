@@ -13,7 +13,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 const Notifications = () => {
-  const { user } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const { refreshUnreadCount } = useNotifications();
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
@@ -65,8 +65,8 @@ const Notifications = () => {
   };
 
   return (
-    <div className="notificationsPage intelPage newsroomIntelPage">
-      <Header transparent />
+    <div className={`notificationsPage intelPage newsroomIntelPage ${isAuthenticated ? 'intelPage--authenticated' : ''}`}>
+      {!isAuthenticated && <Header transparent />}
 
       <div className="pageHeader">
         <div className="container">
@@ -171,7 +171,7 @@ const Notifications = () => {
         </div>
       </main>
 
-      <Footer />
+      {!isAuthenticated && <Footer />}
     </div>
   );
 };
