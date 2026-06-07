@@ -235,7 +235,10 @@
 
   // Specific overrides for direct children that are cards themselves (to align their outer borders with the inner content of containers)
   > .monitoredCard {
-    max-width: 1560px !important;
+    max-width: 1536px !important;
+    width: calc(100% - 4rem) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     padding: 1.25rem !important;
   }
 
@@ -243,7 +246,44 @@
   > .changeMonitorFilterBar,
   > .documentsFilterBar,
   > .reportsFilterBar {
-    max-width: 1560px !important;
+    max-width: 1536px !important;
+    width: calc(100% - 4rem) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     padding: 1rem 1.25rem !important;
+  }
+
+  > .timelineContainer {
+    max-width: 1536px !important;
+    width: calc(100% - 4rem) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-right: 0 !important;
+  }
+
+  > .reportsTableWrapper,
+  > .documentsTableWrapper,
+  > .registryContainer {
+    max-width: 1536px !important;
+    width: calc(100% - 4rem) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 0 !important;
+  }
+
+  > .reportsEmptyCard,
+  > .documentsEmptyCard,
+  > .errorBanner {
+    max-width: 1536px !important;
+    width: calc(100% - 4rem) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  > .noTeamsCard {
+    max-width: 500px !important;
+    width: calc(100% - 4rem) !important;
+    margin: 3rem auto !important;
+    padding: 4rem 2rem !important;
   }
 }
