@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Shield, Brain, Globe, ArrowRight, Play, Layers, Clock, BookOpen, FileText, CheckCircle, Lock, Bell, Scale, Briefcase, Users, X, ChevronLeft, ChevronRight
+  Shield, Brain, Globe, ArrowRight, Play, Layers, Clock, BookOpen, FileText, CheckCircle, Lock, Bell, Scale, Briefcase, Users, X, ChevronLeft, ChevronRight, Menu
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import VideoDemoModal from '../../components/Modals/VideoDemoModal';
@@ -53,6 +53,7 @@ const Home = () => {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const nextImage = () => {
     setActiveImageIndex((prev) => (prev + 1) % PREVIEW_IMAGES.length);
@@ -94,9 +95,9 @@ const Home = () => {
   return (
     <div className="landingPage">
       {/* ── Top Navigation ── */}
-      <nav className="landingNav">
+      <nav className={`landingNav ${isMobileMenuOpen ? 'mobileMenuOpen' : ''}`}>
         <div className="navInner">
-          <Link to="/" className="navBrand">
+          <Link to="/" className="navBrand" onClick={() => setIsMobileMenuOpen(false)}>
             <div className="brandMark">K</div>
             <div className="brandText">
               <span className="brandName">Komunas</span>
@@ -113,11 +114,35 @@ const Home = () => {
 
           <div className="navActions">
             <Link to="/login" className="navLogin">Log in</Link>
-            <button className="navCta" onClick={() => setIsDemoModalOpen(true)}>
-              Request a Demo <ArrowRight size={15} />
+            <button className="navCta" onClick={() => { setIsMobileMenuOpen(false); setIsDemoModalOpen(true); }}>
+              <span className="ctaTextLong">Request a </span>Demo <ArrowRight size={15} />
+            </button>
+            
+            <button 
+              className="mobileMenuToggle" 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
+
+        {isMobileMenuOpen && (
+          <div className="mobileNavDropdown">
+            <button className="mobileNavLink" onClick={() => { setIsMobileMenuOpen(false); scrollToFeatures(); }}>Features</button>
+            <button className="mobileNavLink" onClick={() => { setIsMobileMenuOpen(false); scrollToAudience(); }}>Who it's for</button>
+            <button className="mobileNavLink" onClick={() => { setIsMobileMenuOpen(false); scrollToSources(); }}>Monitored Sources</button>
+            <button className="mobileNavLink" onClick={() => { setIsMobileMenuOpen(false); scrollToSecurity(); }}>Security</button>
+            <div className="mobileNavDivider" />
+            <div className="mobileNavFooter">
+              <Link to="/login" className="mobileNavLogin" onClick={() => setIsMobileMenuOpen(false)}>Log in</Link>
+              <button className="mobileNavCta" onClick={() => { setIsMobileMenuOpen(false); setIsDemoModalOpen(true); }}>
+                Request a Demo <ArrowRight size={15} />
+              </button>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* ── Hero Section ── */}

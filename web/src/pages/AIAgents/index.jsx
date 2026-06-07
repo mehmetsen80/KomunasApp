@@ -50,14 +50,15 @@ const formatLastRun = (dateVal) => {
   return "Just now";
 };
 
-const getAgentInterval = (tasks) => {
-  if (!tasks || tasks.length === 0) return 'Manual';
+const getAgentIntervals = (tasks) => {
+  if (!tasks || tasks.length === 0) return ['Manual'];
   const activeTasks = tasks.filter(t => t.enabled);
   const cronTasks = activeTasks.filter(t => (t.cronDescription && t.cronDescription.trim()) || (t.cronExpression && t.cronExpression.trim()));
   if (cronTasks.length > 0) {
-    return cronTasks.map(t => t.cronDescription || t.cronExpression).join(', ');
+    const intervals = cronTasks.map(t => t.cronDescription || t.cronExpression);
+    return Array.from(new Set(intervals));
   }
-  return 'Manual';
+  return ['Manual'];
 };
 
 const getLatestLastRun = (tasks) => {
@@ -142,7 +143,7 @@ const AIAgents = () => {
               const meta = getAgentMeta(agent.name);
               const agentTasks = agent.tasks || [];
               const isEnabled = agent.enabled !== false;
-              const interval = getAgentInterval(agentTasks);
+              const intervals = getAgentIntervals(agentTasks);
               const lastRun = getLatestLastRun(agentTasks);
               
               return (
@@ -168,8 +169,20 @@ const AIAgents = () => {
                           <span className="value code">{agent.id}</span>
                         </div>
                         <div className="metaCell">
-                          <span className="label">Interval</span>
-                          <span className="value">{interval}</span>
+                          <span className="label">Intervals</span>
+                          <div className="intervalBadges">
+                            {intervals.map((inter, idx) => {
+                              const isManual = inter.toLowerCase() === 'manual';
+                              return (
+                                <span 
+                                  className={`intervalBadge ${isManual ? 'manual' : ''}`} 
+                                  key={idx}
+                                >
+                                  {inter}
+                                </span>
+                              );
+                            })}
+                          </div>
                         </div>
                         <div className="metaCell">
                           <span className="label">Last Execution</span>
