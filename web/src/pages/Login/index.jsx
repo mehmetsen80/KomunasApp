@@ -105,7 +105,7 @@ const Login = () => {
                     <div className="loginCard">
                         <div className="cardHeader">
                             <div className="logoWrapper">
-                                <img src="/icon.jpg" alt="Komunas Logo" />
+                                <img src="/komunas_logo.svg" alt="Komunas Logo" />
                             </div>
                             <h1>Welcome Back</h1>
                             <p>Access the USCIS Forms Library & Intelligence Platform</p>

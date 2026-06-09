@@ -143,7 +143,7 @@ const Register = () => {
           <div className="registerCard">
             <div className="cardHeader">
               <div className="logoWrapper">
-                <img src="/icon.jpg" alt="Komunas Logo" />
+                <img src="/komunas_logo.svg" alt="Komunas Logo" />
               </div>
               <h1>Create Account</h1>
               <p>Join the professional network for USCIS Intelligence</p>

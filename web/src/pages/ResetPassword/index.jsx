@@ -123,7 +123,7 @@ const ResetPassword = () => {
                     <div className="rpCard">
                         <div className="cardHeader">
                             <div className="logoWrapper">
-                                <img src="/icon.jpg" alt="Komunas Logo" />
+                                <img src="/komunas_logo.svg" alt="Komunas Logo" />
                             </div>
                             <h1>Set New Password</h1>
                             <p>Establish a secure new credential for your account.</p>
