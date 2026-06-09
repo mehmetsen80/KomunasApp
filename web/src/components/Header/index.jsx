@@ -46,7 +46,7 @@ const Header = ({ transparent = false }) => {
         <div className="container headerContainer">
           <div className="headerTopRow">
             <Link to="/" className="headerLogo" onClick={() => setIsMenuOpen(false)}>
-              <img src="/icon.jpg" alt="Komunas" className="headerLogoIcon" />
+              <img src="/komunas_logo.svg" alt="Komunas" className="headerLogoIcon" />
               Komunas
             </Link>
 

@@ -98,7 +98,7 @@ const ForgotPassword = () => {
                     <div className="fpCard">
                         <div className="cardHeader">
                             <div className="logoWrapper">
-                                <img src="/icon.jpg" alt="Komunas Logo" />
+                                <img src="/komunas_logo.svg" alt="Komunas Logo" />
                             </div>
                             <h1>Reset Password</h1>
                             <p>Enter your email address and we'll send you a secure recovery link.</p>

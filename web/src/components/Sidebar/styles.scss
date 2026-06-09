@@ -36,6 +36,7 @@
     font-weight: 800;
     color: $color-dark;
     flex-shrink: 0;
+    font-family: $font-brand;
   }
 
   .sidebarBrandText {
@@ -47,6 +48,7 @@
       font-size: 0.9rem;
       font-weight: 700;
       color: $color-text-main;
+      font-family: $font-brand;
     }
 
     .sidebarTagline {
