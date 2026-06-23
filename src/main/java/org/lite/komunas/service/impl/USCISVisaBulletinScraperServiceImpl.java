@@ -47,7 +47,8 @@ public class USCISVisaBulletinScraperServiceImpl implements USCISVisaBulletinScr
 
         String currentMonth = (String) bulletinData.get("month");
         String currentYear = (String) bulletinData.get("year");
-        String version = currentMonth + " " + currentYear;
+        String version = (currentMonth != null && currentYear != null) ? (currentMonth + " " + currentYear)
+                : "Unknown Version";
 
         if (stateOpt.isPresent()) {
             ResourceSyncState existingState = stateOpt.get();
@@ -194,28 +195,54 @@ public class USCISVisaBulletinScraperServiceImpl implements USCISVisaBulletinScr
 
             // Current Month Determination
             Element currentHeading = doc.selectFirst("h2:contains(Current Month), h2:contains(Current Month’s)");
+            if (currentHeading == null) {
+                // Fallback in case USCIS drops "Current Month" from the heading
+                currentHeading = doc.selectFirst("h2:contains(Adjustment of Status Filing Charts)");
+            }
+
             if (currentHeading != null) {
                 Elements siblings = currentHeading.parent().children();
                 int headingIndex = siblings.indexOf(currentHeading);
+
+                StringBuilder sectionTextBuilder = new StringBuilder();
+                for (int i = headingIndex + 1; i < siblings.size(); i++) {
+                    Element el = siblings.get(i);
+                    if (el.tagName().equals("h2"))
+                        break;
+                    sectionTextBuilder.append(el.text()).append(" ");
+                }
+                extractMonthYear(sectionTextBuilder.toString(), data);
 
                 for (int i = headingIndex + 1; i < siblings.size(); i++) {
                     Element el = siblings.get(i);
                     if (el.tagName().equals("h2"))
                         break; // Stop at next section
 
-                    String text = el.text();
-                    if (text.contains("Family-Sponsored")) {
-                        Map<String, String> determination = parseDetermination(el);
+                    String text = el.text().toLowerCase();
+                    if (text.contains("family-sponsored")) {
+                        Element targetEl = el;
+                        if (targetEl.selectFirst("a") == null && i + 1 < siblings.size()) {
+                            Element nextEl = siblings.get(i + 1);
+                            if (nextEl.tagName().equals("p") || nextEl.tagName().equals("ul")) {
+                                targetEl = nextEl;
+                            }
+                        }
+                        Map<String, String> determination = parseDetermination(targetEl);
                         data.put("familyDetermination", determination);
-                        extractMonthYear(text, data);
 
                         // If we have a DOS URL, scrape it
                         if (determination.containsKey("url")) {
                             scrapeDosContent(determination.get("url"), data);
                         }
-                    } else if (text.contains("Employment-Based")) {
-                        data.put("employmentDetermination", parseDetermination(el));
-                        extractMonthYear(text, data);
+                    } else if (text.contains("employment-based")) {
+                        Element targetEl = el;
+                        if (targetEl.selectFirst("a") == null && i + 1 < siblings.size()) {
+                            Element nextEl = siblings.get(i + 1);
+                            if (nextEl.tagName().equals("p") || nextEl.tagName().equals("ul")) {
+                                targetEl = nextEl;
+                            }
+                        }
+                        data.put("employmentDetermination", parseDetermination(targetEl));
                     }
                 }
             }
