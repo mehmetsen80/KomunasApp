@@ -10,10 +10,10 @@ import './styles.scss';
 
 const PREVIEW_IMAGES = [
   { src: '/dashboard-preview.png', alt: 'Dashboard Overview', label: 'Overview Dashboard' },
-  { src: '/sources-preview.png',   alt: 'Monitored Sources',   label: 'Monitored Sources' },
-  { src: '/subscribe-preview.png', alt: 'Subscription Modal',  label: 'Form Subscription' },
-  { src: '/documents-preview.png', alt: 'Documents Library',  label: 'Document Library' },
-  { src: '/aiagents-preview.png',  alt: 'AI Agents Panel',     label: 'AI Agents Panel' },
+  { src: '/sources-preview.png', alt: 'Monitored Sources', label: 'Monitored Sources' },
+  { src: '/subscribe-preview.png', alt: 'Subscription Modal', label: 'Form Subscription' },
+  { src: '/documents-preview.png', alt: 'Documents Library', label: 'Document Library' },
+  { src: '/aiagents-preview.png', alt: 'AI Agents Panel', label: 'AI Agents Panel' },
 ];
 
 const FEATURES = [
@@ -117,9 +117,9 @@ const Home = () => {
             <button className="navCta" onClick={() => { setIsMobileMenuOpen(false); setIsDemoModalOpen(true); }}>
               <span className="ctaTextLong">Request a </span>Demo <ArrowRight size={15} />
             </button>
-            
-            <button 
-              className="mobileMenuToggle" 
+
+            <button
+              className="mobileMenuToggle"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle mobile menu"
             >
@@ -198,8 +198,8 @@ const Home = () => {
         <div className="heroDashRow">
           <div className="carouselContainer">
             {/* Main Active Image Wrapper */}
-            <div 
-              className="dashPreviewWrapper" 
+            <div
+              className="dashPreviewWrapper"
               onClick={() => setIsPreviewOpen(true)}
               style={{ cursor: 'pointer' }}
             >
@@ -208,17 +208,17 @@ const Home = () => {
                 alt={`${PREVIEW_IMAGES[activeImageIndex].alt} (Click to expand)`}
                 className="dashPreviewImg"
               />
-              
+
               {/* Left/Right Arrow Overlays */}
-              <button 
-                className="carouselArrow arrowLeft" 
+              <button
+                className="carouselArrow arrowLeft"
                 onClick={(e) => { e.stopPropagation(); prevImage(); }}
                 aria-label="Previous slide"
               >
                 <ChevronLeft size={20} />
               </button>
-              <button 
-                className="carouselArrow arrowRight" 
+              <button
+                className="carouselArrow arrowRight"
                 onClick={(e) => { e.stopPropagation(); nextImage(); }}
                 aria-label="Next slide"
               >
@@ -399,6 +399,41 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* ── Partner Integration Embed Test ── */}
+      {/* <section style={{ padding: '6rem 2rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', marginBottom: '2rem' }}>
+          <div className="sectionBadge" style={{ marginBottom: '1rem' }}>EMBED TEST</div>
+          <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#0f172a' }}>Partner Integration Sandbox</h2>
+          <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Testing the PolyTechnicApp UoM AI Advisor embedded seamlessly into Komunas.</p>
+        </div>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', background: 'white', borderRadius: '1.5rem', overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0' }}>
+          <iframe
+            src="https://localhost:4000/embed/uom"
+            width="100%"
+            height="1050px"
+            style={{ border: 'none', display: 'block' }}
+            title="University of Memphis AI Advisor"
+          />
+        </div>
+      </section> */}
+
+      {/* <iframe
+        src="https://localhost:4000/embed/uom"
+        width="100%"
+        height="1050px"
+        style={{ border: 'none', display: 'block' }}
+        title="PolyTechnicApp AI Advisor Embed"
+      ></iframe> */}
+
+
+      <iframe
+        src="https://smartadvising.ai/embed/uom"
+        width="100%"
+        height="1050px"
+        style={{ border: 'none', display: 'block' }}
+        title="PolyTechnicApp AI Advisor Embed"
+      ></iframe>
 
       {/* ── Landing Footer ── */}
       <footer className="landingFooter">
