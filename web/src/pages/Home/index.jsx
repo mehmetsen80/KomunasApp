@@ -401,23 +401,6 @@ const Home = () => {
       </section>
 
       {/* ── Partner Integration Embed Test ── */}
-      {/* <section style={{ padding: '6rem 2rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', marginBottom: '2rem' }}>
-          <div className="sectionBadge" style={{ marginBottom: '1rem' }}>EMBED TEST</div>
-          <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#0f172a' }}>Partner Integration Sandbox</h2>
-          <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Testing the PolyTechnicApp UoM AI Advisor embedded seamlessly into Komunas.</p>
-        </div>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', background: 'white', borderRadius: '1.5rem', overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0' }}>
-          <iframe
-            src="https://localhost:4000/embed/uom"
-            width="100%"
-            height="1050px"
-            style={{ border: 'none', display: 'block' }}
-            title="University of Memphis AI Advisor"
-          />
-        </div>
-      </section> */}
-
       {/* <iframe
         src="https://localhost:4000/embed/uom"
         width="100%"
@@ -427,13 +410,13 @@ const Home = () => {
       ></iframe> */}
 
 
-      <iframe
+      {/*<iframe
         src="https://smartadvising.ai/embed/uom"
         width="100%"
         height="1050px"
         style={{ border: 'none', display: 'block' }}
         title="PolyTechnicApp AI Advisor Embed"
-      ></iframe>
+      ></iframe> */}
 
       {/* ── Landing Footer ── */}
       <footer className="landingFooter">
