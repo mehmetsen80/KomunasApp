@@ -324,10 +324,18 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
             return "NO_URL";
 
         try {
-            byte[] bytes = restClient.get()
-                    .uri(url)
-                    .retrieve()
-                    .body(byte[].class);
+            ProcessBuilder pb = new ProcessBuilder(
+                    "curl", "-s", "-L",
+                    "-H", "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                    url);
+            Process process = pb.start();
+            byte[] bytes = process.getInputStream().readAllBytes();
+            int exitCode = process.waitFor();
+            
+            if (exitCode != 0 || bytes.length == 0) {
+                log.error("Curl failed for {} with exit code {}", url, exitCode);
+                return "ERROR_DOWNLOADING";
+            }
 
             if (bytes == null)
                 return "EMPTY_CONTENT";
@@ -363,7 +371,20 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
         log.info("Scraping USCIS for form {}: {}", normalizedFormId, url);
 
         try {
-            Document doc = Jsoup.connect(url).get();
+            ProcessBuilder pb = new ProcessBuilder(
+                    "curl", "-s", "-L",
+                    "-H", "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                    "-H", "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+                    "-H", "Accept-Language: en-US,en;q=0.9",
+                    url);
+            Process process = pb.start();
+            String html = new String(process.getInputStream().readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                throw new RuntimeException("Curl failed with exit code " + exitCode);
+            }
+
+            Document doc = Jsoup.parse(html);
 
             // Extract Form Name from h1
             String displayName = "USCIS Form " + normalizedFormId.toUpperCase();
