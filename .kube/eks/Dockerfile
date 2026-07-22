@@ -11,7 +11,12 @@ RUN mvn clean install -DskipTests
 FROM eclipse-temurin:21-jdk-jammy
 
 # Install necessary packages
-RUN apt-get update && apt-get install -y net-tools iputils-ping openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y net-tools iputils-ping openssl ca-certificates wget unzip && rm -rf /var/lib/apt/lists/*
+
+# Install curl-impersonate to bypass TLS fingerprinting
+RUN wget https://github.com/lwthiker/curl-impersonate/releases/download/v0.6.1/curl-impersonate-v0.6.1.x86_64-linux-gnu.tar.gz && \
+    tar -xvzf curl-impersonate-v0.6.1.x86_64-linux-gnu.tar.gz -C /usr/local/bin && \
+    rm curl-impersonate-v0.6.1.x86_64-linux-gnu.tar.gz
 
 WORKDIR /app
 

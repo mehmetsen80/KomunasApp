@@ -13,12 +13,14 @@ import org.lite.komunas.enums.ResourceChangeType;
 import org.lite.komunas.repository.ResourceSyncStateRepository;
 import org.lite.komunas.repository.ResourceVersionHistoryRepository;
 import org.lite.komunas.service.USCISFormScraperService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.client.RestClient;
 
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HexFormat;
 import java.util.List;
@@ -37,13 +39,12 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
 
     private final ResourceSyncStateRepository syncStateRepository;
     private final ResourceVersionHistoryRepository historyRepository;
-    private final RestClient restClient = RestClient.create();
 
     private static final String USCIS_BASE_URL = "https://www.uscis.gov/";
     private static final String PDF_URL_PREFIX = "https://www.uscis.gov";
     private static final Pattern VERSION_PATTERN = Pattern.compile("(\\d{2}/\\d{2}/\\d{2})");
 
-    @org.springframework.beans.factory.annotation.Value("${uscis.proxy.url:#{null}}")
+    @Value("${uscis.proxy.url:#{null}}")
     private String proxyUrl;
 
     @Override
@@ -327,27 +328,25 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
             return "NO_URL";
 
         try {
-            java.util.List<String> command = new java.util.ArrayList<>(java.util.Arrays.asList("curl", "-s", "-L"));
-            if (org.springframework.util.StringUtils.hasText(proxyUrl)) {
+            List<String> command = new ArrayList<>(
+                    Arrays.asList("curl_chrome116", "-s", "-L"));
+            if (StringUtils.hasText(proxyUrl)) {
                 command.add("-x");
                 command.add(proxyUrl);
             }
-            command.addAll(java.util.Arrays.asList(
-                    "-H", "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-                    url
-            ));
+            command.addAll(Arrays.asList(
+                    "-H",
+                    "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                    url));
             ProcessBuilder pb = new ProcessBuilder(command);
             Process process = pb.start();
             byte[] bytes = process.getInputStream().readAllBytes();
             int exitCode = process.waitFor();
-            
+
             if (exitCode != 0 || bytes.length == 0) {
                 log.error("Curl failed for {} with exit code {}", url, exitCode);
                 return "ERROR_DOWNLOADING";
             }
-
-            if (bytes == null)
-                return "EMPTY_CONTENT";
 
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(bytes);
@@ -380,17 +379,18 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
         log.info("Scraping USCIS for form {}: {}", normalizedFormId, url);
 
         try {
-            java.util.List<String> command = new java.util.ArrayList<>(java.util.Arrays.asList("curl", "-s", "-L"));
+            List<String> command = new ArrayList<>(Arrays.asList("curl_chrome116", "-s", "-L"));
             if (org.springframework.util.StringUtils.hasText(proxyUrl)) {
                 command.add("-x");
                 command.add(proxyUrl);
             }
-            command.addAll(java.util.Arrays.asList(
-                    "-H", "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-                    "-H", "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+            command.addAll(Arrays.asList(
+                    "-H",
+                    "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                    "-H",
+                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
                     "-H", "Accept-Language: en-US,en;q=0.9",
-                    url
-            ));
+                    url));
             ProcessBuilder pb = new ProcessBuilder(command);
             Process process = pb.start();
             String html = new String(process.getInputStream().readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
