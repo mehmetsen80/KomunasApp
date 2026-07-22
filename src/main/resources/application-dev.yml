@@ -102,5 +102,7 @@ demo-request:
   from: "noreply@linqra.com"
 
 uscis:
+  proxy:
+    url: ${USCIS_PROXY_URL:}
   scraper:
     headless: false

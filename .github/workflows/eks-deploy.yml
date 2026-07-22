@@ -64,6 +64,7 @@ jobs:
             --from-literal=eureka-username='${{ secrets.EUREKA_USERNAME }}' \
             --from-literal=eureka-password='${{ secrets.EUREKA_PASSWORD }}' \
             --from-literal=mongo-uri='${{ secrets.MONGO_DB_URI }}' \
+            --from-literal=uscis-proxy-url='${{ secrets.USCIS_PROXY_URL }}' \
             --dry-run=client -o yaml | kubectl apply -f -
       
       - name: Deploy to EKS
