@@ -43,6 +43,9 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
     private static final String PDF_URL_PREFIX = "https://www.uscis.gov";
     private static final Pattern VERSION_PATTERN = Pattern.compile("(\\d{2}/\\d{2}/\\d{2})");
 
+    @org.springframework.beans.factory.annotation.Value("${uscis.proxy.url:#{null}}")
+    private String proxyUrl;
+
     @Override
     public ResourceCheckResult checkForUpdates(String category, String resourceId) {
         log.info("Worker checking for updates - Category: {}, ID: {}", category, resourceId);
@@ -324,10 +327,16 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
             return "NO_URL";
 
         try {
-            ProcessBuilder pb = new ProcessBuilder(
-                    "curl", "-s", "-L",
+            java.util.List<String> command = new java.util.ArrayList<>(java.util.Arrays.asList("curl", "-s", "-L"));
+            if (org.springframework.util.StringUtils.hasText(proxyUrl)) {
+                command.add("-x");
+                command.add(proxyUrl);
+            }
+            command.addAll(java.util.Arrays.asList(
                     "-H", "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-                    url);
+                    url
+            ));
+            ProcessBuilder pb = new ProcessBuilder(command);
             Process process = pb.start();
             byte[] bytes = process.getInputStream().readAllBytes();
             int exitCode = process.waitFor();
@@ -371,12 +380,18 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
         log.info("Scraping USCIS for form {}: {}", normalizedFormId, url);
 
         try {
-            ProcessBuilder pb = new ProcessBuilder(
-                    "curl", "-s", "-L",
+            java.util.List<String> command = new java.util.ArrayList<>(java.util.Arrays.asList("curl", "-s", "-L"));
+            if (org.springframework.util.StringUtils.hasText(proxyUrl)) {
+                command.add("-x");
+                command.add(proxyUrl);
+            }
+            command.addAll(java.util.Arrays.asList(
                     "-H", "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
                     "-H", "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
                     "-H", "Accept-Language: en-US,en;q=0.9",
-                    url);
+                    url
+            ));
+            ProcessBuilder pb = new ProcessBuilder(command);
             Process process = pb.start();
             String html = new String(process.getInputStream().readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
             int exitCode = process.waitFor();
