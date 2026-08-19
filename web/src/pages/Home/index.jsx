@@ -410,13 +410,13 @@ const Home = () => {
       ></iframe> */}
 
 
-      {/*<iframe
+      <iframe
         src="https://smartadvising.ai/embed/uom"
         width="100%"
         height="1050px"
         style={{ border: 'none', display: 'block' }}
         title="PolyTechnicApp AI Advisor Embed"
-      ></iframe> */}
+      ></iframe>
 
       {/* ── Landing Footer ── */}
       <footer className="landingFooter">
