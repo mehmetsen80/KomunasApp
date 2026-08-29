@@ -126,6 +126,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: $transition-smooth;
+    -webkit-user-select: none;
     user-select: none;
     white-space: nowrap;
 

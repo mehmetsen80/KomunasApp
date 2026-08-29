@@ -199,6 +199,7 @@
         font-weight: 600;
         color: $color-text-secondary;
         cursor: pointer;
+        -webkit-user-select: none;
         user-select: none;
 
         input {
