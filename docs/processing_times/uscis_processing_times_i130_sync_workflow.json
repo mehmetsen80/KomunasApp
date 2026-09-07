@@ -8,7 +8,7 @@
     "params": {
       "resourceCategory": "processing-times",
       "formId": "I-130",
-      "teamId": "681a97eaec715f343bcb1ecf",
+      "teamId": "67d0aeb17172416c411d419e",
       "userId": "timursen"
     },
     "workflow": [
@@ -86,7 +86,12 @@
           }
         },
         "llmConfig": null,
-        "async": null
+        "async": null,
+        "jump": {
+          "condition": "{{step1.result.changed}} == false",
+          "conditionDesc": "Baseline or no material change; skip subscriber notification",
+          "targetStep": 0
+        }
       },
       {
         "step": 4,

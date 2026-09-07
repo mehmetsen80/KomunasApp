@@ -79,7 +79,12 @@
         },
         "llmConfig": null,
         "async": null,
-        "cacheConfig": null
+        "cacheConfig": null,
+        "jump": {
+          "condition": "{{step1.result.changed}} == false",
+          "conditionDesc": "Baseline or no material change; skip subscriber notification",
+          "targetStep": 0
+        }
       },
       {
         "step": 4,
