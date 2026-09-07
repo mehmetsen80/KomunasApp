@@ -68,6 +68,11 @@
           "summary": "New news releases: {{step2.result.output.title}} ({{step1.result.newVersion}})",
           "analysis": "{{step2.result}}",
           "payload": "{{step2.result.output}}"
+        },
+        "jump": {
+          "condition": "{{step1.result.changed}} == false",
+          "conditionDesc": "Baseline or no material change; skip subscriber notification",
+          "targetStep": 0
         }
       },
       {

@@ -65,16 +65,14 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
 
         return syncStateRepository.findByDomainAndCategoryAndResourceId(domain, formsCategory, resourceId)
                 .map(existingState -> {
-                    boolean versionChanged = !metadata.getVersion().equals(existingState.getLastKnownVersion());
-                    boolean hashChanged = !currentHash.equals("ERROR_DOWNLOADING") &&
-                            !currentHash.equals("NO_URL") &&
-                            !currentHash.equals("EMPTY_CONTENT") &&
-                            !currentHash.equals(existingState.getLastKnownHash());
-                    boolean instrHashChanged = metadata.getInstructionsUrl() != null &&
-                            !instructionsHash.equals("ERROR_DOWNLOADING") &&
-                            !instructionsHash.equals("NO_URL") &&
-                            !instructionsHash.equals("EMPTY_CONTENT") &&
-                            !instructionsHash.equals(existingState.getLastKnownInstructionsHash());
+                    // Only treat as a content change when both sides have a real value that differs.
+                    // Missing/null stored hashes are backfill, not an edition update.
+                    boolean versionChanged = StringUtils.hasText(metadata.getVersion())
+                            && StringUtils.hasText(existingState.getLastKnownVersion())
+                            && !metadata.getVersion().equals(existingState.getLastKnownVersion());
+                    boolean hashChanged = contentHashChanged(currentHash, existingState.getLastKnownHash());
+                    boolean instrHashChanged = metadata.getInstructionsUrl() != null
+                            && contentHashChanged(instructionsHash, existingState.getLastKnownInstructionsHash());
 
                     // Process Supplemental Resources
                     Map<String, SupplementalResource> existingSupplements = existingState.getSupplementalResources();
@@ -103,10 +101,9 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
 
                         processedSupplements.put(key, processedSupp);
 
-                        if (!hash.equals("ERROR_DOWNLOADING") && !hash.equals("NO_URL")) {
-                            if (existingSupp == null || !hash.equals(existingSupp.getHash())) {
-                                supplementalChanged = true;
-                            }
+                        String previousHash = existingSupp != null ? existingSupp.getHash() : null;
+                        if (contentHashChanged(hash, previousHash)) {
+                            supplementalChanged = true;
                         }
                     }
 
@@ -128,6 +125,13 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
                     }
 
                     boolean shouldSync = contentChanged || missingDocs || !existingState.isEnabled();
+
+                    if (shouldSync) {
+                        log.info(
+                                "Form {} sync decision: changed={} (version={}, hash={}, instr={}, supplemental={}), missingDocs={}, enabled={}",
+                                resourceId, contentChanged, versionChanged, hashChanged, instrHashChanged,
+                                supplementalChanged, missingDocs, existingState.isEnabled());
+                    }
 
                     String resultSummary = contentChanged
                             ? "Detected update for Form " + resourceId + " (" + metadata.getVersion() + ")"
@@ -321,6 +325,21 @@ public class USCISFormScraperServiceImpl implements USCISFormScraperService {
     public void handleResourceUpdate(ResourceUpdateNotification notification) {
         log.info("\uD83D\uDD14 Processing update signal for {}: {}", notification.getResourceId(),
                 notification.getType());
+    }
+
+    private static boolean isUsableHash(String hash) {
+        return StringUtils.hasText(hash)
+                && !"ERROR_DOWNLOADING".equals(hash)
+                && !"NO_URL".equals(hash)
+                && !"EMPTY_CONTENT".equals(hash);
+    }
+
+    /**
+     * True only when both hashes are real content hashes and they differ.
+     * A missing previous hash is backfill (shouldSync via missing docs), not an edition change.
+     */
+    private static boolean contentHashChanged(String newHash, String previousHash) {
+        return isUsableHash(newHash) && isUsableHash(previousHash) && !newHash.equals(previousHash);
     }
 
     private String downloadAndHash(String url) {
