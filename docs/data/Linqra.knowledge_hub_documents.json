@@ -1,0 +1,3310 @@
+[{
+  "_id": {
+    "$oid": "693d9b3b835bfa5ee3b83cb7"
+  },
+  "documentId": "56725aa3-63b5-45f4-8bb9-fb7875727103",
+  "fileName": "i-485.pdf",
+  "collectionId": "6908293ccf9b906ef0b5ac53",
+  "fileSize": {
+    "$numberLong": "1203674"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/56725aa3-63b5-45f4-8bb9-fb7875727103_i-485.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2025-12-13T16:58:35.394Z"
+  },
+  "uploadedAt": {
+    "$date": "2025-12-13T16:58:37.447Z"
+  },
+  "processedAt": {
+    "$date": "2025-12-13T16:58:41.856Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 112,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/56725aa3-63b5-45f4-8bb9-fb7875727103.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "77425"
+  },
+  "totalEmbeddings": 112,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69445a42fcd48d2383fab614"
+  },
+  "documentId": "ce8bb30e-351b-4fc1-aeab-52ccd5ac1cea",
+  "fileName": "i-130_instructions.pdf",
+  "collectionId": "6908293ccf9b906ef0b5ac53",
+  "fileSize": {
+    "$numberLong": "290358"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/ce8bb30e-351b-4fc1-aeab-52ccd5ac1cea_i-130_instructions.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2025-12-18T19:47:14.692Z"
+  },
+  "uploadedAt": {
+    "$date": "2025-12-18T19:47:15.612Z"
+  },
+  "processedAt": {
+    "$date": "2025-12-18T19:47:16.820Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 17,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/ce8bb30e-351b-4fc1-aeab-52ccd5ac1cea.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "6327"
+  },
+  "totalEmbeddings": 17,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69520d6721458438d23771d3"
+  },
+  "documentId": "2f083800-61b0-4630-8240-10d779909c1e",
+  "fileName": "F1 Visa FAQ.pdf",
+  "collectionId": "69520cf621458438d23771d0",
+  "fileSize": {
+    "$numberLong": "137031"
+  },
+  "contentType": "application/pdf",
+  "teamId": "69442654fcd48d2383fab507",
+  "s3Key": "raw/69442654fcd48d2383fab507/69520cf621458438d23771d0/2f083800-61b0-4630-8240-10d779909c1e_F1 Visa FAQ.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2025-12-29T05:11:03.467Z"
+  },
+  "uploadedAt": {
+    "$date": "2025-12-29T05:11:04.702Z"
+  },
+  "processedAt": {
+    "$date": "2025-12-29T05:11:06.588Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 7,
+  "processedS3Key": "processed/69442654fcd48d2383fab507/69520cf621458438d23771d0/2f083800-61b0-4630-8240-10d779909c1e.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "2433"
+  },
+  "totalEmbeddings": 7,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69548d0d0814044c9d5d7281"
+  },
+  "documentId": "4c8a3fc9-bd77-498c-83d6-b53d5586ff71",
+  "fileName": "i-485_instructions.pdf",
+  "collectionId": "6908293ccf9b906ef0b5ac53",
+  "fileSize": {
+    "$numberLong": "688911"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/4c8a3fc9-bd77-498c-83d6-b53d5586ff71_i-485_instructions.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2025-12-31T02:40:13.203Z"
+  },
+  "uploadedAt": {
+    "$date": "2025-12-31T02:40:15.862Z"
+  },
+  "processedAt": {
+    "$date": "2025-12-31T02:40:18.371Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 63,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/4c8a3fc9-bd77-498c-83d6-b53d5586ff71.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "23250"
+  },
+  "totalEmbeddings": 63,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6956181cef2f0624014e776a"
+  },
+  "documentId": "17a08a48-c7a2-44d6-852e-c2d97f0026a3",
+  "fileName": "i-130.pdf",
+  "collectionId": "6908293ccf9b906ef0b5ac53",
+  "fileSize": {
+    "$numberLong": "733013"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/17a08a48-c7a2-44d6-852e-c2d97f0026a3_i-130.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-01-01T06:45:48.173Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-01-01T06:45:49.550Z"
+  },
+  "processedAt": {
+    "$date": "2026-01-01T06:45:51.888Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 43,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/17a08a48-c7a2-44d6-852e-c2d97f0026a3.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "31032"
+  },
+  "totalEmbeddings": 43,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "695717847c84f5084aad6a03"
+  },
+  "documentId": "b7d77f4a-86b5-4493-a452-ce31dd9a738b",
+  "fileName": "i-765.pdf",
+  "collectionId": "6908293ccf9b906ef0b5ac53",
+  "fileSize": {
+    "$numberLong": "478902"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/b7d77f4a-86b5-4493-a452-ce31dd9a738b_i-765.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-01-02T00:55:32.578Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-01-02T00:55:34.875Z"
+  },
+  "processedAt": {
+    "$date": "2026-01-02T00:55:36.768Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 23,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/b7d77f4a-86b5-4493-a452-ce31dd9a738b.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "14560"
+  },
+  "totalEmbeddings": 23,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69732de703b1eb4686f67cc9"
+  },
+  "documentId": "1262a586-3151-486d-a504-3ed7e782c2af",
+  "fileName": "i-765instr.pdf",
+  "collectionId": "6908293ccf9b906ef0b5ac53",
+  "fileSize": {
+    "$numberLong": "400087"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/1262a586-3151-486d-a504-3ed7e782c2af_i-765instr.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-01-23T08:14:31.226Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-01-23T08:14:32.409Z"
+  },
+  "processedAt": {
+    "$date": "2026-01-23T08:14:34.727Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 41,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/1262a586-3151-486d-a504-3ed7e782c2af.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "15450"
+  },
+  "totalEmbeddings": 41,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69936f066da76b0521c80542"
+  },
+  "documentId": "eca4e5c6-9f99-45b3-b556-fd56e4e23a45",
+  "fileName": "B1 EMPLOYMENT CONTRACT (ENGLISH).docx",
+  "collectionId": "6908293ccf9b906ef0b5ac53",
+  "fileSize": {
+    "$numberLong": "66324"
+  },
+  "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/eca4e5c6-9f99-45b3-b556-fd56e4e23a45_B1 EMPLOYMENT CONTRACT (ENGLISH).docx",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-02-16T19:24:54.474Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-02-16T19:24:55.794Z"
+  },
+  "processedAt": {
+    "$date": "2026-02-16T19:24:59.315Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 6,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/6908293ccf9b906ef0b5ac53/eca4e5c6-9f99-45b3-b556-fd56e4e23a45.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "1986"
+  },
+  "totalEmbeddings": 6,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c2ab257e529b5b65170990"
+  },
+  "documentId": "675fa1e8-f95f-43ef-ad8a-d6876d3ec2b2",
+  "fileName": "I-751_04/01/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "627039"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/675fa1e8-f95f-43ef-ad8a-d6876d3ec2b2_I-751_04/01/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-24T15:17:57.058Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-24T15:17:57.667Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-24T15:18:02.327Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 38,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/675fa1e8-f95f-43ef-ad8a-d6876d3ec2b2.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "25837"
+  },
+  "totalEmbeddings": 38,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c2ab257e529b5b65170992"
+  },
+  "documentId": "8e427f70-d0f1-4d3d-b80a-6b724ced647c",
+  "fileName": "I-751_instructions_04/01/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "297318"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8e427f70-d0f1-4d3d-b80a-6b724ced647c_I-751_instructions_04/01/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-24T15:17:57.759Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-24T15:17:58.079Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-24T15:18:01.429Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 12,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8e427f70-d0f1-4d3d-b80a-6b724ced647c.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "4499"
+  },
+  "totalEmbeddings": 12,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c2b7cb7f211109460e973a"
+  },
+  "documentId": "4d782fae-b40b-4052-965b-1e254ab608ec",
+  "fileName": "I-485_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "1203674"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/4d782fae-b40b-4052-965b-1e254ab608ec_I-485_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-24T16:11:55.654Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-24T16:11:56.172Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-24T16:12:04.150Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 112,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/4d782fae-b40b-4052-965b-1e254ab608ec.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "77435"
+  },
+  "totalEmbeddings": 112,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c2b7cc7f211109460e973c"
+  },
+  "documentId": "c769c7f4-0311-4072-932e-1e5fa9db28c5",
+  "fileName": "I-485_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "688911"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/c769c7f4-0311-4072-932e-1e5fa9db28c5_I-485_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-24T16:11:56.272Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-24T16:11:56.707Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-24T16:12:02.916Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 63,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/c769c7f4-0311-4072-932e-1e5fa9db28c5.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "23262"
+  },
+  "totalEmbeddings": 63,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c2d12a1d09b01d8338cd93"
+  },
+  "documentId": "63aaa0ff-74e8-4f7d-8f09-c57a146adcc3",
+  "fileName": "I-131_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "653019"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/63aaa0ff-74e8-4f7d-8f09-c57a146adcc3_I-131_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-24T18:00:10.303Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-24T18:00:10.555Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-24T18:00:15.238Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 46,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/63aaa0ff-74e8-4f7d-8f09-c57a146adcc3.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "32434"
+  },
+  "totalEmbeddings": 46,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c2d12a78764f7f6240e9fb"
+  },
+  "documentId": "e8115b49-62f3-4ca8-851b-eeb656832e7d",
+  "fileName": "I-131_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "673430"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e8115b49-62f3-4ca8-851b-eeb656832e7d_I-131_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-24T18:00:10.719Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-24T18:00:10.954Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-24T18:00:12.428Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 49,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e8115b49-62f3-4ca8-851b-eeb656832e7d.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "17806"
+  },
+  "totalEmbeddings": 49,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c2d8081d09b01d8338f92c"
+  },
+  "documentId": "00d8df6f-b73d-45fd-92e5-91cdb6072933",
+  "fileName": "advising_notes.pdf",
+  "collectionId": "69c2bb8728539969453e0d44",
+  "fileSize": {
+    "$numberLong": "722269"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69c2bb8728539969453e0d44/00d8df6f-b73d-45fd-92e5-91cdb6072933_advising_notes.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-24T18:29:28.498Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-24T18:29:29.996Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-24T18:29:31.889Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 16,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69c2bb8728539969453e0d44/00d8df6f-b73d-45fd-92e5-91cdb6072933.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "6061"
+  },
+  "totalEmbeddings": 16,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c3679dfcd4c9710232192c"
+  },
+  "documentId": "fe1616b3-893c-406f-9c6f-76799358a770",
+  "fileName": "I-765_08/21/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "467452"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/fe1616b3-893c-406f-9c6f-76799358a770_I-765_08/21/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T04:42:05.793Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T04:42:06.248Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T04:42:10.331Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 21,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/fe1616b3-893c-406f-9c6f-76799358a770.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "13389"
+  },
+  "totalEmbeddings": 21,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c3679efcd4c9710232192e"
+  },
+  "documentId": "8ae810c7-8f09-400b-bdc5-2e6696f9caf2",
+  "fileName": "I-765_instructions_08/21/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "380641"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8ae810c7-8f09-400b-bdc5-2e6696f9caf2_I-765_instructions_08/21/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T04:42:06.395Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T04:42:06.635Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T04:42:10.415Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 41,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8ae810c7-8f09-400b-bdc5-2e6696f9caf2.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "15257"
+  },
+  "totalEmbeddings": 41,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c36ea080b59b70c39b8a01"
+  },
+  "documentId": "8862d761-4b35-4b7d-8ab4-aaf0df2efd08",
+  "fileName": "I-864_10/17/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "540159"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8862d761-4b35-4b7d-8ab4-aaf0df2efd08_I-864_10/17/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T05:12:00.032Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T05:12:00.457Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T05:12:05.006Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 35,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8862d761-4b35-4b7d-8ab4-aaf0df2efd08.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "19889"
+  },
+  "totalEmbeddings": 35,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c36ea080b59b70c39b8a03"
+  },
+  "documentId": "bd2e81a2-23d2-42db-88a9-c2dd74c8fdc5",
+  "fileName": "I-864_instructions_10/17/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "612049"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/bd2e81a2-23d2-42db-88a9-c2dd74c8fdc5_I-864_instructions_10/17/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T05:12:00.540Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T05:12:00.774Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T05:12:04.872Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 30,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/bd2e81a2-23d2-42db-88a9-c2dd74c8fdc5.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "11178"
+  },
+  "totalEmbeddings": 30,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c3766efcd4c97102321d35"
+  },
+  "documentId": "e0581fe4-7b84-4736-b410-a09b5643d8b8",
+  "fileName": "I-9_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "524123"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e0581fe4-7b84-4736-b410-a09b5643d8b8_I-9_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T05:45:18.289Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T05:45:18.580Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T05:45:19.362Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 8,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e0581fe4-7b84-4736-b410-a09b5643d8b8.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "5971"
+  },
+  "totalEmbeddings": 8,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c3766e80b59b70c39b8bc7"
+  },
+  "documentId": "0f657675-45f7-4e24-9f23-3c03f68c59d1",
+  "fileName": "I-9_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "297045"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/0f657675-45f7-4e24-9f23-3c03f68c59d1_I-9_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T05:45:18.702Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T05:45:18.954Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T05:45:19.885Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 23,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/0f657675-45f7-4e24-9f23-3c03f68c59d1.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "8823"
+  },
+  "totalEmbeddings": 23,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c37be7fcd4c97102321d84"
+  },
+  "documentId": "43664728-4ca0-4170-9215-2a4f132dee37",
+  "fileName": "I-90_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "508319"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/43664728-4ca0-4170-9215-2a4f132dee37_I-90_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T06:08:39.176Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T06:08:39.438Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T06:08:40.551Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 22,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/43664728-4ca0-4170-9215-2a4f132dee37.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "14726"
+  },
+  "totalEmbeddings": 22,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c37be7fcd4c97102321d86"
+  },
+  "documentId": "1140a1bf-a42b-46c0-9577-b1ce1ecb7930",
+  "fileName": "I-90_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "437602"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/1140a1bf-a42b-46c0-9577-b1ce1ecb7930_I-90_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T06:08:39.511Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T06:08:39.711Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T06:08:40.414Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 17,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/1140a1bf-a42b-46c0-9577-b1ce1ecb7930.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "6489"
+  },
+  "totalEmbeddings": 17,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c4255b4bee6707e43f130b"
+  },
+  "documentId": "14fad677-5971-4699-b141-c7a388cda164",
+  "fileName": "N-400_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "776272"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/14fad677-5971-4699-b141-c7a388cda164_N-400_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T18:11:39.204Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T18:11:40.007Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T18:11:45.700Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 64,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/14fad677-5971-4699-b141-c7a388cda164.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "49654"
+  },
+  "totalEmbeddings": 64,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c4255c4bee6707e43f130d"
+  },
+  "documentId": "7749bc07-e55c-42fe-a063-30ffb4f39495",
+  "fileName": "N-400_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "1005977"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/7749bc07-e55c-42fe-a063-30ffb4f39495_N-400_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T18:11:40.232Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T18:11:40.652Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T18:11:46.138Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 86,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/7749bc07-e55c-42fe-a063-30ffb4f39495.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "32398"
+  },
+  "totalEmbeddings": 86,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c4255c4bee6707e43f1310"
+  },
+  "documentId": "be40284f-8ae8-4804-93ef-ca7bb67e8759",
+  "fileName": "G-1151_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "709471"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/be40284f-8ae8-4804-93ef-ca7bb67e8759_G-1151_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T18:11:40.804Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T18:11:46.063Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T18:11:46.727Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 3,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/be40284f-8ae8-4804-93ef-ca7bb67e8759.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "1137"
+  },
+  "totalEmbeddings": 3,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c428ce4bee6707e43f190a"
+  },
+  "documentId": "55bd6fd5-4353-4227-9dbf-50a8c4313ffd",
+  "fileName": "I-129F_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "741244"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/55bd6fd5-4353-4227-9dbf-50a8c4313ffd_I-129F_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T18:26:22.953Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T18:26:23.318Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T18:26:24.478Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 40,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/55bd6fd5-4353-4227-9dbf-50a8c4313ffd.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "29338"
+  },
+  "totalEmbeddings": 40,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c428cf72d4a82240eaefda"
+  },
+  "documentId": "f1c1a20d-0f9e-42f3-851c-51c8af985732",
+  "fileName": "I-129F_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "468087"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f1c1a20d-0f9e-42f3-851c-51c8af985732_I-129F_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T18:26:23.534Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T18:26:24.041Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T18:26:27.922Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 21,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f1c1a20d-0f9e-42f3-851c-51c8af985732.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "7882"
+  },
+  "totalEmbeddings": 21,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c4385772d4a82240eaf041"
+  },
+  "documentId": "33b24979-2821-405f-a34c-d71746ceec09",
+  "fileName": "I-130_04/01/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "729889"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/33b24979-2821-405f-a34c-d71746ceec09_I-130_04/01/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T19:32:39.262Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T19:32:39.558Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T19:32:42.128Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 43,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/33b24979-2821-405f-a34c-d71746ceec09.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "31038"
+  },
+  "totalEmbeddings": 43,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c4385772d4a82240eaf044"
+  },
+  "documentId": "57f2e9fe-102e-4525-816e-9053bedd2d0e",
+  "fileName": "I-130_instructions_04/01/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "290358"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/57f2e9fe-102e-4525-816e-9053bedd2d0e_I-130_instructions_04/01/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T19:32:39.683Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T19:32:39.926Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T19:32:41.180Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 17,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/57f2e9fe-102e-4525-816e-9053bedd2d0e.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "6337"
+  },
+  "totalEmbeddings": 17,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c438584bee6707e43f1c84"
+  },
+  "documentId": "7747a882-273f-4eb6-8b45-97be258531d2",
+  "fileName": "I-130A_04/01/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "465611"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/7747a882-273f-4eb6-8b45-97be258531d2_I-130A_04/01/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T19:32:40.130Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T19:32:40.369Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T19:32:41.400Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 20,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/7747a882-273f-4eb6-8b45-97be258531d2.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "13513"
+  },
+  "totalEmbeddings": 20,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c4557972d4a82240eaf285"
+  },
+  "documentId": "ac3ac34f-b469-4ac9-b80b-98af76e294bc",
+  "fileName": "I-140_06/07/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "525019"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/ac3ac34f-b469-4ac9-b80b-98af76e294bc_I-140_06/07/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T21:36:57.495Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T21:36:57.826Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T21:37:00.285Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 29,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/ac3ac34f-b469-4ac9-b80b-98af76e294bc.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "20453"
+  },
+  "totalEmbeddings": 29,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c4557972d4a82240eaf287"
+  },
+  "documentId": "fa0dc3d5-15e2-4455-935e-91d1d88c85a3",
+  "fileName": "I-140_instructions_06/07/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "408418"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/fa0dc3d5-15e2-4455-935e-91d1d88c85a3_I-140_instructions_06/07/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T21:36:57.919Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T21:36:58.336Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T21:37:00.101Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 17,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/fa0dc3d5-15e2-4455-935e-91d1d88c85a3.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "5730"
+  },
+  "totalEmbeddings": 17,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c45efe72d4a82240eaf3e6"
+  },
+  "documentId": "7b3319c2-8981-42da-869a-f701e073c2de",
+  "fileName": "I-360_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "823105"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/7b3319c2-8981-42da-869a-f701e073c2de_I-360_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T22:17:34.816Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T22:17:35.205Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T22:17:36.699Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 65,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/7b3319c2-8981-42da-869a-f701e073c2de.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "45484"
+  },
+  "totalEmbeddings": 65,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c45eff4bee6707e43f1f3a"
+  },
+  "documentId": "c5a8f225-190e-4d2c-9717-5a0d69b95791",
+  "fileName": "I-360_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "401598"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/c5a8f225-190e-4d2c-9717-5a0d69b95791_I-360_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T22:17:35.345Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T22:17:35.637Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T22:17:39.716Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 23,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/c5a8f225-190e-4d2c-9717-5a0d69b95791.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "8335"
+  },
+  "totalEmbeddings": 23,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c45eff4bee6707e43f1f3c"
+  },
+  "documentId": "1aecb584-17ca-450c-82b8-b60390ae3252",
+  "fileName": "M-737_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "260117"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/1aecb584-17ca-450c-82b8-b60390ae3252_M-737_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-25T22:17:35.731Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-25T22:17:36.115Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-25T22:17:37.952Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 6,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/1aecb584-17ca-450c-82b8-b60390ae3252.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "2511"
+  },
+  "totalEmbeddings": 6,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c55a8e72d4a82240eaf6e0"
+  },
+  "documentId": "ab3ff03f-0e1c-4102-92e8-74896f31864b",
+  "fileName": "I-765WS_08/21/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "260329"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/ab3ff03f-0e1c-4102-92e8-74896f31864b_I-765WS_08/21/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T16:10:54.220Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T16:10:54.476Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T16:10:54.704Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 3,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/ab3ff03f-0e1c-4102-92e8-74896f31864b.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "841"
+  },
+  "totalEmbeddings": 3,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c55e0e72d4a82240eaf78c"
+  },
+  "documentId": "8013bd1c-9408-409e-b517-e6410caf9860",
+  "fileName": "I-600_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "723073"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8013bd1c-9408-409e-b517-e6410caf9860_I-600_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T16:25:50.039Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T16:25:50.389Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T16:25:51.755Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 58,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8013bd1c-9408-409e-b517-e6410caf9860.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "40080"
+  },
+  "totalEmbeddings": 58,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c55e0e72d4a82240eaf78e"
+  },
+  "documentId": "dd325404-2a6c-4b7e-88c3-0d0f8fca0a9b",
+  "fileName": "I-600_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "530490"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/dd325404-2a6c-4b7e-88c3-0d0f8fca0a9b_I-600_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T16:25:50.446Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T16:25:50.676Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T16:25:51.571Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 22,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/dd325404-2a6c-4b7e-88c3-0d0f8fca0a9b.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "8188"
+  },
+  "totalEmbeddings": 22,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c55e0e4bee6707e43f220a"
+  },
+  "documentId": "2977f889-9887-4091-b6f5-b3dd2cd1e04b",
+  "fileName": "I-600_supp1_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "409750"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/2977f889-9887-4091-b6f5-b3dd2cd1e04b_I-600_supp1_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T16:25:50.919Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T16:25:51.242Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T16:25:53.350Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 25,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/2977f889-9887-4091-b6f5-b3dd2cd1e04b.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "13156"
+  },
+  "totalEmbeddings": 25,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c55e0f72d4a82240eaf792"
+  },
+  "documentId": "6bcbe1a8-fa06-4ca1-91aa-eeb86a0d0d54",
+  "fileName": "I-600_supp2_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "293726"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/6bcbe1a8-fa06-4ca1-91aa-eeb86a0d0d54_I-600_supp2_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T16:25:51.492Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T16:25:52.084Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T16:25:52.427Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 7,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/6bcbe1a8-fa06-4ca1-91aa-eeb86a0d0d54.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "3025"
+  },
+  "totalEmbeddings": 7,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c55e1072d4a82240eaf8ea"
+  },
+  "documentId": "e2c7bc8d-9507-4dc6-8b86-3b2942426c2f",
+  "fileName": "I-600_supp3_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "457881"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e2c7bc8d-9507-4dc6-8b86-3b2942426c2f_I-600_supp3_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T16:25:52.389Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T16:25:52.735Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T16:25:53.577Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 22,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e2c7bc8d-9507-4dc6-8b86-3b2942426c2f.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "16738"
+  },
+  "totalEmbeddings": 22,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5a6b672d4a82240eafb20"
+  },
+  "documentId": "8256502e-e187-4050-bd75-503b5534a2ec",
+  "fileName": "I-129_02/27/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "2296172"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8256502e-e187-4050-bd75-503b5534a2ec_I-129_02/27/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T21:35:50.847Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T21:35:51.116Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T21:35:54.379Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 208,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8256502e-e187-4050-bd75-503b5534a2ec.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "144945"
+  },
+  "totalEmbeddings": 208,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5a6b772d4a82240eafb22"
+  },
+  "documentId": "f0fa5217-a2ff-4f7a-9236-da27c41ff3fd",
+  "fileName": "I-129_instructions_02/27/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "707936"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f0fa5217-a2ff-4f7a-9236-da27c41ff3fd_I-129_instructions_02/27/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T21:35:51.208Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T21:35:51.426Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T21:35:53.331Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 51,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f0fa5217-a2ff-4f7a-9236-da27c41ff3fd.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "18883"
+  },
+  "totalEmbeddings": 51,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5a6b74bee6707e43f24af"
+  },
+  "documentId": "e396c046-25bb-4477-a7ef-0852a29de0f4",
+  "fileName": "I-129H2A_02/27/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "703974"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e396c046-25bb-4477-a7ef-0852a29de0f4_I-129H2A_02/27/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T21:35:51.856Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T21:35:52.197Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T21:35:53.557Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 50,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e396c046-25bb-4477-a7ef-0852a29de0f4.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "40837"
+  },
+  "totalEmbeddings": 50,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5a6b84bee6707e43f24b2"
+  },
+  "documentId": "86b909f5-2d65-4176-b009-9c0ae3e8aff8",
+  "fileName": "I-129H2A_instructions_02/27/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "420230"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/86b909f5-2d65-4176-b009-9c0ae3e8aff8_I-129H2A_instructions_02/27/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T21:35:52.622Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T21:35:52.849Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T21:35:53.680Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 17,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/86b909f5-2d65-4176-b009-9c0ae3e8aff8.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "6474"
+  },
+  "totalEmbeddings": 17,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5a6b972d4a82240eafb26"
+  },
+  "documentId": "599a70f6-2f63-4ef5-80c1-b46a408e9f83",
+  "fileName": "M-735_H1B_Checklist_02/27/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "293462"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/599a70f6-2f63-4ef5-80c1-b46a408e9f83_M-735_H1B_Checklist_02/27/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T21:35:53.342Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T21:35:53.852Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T21:35:55.376Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 15,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/599a70f6-2f63-4ef5-80c1-b46a408e9f83.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "7420"
+  },
+  "totalEmbeddings": 15,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5a6bb72d4a82240eafb95"
+  },
+  "documentId": "f7c821bb-d0bc-44f3-b7f3-476226d740bc",
+  "fileName": "M-1097_H2A_Checklist_02/27/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "277271"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f7c821bb-d0bc-44f3-b7f3-476226d740bc_M-1097_H2A_Checklist_02/27/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T21:35:55.285Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T21:35:55.973Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T21:35:56.226Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 8,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f7c821bb-d0bc-44f3-b7f3-476226d740bc.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "2681"
+  },
+  "totalEmbeddings": 8,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5a6bc4bee6707e43f26d4"
+  },
+  "documentId": "bbea77fc-7a23-4c63-a2f5-497020d1f470",
+  "fileName": "M-1087_H2B_Checklist_02/27/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "276911"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/bbea77fc-7a23-4c63-a2f5-497020d1f470_M-1087_H2B_Checklist_02/27/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T21:35:56.035Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T21:35:56.266Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T21:35:57.137Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 7,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/bbea77fc-7a23-4c63-a2f5-497020d1f470.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "2411"
+  },
+  "totalEmbeddings": 7,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5a6bc4bee6707e43f26d6"
+  },
+  "documentId": "f4f09f36-6d0f-45be-b835-12fb248e8633",
+  "fileName": "M-736_R1_Checklist_02/27/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "363703"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f4f09f36-6d0f-45be-b835-12fb248e8633_M-736_R1_Checklist_02/27/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T21:35:56.946Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T21:35:57.255Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T21:35:59.091Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 10,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f4f09f36-6d0f-45be-b835-12fb248e8633.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "3968"
+  },
+  "totalEmbeddings": 10,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5a6be4bee6707e43f26f6"
+  },
+  "documentId": "b556beac-840e-4b5e-ae58-3e30dee1fafd",
+  "fileName": "M-746_DOT_Codes_02/27/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "126734"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/b556beac-840e-4b5e-ae58-3e30dee1fafd_M-746_DOT_Codes_02/27/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T21:35:58.881Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T21:35:59.213Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T21:35:59.652Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 1,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/b556beac-840e-4b5e-ae58-3e30dee1fafd.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "1286"
+  },
+  "totalEmbeddings": 1,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5af6972d4a82240eb064d"
+  },
+  "documentId": "53340bab-1093-401c-be6f-bb68bc55d7b5",
+  "fileName": "I-526_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "718773"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/53340bab-1093-401c-be6f-bb68bc55d7b5_I-526_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T22:12:57.570Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T22:12:57.808Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T22:12:58.645Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 48,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/53340bab-1093-401c-be6f-bb68bc55d7b5.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "35232"
+  },
+  "totalEmbeddings": 48,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5af6a4bee6707e43f28b3"
+  },
+  "documentId": "5659792f-b1a8-493d-8ebe-9982fae7c0ce",
+  "fileName": "I-526_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "367145"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/5659792f-b1a8-493d-8ebe-9982fae7c0ce_I-526_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T22:12:58.012Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T22:12:58.236Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T22:12:58.637Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 16,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/5659792f-b1a8-493d-8ebe-9982fae7c0ce.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "6232"
+  },
+  "totalEmbeddings": 16,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5b91e4bee6707e43f2906"
+  },
+  "documentId": "03729585-97fb-4238-9a31-4ae0ca36166e",
+  "fileName": "I-539_08/28/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "495050"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/03729585-97fb-4238-9a31-4ae0ca36166e_I-539_08/28/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T22:54:22.986Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T22:54:23.281Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T22:54:23.891Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 23,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/03729585-97fb-4238-9a31-4ae0ca36166e.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "15967"
+  },
+  "totalEmbeddings": 23,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5b91f4bee6707e43f2909"
+  },
+  "documentId": "85644796-d974-4c39-b2ff-903254248a33",
+  "fileName": "I-539_instructions_08/28/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "450662"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/85644796-d974-4c39-b2ff-903254248a33_I-539_instructions_08/28/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T22:54:23.353Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T22:54:23.598Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T22:54:24.390Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 25,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/85644796-d974-4c39-b2ff-903254248a33.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "9203"
+  },
+  "totalEmbeddings": 25,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5b91f4bee6707e43f290c"
+  },
+  "documentId": "b305d8fc-a043-485f-ad78-0cbe21e30e11",
+  "fileName": "I-539A_08/28/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "427085"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/b305d8fc-a043-485f-ad78-0cbe21e30e11_I-539A_08/28/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T22:54:23.890Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T22:54:24.103Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T22:54:24.660Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 14,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/b305d8fc-a043-485f-ad78-0cbe21e30e11.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "9476"
+  },
+  "totalEmbeddings": 14,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c5b92072d4a82240eb096e"
+  },
+  "documentId": "8b8f10c7-7d39-488c-9eba-38db0cfa9441",
+  "fileName": "M-752_Filing_Tips_08/28/24.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "101637"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8b8f10c7-7d39-488c-9eba-38db0cfa9441_M-752_Filing_Tips_08/28/24.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-26T22:54:24.223Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-26T22:54:24.405Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-26T22:54:24.656Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 2,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8b8f10c7-7d39-488c-9eba-38db0cfa9441.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "586"
+  },
+  "totalEmbeddings": 2,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c68df94bee6707e43f2b4e"
+  },
+  "documentId": "d990e853-ea33-4950-825b-5dad0738290e",
+  "fileName": "I-589_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "835345"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/d990e853-ea33-4950-825b-5dad0738290e_I-589_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-27T14:02:33.271Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-27T14:02:33.671Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-27T14:02:37.408Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 46,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/d990e853-ea33-4950-825b-5dad0738290e.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "35783"
+  },
+  "totalEmbeddings": 46,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c68df972d4a82240eb0a97"
+  },
+  "documentId": "790cb26e-e13a-4db8-b4f2-4117096de2da",
+  "fileName": "I-589_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "344356"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/790cb26e-e13a-4db8-b4f2-4117096de2da_I-589_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-27T14:02:33.821Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-27T14:02:34.246Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-27T14:02:38.285Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 49,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/790cb26e-e13a-4db8-b4f2-4117096de2da.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "17845"
+  },
+  "totalEmbeddings": 49,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c6a7504bee6707e43f2d67"
+  },
+  "documentId": "8feb8315-7b67-400b-9d20-9d5dbf529005",
+  "fileName": "I-730_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "347807"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8feb8315-7b67-400b-9d20-9d5dbf529005_I-730_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-27T15:50:40.953Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-27T15:50:41.269Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-27T15:50:42.391Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 33,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/8feb8315-7b67-400b-9d20-9d5dbf529005.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "22669"
+  },
+  "totalEmbeddings": 33,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c6a7514bee6707e43f2d6a"
+  },
+  "documentId": "b62721f5-09d1-4262-846a-886aa1822993",
+  "fileName": "I-730_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "96848"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/b62721f5-09d1-4262-846a-886aa1822993_I-730_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-27T15:50:41.495Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-27T15:50:41.746Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-27T15:50:42.591Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 33,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/b62721f5-09d1-4262-846a-886aa1822993.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "12114"
+  },
+  "totalEmbeddings": 33,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c6ab9372d4a82240eb0dd6"
+  },
+  "documentId": "278b77c1-9b73-4d56-9de1-888f8b3ad6ea",
+  "fileName": "I-821_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "861341"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/278b77c1-9b73-4d56-9de1-888f8b3ad6ea_I-821_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-27T16:08:51.028Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-27T16:08:51.412Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-27T16:08:56.726Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 57,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/278b77c1-9b73-4d56-9de1-888f8b3ad6ea.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "41524"
+  },
+  "totalEmbeddings": 57,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "69c6ab934bee6707e43f2f06"
+  },
+  "documentId": "9fe7cbbe-ee22-4dc1-af5f-9eb4d4192974",
+  "fileName": "I-821_instructions_01/20/25.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "333440"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/9fe7cbbe-ee22-4dc1-af5f-9eb4d4192974_I-821_instructions_01/20/25.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-03-27T16:08:51.559Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-03-27T16:08:51.847Z"
+  },
+  "processedAt": {
+    "$date": "2026-03-27T16:08:52.533Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 24,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/9fe7cbbe-ee22-4dc1-af5f-9eb4d4192974.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "9073"
+  },
+  "totalEmbeddings": 24,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a69b7b421a2a659ffff97e9"
+  },
+  "documentId": "e8496608-44e5-4219-b863-c8000cd3dab9",
+  "fileName": "I-589_07/28/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "833625"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e8496608-44e5-4219-b863-c8000cd3dab9_I-589_07/28/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-07-29T08:20:04.503Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-07-29T08:20:04.996Z"
+  },
+  "processedAt": {
+    "$date": "2026-07-29T08:20:09.991Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 47,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e8496608-44e5-4219-b863-c8000cd3dab9.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "36017"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a69b7b521a2a659ffff97eb"
+  },
+  "documentId": "4deeb09e-ce83-426f-8a6d-cb5fb940bffd",
+  "fileName": "I-589_instructions_07/28/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "342424"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/4deeb09e-ce83-426f-8a6d-cb5fb940bffd_I-589_instructions_07/28/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-07-29T08:20:05.114Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-07-29T08:20:05.290Z"
+  },
+  "processedAt": {
+    "$date": "2026-07-29T08:20:09.894Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 50,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/4deeb09e-ce83-426f-8a6d-cb5fb940bffd.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "18514"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a80132721a2a659ffffa74b"
+  },
+  "documentId": "7f6ee871-7fff-4275-9824-b8c66f07870c",
+  "fileName": "I-765_09/15/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "467452"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/7f6ee871-7fff-4275-9824-b8c66f07870c_I-765_09/15/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-08-15T07:20:07.002Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-08-15T07:20:07.378Z"
+  },
+  "processedAt": {
+    "$date": "2026-08-15T07:20:09.863Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 21,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/7f6ee871-7fff-4275-9824-b8c66f07870c.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "13389"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a80132721a2a659ffffa74d"
+  },
+  "documentId": "ddac6cd7-1cb2-4167-923a-e1a4fff6ad1f",
+  "fileName": "I-765_instructions_09/15/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "580434"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/ddac6cd7-1cb2-4167-923a-e1a4fff6ad1f_I-765_instructions_09/15/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-08-15T07:20:07.448Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-08-15T07:20:07.713Z"
+  },
+  "processedAt": {
+    "$date": "2026-08-15T07:20:10.489Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 41,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/ddac6cd7-1cb2-4167-923a-e1a4fff6ad1f.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "15290"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a80132721a2a659ffffa750"
+  },
+  "documentId": "dc685e66-364b-4e5a-87e4-92e5123bd514",
+  "fileName": "I-765WS_09/15/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "260329"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/dc685e66-364b-4e5a-87e4-92e5123bd514_I-765WS_09/15/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-08-15T07:20:07.797Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-08-15T07:20:09.991Z"
+  },
+  "processedAt": {
+    "$date": "2026-08-15T07:20:10.536Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 3,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/dc685e66-364b-4e5a-87e4-92e5123bd514.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "841"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a80201021a2a659ffffa952"
+  },
+  "documentId": "44779920-7699-4110-be93-e855e0cdd38a",
+  "fileName": "I-539_09/15/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "495050"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/44779920-7699-4110-be93-e855e0cdd38a_I-539_09/15/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-08-15T08:15:12.434Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-08-15T08:15:12.790Z"
+  },
+  "processedAt": {
+    "$date": "2026-08-15T08:15:16.002Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 23,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/44779920-7699-4110-be93-e855e0cdd38a.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "15967"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a80201021a2a659ffffa954"
+  },
+  "documentId": "4941e80c-3b7e-4ec9-b896-87700b38ba97",
+  "fileName": "I-539_instructions_09/15/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "320220"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/4941e80c-3b7e-4ec9-b896-87700b38ba97_I-539_instructions_09/15/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-08-15T08:15:12.871Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-08-15T08:15:13.200Z"
+  },
+  "processedAt": {
+    "$date": "2026-08-15T08:15:15.891Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 25,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/4941e80c-3b7e-4ec9-b896-87700b38ba97.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "9341"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a80201321a2a659ffffa958"
+  },
+  "documentId": "1b9a85a2-7a5c-44fa-8fbf-e722e1074970",
+  "fileName": "I-539A_09/15/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "427085"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/1b9a85a2-7a5c-44fa-8fbf-e722e1074970_I-539A_09/15/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-08-15T08:15:15.891Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-08-15T08:15:16.591Z"
+  },
+  "processedAt": {
+    "$date": "2026-08-15T08:15:17.727Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 14,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/1b9a85a2-7a5c-44fa-8fbf-e722e1074970.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "9476"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a80201521a2a659ffffaa0c"
+  },
+  "documentId": "563cbcee-bad5-4eba-ac72-da0819ec5b4e",
+  "fileName": "M-752_Filing_Tips_09/15/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "101637"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/563cbcee-bad5-4eba-ac72-da0819ec5b4e_M-752_Filing_Tips_09/15/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-08-15T08:15:17.706Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-08-15T08:15:17.890Z"
+  },
+  "processedAt": {
+    "$date": "2026-08-15T08:15:18.409Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 2,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/563cbcee-bad5-4eba-ac72-da0819ec5b4e.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "586"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a86a5fa21a2a659ffffae35"
+  },
+  "documentId": "e2bf1e0a-8f62-41b9-83ac-13ba9db152d6",
+  "fileName": "I-485_09/18/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "1203674"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e2bf1e0a-8f62-41b9-83ac-13ba9db152d6_I-485_09/18/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-08-20T07:00:10.153Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-08-20T07:00:10.498Z"
+  },
+  "processedAt": {
+    "$date": "2026-08-20T07:00:17.889Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 112,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e2bf1e0a-8f62-41b9-83ac-13ba9db152d6.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "77435"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a86a5fa21a2a659ffffae37"
+  },
+  "documentId": "938f2774-bd96-49fd-a6e8-2108e9304866",
+  "fileName": "I-485_instructions_09/18/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "588033"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/938f2774-bd96-49fd-a6e8-2108e9304866_I-485_instructions_09/18/26.pdf",
+  "status": "FAILED",
+  "createdAt": {
+    "$date": "2026-08-20T07:00:10.591Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-08-20T07:00:10.910Z"
+  },
+  "processedAt": {
+    "$date": "2026-08-20T07:00:17.450Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 62,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/938f2774-bd96-49fd-a6e8-2108e9304866.json",
+  "errorMessage": "Embedding failed: Query { \"$java\" : Query: { \"modelName\" : \"text-embedding-3-small\"}, Fields: {}, Sort: {} } returned non unique result",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "23060"
+  },
+  "totalEmbeddings": 0,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a967dd5c7ed5717dbc24b16"
+  },
+  "documentId": "129dc3c4-84b5-4e43-91de-42fa61428ddb",
+  "fileName": "I-864_08/24/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "542889"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/129dc3c4-84b5-4e43-91de-42fa61428ddb_I-864_08/24/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-01T07:25:09.229Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-01T07:25:09.682Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-01T07:25:14.175Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 35,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/129dc3c4-84b5-4e43-91de-42fa61428ddb.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "20323"
+  },
+  "totalEmbeddings": 35,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a967dd5c7ed5717dbc24b19"
+  },
+  "documentId": "4d40fc90-0bc3-4460-abfa-70a8c81726aa",
+  "fileName": "I-864_instructions_08/24/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "348445"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/4d40fc90-0bc3-4460-abfa-70a8c81726aa_I-864_instructions_08/24/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-01T07:25:09.853Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-01T07:25:10.044Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-01T07:25:14.282Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 30,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/4d40fc90-0bc3-4460-abfa-70a8c81726aa.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "11185"
+  },
+  "totalEmbeddings": 30,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a9bbe07c7ed5717dbc25021"
+  },
+  "documentId": "60e3e7c2-9059-496c-9752-2dde62013754",
+  "fileName": "I-485_09/04/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "1846778"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/60e3e7c2-9059-496c-9752-2dde62013754_I-485_09/04/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-05T07:00:23.766Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-05T07:00:24.055Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-05T07:00:28.595Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 112,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/60e3e7c2-9059-496c-9752-2dde62013754.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "77455"
+  },
+  "totalEmbeddings": 112,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6a9bbe08c7ed5717dbc25023"
+  },
+  "documentId": "f9d08144-a914-4396-a022-488683ef9067",
+  "fileName": "I-485_instructions_09/04/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "625628"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f9d08144-a914-4396-a022-488683ef9067_I-485_instructions_09/04/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-05T07:00:24.136Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-05T07:00:24.535Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-05T07:00:27.830Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 63,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f9d08144-a914-4396-a022-488683ef9067.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "23271"
+  },
+  "totalEmbeddings": 63,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6aa264c0ac8a7f4e0d6775f6"
+  },
+  "documentId": "cdb0b983-6728-45a4-89bf-0091480435cf",
+  "fileName": "I-129_09/09/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "3050124"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/cdb0b983-6728-45a4-89bf-0091480435cf_I-129_09/09/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-10T08:05:20.652Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-10T08:05:21.573Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-10T08:05:32.497Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 248,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/cdb0b983-6728-45a4-89bf-0091480435cf.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "158949"
+  },
+  "totalEmbeddings": 248,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6aa264c1ac8a7f4e0d6775f8"
+  },
+  "documentId": "7d402351-45d1-4eae-ac8b-93b78cef79a5",
+  "fileName": "I-129_instructions_09/09/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "547634"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/7d402351-45d1-4eae-ac8b-93b78cef79a5_I-129_instructions_09/09/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-10T08:05:21.757Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-10T08:05:21.930Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-10T08:05:28.138Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 100,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/7d402351-45d1-4eae-ac8b-93b78cef79a5.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "37621"
+  },
+  "totalEmbeddings": 100,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6aa264c2ac8a7f4e0d6775fb"
+  },
+  "documentId": "f642a550-60cc-4f83-99a1-81f776f633fd",
+  "fileName": "I-129H2A_09/09/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "703974"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f642a550-60cc-4f83-99a1-81f776f633fd_I-129H2A_09/09/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-10T08:05:22.034Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-10T08:05:28.206Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-10T08:05:31.167Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 50,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f642a550-60cc-4f83-99a1-81f776f633fd.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "40837"
+  },
+  "totalEmbeddings": 50,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6aa264cbac8a7f4e0d677663"
+  },
+  "documentId": "6f7eb625-5bb6-4ff8-a3bf-c3a9bb1445fc",
+  "fileName": "I-129H2A_instructions_09/09/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "407191"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/6f7eb625-5bb6-4ff8-a3bf-c3a9bb1445fc_I-129H2A_instructions_09/09/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-10T08:05:31.134Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-10T08:05:31.736Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-10T08:05:33.077Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 18,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/6f7eb625-5bb6-4ff8-a3bf-c3a9bb1445fc.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "6542"
+  },
+  "totalEmbeddings": 18,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6aa264cdac8a7f4e0d6777ea"
+  },
+  "documentId": "4547f9e0-fb86-4e3d-bd5a-20b86a1bf295",
+  "fileName": "M-735_H1B_Checklist_09/09/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "293462"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/4547f9e0-fb86-4e3d-bd5a-20b86a1bf295_M-735_H1B_Checklist_09/09/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-10T08:05:33.938Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-10T08:05:34.537Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-10T08:05:35.426Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 15,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/4547f9e0-fb86-4e3d-bd5a-20b86a1bf295.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "7420"
+  },
+  "totalEmbeddings": 15,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6aa264cfac8a7f4e0d677a18"
+  },
+  "documentId": "f81c5fee-55ec-4b38-ae9e-73ea76ba3492",
+  "fileName": "M-1097_H2A_Checklist_09/09/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "277271"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f81c5fee-55ec-4b38-ae9e-73ea76ba3492_M-1097_H2A_Checklist_09/09/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-10T08:05:35.339Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-10T08:05:36.898Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-10T08:05:39.283Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 8,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/f81c5fee-55ec-4b38-ae9e-73ea76ba3492.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "2681"
+  },
+  "totalEmbeddings": 8,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6aa264d3ac8a7f4e0d677cfe"
+  },
+  "documentId": "e9a332e0-1c9e-4070-9818-89609941c4ed",
+  "fileName": "M-1087_H2B_Checklist_09/09/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "276911"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e9a332e0-1c9e-4070-9818-89609941c4ed_M-1087_H2B_Checklist_09/09/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-10T08:05:39.263Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-10T08:05:39.514Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-10T08:05:41.068Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 7,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e9a332e0-1c9e-4070-9818-89609941c4ed.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "2411"
+  },
+  "totalEmbeddings": 7,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6aa264d5ac8a7f4e0d677ffa"
+  },
+  "documentId": "e49c0e58-82f9-4afd-9f28-adf522548170",
+  "fileName": "M-736_R1_Checklist_09/09/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "363703"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e49c0e58-82f9-4afd-9f28-adf522548170_M-736_R1_Checklist_09/09/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-10T08:05:41.737Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-10T08:05:41.995Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-10T08:05:42.329Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 10,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e49c0e58-82f9-4afd-9f28-adf522548170.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "3968"
+  },
+  "totalEmbeddings": 10,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+},
+{
+  "_id": {
+    "$oid": "6aa264d6ac8a7f4e0d67801a"
+  },
+  "documentId": "e59f914d-fc6d-42ea-ac92-be4b34364579",
+  "fileName": "M-746_DOT_Codes_09/09/26.pdf",
+  "collectionId": "69b59281335da35d18c7b354",
+  "fileSize": {
+    "$numberLong": "126734"
+  },
+  "contentType": "application/pdf",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "s3Key": "raw/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e59f914d-fc6d-42ea-ac92-be4b34364579_M-746_DOT_Codes_09/09/26.pdf",
+  "status": "AI_READY",
+  "createdAt": {
+    "$date": "2026-09-10T08:05:42.095Z"
+  },
+  "uploadedAt": {
+    "$date": "2026-09-10T08:05:42.441Z"
+  },
+  "processedAt": {
+    "$date": "2026-09-10T08:05:42.953Z"
+  },
+  "chunkSize": 400,
+  "overlapTokens": 50,
+  "chunkStrategy": "sentence",
+  "totalChunks": 1,
+  "processedS3Key": "processed/681a97eaec715f343bcb1ecf/69b59281335da35d18c7b354/e59f914d-fc6d-42ea-ac92-be4b34364579.json",
+  "processingModel": "text-embedding-3-small",
+  "totalTokens": {
+    "$numberLong": "1286"
+  },
+  "totalEmbeddings": 1,
+  "encryptionKeyVersion": "v1",
+  "encrypted": true,
+  "currentVersion": 1,
+  "_class": "org.lite.gateway.entity.KnowledgeHubDocument"
+}]

@@ -1,0 +1,621 @@
+[{
+  "_id": {
+    "$oid": "69c08a0671ba477c76b154de"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-130",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-23T00:32:06.171Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T00:32:06.171Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c08a4a71ba477c76b154df"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-131",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-23T00:33:14.509Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T00:33:14.509Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c195bfd9d521696cd33074"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-751",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-23T19:34:23.009Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T19:34:23.009Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c35cb378764f7f62412235"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-765",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-25T03:55:31.389Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-25T03:55:31.389Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c369ac80b59b70c39b89fb"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-864",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-25T04:50:52.358Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-25T04:50:52.358Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c371ebfcd4c97102321d2f"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-9",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-25T05:26:03.136Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-25T05:26:03.136Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c3790680b59b70c39b8d40"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-90",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-25T05:56:22.227Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-25T05:56:22.227Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c41e6980b59b70c39b8e11"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "N-400",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-25T17:42:01.907Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-25T18:17:17.385Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c4399472d4a82240eaf282"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-140",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-25T19:37:56.675Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-25T19:37:56.675Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c459824bee6707e43f1f33"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-360",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-25T21:54:10.469Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-25T21:54:10.469Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c46e4072d4a82240eaf646"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-600",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-25T23:22:40.035Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-25T23:22:40.035Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c5a1554bee6707e43f24a8"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-129",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-26T21:12:53.948Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-26T21:12:53.948Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c5ab7872d4a82240eb064a"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-526",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-26T21:56:08.776Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-26T21:56:08.776Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c5b3b572d4a82240eb096a"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-539",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-26T22:31:17.667Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-26T22:31:17.667Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c689ff72d4a82240eb0a90"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-589",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-27T13:45:35.268Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T13:45:35.268Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c690ce72d4a82240eb0c90"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-730",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:14:38.624Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:14:38.624Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69c6aa144bee6707e43f2f03"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "resourceId": "I-821",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-03-27T16:02:28.246Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T16:02:28.246Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69f76a31f4d1eb45e4dc67b0"
+  },
+  "userId": "mehmetsen80@hotmail.com",
+  "resourceId": "I-589",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "mehmetsen80@hotmail.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-05-03T15:30:57.118Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-03T15:30:57.118Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69f7eb96a5d3ed5caae3ca5f"
+  },
+  "userId": "mehmetsen80@hotmail.com",
+  "resourceId": "I-129F",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "mehmetsen80@hotmail.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-05-04T00:43:02.654Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-04T00:43:02.654Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription",
+  "domain": "uscis-sentinel",
+  "category": "forms"
+},
+{
+  "_id": {
+    "$oid": "69fa9aaf6f97fa033758f666"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "domain": "uscis-sentinel",
+  "category": "announcements",
+  "resourceId": "news-releases",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-05-06T01:34:39.533Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-06T01:34:39.533Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription"
+},
+{
+  "_id": {
+    "$oid": "69fa9ae96f97fa033758f667"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "domain": "uscis-sentinel",
+  "category": "announcements",
+  "resourceId": "newsroom-alerts",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-05-06T01:35:37.240Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-06T01:35:37.240Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription"
+},
+{
+  "_id": {
+    "$oid": "69fd43ad105c7859ae43dbd7"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-129F",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "mehmetsen80@gmail.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-05-08T02:00:13.648Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-08T02:00:13.648Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription"
+},
+{
+  "_id": {
+    "$oid": "69fd43b4105c7859ae43dbdb"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-485",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "mehmetsen80@gmail.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-05-08T02:00:20.755Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-08T02:00:20.755Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription"
+},
+{
+  "_id": {
+    "$oid": "69fe58ec105c7859ae43dcb9"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "domain": "uscis-sentinel",
+  "category": "policy-manual",
+  "resourceId": "policy-updates",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-05-08T21:43:08.845Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-08T21:43:08.845Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription"
+},
+{
+  "_id": {
+    "$oid": "69ff3c3abfcf736463e3d520"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "domain": "uscis-sentinel",
+  "category": "visa-bulletin",
+  "resourceId": "filing-charts",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-05-09T13:52:58.762Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-09T13:52:58.762Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription"
+},
+{
+  "_id": {
+    "$oid": "6a037d195ac82b07f0b6c8ac"
+  },
+  "userId": "mehmetsen80@gmail.com",
+  "domain": "uscis-sentinel",
+  "category": "processing-times",
+  "resourceId": "I-130",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-05-12T19:18:49.810Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-12T19:18:49.810Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription"
+},
+{
+  "_id": {
+    "$oid": "6a6156c921a2a659ffff89ae"
+  },
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-485",
+  "appName": "komunas-app",
+  "enabled": true,
+  "delivery": {
+    "emailEnabled": true,
+    "email": "msen@linqra.com",
+    "webhookEnabled": false
+  },
+  "createdAt": {
+    "$date": "2026-07-22T23:48:25.025Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-22T23:48:25.025Z"
+  },
+  "_class": "org.lite.gateway.entity.ResourceSubscription"
+}]

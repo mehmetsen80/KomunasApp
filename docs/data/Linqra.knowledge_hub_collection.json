@@ -1,0 +1,126 @@
+[{
+  "_id": {
+    "$oid": "6908293ccf9b906ef0b5ac53"
+  },
+  "name": "USCIS Marriage-Based Applications",
+  "description": "Collection of USCIS forms, documentation, and resources for marriage-based immigration and green card applications. Includes I-130 petitions, I-485 adjustment of status forms, supporting evidence requirements, and interview preparation materials.",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "createdBy": "timursen",
+  "updatedBy": "timursen",
+  "categories": [
+    "IMMIGRATION_DOCS"
+  ],
+  "milvusCollectionName": "uscis_marriage_based_files_openai_text_embedding_3_small_1536",
+  "embeddingModel": "openai-embed",
+  "embeddingModelName": "text-embedding-3-small",
+  "embeddingDimension": 1536,
+  "lateChunkingEnabled": true,
+  "createdAt": {
+    "$date": "2025-11-03T04:02:04.074Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T23:03:31.583Z"
+  },
+  "_class": "org.lite.gateway.entity.KnowledgeHubCollection"
+},
+{
+  "_id": {
+    "$oid": "69520cf621458438d23771d0"
+  },
+  "name": "Crews Center F1 Visa & Entrepreneurship Advisor",
+  "description": "This is the F1 Visa Advisor Collection to answer F1 Visa related questions",
+  "teamId": "69442654fcd48d2383fab507",
+  "createdBy": "timursen",
+  "updatedBy": "timursen",
+  "categories": [
+    "USER_GUIDES",
+    "POLICIES",
+    "BUSINESS_DOCS"
+  ],
+  "milvusCollectionName": "crews_center_openai_text_embedding_3_small_1536",
+  "embeddingModel": "openai-embed",
+  "embeddingModelName": "text-embedding-3-small",
+  "embeddingDimension": 1536,
+  "lateChunkingEnabled": true,
+  "createdAt": {
+    "$date": "2025-12-29T05:09:10.956Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-29T05:10:34.747Z"
+  },
+  "_class": "org.lite.gateway.entity.KnowledgeHubCollection"
+},
+{
+  "_id": {
+    "$oid": "69b59281335da35d18c7b354"
+  },
+  "name": "USCIS Files Sync",
+  "description": "Centralized repository of monitored USCIS immigration forms and policy documents. Documents are ingested and versioned automatically by the USCIS Sentinel agent upon detecting updates to the official USCIS website, providing a reliable audit trail of regulatory changes.",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "createdBy": "timursen",
+  "updatedBy": "timursen",
+  "categories": [
+    "IMMIGRATION_DOCS",
+    "ARCHIVES",
+    "REFERENCE"
+  ],
+  "milvusCollectionName": "uscis_forms_openai_text_embedding_3_small_1536",
+  "embeddingModel": "openai-embed",
+  "embeddingModelName": "text-embedding-3-small",
+  "embeddingDimension": 1536,
+  "lateChunkingEnabled": true,
+  "createdAt": {
+    "$date": "2026-03-14T16:53:21.371Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T20:08:05.838Z"
+  },
+  "_class": "org.lite.gateway.entity.KnowledgeHubCollection"
+},
+{
+  "_id": {
+    "$oid": "69c2bb8728539969453e0d44"
+  },
+  "name": "Computer Science Advising Knowledge Base",
+  "description": "",
+  "teamId": "681a97eaec715f343bcb1ecf",
+  "createdBy": "fatihshen",
+  "updatedBy": "timursen",
+  "categories": [
+    "CUSTOM"
+  ],
+  "milvusCollectionName": "uofm_comp_sci_advising_openai_embedding_3_small_768",
+  "embeddingModel": "openai-embed",
+  "embeddingModelName": "text-embedding-3-small",
+  "embeddingDimension": 1536,
+  "lateChunkingEnabled": true,
+  "createdAt": {
+    "$date": "2026-03-24T16:27:51.247Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T17:00:21.957Z"
+  },
+  "_class": "org.lite.gateway.entity.KnowledgeHubCollection"
+},
+{
+  "_id": {
+    "$oid": "6a346ac027a21d4c9910c6ae"
+  },
+  "name": "International Students Documents",
+  "description": "A secure, centralized repository for all required academic, legal, and financial documents submitted by international students for admission and visa processing.",
+  "teamId": "6a3469c127a21d4c9910c6a6",
+  "createdBy": "timursen",
+  "updatedBy": "timursen",
+  "categories": [
+    "IMMIGRATION_DOCS",
+    "CUSTOM"
+  ],
+  "lateChunkingEnabled": true,
+  "createdAt": {
+    "$date": "2026-06-18T22:01:36.643Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-18T22:01:36.643Z"
+  },
+  "_class": "org.lite.gateway.entity.KnowledgeHubCollection"
+}]
