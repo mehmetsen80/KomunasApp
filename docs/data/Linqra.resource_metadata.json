@@ -1,0 +1,264 @@
+[{
+  "_id": {
+    "$oid": "69c089a2f8353643b5a8c596"
+  },
+  "category": "forms",
+  "resourceId": "I-485",
+  "displayName": "I-485 Green Card Application",
+  "description": "USCIS Form I-485 Adjustment of Status",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c089ca71ba477c76b154dd"
+  },
+  "category": "forms",
+  "resourceId": "I-130",
+  "displayName": "I-130 Petition for Alien Relative",
+  "description": "USCIS Form I-130 for family-based immigration petitions",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c089e4f8353643b5a8c597"
+  },
+  "category": "forms",
+  "resourceId": "I-131",
+  "displayName": "I-131 Travel Document",
+  "description": "USCIS Form I-131 for reentry permits and travel documents",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c195789f085d3e17e2ce21"
+  },
+  "category": "forms",
+  "resourceId": "I-751",
+  "displayName": "I-751 Removal of Conditions",
+  "description": "USCIS Form I-751 for Petition to Remove Conditions on Residence",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c35c7378764f7f62412234"
+  },
+  "category": "forms",
+  "resourceId": "I-765",
+  "displayName": "I-765 Employment Authorization",
+  "description": "USCIS Form I-765 for Application for Employment Authorization",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c3696080b59b70c39b89fa"
+  },
+  "category": "forms",
+  "resourceId": "I-864",
+  "displayName": "I-864 Affidavit of Support",
+  "description": "USCIS Form I-864 for Affidavit of Support Under Section 213A of the INA",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c371a280b59b70c39b8bc2"
+  },
+  "category": "forms",
+  "resourceId": "I-9",
+  "displayName": "I-9 Employment Eligibility Verification",
+  "description": "USCIS Form I-9 for Employment Eligibility Verification of employees in the United States",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c378ce80b59b70c39b8d3f"
+  },
+  "category": "forms",
+  "resourceId": "I-90",
+  "displayName": "I-90 Replace Permanent Resident Card",
+  "description": "USCIS Form I-90 for Application to Replace Permanent Resident Card (Green Card)",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c41e12fcd4c97102321f24"
+  },
+  "category": "forms",
+  "resourceId": "N-400",
+  "displayName": "N-400 Application for Naturalization",
+  "description": "USCIS Form N-400 for Application for Naturalization",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c4275272d4a82240eaefd3"
+  },
+  "category": "forms",
+  "resourceId": "I-129F",
+  "displayName": "I-129F Petition for Alien Fiancé(e)",
+  "description": "USCIS Form I-129F for Petition for Alien Fiancé(e) used to bring a fiancé(e) and their children to the U.S.",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c439544bee6707e43f1e62"
+  },
+  "category": "forms",
+  "resourceId": "I-140",
+  "displayName": "I-140 Immigrant Petition for Alien Workers",
+  "description": "USCIS Form I-140 for Immigrant Petition for Alien Workers (Employment-Based Green Card)",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c458f172d4a82240eaf3e3"
+  },
+  "category": "forms",
+  "resourceId": "I-360",
+  "displayName": "I-360 Amerasian, Widow(er), or Special Immigrant",
+  "description": "USCIS Form I-360 for Petitioning for Amerasians, Widow(er)s, VAWA Self-Petitioners, and other Special Immigrant classifications",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c46e074bee6707e43f21ab"
+  },
+  "category": "forms",
+  "resourceId": "I-600",
+  "displayName": "I-600 Petition to Classify Orphan as an Immediate Relative",
+  "description": "USCIS Form I-600 for Petitioning to Classify an Orphan as an Immediate Relative",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c5a1134bee6707e43f24a7"
+  },
+  "category": "forms",
+  "resourceId": "I-129",
+  "displayName": "I-129 Petition for a Nonimmigrant Worker",
+  "description": "USCIS Form I-129 for Petitioning for a Nonimmigrant Worker (covering H-1B, L-1, O-1, and other temporary employment classifications)",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c5ab1b72d4a82240eb0649"
+  },
+  "category": "forms",
+  "resourceId": "I-526",
+  "displayName": "I-526 Immigrant Petition by Standalone Investor",
+  "description": "USCIS Form I-526 for Immigrant Petition by Standalone Investor (EB-5 Investment Program)",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c5b35b4bee6707e43f28ff"
+  },
+  "category": "forms",
+  "resourceId": "I-539",
+  "displayName": "I-539 Application to Extend/Change Nonimmigrant Status",
+  "description": "USCIS Form I-539 for Application to Extend/Change Nonimmigrant Status (covering dependents of H-1B, L-1, F-1, and other nonimmigrant classifications)",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c689b54bee6707e43f2b4b"
+  },
+  "category": "forms",
+  "resourceId": "I-589",
+  "displayName": "I-589 Application for Asylum and for Withholding of Removal",
+  "description": "USCIS Form I-589 for Application for Asylum and for Withholding of Removal (including protection under the Convention Against Torture/CAT)",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c6905d72d4a82240eb0c8f"
+  },
+  "category": "forms",
+  "resourceId": "I-730",
+  "displayName": "I-730 Refugee/Asylee Relative Petition",
+  "description": "USCIS Form I-730 for Refugee/Asylee Relative Petition (requesting follow-to-join benefits for a spouse or child of a refugee or asylee)",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69c6a9ce4bee6707e43f2f02"
+  },
+  "category": "forms",
+  "resourceId": "I-821",
+  "displayName": "I-821 Application for Temporary Protected Status",
+  "description": "USCIS Form I-821 for Application for Temporary Protected Status (TPS), used by eligible nationals of designated countries (or persons without nationality who last habitually resided in the designated country) to apply for temporary immigration status and work authorization.",
+  "_class": "org.lite.gateway.entity.ResourceMetadata",
+  "domain": "uscis-sentinel"
+},
+{
+  "_id": {
+    "$oid": "69fa73256f97fa033758f663"
+  },
+  "domain": "uscis-sentinel",
+  "category": "announcements",
+  "resourceId": "newsroom-alerts",
+  "displayName": "USCIS Newsroom Alerts",
+  "description": "Monitoring timely updates, searchable by topic and date, including operational shifts and sudden changes.",
+  "_class": "org.lite.gateway.entity.ResourceMetadata"
+},
+{
+  "_id": {
+    "$oid": "69fa73526f97fa033758f664"
+  },
+  "domain": "uscis-sentinel",
+  "category": "announcements",
+  "resourceId": "news-releases",
+  "displayName": "USCIS News Releases",
+  "description": "Tracking official USCIS news releases, temporary rules, and major agency announcements.",
+  "_class": "org.lite.gateway.entity.ResourceMetadata"
+},
+{
+  "_id": {
+    "$oid": "69fe584b105c7859ae43dcb8"
+  },
+  "domain": "uscis-sentinel",
+  "category": "policy-manual",
+  "resourceId": "policy-updates",
+  "displayName": "USCIS Policy Manual Updates",
+  "description": "Real-time monitoring of substantive changes to adjudication rules, legal interpretations, and procedural guidance.",
+  "_class": "org.lite.gateway.entity.ResourceMetadata"
+},
+{
+  "_id": {
+    "$oid": "69ff3b4abfcf736463e3d51f"
+  },
+  "domain": "uscis-sentinel",
+  "category": "visa-bulletin",
+  "resourceId": "filing-charts",
+  "displayName": "Adjustment of Status Filing Charts",
+  "description": "USCIS monthly determination for which Visa Bulletin charts (Dates for Filing vs Final Action Dates) should be used for Adjustment of Status applications.",
+  "_class": "org.lite.gateway.entity.ResourceMetadata"
+},
+{
+  "_id": {
+    "$oid": "6a036fbe5ac82b07f0b6c8a8"
+  },
+  "domain": "uscis-sentinel",
+  "category": "processing-times",
+  "resourceId": "I-130",
+  "displayName": "I-130 Processing Times",
+  "description": "Monitors changes in estimated USCIS processing times across all tracked categories and service centers for the I-130 Petition for Alien Relative.",
+  "_class": "org.lite.gateway.entity.ResourceMetadata"
+}]

@@ -1,0 +1,1878 @@
+[{
+  "_id": {
+    "$oid": "69fea2d720708f4d2b2cc9ea"
+  },
+  "domain": "uscis-sentinel",
+  "category": "announcements",
+  "resourceId": "newsroom-alerts",
+  "supplementalResources": {},
+  "lastKnownVersion": "September 04, 2026",
+  "lastKnownHash": "b5496ed567a6b6551bdea230176613b6ecdc604cb62476c44004098db851d7c6",
+  "changeType": "ANNOUNCEMENT_UPDATE",
+  "summary": "New announcements: Key Updates on Immigration Policies (September 04, 2026)",
+  "changeDetected": true,
+  "lastAnalysis": {
+    "summary": "Recent USCIS announcements highlight significant changes in immigration regulations, including new rules for children of foreign government employees, updates on the Diversity Visa program, and the introduction of new forms. These updates reflect ongoing legal challenges and efforts to streamline processes for applicants.",
+    "alerts": [
+      {
+        "date": "September 04, 2026",
+        "summary": "The Department of Homeland Security has issued an interim final rule allowing certain children born in the U.S. to foreign government employees to register as lawful permanent residents. This change aims to provide a pathway for these children, who may have been previously ineligible due to their parents' non-citizen status, thereby enhancing their stability and integration into U.S. society.",
+        "title": "DHS Announces Rule for Certain Children Born in the United States to Foreign Government Employees",
+        "url": "https://www.uscis.gov/newsroom/alerts/dhs-announces-rule-for-certain-children-born-in-the-united-states-to-foreign-government-employees"
+      },
+      {
+        "date": "September 04, 2026",
+        "summary": "A U.S. District Court has temporarily vacated a policy affecting the adjudication of Diversity Visa applications, requiring USCIS to resume processing these applications without applying the previous hold policy. This ruling is significant for applicants who have been waiting for their status adjustments, as it may expedite their cases and provide relief from previous restrictions.",
+        "title": "Court Order on Diversity Immigrant Visa Program Hold Policy",
+        "url": "https://www.uscis.gov/newsroom/alerts/court-order-on-diversity-immigrant-visa-program-hold-policy"
+      },
+      {
+        "date": "September 03, 2026",
+        "summary": "USCIS is opening a new international field office in Addis Ababa, Ethiopia, to enhance its operations in the region, particularly in fraud prevention. This office will facilitate better service delivery for applicants in Ethiopia and surrounding areas, improving the efficiency of immigration processes and addressing concerns about fraudulent applications.",
+        "title": "USCIS Opens New International Field Office in Ethiopia to Support Fraud Prevention",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-opens-new-international-field-office-in-ethiopia-to-support-fraud-prevention"
+      },
+      {
+        "date": "August 28, 2026",
+        "summary": "A court has issued an order enjoining certain hold policies that affected immigration applications. This decision is crucial as it may lead to the resumption of processing for many applicants who were impacted by these policies, thereby restoring their opportunities for adjustment of status and other immigration benefits.",
+        "title": "Recent Court Order on Hold Policies",
+        "url": "https://www.uscis.gov/newsroom/alerts/recent-court-order-on-hold-policies"
+      },
+      {
+        "date": "August 19, 2026",
+        "summary": "USCIS will release a revised edition of Form I-485 on September 18, 2026, with older versions being rejected thereafter. This update is essential for applicants seeking to adjust their status, as using outdated forms could lead to delays or denials of their applications, emphasizing the need for practitioners to stay informed about form changes.",
+        "title": "USCIS to Publish New Edition of Form I-485; Older Editions Will Be Rejected Starting Sept. 18",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-to-publish-new-edition-of-form-i-485-older-editions-will-be-rejected-starting-sept-18"
+      },
+      {
+        "date": "August 18, 2026",
+        "summary": "USCIS has updated its guidance on how to assess whether an applicant for adjustment of status is likely to become a public charge. This clarification is significant as it provides clearer criteria for applicants, potentially affecting their eligibility and the documentation required to support their applications.",
+        "title": "USCIS Issues Guidance on Making Public Charge Inadmissibility Determination",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-issues-guidance-on-making-public-charge-inadmissibility-determination"
+      },
+      {
+        "date": "August 14, 2026",
+        "summary": "Revised editions of Form I-539 and Form I-765 will be published on September 15, 2026, with older versions being rejected thereafter. This change is crucial for applicants seeking to extend or change their nonimmigrant status or apply for employment authorization, as using outdated forms could hinder their applications.",
+        "title": "USCIS to Publish New Editions of Form I-539 and Form I-765; Older Editions Will Be Rejected Starting Sept. 15",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-to-publish-new-editions-of-form-i-539-and-form-i-765-older-editions-will-be-rejected-starting"
+      },
+      {
+        "date": "August 10, 2026",
+        "summary": "DHS has introduced an interim final rule mandating electronic filing for certain immigration forms. This move aims to enhance national security and streamline processing, which will require applicants and practitioners to adapt to new filing procedures, potentially improving efficiency but also necessitating adjustments in how applications are submitted.",
+        "title": "USCIS To Require Electronic Filing of Forms: Strengthening National Security",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-to-require-electronic-filing-of-forms-strengthening-national-security"
+      },
+      {
+        "date": "August 05, 2026",
+        "summary": "USCIS is clarifying that applicants must establish eligibility for immigration benefits at the time of filing. This change aims to reduce frivolous requests and improve the integrity of the immigration process, which may lead to stricter scrutiny of applications and a need for applicants to provide more comprehensive evidence upfront.",
+        "title": "USCIS to Reduce Frivolous Immigration Benefits Requests by Reinforcing Evidence Standards",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-to-reduce-frivolous-immigration-benefits-requests-by-reinforcing-evidence-standards"
+      },
+      {
+        "date": "July 17, 2026",
+        "summary": "USCIS has announced that it has reached the cap for H-1B visa petitions for fiscal year 2027. This announcement is critical for employers and foreign workers, as it indicates that no further petitions will be accepted for this fiscal year, impacting hiring plans and immigration strategies for many organizations.",
+        "title": "USCIS Reaches Fiscal Year 2027 H-1B Cap",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-reaches-fiscal-year-2027-h-1b-cap"
+      }
+    ],
+    "title": "Key Updates on Immigration Policies"
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-05T06:00:14.537Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-05T06:00:14.537Z"
+  },
+  "payload": {
+    "summary": "Recent USCIS announcements highlight significant changes in immigration regulations, including new rules for children of foreign government employees, updates on the Diversity Visa program, and the introduction of new forms. These updates reflect ongoing legal challenges and efforts to streamline processes for applicants.",
+    "alerts": [
+      {
+        "date": "September 04, 2026",
+        "summary": "The Department of Homeland Security has issued an interim final rule allowing certain children born in the U.S. to foreign government employees to register as lawful permanent residents. This change aims to provide a pathway for these children, who may have been previously ineligible due to their parents' non-citizen status, thereby enhancing their stability and integration into U.S. society.",
+        "title": "DHS Announces Rule for Certain Children Born in the United States to Foreign Government Employees",
+        "url": "https://www.uscis.gov/newsroom/alerts/dhs-announces-rule-for-certain-children-born-in-the-united-states-to-foreign-government-employees"
+      },
+      {
+        "date": "September 04, 2026",
+        "summary": "A U.S. District Court has temporarily vacated a policy affecting the adjudication of Diversity Visa applications, requiring USCIS to resume processing these applications without applying the previous hold policy. This ruling is significant for applicants who have been waiting for their status adjustments, as it may expedite their cases and provide relief from previous restrictions.",
+        "title": "Court Order on Diversity Immigrant Visa Program Hold Policy",
+        "url": "https://www.uscis.gov/newsroom/alerts/court-order-on-diversity-immigrant-visa-program-hold-policy"
+      },
+      {
+        "date": "September 03, 2026",
+        "summary": "USCIS is opening a new international field office in Addis Ababa, Ethiopia, to enhance its operations in the region, particularly in fraud prevention. This office will facilitate better service delivery for applicants in Ethiopia and surrounding areas, improving the efficiency of immigration processes and addressing concerns about fraudulent applications.",
+        "title": "USCIS Opens New International Field Office in Ethiopia to Support Fraud Prevention",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-opens-new-international-field-office-in-ethiopia-to-support-fraud-prevention"
+      },
+      {
+        "date": "August 28, 2026",
+        "summary": "A court has issued an order enjoining certain hold policies that affected immigration applications. This decision is crucial as it may lead to the resumption of processing for many applicants who were impacted by these policies, thereby restoring their opportunities for adjustment of status and other immigration benefits.",
+        "title": "Recent Court Order on Hold Policies",
+        "url": "https://www.uscis.gov/newsroom/alerts/recent-court-order-on-hold-policies"
+      },
+      {
+        "date": "August 19, 2026",
+        "summary": "USCIS will release a revised edition of Form I-485 on September 18, 2026, with older versions being rejected thereafter. This update is essential for applicants seeking to adjust their status, as using outdated forms could lead to delays or denials of their applications, emphasizing the need for practitioners to stay informed about form changes.",
+        "title": "USCIS to Publish New Edition of Form I-485; Older Editions Will Be Rejected Starting Sept. 18",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-to-publish-new-edition-of-form-i-485-older-editions-will-be-rejected-starting-sept-18"
+      },
+      {
+        "date": "August 18, 2026",
+        "summary": "USCIS has updated its guidance on how to assess whether an applicant for adjustment of status is likely to become a public charge. This clarification is significant as it provides clearer criteria for applicants, potentially affecting their eligibility and the documentation required to support their applications.",
+        "title": "USCIS Issues Guidance on Making Public Charge Inadmissibility Determination",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-issues-guidance-on-making-public-charge-inadmissibility-determination"
+      },
+      {
+        "date": "August 14, 2026",
+        "summary": "Revised editions of Form I-539 and Form I-765 will be published on September 15, 2026, with older versions being rejected thereafter. This change is crucial for applicants seeking to extend or change their nonimmigrant status or apply for employment authorization, as using outdated forms could hinder their applications.",
+        "title": "USCIS to Publish New Editions of Form I-539 and Form I-765; Older Editions Will Be Rejected Starting Sept. 15",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-to-publish-new-editions-of-form-i-539-and-form-i-765-older-editions-will-be-rejected-starting"
+      },
+      {
+        "date": "August 10, 2026",
+        "summary": "DHS has introduced an interim final rule mandating electronic filing for certain immigration forms. This move aims to enhance national security and streamline processing, which will require applicants and practitioners to adapt to new filing procedures, potentially improving efficiency but also necessitating adjustments in how applications are submitted.",
+        "title": "USCIS To Require Electronic Filing of Forms: Strengthening National Security",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-to-require-electronic-filing-of-forms-strengthening-national-security"
+      },
+      {
+        "date": "August 05, 2026",
+        "summary": "USCIS is clarifying that applicants must establish eligibility for immigration benefits at the time of filing. This change aims to reduce frivolous requests and improve the integrity of the immigration process, which may lead to stricter scrutiny of applications and a need for applicants to provide more comprehensive evidence upfront.",
+        "title": "USCIS to Reduce Frivolous Immigration Benefits Requests by Reinforcing Evidence Standards",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-to-reduce-frivolous-immigration-benefits-requests-by-reinforcing-evidence-standards"
+      },
+      {
+        "date": "July 17, 2026",
+        "summary": "USCIS has announced that it has reached the cap for H-1B visa petitions for fiscal year 2027. This announcement is critical for employers and foreign workers, as it indicates that no further petitions will be accepted for this fiscal year, impacting hiring plans and immigration strategies for many organizations.",
+        "title": "USCIS Reaches Fiscal Year 2027 H-1B Cap",
+        "url": "https://www.uscis.gov/newsroom/alerts/uscis-reaches-fiscal-year-2027-h-1b-cap"
+      }
+    ],
+    "title": "Key Updates on Immigration Policies"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-05T06:00:14.537Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "69fea31420708f4d2b2cc9ec"
+  },
+  "domain": "uscis-sentinel",
+  "category": "announcements",
+  "resourceId": "news-releases",
+  "supplementalResources": {},
+  "lastKnownVersion": "September 03, 2026",
+  "lastKnownHash": "d80dad408a89968a3374baedb07e8f62697173c1a4e266238347dc51722dc532",
+  "changeType": "ANNOUNCEMENT_UPDATE",
+  "summary": "New news releases: Crackdown on Immigration Fraud (September 03, 2026)",
+  "changeDetected": true,
+  "lastAnalysis": {
+    "summary": "Recent USCIS news releases highlight a significant crackdown on immigration fraud, including indictments related to false claims for citizenship and marriage fraud schemes. These actions signal a robust enforcement approach by USCIS and the Department of Justice, emphasizing the importance of integrity in the immigration process and the consequences of fraudulent activities.",
+    "alerts": [
+      {
+        "date": "September 03, 2026",
+        "summary": "A naturalized U.S. citizen has been indicted for allegedly lying about his criminal history to gain citizenship. This case underscores the ongoing efforts by federal authorities to ensure that individuals who commit serious crimes do not benefit from the immigration system, reinforcing the integrity of U.S. citizenship.",
+        "title": "Naturalized U.S. Citizen Indicted for Lying to Obtain U.S. Citizenship After Committing Felonies",
+        "url": "https://www.uscis.gov/newsroom/news-releases/naturalized-us-citizen-indicted-for-lying-to-obtain-us-citizenship-after-committing-felonies"
+      },
+      {
+        "date": "September 03, 2026",
+        "summary": "Federal prosecutors have indicted a Peruvian national for marriage-related immigration fraud, with USCIS playing a key role in the investigation. This case highlights the agency's commitment to combating fraudulent immigration practices and ensuring that marriage-based immigration benefits are not misused.",
+        "title": "Illegal Alien Indicted in Marriage-Related Immigration Fraud",
+        "url": "https://www.uscis.gov/newsroom/news-releases/illegal-alien-indicted-in-marriage-related-immigration-fraud"
+      },
+      {
+        "date": "September 02, 2026",
+        "summary": "An aunt and her nephew, a U.S. Airman, have been arrested for allegedly lying about their relationship to secure immigration benefits. This case illustrates the lengths to which individuals may go to exploit the immigration system and the vigilance of authorities in addressing such schemes.",
+        "title": "Aunt and U.S. Airman Nephew Arrested in Immigration Fraud Scheme",
+        "url": "https://www.uscis.gov/newsroom/news-releases/aunt-and-us-airman-nephew-arrested-in-immigration-fraud-scheme"
+      },
+      {
+        "date": "August 24, 2026",
+        "summary": "The Department of Homeland Security has proposed a new fee of $103,265 for H-1B cap-subject petitions, including those eligible for the advanced degree exemption. This proposal signals a potential shift in the financial landscape for employers seeking to hire foreign workers, reflecting ongoing discussions about the H-1B program's impact on the U.S. labor market.",
+        "title": "DHS Proposes Additional H-1B Fee",
+        "url": "https://www.uscis.gov/newsroom/news-releases/dhs-proposes-additional-h-1b-fee"
+      },
+      {
+        "date": "August 21, 2026",
+        "summary": "A Chinese national has been charged with voter fraud for submitting a fraudulent voter registration and ballot during the 2024 presidential election. This case raises concerns about the integrity of the electoral process and the importance of ensuring that only eligible individuals participate in elections.",
+        "title": "Chinese Alien Charged with Voter Fraud in Massachusetts",
+        "url": "https://www.uscis.gov/newsroom/news-releases/chinese-alien-charged-with-voter-fraud-in-massachusetts"
+      },
+      {
+        "date": "August 18, 2026",
+        "summary": "A Cuban national has pleaded guilty to charges related to alien smuggling and asylum fraud, with USCIS's involvement in the investigation. This case highlights the agency's role in tackling complex immigration-related crimes and the importance of maintaining the integrity of the asylum process.",
+        "title": "Cuban Alien Pleads Guilty to Role in International Alien Smuggling, Asylum Fraud, and Money Laundering",
+        "url": "https://www.uscis.gov/newsroom/news-releases/cuban-alien-pleads-guilty-to-role-in-international-alien-smuggling-asylum-fraud-and-money-laundering"
+      },
+      {
+        "date": "August 12, 2026",
+        "summary": "USCIS has been instrumental in the indictment of 11 individuals involved in orchestrating over 1,000 sham marriages for immigration benefits. This significant action demonstrates the agency's commitment to combating large-scale immigration fraud and protecting the integrity of the marriage-based immigration system.",
+        "title": "USCIS Plays Key Role in Takedown of Decade-Long Marriage Fraud Ring",
+        "url": "https://www.uscis.gov/newsroom/news-releases/uscis-plays-key-role-in-takedown-of-decade-long-marriage-fraud-ring"
+      },
+      {
+        "date": "August 12, 2026",
+        "summary": "A case has been filed to denaturalize an individual who allegedly obtained U.S. citizenship using a false identity. This action reflects the ongoing efforts by USCIS and the Department of Justice to ensure that citizenship is granted only to those who meet the legal requirements and do not engage in fraudulent activities.",
+        "title": "Denaturalization Case Filed Against Man Who Procured U.S. Citizenship Under False Identity",
+        "url": "https://www.uscis.gov/newsroom/news-releases/denaturalization-case-filed-against-man-who-procured-us-citizenship-under-false-identity"
+      },
+      {
+        "date": "August 11, 2026",
+        "summary": "A Miami resident has been charged with defrauding the U.S. immigration system in connection with a national health care fraud investigation. This case highlights the intersection of immigration and health care fraud, emphasizing the need for vigilance in both areas.",
+        "title": "Miami Man Charged With Defrauding U.S. Immigration System as Part of a National Health Care Takedown",
+        "url": "https://www.uscis.gov/newsroom/news-releases/miami-man-charged-with-defrauding-us-immigration-system-as-part-of-a-national-health-care-takedown"
+      },
+      {
+        "date": "August 11, 2026",
+        "summary": "The Justice Department has filed a record number of denaturalization cases against 25 individuals accused of serious crimes. This unprecedented action signals a strong stance against criminal behavior among naturalized citizens and reinforces the importance of maintaining the integrity of the naturalization process.",
+        "title": "Justice Department Files Record 25 Denaturalization Cases Against Naturalized Criminals Including Attempted Murderers, Spousal Abusers, and Child Sex Offenders",
+        "url": "https://www.uscis.gov/newsroom/news-releases/justice-department-files-record-25-denaturalization-cases-against-naturalized-criminals-including"
+      }
+    ],
+    "title": "Crackdown on Immigration Fraud"
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-04T06:10:10.152Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-04T06:10:10.152Z"
+  },
+  "payload": {
+    "summary": "Recent USCIS news releases highlight a significant crackdown on immigration fraud, including indictments related to false claims for citizenship and marriage fraud schemes. These actions signal a robust enforcement approach by USCIS and the Department of Justice, emphasizing the importance of integrity in the immigration process and the consequences of fraudulent activities.",
+    "alerts": [
+      {
+        "date": "September 03, 2026",
+        "summary": "A naturalized U.S. citizen has been indicted for allegedly lying about his criminal history to gain citizenship. This case underscores the ongoing efforts by federal authorities to ensure that individuals who commit serious crimes do not benefit from the immigration system, reinforcing the integrity of U.S. citizenship.",
+        "title": "Naturalized U.S. Citizen Indicted for Lying to Obtain U.S. Citizenship After Committing Felonies",
+        "url": "https://www.uscis.gov/newsroom/news-releases/naturalized-us-citizen-indicted-for-lying-to-obtain-us-citizenship-after-committing-felonies"
+      },
+      {
+        "date": "September 03, 2026",
+        "summary": "Federal prosecutors have indicted a Peruvian national for marriage-related immigration fraud, with USCIS playing a key role in the investigation. This case highlights the agency's commitment to combating fraudulent immigration practices and ensuring that marriage-based immigration benefits are not misused.",
+        "title": "Illegal Alien Indicted in Marriage-Related Immigration Fraud",
+        "url": "https://www.uscis.gov/newsroom/news-releases/illegal-alien-indicted-in-marriage-related-immigration-fraud"
+      },
+      {
+        "date": "September 02, 2026",
+        "summary": "An aunt and her nephew, a U.S. Airman, have been arrested for allegedly lying about their relationship to secure immigration benefits. This case illustrates the lengths to which individuals may go to exploit the immigration system and the vigilance of authorities in addressing such schemes.",
+        "title": "Aunt and U.S. Airman Nephew Arrested in Immigration Fraud Scheme",
+        "url": "https://www.uscis.gov/newsroom/news-releases/aunt-and-us-airman-nephew-arrested-in-immigration-fraud-scheme"
+      },
+      {
+        "date": "August 24, 2026",
+        "summary": "The Department of Homeland Security has proposed a new fee of $103,265 for H-1B cap-subject petitions, including those eligible for the advanced degree exemption. This proposal signals a potential shift in the financial landscape for employers seeking to hire foreign workers, reflecting ongoing discussions about the H-1B program's impact on the U.S. labor market.",
+        "title": "DHS Proposes Additional H-1B Fee",
+        "url": "https://www.uscis.gov/newsroom/news-releases/dhs-proposes-additional-h-1b-fee"
+      },
+      {
+        "date": "August 21, 2026",
+        "summary": "A Chinese national has been charged with voter fraud for submitting a fraudulent voter registration and ballot during the 2024 presidential election. This case raises concerns about the integrity of the electoral process and the importance of ensuring that only eligible individuals participate in elections.",
+        "title": "Chinese Alien Charged with Voter Fraud in Massachusetts",
+        "url": "https://www.uscis.gov/newsroom/news-releases/chinese-alien-charged-with-voter-fraud-in-massachusetts"
+      },
+      {
+        "date": "August 18, 2026",
+        "summary": "A Cuban national has pleaded guilty to charges related to alien smuggling and asylum fraud, with USCIS's involvement in the investigation. This case highlights the agency's role in tackling complex immigration-related crimes and the importance of maintaining the integrity of the asylum process.",
+        "title": "Cuban Alien Pleads Guilty to Role in International Alien Smuggling, Asylum Fraud, and Money Laundering",
+        "url": "https://www.uscis.gov/newsroom/news-releases/cuban-alien-pleads-guilty-to-role-in-international-alien-smuggling-asylum-fraud-and-money-laundering"
+      },
+      {
+        "date": "August 12, 2026",
+        "summary": "USCIS has been instrumental in the indictment of 11 individuals involved in orchestrating over 1,000 sham marriages for immigration benefits. This significant action demonstrates the agency's commitment to combating large-scale immigration fraud and protecting the integrity of the marriage-based immigration system.",
+        "title": "USCIS Plays Key Role in Takedown of Decade-Long Marriage Fraud Ring",
+        "url": "https://www.uscis.gov/newsroom/news-releases/uscis-plays-key-role-in-takedown-of-decade-long-marriage-fraud-ring"
+      },
+      {
+        "date": "August 12, 2026",
+        "summary": "A case has been filed to denaturalize an individual who allegedly obtained U.S. citizenship using a false identity. This action reflects the ongoing efforts by USCIS and the Department of Justice to ensure that citizenship is granted only to those who meet the legal requirements and do not engage in fraudulent activities.",
+        "title": "Denaturalization Case Filed Against Man Who Procured U.S. Citizenship Under False Identity",
+        "url": "https://www.uscis.gov/newsroom/news-releases/denaturalization-case-filed-against-man-who-procured-us-citizenship-under-false-identity"
+      },
+      {
+        "date": "August 11, 2026",
+        "summary": "A Miami resident has been charged with defrauding the U.S. immigration system in connection with a national health care fraud investigation. This case highlights the intersection of immigration and health care fraud, emphasizing the need for vigilance in both areas.",
+        "title": "Miami Man Charged With Defrauding U.S. Immigration System as Part of a National Health Care Takedown",
+        "url": "https://www.uscis.gov/newsroom/news-releases/miami-man-charged-with-defrauding-us-immigration-system-as-part-of-a-national-health-care-takedown"
+      },
+      {
+        "date": "August 11, 2026",
+        "summary": "The Justice Department has filed a record number of denaturalization cases against 25 individuals accused of serious crimes. This unprecedented action signals a strong stance against criminal behavior among naturalized citizens and reinforces the importance of maintaining the integrity of the naturalization process.",
+        "title": "Justice Department Files Record 25 Denaturalization Cases Against Naturalized Criminals Including Attempted Murderers, Spousal Abusers, and Child Sex Offenders",
+        "url": "https://www.uscis.gov/newsroom/news-releases/justice-department-files-record-25-denaturalization-cases-against-naturalized-criminals-including"
+      }
+    ],
+    "title": "Crackdown on Immigration Fraud"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-04T06:10:10.152Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "69fea35f20708f4d2b2cc9ee"
+  },
+  "domain": "uscis-sentinel",
+  "category": "policy-manual",
+  "resourceId": "policy-updates",
+  "supplementalResources": {},
+  "lastKnownVersion": "September 09, 2026",
+  "lastKnownHash": "244c96aa8731d75b2c994ce3be21675769fd849cc95ed981e45c54fa74d857cd",
+  "changeType": "POLICY_UPDATE",
+  "summary": "New policy guidance: Key Policy Updates Overview (September 09, 2026)",
+  "changeDetected": true,
+  "lastAnalysis": {
+    "summary": "Recent updates to the USCIS Policy Manual reflect significant changes in immigration procedures, particularly regarding the registration of children born to foreign government employees, naturalization processes, and public charge inadmissibility. These changes aim to clarify eligibility criteria, enhance procedural integrity, and ensure compliance with legal standards, impacting applicants, practitioners, and USCIS officers alike.",
+    "title": "Key Policy Updates Overview",
+    "updates": [
+      {
+        "date": "September 09, 2026",
+        "summary": "This update introduces new policy guidance for registering children born to foreign government employees as lawful permanent residents. The inclusion of definitions for key terms clarifies the eligibility criteria, which will streamline the application process for affected families and provide clearer instructions for USCIS officers.",
+        "chapters": [
+          {
+            "title": "7 USCIS-PM O.3 - Chapter 3 - Children Born in the United States to Foreign Government Employees",
+            "url": "https://www.uscis.gov/policy-manual/volume-7-part-o-chapter-3"
+          },
+          {
+            "title": "12 USCIS-PM A.2 - Chapter 2 - Born in the United States and Becoming a U.S. Naturalized Citizen",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-a-chapter-2"
+          }
+        ],
+        "title": "Registration of Lawful Permanent Residence for Children Born to Foreign Government Employees in the United States",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260909-ChildrenOfForeignGovernmentEmployees.pdf"
+      },
+      {
+        "date": "August 31, 2026",
+        "summary": "This update rescinds a previous policy that restricted nonprofit organizations from participating in naturalization ceremonies. By allowing these organizations to assist with voter registration, new citizens will have immediate access to voting resources, enhancing civic engagement and ensuring that eligible voters can register promptly.",
+        "chapters": [
+          {
+            "title": "12 USC-PM J.5 - Chapter 5 - Administrative Naturalization Ceremonies",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-j-chapter-5"
+          }
+        ],
+        "title": "Non-Governmental, Nonpartisan Organization Voter Registration Services at Administrative Naturalization Ceremonies",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260831-VoterRegNatzCeremonies.pdf"
+      },
+      {
+        "date": "August 25, 2026",
+        "summary": "This guidance reintroduces personal investigations for naturalization applicants, emphasizing the need for thorough verification of applicants' information. This change aims to enhance the integrity of the naturalization process, potentially leading to more rigorous scrutiny of applications and impacting applicants who may need to provide additional evidence.",
+        "chapters": [
+          {
+            "title": "12 USCIS-PM B.1 - Chapter 1 - Purpose and Background",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-b-chapter-1"
+          },
+          {
+            "title": "12 USCIS-PM B.2 - Chapter 2 - Background Investigation and Security Checks",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-b-chapter-2"
+          },
+          {
+            "title": "12 USCIS-PM B.3 - Chapter 3 - Naturalization Examination",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-b-chapter-3"
+          }
+        ],
+        "title": "Investigations and Examinations for Naturalization Eligibility",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260825-InvestigationsForNatzEligibility.pdf"
+      },
+      {
+        "date": "August 18, 2026",
+        "summary": "This update revises the public charge inadmissibility guidance following the rescission of the 2022 Final Rule. The new guidance clarifies the criteria for determining public charge status, which may affect applicants' eligibility for various immigration benefits, thereby influencing their application strategies.",
+        "chapters": [
+          {
+            "title": "8 USCIS-PM G - Part G - Public Charge Ground of Inadmissibility",
+            "url": "https://www.uscis.gov/policy-manual/volume-8-part-g"
+          }
+        ],
+        "title": "Public Charge Ground of Inadmissibility",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260818-PublicChargeFinalRule.pdf"
+      },
+      {
+        "date": "August 12, 2026",
+        "summary": "This temporary update reinstates previous guidance allowing nonprofit organizations to assist in voter registration during naturalization ceremonies, pending litigation outcomes. This change ensures that new citizens can register to vote immediately, enhancing their civic participation.",
+        "chapters": [
+          {
+            "title": "12 USC-PM J.5 - Chapter 5 - Administrative Naturalization Ceremonies",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-j-chapter-5"
+          }
+        ],
+        "title": "Participation of Non-Governmental Organizations at Administrative Naturalization Ceremonies",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260812-VoterRegNatzCeremonies.pdf"
+      },
+      {
+        "date": "August 06, 2026",
+        "summary": "This update removes references to the Diplomatic List, which is no longer published. This change simplifies the policy manual and reflects current practices, ensuring that officers and applicants are aligned with the latest procedural standards.",
+        "chapters": [
+          {
+            "title": "7 USCIS-PM O.3 - Chapter 3 - Children Born in the United States to Foreign Government Employees",
+            "url": "https://www.uscis.gov/policy-manual/volume-7-part-o-chapter-3"
+          },
+          {
+            "title": "12 USCIS-PM H.3 - Chapter 3 - U.S. Citizens at Birth (INA 301 and 309)",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-h-chapter-3"
+          }
+        ],
+        "title": "Lists of Foreign Diplomatic Officers Accredited to the United States",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260806-ChildrenBornToForeignDiplomaticOfficer.pdf"
+      },
+      {
+        "date": "August 05, 2026",
+        "summary": "This guidance allows USCIS officers to recommend DNA testing as optional evidence to establish genetic relationships when primary evidence is lacking. This change provides applicants with an additional avenue to substantiate their claims, potentially easing the burden of proof in certain cases.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM E.6 - Chapter 6 - Evidence",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-e-chapter-6"
+          },
+          {
+            "title": "4 USCIS-PM C.4 - Chapter 4 - Documentation and Evidence",
+            "url": "https://www.uscis.gov/policy-manual/volume-4-part-c-chapter-4"
+          },
+          {
+            "title": "5 USCIS-PM C.7 - Chapter 7 - Documentation and Evidence",
+            "url": "https://www.uscis.gov/policy-manual/volume-5-part-c-chapter-7"
+          },
+          {
+            "title": "5 USCIS-PM D.3 - Chapter 3 - Identity and Age",
+            "url": "https://www.uscis.gov/policy-manual/volume-5-part-d-chapter-3"
+          },
+          {
+            "title": "12 USCIS-PM H.2 - Chapter 2 - Definition of Child and Residence for Citizenship and Naturalization",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-h-chapter-2"
+          }
+        ],
+        "title": "Suggesting DNA Testing When Issuing a Request for Additional Evidence",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-DNAEvidence.pdf"
+      },
+      {
+        "date": "August 05, 2026",
+        "summary": "This update revises the standards for evidence, RFEs, and NOIDs, aiming to clarify the expectations for applicants and the decision-making process for officers. This change may lead to more consistent application of evidentiary standards, impacting how applicants prepare their submissions.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM E.6 - Chapter 6 - Evidence",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-e-chapter-6"
+          },
+          {
+            "title": "1 USCIS-PM E.9 - Chapter 9 - Rendering a Decision",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-e-chapter-9"
+          },
+          {
+            "title": "1 USCIS-PM E.10 - Chapter 10 - Post-Decision Actions",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-e-chapter-10"
+          }
+        ],
+        "title": "Evidence, Requests for Evidence, and Notices of Intent to Deny",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-EvidentiaryStandards.pdf"
+      },
+      {
+        "date": "July 13, 2026",
+        "summary": "This update consolidates and updates guidance regarding the role of attorneys and representatives in immigration proceedings. By clarifying the responsibilities and conduct expected from legal representatives, this change aims to enhance the integrity of the representation process for applicants.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM D.1 - Chapter 1 - Purpose and Background",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-d-chapter-1"
+          },
+          {
+            "title": "1 USCIS-PM D.2 - Chapter 2 - Representation",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-d-chapter-2"
+          },
+          {
+            "title": "1 USCIS-PM D.3 - Chapter 3 - Other Representatives",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-d-chapter-3"
+          },
+          {
+            "title": "1 USCIS-PM D.4 - Chapter 4 - Establishing and Changing Representation",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-d-chapter-4"
+          },
+          {
+            "title": "1 USCIS-PM D.5 - Chapter 5 - Professional Conduct and Reporting Misconduct",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-d-chapter-5"
+          }
+        ],
+        "title": "Attorneys and Representatives",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260713-AttorneysAndRepresentatives.pdf"
+      },
+      {
+        "date": "July 10, 2026",
+        "summary": "This update clarifies the signature requirements for submitting immigration benefit requests, ensuring that applicants and their representatives understand the necessary documentation. This change aims to reduce errors in submissions and improve processing efficiency.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM B.2 - Chapter 2 - Signatures",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-b-chapter-2"
+          },
+          {
+            "title": "7 USCIS-PM A.3 - Chapter 3 - Filing Instructions",
+            "url": "https://www.uscis.gov/policy-manual/volume-7-part-a-chapter-3"
+          }
+        ],
+        "title": "Signature Requirements for the Submission of Benefit Requests",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260710-SignatureRequirements.pdf"
+      },
+      {
+        "date": "June 26, 2026",
+        "summary": "This update implements regulatory changes regarding the duration a nonimmigrant religious worker must remain outside the U.S. after reaching the maximum stay. This change aims to provide greater flexibility for religious organizations and their employees, potentially facilitating smoother transitions for those in religious roles.",
+        "chapters": [
+          {
+            "title": "2 USCIS-PM O.7 - Chapter 7 - Period of Stay",
+            "url": "https://www.uscis.gov/policy-manual/volume-2-part-o-chapter-7"
+          }
+        ],
+        "title": "Improving Continuity for Religious Organizations and Their Employees",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260626-ReligiousWorkersPeriodOfStay.pdf"
+      },
+      {
+        "date": "May 08, 2026",
+        "summary": "This update reaffirms the use of deferred action as a discretionary tool for USCIS. This clarification may impact applicants seeking relief from removal or other forms of immigration enforcement, as it emphasizes the agency's ability to exercise discretion in individual cases.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM I - Part I – Deferred Action",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-i"
+          }
+        ],
+        "title": "Deferred Action as an Extraordinary Use of Prosecutorial Discretion",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260508-DeferredAction.pdf"
+      },
+      {
+        "date": "February 03, 2026",
+        "summary": "This technical update revises footnotes in the Policy Manual to reflect the latest version of the U.S. Department of State’s Exchange Visitors Skills List. While primarily technical, it ensures that the policy manual remains current and accurate, which is essential for practitioners and applicants referencing this list.",
+        "chapters": [
+          {
+            "title": "2 USCIS-PM D.1 - Chapter 1 - Purpose and Background",
+            "url": "https://www.uscis.gov/policy-manual/volume-2-part-d-chapter-1"
+          },
+          {
+            "title": "2 USCIS-PM D.3 - Chapter 3 - Terms and Conditions of J Exchange Visitor Status",
+            "url": "https://www.uscis.gov/policy-manual/volume-2-part-d-chapter-3"
+          }
+        ],
+        "title": "Technical Update - 2024 U.S. Department of State Exchange Visitors Skills List",
+        "url": ""
+      },
+      {
+        "date": "December 22, 2025",
+        "summary": "This update clarifies the policies and requirements for aliens seeking classification as VAWA self-petitioners. By providing clearer guidelines, this change aims to facilitate the application process for survivors of domestic violence, ensuring they understand their rights and the necessary steps to seek relief.",
+        "chapters": [
+          {
+            "title": "3 USCIS-PM D.1 - Chapter 1 - Purpose and Background",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-1"
+          },
+          {
+            "title": "3 USCIS-PM D.2 - Chapter 2 - Eligibility Requirements and Evidence",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-2"
+          },
+          {
+            "title": "3 USCIS-PM D.3 - Chapter 3 - Effect of Certain Life Events",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-3"
+          },
+          {
+            "title": "3 USCIS-PM D.4 - Chapter 4 - Filing Requirements",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-4"
+          },
+          {
+            "title": "3 USCIS-PM D.5 - Chapter 5 - Adjudication",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-5"
+          },
+          {
+            "title": "3 USCIS-PM D.6 - Chapter 6 - Post-Adjudicative Matters",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-6"
+          }
+        ],
+        "title": "Violence Against Women Act",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20251222-VAWASelf-Petitioners.pdf"
+      },
+      {
+        "date": "December 22, 2025",
+        "summary": "This update clarifies the applicability of provisions under 8 U.S.C. 1367, which protect certain information for individuals seeking immigration relief. By resolving technical errors in safe address procedures, this change enhances the confidentiality protections for vulnerable populations, ensuring their safety during the immigration process.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM A.7 - Chapter 7 - Privacy and Confidentiality",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-a-chapter-7"
+          }
+        ],
+        "title": "Applicability of 8 U.S.C. 1367(a)(1) and (a)(2) Provisions",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20251222-VAWAConfidentiality.pdf"
+      }
+    ]
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-10T06:15:27.415Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-10T06:15:27.415Z"
+  },
+  "payload": {
+    "summary": "Recent updates to the USCIS Policy Manual reflect significant changes in immigration procedures, particularly regarding the registration of children born to foreign government employees, naturalization processes, and public charge inadmissibility. These changes aim to clarify eligibility criteria, enhance procedural integrity, and ensure compliance with legal standards, impacting applicants, practitioners, and USCIS officers alike.",
+    "title": "Key Policy Updates Overview",
+    "updates": [
+      {
+        "date": "September 09, 2026",
+        "summary": "This update introduces new policy guidance for registering children born to foreign government employees as lawful permanent residents. The inclusion of definitions for key terms clarifies the eligibility criteria, which will streamline the application process for affected families and provide clearer instructions for USCIS officers.",
+        "chapters": [
+          {
+            "title": "7 USCIS-PM O.3 - Chapter 3 - Children Born in the United States to Foreign Government Employees",
+            "url": "https://www.uscis.gov/policy-manual/volume-7-part-o-chapter-3"
+          },
+          {
+            "title": "12 USCIS-PM A.2 - Chapter 2 - Born in the United States and Becoming a U.S. Naturalized Citizen",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-a-chapter-2"
+          }
+        ],
+        "title": "Registration of Lawful Permanent Residence for Children Born to Foreign Government Employees in the United States",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260909-ChildrenOfForeignGovernmentEmployees.pdf"
+      },
+      {
+        "date": "August 31, 2026",
+        "summary": "This update rescinds a previous policy that restricted nonprofit organizations from participating in naturalization ceremonies. By allowing these organizations to assist with voter registration, new citizens will have immediate access to voting resources, enhancing civic engagement and ensuring that eligible voters can register promptly.",
+        "chapters": [
+          {
+            "title": "12 USC-PM J.5 - Chapter 5 - Administrative Naturalization Ceremonies",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-j-chapter-5"
+          }
+        ],
+        "title": "Non-Governmental, Nonpartisan Organization Voter Registration Services at Administrative Naturalization Ceremonies",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260831-VoterRegNatzCeremonies.pdf"
+      },
+      {
+        "date": "August 25, 2026",
+        "summary": "This guidance reintroduces personal investigations for naturalization applicants, emphasizing the need for thorough verification of applicants' information. This change aims to enhance the integrity of the naturalization process, potentially leading to more rigorous scrutiny of applications and impacting applicants who may need to provide additional evidence.",
+        "chapters": [
+          {
+            "title": "12 USCIS-PM B.1 - Chapter 1 - Purpose and Background",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-b-chapter-1"
+          },
+          {
+            "title": "12 USCIS-PM B.2 - Chapter 2 - Background Investigation and Security Checks",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-b-chapter-2"
+          },
+          {
+            "title": "12 USCIS-PM B.3 - Chapter 3 - Naturalization Examination",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-b-chapter-3"
+          }
+        ],
+        "title": "Investigations and Examinations for Naturalization Eligibility",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260825-InvestigationsForNatzEligibility.pdf"
+      },
+      {
+        "date": "August 18, 2026",
+        "summary": "This update revises the public charge inadmissibility guidance following the rescission of the 2022 Final Rule. The new guidance clarifies the criteria for determining public charge status, which may affect applicants' eligibility for various immigration benefits, thereby influencing their application strategies.",
+        "chapters": [
+          {
+            "title": "8 USCIS-PM G - Part G - Public Charge Ground of Inadmissibility",
+            "url": "https://www.uscis.gov/policy-manual/volume-8-part-g"
+          }
+        ],
+        "title": "Public Charge Ground of Inadmissibility",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260818-PublicChargeFinalRule.pdf"
+      },
+      {
+        "date": "August 12, 2026",
+        "summary": "This temporary update reinstates previous guidance allowing nonprofit organizations to assist in voter registration during naturalization ceremonies, pending litigation outcomes. This change ensures that new citizens can register to vote immediately, enhancing their civic participation.",
+        "chapters": [
+          {
+            "title": "12 USC-PM J.5 - Chapter 5 - Administrative Naturalization Ceremonies",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-j-chapter-5"
+          }
+        ],
+        "title": "Participation of Non-Governmental Organizations at Administrative Naturalization Ceremonies",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260812-VoterRegNatzCeremonies.pdf"
+      },
+      {
+        "date": "August 06, 2026",
+        "summary": "This update removes references to the Diplomatic List, which is no longer published. This change simplifies the policy manual and reflects current practices, ensuring that officers and applicants are aligned with the latest procedural standards.",
+        "chapters": [
+          {
+            "title": "7 USCIS-PM O.3 - Chapter 3 - Children Born in the United States to Foreign Government Employees",
+            "url": "https://www.uscis.gov/policy-manual/volume-7-part-o-chapter-3"
+          },
+          {
+            "title": "12 USCIS-PM H.3 - Chapter 3 - U.S. Citizens at Birth (INA 301 and 309)",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-h-chapter-3"
+          }
+        ],
+        "title": "Lists of Foreign Diplomatic Officers Accredited to the United States",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260806-ChildrenBornToForeignDiplomaticOfficer.pdf"
+      },
+      {
+        "date": "August 05, 2026",
+        "summary": "This guidance allows USCIS officers to recommend DNA testing as optional evidence to establish genetic relationships when primary evidence is lacking. This change provides applicants with an additional avenue to substantiate their claims, potentially easing the burden of proof in certain cases.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM E.6 - Chapter 6 - Evidence",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-e-chapter-6"
+          },
+          {
+            "title": "4 USCIS-PM C.4 - Chapter 4 - Documentation and Evidence",
+            "url": "https://www.uscis.gov/policy-manual/volume-4-part-c-chapter-4"
+          },
+          {
+            "title": "5 USCIS-PM C.7 - Chapter 7 - Documentation and Evidence",
+            "url": "https://www.uscis.gov/policy-manual/volume-5-part-c-chapter-7"
+          },
+          {
+            "title": "5 USCIS-PM D.3 - Chapter 3 - Identity and Age",
+            "url": "https://www.uscis.gov/policy-manual/volume-5-part-d-chapter-3"
+          },
+          {
+            "title": "12 USCIS-PM H.2 - Chapter 2 - Definition of Child and Residence for Citizenship and Naturalization",
+            "url": "https://www.uscis.gov/policy-manual/volume-12-part-h-chapter-2"
+          }
+        ],
+        "title": "Suggesting DNA Testing When Issuing a Request for Additional Evidence",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-DNAEvidence.pdf"
+      },
+      {
+        "date": "August 05, 2026",
+        "summary": "This update revises the standards for evidence, RFEs, and NOIDs, aiming to clarify the expectations for applicants and the decision-making process for officers. This change may lead to more consistent application of evidentiary standards, impacting how applicants prepare their submissions.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM E.6 - Chapter 6 - Evidence",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-e-chapter-6"
+          },
+          {
+            "title": "1 USCIS-PM E.9 - Chapter 9 - Rendering a Decision",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-e-chapter-9"
+          },
+          {
+            "title": "1 USCIS-PM E.10 - Chapter 10 - Post-Decision Actions",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-e-chapter-10"
+          }
+        ],
+        "title": "Evidence, Requests for Evidence, and Notices of Intent to Deny",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-EvidentiaryStandards.pdf"
+      },
+      {
+        "date": "July 13, 2026",
+        "summary": "This update consolidates and updates guidance regarding the role of attorneys and representatives in immigration proceedings. By clarifying the responsibilities and conduct expected from legal representatives, this change aims to enhance the integrity of the representation process for applicants.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM D.1 - Chapter 1 - Purpose and Background",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-d-chapter-1"
+          },
+          {
+            "title": "1 USCIS-PM D.2 - Chapter 2 - Representation",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-d-chapter-2"
+          },
+          {
+            "title": "1 USCIS-PM D.3 - Chapter 3 - Other Representatives",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-d-chapter-3"
+          },
+          {
+            "title": "1 USCIS-PM D.4 - Chapter 4 - Establishing and Changing Representation",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-d-chapter-4"
+          },
+          {
+            "title": "1 USCIS-PM D.5 - Chapter 5 - Professional Conduct and Reporting Misconduct",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-d-chapter-5"
+          }
+        ],
+        "title": "Attorneys and Representatives",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260713-AttorneysAndRepresentatives.pdf"
+      },
+      {
+        "date": "July 10, 2026",
+        "summary": "This update clarifies the signature requirements for submitting immigration benefit requests, ensuring that applicants and their representatives understand the necessary documentation. This change aims to reduce errors in submissions and improve processing efficiency.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM B.2 - Chapter 2 - Signatures",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-b-chapter-2"
+          },
+          {
+            "title": "7 USCIS-PM A.3 - Chapter 3 - Filing Instructions",
+            "url": "https://www.uscis.gov/policy-manual/volume-7-part-a-chapter-3"
+          }
+        ],
+        "title": "Signature Requirements for the Submission of Benefit Requests",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260710-SignatureRequirements.pdf"
+      },
+      {
+        "date": "June 26, 2026",
+        "summary": "This update implements regulatory changes regarding the duration a nonimmigrant religious worker must remain outside the U.S. after reaching the maximum stay. This change aims to provide greater flexibility for religious organizations and their employees, potentially facilitating smoother transitions for those in religious roles.",
+        "chapters": [
+          {
+            "title": "2 USCIS-PM O.7 - Chapter 7 - Period of Stay",
+            "url": "https://www.uscis.gov/policy-manual/volume-2-part-o-chapter-7"
+          }
+        ],
+        "title": "Improving Continuity for Religious Organizations and Their Employees",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260626-ReligiousWorkersPeriodOfStay.pdf"
+      },
+      {
+        "date": "May 08, 2026",
+        "summary": "This update reaffirms the use of deferred action as a discretionary tool for USCIS. This clarification may impact applicants seeking relief from removal or other forms of immigration enforcement, as it emphasizes the agency's ability to exercise discretion in individual cases.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM I - Part I – Deferred Action",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-i"
+          }
+        ],
+        "title": "Deferred Action as an Extraordinary Use of Prosecutorial Discretion",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260508-DeferredAction.pdf"
+      },
+      {
+        "date": "February 03, 2026",
+        "summary": "This technical update revises footnotes in the Policy Manual to reflect the latest version of the U.S. Department of State’s Exchange Visitors Skills List. While primarily technical, it ensures that the policy manual remains current and accurate, which is essential for practitioners and applicants referencing this list.",
+        "chapters": [
+          {
+            "title": "2 USCIS-PM D.1 - Chapter 1 - Purpose and Background",
+            "url": "https://www.uscis.gov/policy-manual/volume-2-part-d-chapter-1"
+          },
+          {
+            "title": "2 USCIS-PM D.3 - Chapter 3 - Terms and Conditions of J Exchange Visitor Status",
+            "url": "https://www.uscis.gov/policy-manual/volume-2-part-d-chapter-3"
+          }
+        ],
+        "title": "Technical Update - 2024 U.S. Department of State Exchange Visitors Skills List",
+        "url": ""
+      },
+      {
+        "date": "December 22, 2025",
+        "summary": "This update clarifies the policies and requirements for aliens seeking classification as VAWA self-petitioners. By providing clearer guidelines, this change aims to facilitate the application process for survivors of domestic violence, ensuring they understand their rights and the necessary steps to seek relief.",
+        "chapters": [
+          {
+            "title": "3 USCIS-PM D.1 - Chapter 1 - Purpose and Background",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-1"
+          },
+          {
+            "title": "3 USCIS-PM D.2 - Chapter 2 - Eligibility Requirements and Evidence",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-2"
+          },
+          {
+            "title": "3 USCIS-PM D.3 - Chapter 3 - Effect of Certain Life Events",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-3"
+          },
+          {
+            "title": "3 USCIS-PM D.4 - Chapter 4 - Filing Requirements",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-4"
+          },
+          {
+            "title": "3 USCIS-PM D.5 - Chapter 5 - Adjudication",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-5"
+          },
+          {
+            "title": "3 USCIS-PM D.6 - Chapter 6 - Post-Adjudicative Matters",
+            "url": "https://www.uscis.gov/policy-manual/volume-3-part-d-chapter-6"
+          }
+        ],
+        "title": "Violence Against Women Act",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20251222-VAWASelf-Petitioners.pdf"
+      },
+      {
+        "date": "December 22, 2025",
+        "summary": "This update clarifies the applicability of provisions under 8 U.S.C. 1367, which protect certain information for individuals seeking immigration relief. By resolving technical errors in safe address procedures, this change enhances the confidentiality protections for vulnerable populations, ensuring their safety during the immigration process.",
+        "chapters": [
+          {
+            "title": "1 USCIS-PM A.7 - Chapter 7 - Privacy and Confidentiality",
+            "url": "https://www.uscis.gov/policy-manual/volume-1-part-a-chapter-7"
+          }
+        ],
+        "title": "Applicability of 8 U.S.C. 1367(a)(1) and (a)(2) Provisions",
+        "url": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20251222-VAWAConfidentiality.pdf"
+      }
+    ]
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-10T06:15:27.418Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a02917191fde53d5d370982"
+  },
+  "domain": "uscis-sentinel",
+  "category": "visa-bulletin",
+  "resourceId": "filing-charts",
+  "supplementalResources": {},
+  "lastKnownVersion": "September 2026",
+  "lastKnownHash": "3bfbe06108198a68e188c1f63a27050c4919d67c88170c4aaea7f948b97d6685",
+  "changeType": "VISA_BULLETIN_UPDATE",
+  "summary": "Visa Bulletin: Significant Visa Bulletin Movements for September 2026 (September 2026)",
+  "changeDetected": true,
+  "lastAnalysis": {
+    "summary": "The September 2026 Visa Bulletin reveals notable advancements in several family-sponsored categories, while employment-based categories show stability with no significant changes. The Family-Sponsored categories, particularly for siblings and spouses, have seen substantial movement, indicating a potential easing of backlogs.",
+    "highlights": [
+      {
+        "category": "F2A (Spouses and Children of Permanent Residents)",
+        "analysis": "This advancement may significantly reduce waiting times for applicants, allowing more families to reunite sooner.",
+        "movement": "Advanced 6 months"
+      },
+      {
+        "category": "F4 (Siblings of U.S. Citizens)",
+        "analysis": "The substantial movement in this category suggests a positive trend in processing times, benefiting many long-waiting applicants.",
+        "movement": "Advanced 8 months"
+      },
+      {
+        "category": "EB-1 (Employment-Based First Preference)",
+        "analysis": "The stability in this category indicates a consistent availability of visas, reflecting ongoing demand and processing efficiency.",
+        "movement": "Remains Current"
+      },
+      {
+        "category": "EB-2 (Employment-Based Second Preference)",
+        "analysis": "No movement suggests a stable backlog, allowing applicants to plan accordingly without immediate concerns of retrogression.",
+        "movement": "Remains Current"
+      }
+    ],
+    "determination": "USCIS has authorized Dates for Filing for Family-Sponsored categories and Final Action Dates for Employment-Based categories.",
+    "title": "Significant Visa Bulletin Movements for September 2026",
+    "actionableAdvice": "Current applicants should prepare their documentation and applications promptly, especially in the advancing Family-Sponsored categories, to take advantage of the improved processing times."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-02T06:20:05.233Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-02T06:20:05.233Z"
+  },
+  "payload": {
+    "summary": "The September 2026 Visa Bulletin reveals notable advancements in several family-sponsored categories, while employment-based categories show stability with no significant changes. The Family-Sponsored categories, particularly for siblings and spouses, have seen substantial movement, indicating a potential easing of backlogs.",
+    "familyDetermination": {
+      "chartType": "Dates for Filing",
+      "url": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2026/visa-bulletin-for-september-2026.html"
+    },
+    "employmentDetermination": {
+      "chartType": "Final Action Dates",
+      "url": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2026/visa-bulletin-for-september-2026.html"
+    },
+    "nextMonthStatus": "COMING_SOON",
+    "year": "2026",
+    "employmentFinalActionTable": null,
+    "familyFinalActionTable": null,
+    "determination": "USCIS has authorized Dates for Filing for Family-Sponsored categories and Final Action Dates for Employment-Based categories.",
+    "title": "Significant Visa Bulletin Movements for September 2026",
+    "actionableAdvice": "Current applicants should prepare their documentation and applications promptly, especially in the advancing Family-Sponsored categories, to take advantage of the improved processing times.",
+    "familyDatesForFilingTable": null,
+    "highlights": [
+      {
+        "category": "F2A (Spouses and Children of Permanent Residents)",
+        "analysis": "This advancement may significantly reduce waiting times for applicants, allowing more families to reunite sooner.",
+        "movement": "Advanced 6 months"
+      },
+      {
+        "category": "F4 (Siblings of U.S. Citizens)",
+        "analysis": "The substantial movement in this category suggests a positive trend in processing times, benefiting many long-waiting applicants.",
+        "movement": "Advanced 8 months"
+      },
+      {
+        "category": "EB-1 (Employment-Based First Preference)",
+        "analysis": "The stability in this category indicates a consistent availability of visas, reflecting ongoing demand and processing efficiency.",
+        "movement": "Remains Current"
+      },
+      {
+        "category": "EB-2 (Employment-Based Second Preference)",
+        "analysis": "No movement suggests a stable backlog, allowing applicants to plan accordingly without immediate concerns of retrogression.",
+        "movement": "Remains Current"
+      }
+    ],
+    "month": "September",
+    "employmentDatesForFilingTable": null
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-02T06:20:05.234Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a00cf1494a2075a05450f"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-485",
+  "displayName": "I-485, Application to Register Permanent Residence or Adjust Status",
+  "agentTaskId": "69b591a7335da35d18c7b352",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-485.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-485instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "09/04/26",
+  "effectiveDate": "09/04/26",
+  "lastKnownHash": "4b9c1ecf820d2b8594300f34440c285902ca9d5277124bf13f011f617a2455b7",
+  "lastKnownInstructionsHash": "9ccc22fe8ab94b4d910d0e0b5f222b6f01341786ba0f518166c4b79a9ba3f260",
+  "documentId": "60e3e7c2-9059-496c-9752-2dde62013754",
+  "instructionsDocumentId": "f9d08144-a914-4396-a022-488683ef9067",
+  "oldDocumentId": "60e3e7c2-9059-496c-9752-2dde62013754",
+  "oldInstructionsDocumentId": "f9d08144-a914-4396-a022-488683ef9067",
+  "changeType": "FORM_UPDATE",
+  "summary": "No material changes detected for Form I-485. Monitoring is active and up-to-date.",
+  "changeDetected": false,
+  "lastAnalysis": "{ \"status\": \"NO_CHANGE\", \"changeDetected\": false, \"details\": \"The surveillance check for Form I-485 was successful. No document content updates were found during this cycle.\" }",
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:00:05.876Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:00:05.876Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:00:05.877Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a01a71494a2075a054511"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-130",
+  "displayName": "I-130, Petition for Alien Relative",
+  "agentTaskId": "69c0841b71ba477c76b154d1",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-130.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-130instr.pdf",
+  "supplementalResources": {
+    "i130a": {
+      "name": "I-130A Supplemental",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/i-130a.pdf",
+      "hash": "1d2b2ca97b28abcd2c7e0d336396218b50d582c66450baddfbfda4ee7e779d18",
+      "documentId": "7747a882-273f-4eb6-8b45-97be258531d2"
+    }
+  },
+  "lastKnownVersion": "04/01/24",
+  "effectiveDate": "04/01/24",
+  "lastKnownHash": "7fc733d4639995d6ad4798f1031464d044bd0da4233caa4ada886e79e762a88f",
+  "lastKnownInstructionsHash": "8d1f0eeeab76c2f94964971170e5e9a79895b570c28feb164c28f448666cf29b",
+  "documentId": "33b24979-2821-405f-a34c-d71746ceec09",
+  "instructionsDocumentId": "57f2e9fe-102e-4525-816e-9053bedd2d0e",
+  "oldDocumentId": "33b24979-2821-405f-a34c-d71746ceec09",
+  "oldInstructionsDocumentId": "57f2e9fe-102e-4525-816e-9053bedd2d0e",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-130 scan completed - No version changes found for Relative Petition.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-130 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:05:09.491Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:05:09.491Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:05:09.491Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a02261494a2075a054513"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-131",
+  "displayName": "I-131, Application for Travel Documents, Parole Documents, and Arrival/Departure Records",
+  "agentTaskId": "69c0867371ba477c76b154d9",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-131.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-131instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "01/20/25",
+  "effectiveDate": "01/20/25",
+  "lastKnownHash": "e177bbae35c3df634e7269f1094c93a11c6edf6849fa5fe66fbe3726498d59b5",
+  "lastKnownInstructionsHash": "ab1a23d11fbd7b0f2993724ef29b0d20d5e40ea70d3a7bdc5e9ab2fb15f987f5",
+  "documentId": "63aaa0ff-74e8-4f7d-8f09-c57a146adcc3",
+  "instructionsDocumentId": "e8115b49-62f3-4ca8-851b-eeb656832e7d",
+  "oldDocumentId": "63aaa0ff-74e8-4f7d-8f09-c57a146adcc3",
+  "oldInstructionsDocumentId": "e8115b49-62f3-4ca8-851b-eeb656832e7d",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-131 scan completed - No version changes found for Travel Documents.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-131 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:10:04.869Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:10:04.869Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:10:04.869Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a02911494a2075a054515"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-751",
+  "displayName": "I-751, Petition to Remove Conditions on Residence",
+  "agentTaskId": "69c1437971ba477c76b154e7",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-751.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-751instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "04/01/24",
+  "effectiveDate": "04/01/24",
+  "lastKnownHash": "064f773369f0bda068e3a4fbe1a1c6447a8830cfd6777a8d5a81148be5a36510",
+  "lastKnownInstructionsHash": "106d7eb1d2a5c7cf804848b6afdc696dbef70d0ef5ec462126221e98ae9c23c1",
+  "documentId": "675fa1e8-f95f-43ef-ad8a-d6876d3ec2b2",
+  "instructionsDocumentId": "8e427f70-d0f1-4d3d-b80a-6b724ced647c",
+  "oldDocumentId": "675fa1e8-f95f-43ef-ad8a-d6876d3ec2b2",
+  "oldInstructionsDocumentId": "8e427f70-d0f1-4d3d-b80a-6b724ced647c",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-751 scan completed - No version changes found for Conditional Residence Removal.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-751 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:15:04.560Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:15:04.560Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:15:04.560Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a03361494a2075a054517"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-765",
+  "displayName": "I-765, Application for Employment Authorization",
+  "agentTaskId": "69c361941d09b01d8338f92f",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-765.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-765instr.pdf",
+  "supplementalResources": {
+    "i765ws": {
+      "name": "I-765 Worksheet",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/i-765ws.pdf",
+      "hash": "d79f9b55ee1ad2abb8cd5337865ef1c0b073d26e79cbd6b18daa39382bf487bd",
+      "documentId": "dc685e66-364b-4e5a-87e4-92e5123bd514"
+    }
+  },
+  "lastKnownVersion": "09/15/26",
+  "effectiveDate": "09/15/26",
+  "lastKnownHash": "9ac0eae287749d4c2dfa0a591f464cc2124c18647c10e999b59484f090e0dc7d",
+  "lastKnownInstructionsHash": "2bf87fd107831352d2ceec4c32ebadf11f9f4b5ada6e8a9acc793d3dfe5be10f",
+  "documentId": "7f6ee871-7fff-4275-9824-b8c66f07870c",
+  "instructionsDocumentId": "ddac6cd7-1cb2-4167-923a-e1a4fff6ad1f",
+  "oldDocumentId": "7f6ee871-7fff-4275-9824-b8c66f07870c",
+  "oldInstructionsDocumentId": "ddac6cd7-1cb2-4167-923a-e1a4fff6ad1f",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-765 scan completed - No version changes found for Employment Authorization.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-765 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:20:06.579Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:20:06.579Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:20:06.580Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a03a21494a2075a054519"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-864",
+  "displayName": "I-864, Affidavit of Support Under Section 213A of the INA",
+  "agentTaskId": "69c36a6ffcd4c97102321c5a",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-864.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-864instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "08/24/26",
+  "effectiveDate": "08/24/26",
+  "lastKnownHash": "ddf0b845399ef4ad252468f41820eddf8a726bb982d032bb6fc4a861f2c08130",
+  "lastKnownInstructionsHash": "be54e93f712da6422ad740cf34d6e0f2640377792cf47c2f30dc347b6d0f0e08",
+  "documentId": "129dc3c4-84b5-4e43-91de-42fa61428ddb",
+  "instructionsDocumentId": "4d40fc90-0bc3-4460-abfa-70a8c81726aa",
+  "oldDocumentId": "129dc3c4-84b5-4e43-91de-42fa61428ddb",
+  "oldInstructionsDocumentId": "4d40fc90-0bc3-4460-abfa-70a8c81726aa",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-864 scan completed - No version changes found for Affidavit of Support.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-864 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:25:03.529Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:25:03.529Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:25:03.529Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a04bb1494a2075a05451b"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-9",
+  "displayName": "I-9, Employment Eligibility Verification",
+  "agentTaskId": "69c3735780b59b70c39b8bc3",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-9.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-9instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "01/20/25",
+  "effectiveDate": "01/20/25",
+  "lastKnownHash": "780f348c34df694bb0b4dbbfaf9f22b99b9757b80d16a37ba89aadf069597281",
+  "lastKnownInstructionsHash": "c66c3818fbecbfb87b5f0560f4dfd4086905daf72ca29dba15ce4c8d49dc4ca3",
+  "documentId": "e0581fe4-7b84-4736-b410-a09b5643d8b8",
+  "instructionsDocumentId": "0f657675-45f7-4e24-9f23-3c03f68c59d1",
+  "oldDocumentId": "e0581fe4-7b84-4736-b410-a09b5643d8b8",
+  "oldInstructionsDocumentId": "0f657675-45f7-4e24-9f23-3c03f68c59d1",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-9 scan completed - No version changes found for Employment Eligibility.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-9 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:30:11.464Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:30:11.464Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:30:11.465Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a9b761494a2075a05451e"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-90",
+  "displayName": "I-90, Application to Replace Permanent Resident Card (Green Card)",
+  "agentTaskId": "69c379b2fcd4c97102321d80",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-90.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-90instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "01/20/25",
+  "effectiveDate": "01/20/25",
+  "lastKnownHash": "fd436062284fd572224509e0e17a795f915734f7e7c0fca8a161d0a9976f83a0",
+  "lastKnownInstructionsHash": "86904a56f7c971d736d9298b98fa42b2a4ae752725b19cb5973796bea1f5669c",
+  "documentId": "43664728-4ca0-4170-9215-2a4f132dee37",
+  "instructionsDocumentId": "1140a1bf-a42b-46c0-9577-b1ce1ecb7930",
+  "oldDocumentId": "43664728-4ca0-4170-9215-2a4f132dee37",
+  "oldInstructionsDocumentId": "1140a1bf-a42b-46c0-9577-b1ce1ecb7930",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-90 scan completed - No version changes found for Green Card Replacement.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-90 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:35:10.577Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:35:10.577Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:35:10.578Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a9be91494a2075a054520"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "N-400",
+  "displayName": "N-400, Application for Naturalization",
+  "agentTaskId": "69c41ff580b59b70c39b8e13",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/n-400.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/n-400instr.pdf",
+  "supplementalResources": {
+    "g1151": {
+      "name": "G-1151 Notification",
+      "url": "https://www.uscis.gov/sites/default/files/document/guides/G-1151.pdf",
+      "hash": "746dbf855cf1511b70e84cd5acbcd006478b7e156cf0d752be5af1e6c2b50c23",
+      "documentId": "be40284f-8ae8-4804-93ef-ca7bb67e8759"
+    }
+  },
+  "lastKnownVersion": "01/20/25",
+  "effectiveDate": "01/20/25",
+  "lastKnownHash": "8b33868ba071e261bf5e8d87d9667860d1f6d2c4de76101eb1e674404a82d909",
+  "lastKnownInstructionsHash": "26fd4c556eb7c75b13cbc3e864f18773ab390c9827b0a1a34d23090cd00089d2",
+  "documentId": "14fad677-5971-4699-b141-c7a388cda164",
+  "instructionsDocumentId": "7749bc07-e55c-42fe-a063-30ffb4f39495",
+  "oldDocumentId": "14fad677-5971-4699-b141-c7a388cda164",
+  "oldInstructionsDocumentId": "7749bc07-e55c-42fe-a063-30ffb4f39495",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form N-400 scan completed - No residency or eligibility changes detected.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form N-400 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:40:08.010Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:40:08.010Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:40:08.011Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a9cae1494a2075a054523"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-129F",
+  "displayName": "I-129F, Petition for Alien Fiancé(e)",
+  "agentTaskId": "69c4288b72d4a82240eaefd4",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-129f.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-129finstr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "01/20/25",
+  "effectiveDate": "01/20/25",
+  "lastKnownHash": "a130977a518cbea52ced097c4e95aac9655a1c6d4342eafe2ccfb7c2fb31e881",
+  "lastKnownInstructionsHash": "242a9957e4dda33722fe5ae795faee5c511f0de37cdd3d78f24bb2e365c1444f",
+  "documentId": "55bd6fd5-4353-4227-9dbf-50a8c4313ffd",
+  "instructionsDocumentId": "f1c1a20d-0f9e-42f3-851c-51c8af985732",
+  "oldDocumentId": "55bd6fd5-4353-4227-9dbf-50a8c4313ffd",
+  "oldInstructionsDocumentId": "f1c1a20d-0f9e-42f3-851c-51c8af985732",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-129F scan completed - No version changes found for Fiancé(e) Petition.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-129F was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:45:06.164Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:45:06.164Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:45:06.164Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a9d121494a2075a054525"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-140",
+  "displayName": "I-140, Immigrant Petition for Alien Workers",
+  "agentTaskId": "69c454f672d4a82240eaf283",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-140.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-140instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "06/07/24",
+  "effectiveDate": "06/07/24",
+  "lastKnownHash": "a3b850b99cf74edf751d0cdffe82dfcd19bfc089eaa29f9ab80765f2b5a08af9",
+  "lastKnownInstructionsHash": "79932ae141a163e30a98a309f2fb7141604244dc082dc6c87d038acba9c32a1f",
+  "documentId": "ac3ac34f-b469-4ac9-b80b-98af76e294bc",
+  "instructionsDocumentId": "fa0dc3d5-15e2-4455-935e-91d1d88c85a3",
+  "oldDocumentId": "ac3ac34f-b469-4ac9-b80b-98af76e294bc",
+  "oldInstructionsDocumentId": "fa0dc3d5-15e2-4455-935e-91d1d88c85a3",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-140 scan completed - No version changes found for Worker Petition.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-140 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:50:05.117Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:50:05.117Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:50:05.117Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a9d931494a2075a054527"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-360",
+  "displayName": "I-360, Petition for Amerasian, Widow(er), or Special Immigrant",
+  "agentTaskId": "69c45b134bee6707e43f1f34",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-360.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-360instr.pdf",
+  "supplementalResources": {
+    "m737": {
+      "name": "M-737 Checklist",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/m-737.pdf",
+      "hash": "8a9ef0ce1caa03d57e93a82cd30569ea41e71552e56aa221442bc47847bbb2db",
+      "documentId": "1aecb584-17ca-450c-82b8-b60390ae3252"
+    }
+  },
+  "lastKnownVersion": "01/20/25",
+  "effectiveDate": "01/20/25",
+  "lastKnownHash": "cbe6fa2e031885452459be4870742dc84b6ec337f7c2696c8f2f94e91fbf4f38",
+  "lastKnownInstructionsHash": "0963acbb4446fd6489f0da006464814d14e07f1b19c95a184403f7f8e64cd19f",
+  "documentId": "7b3319c2-8981-42da-869a-f701e073c2de",
+  "instructionsDocumentId": "c5a8f225-190e-4d2c-9717-5a0d69b95791",
+  "oldDocumentId": "7b3319c2-8981-42da-869a-f701e073c2de",
+  "oldInstructionsDocumentId": "c5a8f225-190e-4d2c-9717-5a0d69b95791",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-360 scan completed - No special immigrant protocol changes detected.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-360 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T07:55:07.085Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T07:55:07.085Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T07:55:07.085Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a9e671494a2075a054529"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-129",
+  "displayName": "I-129, Petition for a Nonimmigrant Worker",
+  "agentTaskId": "69c5a2074bee6707e43f24a9",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-129.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-129instr.pdf",
+  "supplementalResources": {
+    "m1087": {
+      "name": "H-2B Checklist",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/m-1087.pdf",
+      "hash": "ebb1558944563e8ba0e2361812d7e056f13cfdc95fd10979fd7ae8d00f499b4a",
+      "documentId": "e9a332e0-1c9e-4070-9818-89609941c4ed"
+    },
+    "m1097": {
+      "name": "H-2A Checklist",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/m-1097.pdf",
+      "hash": "746818131a4ab893ac46831f453bb91fd11c2ce3a14e4116ac8ca82b67805008",
+      "documentId": "f81c5fee-55ec-4b38-ae9e-73ea76ba3492"
+    },
+    "m735": {
+      "name": "H-1B Checklist",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/m-735.pdf",
+      "hash": "8def32a4289b945525851a7cf8d9f9397119a4a42490557fa751f201e4aa53b4",
+      "documentId": "4547f9e0-fb86-4e3d-bd5a-20b86a1bf295"
+    },
+    "m746": {
+      "name": "DOT Codes Dictionary",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/m-746.pdf",
+      "hash": "1e771a5970007f052ffe8e41a7e3ba948f0075b857327da02ec4ba963a0b6c97",
+      "documentId": "e59f914d-fc6d-42ea-ac92-be4b34364579"
+    },
+    "i129h2a": {
+      "name": "Form I-129H2A",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/i-129h2a.pdf",
+      "hash": "7e109158ca8193aa79404c1c11b6aaf4f9c1c2e57c6dd05025e82c34781ec80e",
+      "documentId": "f642a550-60cc-4f83-99a1-81f776f633fd"
+    },
+    "i129h2ainstr": {
+      "name": "Instructions I-129H2A",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/i-129h2ainstr.pdf",
+      "hash": "e2e39dc2ca3622eeef7635b0912372a45a672140ecd74ac7574556793696f17d",
+      "documentId": "6f7eb625-5bb6-4ff8-a3bf-c3a9bb1445fc"
+    },
+    "m736": {
+      "name": "R-1 Checklist",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/m-736.pdf",
+      "hash": "8d5ab6f676cc4f858b4f4eb29fe34047540236d4a32bf4ec8c6eb2e961a75a1f",
+      "documentId": "e49c0e58-82f9-4afd-9f28-adf522548170"
+    }
+  },
+  "lastKnownVersion": "09/09/26",
+  "effectiveDate": "09/09/26",
+  "lastKnownHash": "32c309d2585cb2818a3def7975541919b1b4c3e87a7c10823599af954567e8e1",
+  "lastKnownInstructionsHash": "668887293660cf9c6a2fe63fc15371351b90f5db90f2200f7ff394fea91f22d2",
+  "documentId": "cdb0b983-6728-45a4-89bf-0091480435cf",
+  "instructionsDocumentId": "7d402351-45d1-4eae-ac8b-93b78cef79a5",
+  "oldDocumentId": "cdb0b983-6728-45a4-89bf-0091480435cf",
+  "oldInstructionsDocumentId": "7d402351-45d1-4eae-ac8b-93b78cef79a5",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-129 suite scan completed - No nonimmigrant classification shifts detected.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-129 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T08:05:20.371Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T08:05:20.371Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T08:05:20.371Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a9e821494a2075a05452b"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-600",
+  "displayName": "I-600, Petition to Classify Orphan as an Immediate Relative",
+  "agentTaskId": "69c55d8d72d4a82240eaf787",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-600.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-600instr.pdf",
+  "supplementalResources": {
+    "supp1": {
+      "name": "Supplement 1",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/i-600asup1.pdf",
+      "hash": "d6cb409521f49e625fdb5cba45863f90229a1674cbd45e037eb40abea174f376",
+      "documentId": "2977f889-9887-4091-b6f5-b3dd2cd1e04b"
+    },
+    "supp3": {
+      "name": "Supplement 3",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/i-600asup3.pdf",
+      "hash": "4fefb27e24100b800e7f395c8988916a8f211386e0edb83a421215e8f6bc7136",
+      "documentId": "e2c7bc8d-9507-4dc6-8b86-3b2942426c2f"
+    },
+    "supp2": {
+      "name": "Supplement 2",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/i-600asup2.pdf",
+      "hash": "d47f6ec287c9237d9287fa54a9c16c013b3d4c35927cfa9bf8b705a17169a27f",
+      "documentId": "6bcbe1a8-fa06-4ca1-91aa-eeb86a0d0d54"
+    }
+  },
+  "lastKnownVersion": "01/20/25",
+  "effectiveDate": "01/20/25",
+  "lastKnownHash": "6c5ec0d0cbfc9466e0b86dacb65da5678e9c6aa618706aeb7ce0b2c50834649d",
+  "lastKnownInstructionsHash": "8e75f1ce4d7185a996c5f163d77ec087032602cc6e2186d36cde8155ee265921",
+  "documentId": "8013bd1c-9408-409e-b517-e6410caf9860",
+  "instructionsDocumentId": "dd325404-2a6c-4b7e-88c3-0d0f8fca0a9b",
+  "oldDocumentId": "8013bd1c-9408-409e-b517-e6410caf9860",
+  "oldInstructionsDocumentId": "dd325404-2a6c-4b7e-88c3-0d0f8fca0a9b",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-600 scan completed - No orphan classification protocol changes detected.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-600 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T08:00:12.050Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T08:00:12.050Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T08:00:12.050Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a9eea1494a2075a05452d"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-526",
+  "displayName": "I-526, Immigrant Petition by Standalone Investor",
+  "agentTaskId": "69c5ad574bee6707e43f28ad",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-526.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-526instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "01/20/25",
+  "effectiveDate": "01/20/25",
+  "lastKnownHash": "a1cb839c02421f0fc89d7b52603dba4ea09e4e2ad947d341ef4dce48ae06e51e",
+  "lastKnownInstructionsHash": "caba62ddaa234cd9860bd13fc5d1b1d5d86ec7186469cdfba46149d6004ca3cf",
+  "documentId": "53340bab-1093-401c-be6f-bb68bc55d7b5",
+  "instructionsDocumentId": "5659792f-b1a8-493d-8ebe-9982fae7c0ce",
+  "oldDocumentId": "53340bab-1093-401c-be6f-bb68bc55d7b5",
+  "oldInstructionsDocumentId": "5659792f-b1a8-493d-8ebe-9982fae7c0ce",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-526 scan completed - No investment protocol changes detected.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-526 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T08:10:04.875Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T08:10:04.875Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T08:10:04.875Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a9f421494a2075a05452f"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-539",
+  "displayName": "I-539, Application to Extend/Change Nonimmigrant Status",
+  "agentTaskId": "69c5b8a04bee6707e43f2901",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-539.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-539instr.pdf",
+  "supplementalResources": {
+    "m752": {
+      "name": "Filing Tips (M-752)",
+      "url": "https://www.uscis.gov/sites/default/files/document/tips/m-752.pdf",
+      "hash": "951325568f5d1cedb37fd501ac973242ecb7c279f42741d40590b3285f2e8a5a",
+      "documentId": "563cbcee-bad5-4eba-ac72-da0819ec5b4e"
+    },
+    "i539a": {
+      "name": "Form I-539A Supplemental",
+      "url": "https://www.uscis.gov/sites/default/files/document/forms/i-539a.pdf",
+      "hash": "b9e6ebd14072338b642bf5dba080f3532ec2671b7887f3694f417685b5cca885",
+      "documentId": "1b9a85a2-7a5c-44fa-8fbf-e722e1074970"
+    }
+  },
+  "lastKnownVersion": "09/15/26",
+  "effectiveDate": "09/15/26",
+  "lastKnownHash": "1bc54433340995d37eaba60f6975ee501f4e4e635e1ff63eee8ad3f9ae1bd81f",
+  "lastKnownInstructionsHash": "e6848ad2e3a33a548ba37ecc792d2c7eee42d28c548bae355f96822acd2198db",
+  "documentId": "44779920-7699-4110-be93-e855e0cdd38a",
+  "instructionsDocumentId": "4941e80c-3b7e-4ec9-b896-87700b38ba97",
+  "oldDocumentId": "44779920-7699-4110-be93-e855e0cdd38a",
+  "oldInstructionsDocumentId": "4941e80c-3b7e-4ec9-b896-87700b38ba97",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-539 suite scan completed - No status extension protocols changed.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-539 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T08:15:07.322Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T08:15:07.322Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T08:15:07.323Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0a9fbe1494a2075a054531"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-589",
+  "displayName": "I-589, Application for Asylum and for Withholding of Removal",
+  "agentTaskId": "69c68aba72d4a82240eb0a91",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-589.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-589instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "07/28/26",
+  "effectiveDate": "07/28/26",
+  "lastKnownHash": "0972de7bf892d7bd15d6f790b85b51c8c26da36ff02a8b15c050563060491eff",
+  "lastKnownInstructionsHash": "9186cb4087055515fb3aa4064293d6532b6a7946cd4ec4f640450c898945237a",
+  "documentId": "e8496608-44e5-4219-b863-c8000cd3dab9",
+  "instructionsDocumentId": "4deeb09e-ce83-426f-8a6d-cb5fb940bffd",
+  "oldDocumentId": "e8496608-44e5-4219-b863-c8000cd3dab9",
+  "oldInstructionsDocumentId": "4deeb09e-ce83-426f-8a6d-cb5fb940bffd",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-589 suite scan completed - No humanitarian protocol changes detected.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The surveillance check for Form I-589 was completed. No document content updates were found during this cycle."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T08:20:04.654Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T08:20:04.654Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T08:20:04.654Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0aa0151494a2075a054533"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-730",
+  "displayName": "I-730, Refugee/Asylee Relative Petition",
+  "agentTaskId": "69c6a70572d4a82240eb0c91",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-730.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-730instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "01/20/25",
+  "effectiveDate": "01/20/25",
+  "lastKnownHash": "f1d52829a676d6a7d03a9bee500ed1eacbbb9ead0896ddd5a54a2fdda09bd59b",
+  "lastKnownInstructionsHash": "78f5f8928e12f07f66efb14ef8d1b49ae48b121a85fe415c0e65d4d97c533de4",
+  "documentId": "8feb8315-7b67-400b-9d20-9d5dbf529005",
+  "instructionsDocumentId": "b62721f5-09d1-4262-846a-886aa1822993",
+  "oldDocumentId": "8feb8315-7b67-400b-9d20-9d5dbf529005",
+  "oldInstructionsDocumentId": "b62721f5-09d1-4262-846a-886aa1822993",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-730 suite scan completed - No family reunification protocol changes detected.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The family coordination protocol scan found no version updates."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T08:25:05.572Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T08:25:05.572Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T08:25:05.572Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0aa0701494a2075a054535"
+  },
+  "domain": "uscis-sentinel",
+  "category": "forms",
+  "resourceId": "I-821",
+  "displayName": "I-821, Application for Temporary Protected Status",
+  "agentTaskId": "69c6aa7572d4a82240eb0dd0",
+  "resourceUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-821.pdf",
+  "instructionsUrl": "https://www.uscis.gov/sites/default/files/document/forms/i-821instr.pdf",
+  "supplementalResources": {},
+  "lastKnownVersion": "01/20/25",
+  "effectiveDate": "01/20/25",
+  "lastKnownHash": "d6281d7ee4699228744e2cee80590d222d92a6c9e87eb86d657f0cd683ea91d3",
+  "lastKnownInstructionsHash": "0391192c52fd86ddb4ea7b12723133e1bdfb2af21730286126cdac9778ed05f3",
+  "documentId": "278b77c1-9b73-4d56-9de1-888f8b3ad6ea",
+  "instructionsDocumentId": "9fe7cbbe-ee22-4dc1-af5f-9eb4d4192974",
+  "oldDocumentId": "278b77c1-9b73-4d56-9de1-888f8b3ad6ea",
+  "oldInstructionsDocumentId": "9fe7cbbe-ee22-4dc1-af5f-9eb4d4192974",
+  "changeType": "FORM_UPDATE",
+  "summary": "USCIS Form I-821 scan completed - No TPS protocol changes detected.",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "status": "NO_CHANGE",
+    "changeDetected": false,
+    "details": "The TPS protocol scan found no version updates."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-09-11T08:30:12.204Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-09-11T08:30:12.204Z"
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-09-11T08:30:12.204Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+},
+{
+  "_id": {
+    "$oid": "6a0aa18d1494a2075a054537"
+  },
+  "domain": "uscis-sentinel",
+  "category": "processing-times",
+  "resourceId": "I-130",
+  "resourceUrl": "https://egov.uscis.gov/processing-times",
+  "supplementalResources": {},
+  "lastKnownVersion": "2026-5",
+  "lastKnownHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "changeType": "PROCESSING_TIMES_UPDATE",
+  "changeDetected": false,
+  "lastAnalysis": {
+    "summary": "Processing times for family-based petitions vary significantly across service centers and categories, with some delays influenced by Visa Bulletin constraints.",
+    "formId": "I-130",
+    "trend": "Fluctuating",
+    "percentile80": "17.5-261.5 Months depending on office/category",
+    "title": "Fluctuating I-130 Processing Times",
+    "analysis": "The processing times for Form I-130 show considerable variation across different service centers and categories. Immediate Relatives (IR) generally experience shorter processing times compared to Family Preference categories (F11, F21, F31, F41), which are subject to longer delays. Notably, some categories have processing times listed as 'See notes', indicating that USCIS is prioritizing these cases based on the Department of State Visa Bulletin constraints rather than adhering to fixed timelines. This suggests a strategic allocation of resources to align with visa availability, impacting the predictability of processing times."
+  },
+  "lastCheckedAt": {
+    "$date": "2026-05-18T05:20:13.846Z"
+  },
+  "lastUpdatedAt": {
+    "$date": "2026-05-18T05:20:13.846Z"
+  },
+  "payload": {
+    "summary": null,
+    "formId": null,
+    "combinations": {
+      "injectedHtml": "<div style='margin-top: 20px;'><h3 style='color: #c9d1d9; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; margin-bottom: 16px;'>Office & Category Breakdown</h3></div>"
+    },
+    "trend": null,
+    "percentile80": null,
+    "title": null,
+    "analysis": null
+  },
+  "enabled": true,
+  "updatedAt": {
+    "$date": "2026-05-18T05:20:13.847Z"
+  },
+  "_class": "org.lite.komunas.entity.ResourceSyncState"
+}]
